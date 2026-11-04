@@ -45,7 +45,7 @@
       text-transform: uppercase;
     }
 
-    h1, h2, h3, h4 { line-height: 1.2; }
+    h1, h2, h3 { line-height: 1.2; }
     h1 {
       margin: 0;
       max-width: 20ch;
@@ -54,7 +54,6 @@
     }
     h2 { margin: 0 0 0.6rem; font-size: 1.65rem; }
     h3 { margin: 0 0 0.55rem; font-size: 1.25rem; }
-    h4 { margin: 0 0 0.6rem; font-size: 1.12rem; }
     p { margin: 0 0 0.85rem; }
     p:last-child { margin-bottom: 0; }
     .intro { margin-top: 0.75rem; color: var(--muted); }
@@ -73,7 +72,10 @@
       text-underline-offset: 0.24em;
     }
 
-    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+    a:focus-visible, .table-scroll:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
     section[id] { scroll-margin-top: 1rem; }
     main { padding-block: 2rem; }
     .section-nav { gap: 0.25rem 1rem; margin: 0.4rem 0 0; }
@@ -82,30 +84,35 @@
     .steps { padding-left: 1.4rem; }
     .steps li + li { margin-top: 0.45rem; }
 
-    .indicator {
+    .table-scroll {
+      overflow-x: auto;
       margin-top: 1rem;
-      padding: clamp(1rem, 3vw, 1.6rem);
       border: 1px solid var(--line);
-      border-top: 3px solid var(--accent);
       border-radius: 0.35rem;
       background: var(--surface);
     }
 
-    table {
+    .indicator-table {
       width: 100%;
-      margin-block: 1rem;
+      min-width: 44rem;
       border-collapse: collapse;
       text-align: left;
     }
 
-    th, td { padding: 0.55rem 0.65rem; border-bottom: 1px solid var(--line); }
-    th { font-weight: 650; }
-    thead { background: var(--paper); color: var(--muted); }
+    .indicator-table th, .indicator-table td {
+      padding: 0.7rem 0.75rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    .indicator-table th { font-weight: 650; }
+    .indicator-table thead { background: var(--paper); color: var(--muted); }
+    .indicator-table tbody tr:nth-child(even) { background: #fafcfb; }
+    .indicator-table tbody tr:last-child > * { border-bottom: 0; }
+    .indicator-table p { margin-bottom: 0.45rem; }
+    .indicator-table p:last-child { margin-bottom: 0; }
+    .field-list { color: var(--muted); font-size: 0.9rem; }
+    .ranges { margin: 0 0 0.45rem; padding-left: 1.15rem; }
     code { font-size: 0.9em; overflow-wrap: anywhere; }
-    .method-list { margin: 0; }
-    .method-list dt { font-weight: 700; }
-    .method-list dt:not(:first-child) { margin-top: 1rem; }
-    .method-list dd { margin: 0.2rem 0 0; }
     details { margin-top: 0.8rem; }
     summary { color: var(--accent); font-weight: 650; cursor: pointer; }
     .file-list { margin-bottom: 0; padding-left: 1.4rem; }
@@ -132,7 +139,6 @@
 
     @media (max-width: 30rem) {
       .masthead { padding-top: 1.7rem; }
-      th, td { padding-inline: 0.4rem; }
     }
   </style>
 </head>
@@ -175,76 +181,102 @@
       <section id="indicadores" class="report-section" aria-labelledby="titulo-indicadores">
         <h3 id="titulo-indicadores">Indicadores e critérios</h3>
 
-        <article class="indicator" aria-labelledby="titulo-clima">
-          <h4 id="titulo-clima">Calor e umidade</h4>
-          <dl class="method-list">
-            <dt>Ilha de calor urbano</dt>
-            <dd>
-              <p>O fragmento é cruzado com a camada de zonas de ilha de calor já delimitadas. O campo <code>icu</code> recebe <strong>sim</strong> quando existe sobreposição com área positiva e <strong>não</strong> nos demais casos. O indicador identifica a presença do fragmento nessa zona.</p>
-            </dd>
-
-            <dt>Temperatura do ar</dt>
-            <dd>
-              <p>O script calcula a temperatura média dentro do fragmento em cada raster do InVEST. Os três cenários têm valores e classes próprios.</p>
-              <table aria-label="Entradas e campos por cenário de temperatura">
-                <thead>
-                  <tr><th scope="col">Cenário</th><th scope="col">Camada usada</th><th scope="col">Valor e classe</th></tr>
-                </thead>
-                <tbody>
-                  <tr><th scope="row">Dia</th><td>Raster do método <code>factors</code></td><td><code>temp_dia</code>, <code>td_classe</code></td></tr>
-                  <tr><th scope="row">Noite</th><td>Raster do método <code>intensity</code></td><td><code>temp_noite</code>, <code>tn_classe</code></td></tr>
-                  <tr><th scope="row">Média</th><td>Raster médio já disponível</td><td><code>temp_media</code>, <code>tm_classe</code></td></tr>
-                </tbody>
-              </table>
-              <p>Em cada cenário, a amplitude entre a menor e a maior média dos fragmentos é dividida em cinco faixas iguais. Da mais fria à mais quente, as classes são <strong>base, boa, média, ruim e muito ruim</strong>.</p>
-            </dd>
-
-            <dt>Mitigação térmica do entorno (HM)</dt>
-            <dd>
-              <p>O script cria um buffer de cinco metros e subtrai o polígono do fragmento para delimitar a faixa externa. Nessa faixa, calcula a média de cada raster de mitigação térmica do InVEST. Os campos <code>hm_dia</code>, <code>hm_noite</code> e <code>hm_media</code> registram o índice em cada cenário. Valores mais próximos de um indicam maior mitigação modelada no entorno.</p>
-            </dd>
-
-            <dt>Umidade relativa</dt>
-            <dd>
-              <p>A média dentro de cada fragmento é extraída do raster pronto derivado dos dados do INMET e registrada em <code>umid_pct</code>. A classe <code>umid_cls</code> usa quatro faixas de igual amplitude. Em ordem crescente de umidade, os rótulos de potencial são <strong>muito baixo, médio baixo, médio e alto</strong>.</p>
-            </dd>
-          </dl>
-        </article>
-
-        <article class="indicator" aria-labelledby="titulo-inundacao">
-          <h4 id="titulo-inundacao">Inundação</h4>
-          <p>O raster de profundidade para o tempo de retorno de cinco anos fornece a média e o máximo dentro de cada fragmento, registrados em <code>inund_med</code> e <code>inund_max</code>. A classificação usa o máximo para representar o trecho mais profundo encontrado no fragmento.</p>
-          <p>A amplitude entre a menor e a maior profundidade máxima dos fragmentos é dividida em quatro faixas, registradas em <code>inund_cls</code> como <strong>muito baixa, baixa, média e alta</strong>.</p>
-        </article>
-
-        <article class="indicator" aria-labelledby="titulo-edificacoes">
-          <h4 id="titulo-edificacoes">Pressão de edificações</h4>
-          <p>O script recorta as edificações pelo limite do fragmento e une os recortes antes de calcular a área ocupada. Isso conta uma única vez as áreas em que edificações se sobrepõem. A área ocupada é dividida pela área do fragmento e expressa em porcentagem.</p>
-          <p>O campo <code>edif</code> indica presença de ocupação, <code>edif_pct</code> registra o percentual e <code>edif_cls</code> aplica os critérios da rodada.</p>
-          <table aria-label="Critérios da pressão de edificações">
+        <div class="table-scroll" role="region" aria-label="Tabela de indicadores e critérios" tabindex="0">
+          <table class="indicator-table" aria-label="Entrada, tratamento e critério por indicador">
             <thead>
-              <tr><th scope="col">Área ocupada</th><th scope="col">Pressão</th></tr>
+              <tr>
+                <th scope="col">Indicador</th>
+                <th scope="col">Camada de entrada</th>
+                <th scope="col">Tratamento</th>
+                <th scope="col">Critério e registro</th>
+              </tr>
             </thead>
             <tbody>
-              <tr><td>0%</td><td>Inexistente</td></tr>
-              <tr><td>Acima de zero até um terço da área</td><td>Baixa</td></tr>
-              <tr><td>Acima de um terço até dois terços da área</td><td>Média</td></tr>
-              <tr><td>Acima de dois terços da área</td><td>Alta</td></tr>
+              <tr>
+                <th scope="row">Ilha de calor urbano</th>
+                <td>Zonas de ilha de calor já delimitadas.</td>
+                <td>Cruza o fragmento com as zonas e verifica a área de sobreposição.</td>
+                <td>
+                  <p>Registra <strong>sim</strong> quando a interseção tem área positiva e <strong>não</strong> nos demais casos.</p>
+                  <p class="field-list"><code>icu</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Temperatura do ar</th>
+                <td>Rasters do InVEST para dia (<code>factors</code>), noite (<code>intensity</code>) e média já preparada.</td>
+                <td>Calcula a temperatura média dentro do fragmento para cada cenário.</td>
+                <td>
+                  <p>Cada cenário usa cinco faixas de igual amplitude. Da mais fria à mais quente, são <strong>base, boa, média, ruim e muito ruim</strong>.</p>
+                  <p class="field-list">
+                    <code>temp_dia</code> e <code>td_classe</code><br>
+                    <code>temp_noite</code> e <code>tn_classe</code><br>
+                    <code>temp_media</code> e <code>tm_classe</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Mitigação térmica do entorno (HM)</th>
+                <td>Rasters de mitigação térmica do InVEST para dia, noite e média.</td>
+                <td>Cria um buffer de cinco metros, subtrai o fragmento e calcula a média na faixa externa resultante.</td>
+                <td>
+                  <p>Registra os três valores do índice. Valores mais próximos de um indicam maior mitigação modelada no entorno.</p>
+                  <p class="field-list"><code>hm_dia</code>, <code>hm_noite</code> e <code>hm_media</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Umidade relativa</th>
+                <td>Raster pronto derivado dos dados do INMET.</td>
+                <td>Extrai a umidade relativa média no interior do fragmento.</td>
+                <td>
+                  <p>Quatro faixas de igual amplitude. Em ordem crescente de umidade, os rótulos de potencial são <strong>muito baixo, médio baixo, médio e alto</strong>.</p>
+                  <p class="field-list"><code>umid_pct</code> e <code>umid_cls</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Inundação</th>
+                <td>Raster de profundidade para o tempo de retorno de cinco anos.</td>
+                <td>Calcula a profundidade média e máxima dentro do fragmento.</td>
+                <td>
+                  <p>Usa o máximo para representar o trecho mais profundo. Divide a amplitude dos máximos em quatro faixas iguais, da <strong>muito baixa</strong> à <strong>alta</strong>, passando por <strong>baixa</strong> e <strong>média</strong>.</p>
+                  <p class="field-list"><code>inund_med</code>, <code>inund_max</code> e <code>inund_cls</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Pressão de edificações</th>
+                <td>Polígonos das edificações.</td>
+                <td>Recorta e une as edificações dentro do fragmento para contar sobreposições uma vez. Divide a área ocupada pela área total do fragmento e expressa o resultado em porcentagem.</td>
+                <td>
+                  <p>Registra se há ocupação e aplica estas classes.</p>
+                  <ul class="ranges">
+                    <li><strong>Inexistente</strong> em 0%.</li>
+                    <li><strong>Baixa</strong> acima de zero até um terço.</li>
+                    <li><strong>Média</strong> acima de um terço até dois terços.</li>
+                    <li><strong>Alta</strong> acima de dois terços.</li>
+                  </ul>
+                  <p class="field-list"><code>edif</code>, <code>edif_pct</code> e <code>edif_cls</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Contexto de renda</th>
+                <td>Setores censitários com o rendimento médio dos responsáveis pelo domicílio com renda, no campo <code>V06004</code> do Censo 2022.</td>
+                <td>Escolhe o setor de maior sobreposição e usa sua renda como referência socioeconômica. Registra o valor em reais e em salários mínimos pela referência de R$ 1.212, além do código do setor, da sobreposição e da situação do dado.</td>
+                <td>
+                  <p>Faixas de até 1, acima de 1 até 3, acima de 3 até 6, acima de 6 até 9 e acima de 9 salários mínimos. Renda ausente ou suprimida recebe a classe <strong>sem dados</strong>.</p>
+                  <p class="field-list"><code>renda_rs</code>, <code>renda_sm</code>, <code>renda_cls</code>, <code>renda_st</code>, <code>setor</code> e <code>setor_pct</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Região administrativa</th>
+                <td>Polígonos das regiões administrativas.</td>
+                <td>Associa o fragmento à RA com maior área de sobreposição.</td>
+                <td>
+                  <p>Registra nome, código e percentual coberto pela RA escolhida. O percentual ajuda a interpretar fragmentos que atravessam limites administrativos.</p>
+                  <p class="field-list"><code>ra_nome</code>, <code>ra_codigo</code> e <code>ra_pct</code></p>
+                </td>
+              </tr>
             </tbody>
           </table>
-        </article>
-
-        <article class="indicator" aria-labelledby="titulo-renda">
-          <h4 id="titulo-renda">Contexto de renda</h4>
-          <p>O script seleciona o setor censitário com maior área de sobreposição com o fragmento. A renda média das pessoas responsáveis pelo domicílio com rendimento, disponível no campo <code>V06004</code> do Censo 2022, é usada como referência socioeconômica desse setor.</p>
-          <p>A camada registra a renda em reais e em salários mínimos, usando a referência de R$ 1.212 adotada na rodada. As faixas são até um, acima de um até três, acima de três até seis, acima de seis até nove e acima de nove salários mínimos.</p>
-          <p>O código do setor, o percentual de sobreposição e a situação do dado também são registrados. Se a renda do setor escolhido estiver suprimida ou ausente, o valor fica nulo e a classe recebe <strong>sem dados</strong>.</p>
-        </article>
-
-        <article class="indicator" aria-labelledby="titulo-ra">
-          <h4 id="titulo-ra">Região administrativa</h4>
-          <p>O fragmento é associado à região administrativa com maior área de sobreposição. O nome, o código e o percentual do fragmento coberto por essa RA são registrados em <code>ra_nome</code>, <code>ra_codigo</code> e <code>ra_pct</code>. O percentual ajuda a interpretar a associação quando o fragmento atravessa um limite administrativo.</p>
-        </article>
+        </div>
       </section>
 
       <section id="classificacao" class="report-section" aria-labelledby="titulo-classificacao">
