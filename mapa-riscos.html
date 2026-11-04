@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapa dos indicadores | Diagnóstico da Bacia do Paranoá</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIINfQ3ynhFw2YztDmT9icYEtZTZhRRuiuc=" crossorigin="">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="mapa-riscos.css">
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script defer src="mapa-riscos.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="container">
+      <p class="eyebrow">Relatório metodológico</p>
+      <h1>Diagnóstico da Bacia do Paranoá</h1>
+      <nav aria-label="Blocos do relatório">
+        <a href="index.html" aria-current="location">Riscos</a>
+        <a href="condicionantes.html">Condicionantes</a>
+        <a href="ecologia.html">Ecologia</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container map-container">
+    <h2>Mapa dos indicadores</h2>
+    <nav class="risk-tabs" aria-label="Vistas do diagnóstico de riscos">
+      <a href="index.html#riscos">Metodologia</a>
+      <a href="mapa-riscos.html" aria-current="page">Mapa dos indicadores</a>
+    </nav>
+    <p>Selecione um indicador e clique em um fragmento para ver seu resultado.</p>
+    <div class="map-tools">
+      <label for="indicador">Indicador</label>
+      <select id="indicador" disabled></select>
+      <button id="enquadrar" type="button" disabled>Enquadrar a bacia</button>
+    </div>
+    <p id="map-status" role="status" aria-live="polite">Carregando os fragmentos…</p>
+    <div class="map-layout">
+      <div id="mapa" role="region" aria-label="Mapa interativo dos fragmentos da Bacia do Paranoá"></div>
+      <aside class="map-legend" aria-labelledby="legend-title">
+        <h3 id="legend-title">Legenda</h3>
+        <p id="legend-note"></p>
+        <div id="legend-items"></div>
+      </aside>
+    </div>
+    <noscript><p>Ative JavaScript no navegador para visualizar o mapa.</p></noscript>
+    <p class="map-source">Camada de diagnóstico por fragmento, rodada v01. As geometrias foram simplificadas para visualização.</p>
+  </main>
+</body>
+</html>

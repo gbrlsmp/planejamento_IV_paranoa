@@ -74,6 +74,22 @@ section[id] { scroll-margin-top: 1rem; }
 main { padding-block: 2rem; }
 .section-nav { gap: 0.25rem 1rem; margin: 0.4rem 0 0; }
 .section-nav a { padding: 0.25rem 0; font-size: 0.95rem; }
+.risk-tabs {
+  gap: 0.35rem;
+  margin: 0.75rem 0 1rem;
+}
+.risk-tabs a {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 0.3rem;
+  background: var(--surface);
+  text-decoration: none;
+}
+.risk-tabs a[aria-current="page"] {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
 .report-section { margin-top: 1.6rem; }
 .steps { padding-left: 1.4rem; }
 .steps li + li { margin-top: 0.45rem; }
