@@ -9,6 +9,8 @@
 }
 
 .map-tools label { font-weight: 650; }
+.map-toggle { display: inline-flex; align-items: center; gap: 0.35rem; }
+.map-toggle input { accent-color: var(--accent); }
 .map-tools select, .map-tools button {
   padding: 0.45rem 0.65rem;
   border: 1px solid var(--line);
@@ -34,7 +36,17 @@
   max-height: 44rem;
   border: 1px solid var(--line);
   border-radius: 0.35rem;
-  background: #e7efe9;
+  background: var(--surface);
+}
+.leaflet-tooltip.ra-label {
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #626262;
+  font: 700 16px/1.4 "Bricolage Grotesque", system-ui, sans-serif;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 7.56px #fafafa;
 }
 .map-legend {
   align-self: start;
