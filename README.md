@@ -1,0 +1,1 @@
+# planejamento_IV_paranoa
