@@ -12,4 +12,4 @@ Use `--camada` se o nome da camada for diferente de `diagnostico_risco_v01`. For
 
 Para visualizar o site localmente, execute `python -m http.server` na pasta do site e abra o endereço local do servidor no navegador.
 
-O mapa usa Leaflet 1.9.4 em `vendor/leaflet`. A licença acompanha os arquivos da biblioteca. A base cartográfica tem atribuição ao OpenStreetMap no mapa.
+O mapa usa Leaflet 1.9.4 em `vendor/leaflet`. A licença acompanha os arquivos da biblioteca. A base do IPE-DF (2023) está em `mapa-base.json.gz` e contém o limite da bacia, as massas d’água e as regiões administrativas, em WGS 84.

@@ -33,6 +33,10 @@
       <label for="indicador">Indicador</label>
       <select id="indicador" disabled></select>
       <button id="enquadrar" type="button" disabled>Enquadrar a bacia</button>
+      <label class="map-toggle">
+        <input id="mostrar-ras" type="checkbox" disabled>
+        Mostrar regiões administrativas (RAs)
+      </label>
     </div>
     <p id="map-status" role="status" aria-live="polite">Carregando os fragmentos…</p>
     <div class="map-layout">
@@ -44,7 +48,7 @@
       </aside>
     </div>
     <noscript><p>Ative JavaScript no navegador para visualizar o mapa.</p></noscript>
-    <p class="map-source">Camada de diagnóstico por fragmento, rodada v01. As geometrias foram simplificadas para visualização.</p>
+    <p class="map-source">Diagnóstico por fragmento, rodada v01, com geometrias simplificadas para visualização. Base cartográfica do IPE-DF (2023).</p>
   </main>
 </body>
 </html>

@@ -2,6 +2,7 @@
 
 const select = document.getElementById("indicador");
 const fit = document.getElementById("enquadrar");
+const showRegions = document.getElementById("mostrar-ras");
 const mapStatus = document.getElementById("map-status");
 const legendTitle = document.getElementById("legend-title");
 const legendNote = document.getElementById("legend-note");
@@ -147,8 +148,8 @@ function popupContent(values) {
   return panel;
 }
 
-async function loadData() {
-  const response = await fetch("mapa-dados.json.gz");
+async function loadData(file) {
+  const response = await fetch(file);
   if (!response.ok) throw new Error("Arquivo de dados indisponível");
   const bytes = await response.arrayBuffer();
   const header = new Uint8Array(bytes, 0, Math.min(bytes.byteLength, 2));
@@ -159,6 +160,67 @@ async function loadData() {
   return JSON.parse(new TextDecoder().decode(bytes));
 }
 
+function addMapBase(map, base) {
+  const pane = map.createPane("cartografia");
+  pane.style.zIndex = "410";
+  pane.style.pointerEvents = "none";
+  const options = { pane: "cartografia", interactive: false, smoothFactor: 0 };
+
+  L.geoJSON(base.agua, {
+    ...options,
+    style: { stroke: false, fillColor: "#acc6cb", fillOpacity: 1 },
+  }).addTo(map);
+  const regions = L.geoJSON(base.ras, {
+    ...options,
+    style: {
+      fill: false, color: "#000", opacity: 0.6895, weight: 0.76,
+      dashArray: "0.76 1.52", lineCap: "square", lineJoin: "bevel",
+    },
+  });
+  const basin = L.geoJSON(base.bacia, {
+    ...options,
+    style: { fill: false, color: "#d2de7b", weight: 3.78, lineJoin: "bevel" },
+  }).addTo(map);
+
+  const labels = base.ras.features.map(({ properties }) =>
+    L.tooltip({ permanent: true, direction: "center", className: "ra-label", opacity: 1 })
+      .setLatLng(L.GeoJSON.coordsToLatLng(properties.rotulo))
+      .setContent(String(properties.ra_cira))
+  );
+  const regionOverlay = L.layerGroup([regions, ...labels]);
+
+  function positionLabels() {
+    if (!map.hasLayer(regionOverlay)) return;
+    const visible = [];
+    const viewport = map.getContainer().getBoundingClientRect();
+    for (const label of labels) {
+      const element = label.getElement();
+      const box = element.getBoundingClientRect();
+      const fits = box.left >= viewport.left && box.right <= viewport.right
+        && box.top >= viewport.top && box.bottom <= viewport.bottom;
+      const overlaps = visible.some(other => box.left < other.right && box.right > other.left
+        && box.top < other.bottom && box.bottom > other.top);
+      element.style.visibility = fits && !overlaps ? "" : "hidden";
+      if (fits && !overlaps) visible.push(box);
+    }
+  }
+
+  function toggleRegions() {
+    if (showRegions.checked) {
+      regionOverlay.addTo(map);
+      basin.bringToFront();
+      positionLabels();
+    } else {
+      regionOverlay.remove();
+    }
+  }
+  map.on("moveend", positionLabels);
+  showRegions.addEventListener("change", toggleRegions);
+  showRegions.disabled = false;
+  toggleRegions();
+  return basin.getBounds();
+}
+
 async function initializeMap() {
   const map = L.map("mapa", { scrollWheelZoom: false, minZoom: 8, maxZoom: 19 });
   if (getComputedStyle(map.getContainer()).overflow !== "hidden") {
@@ -166,12 +228,17 @@ async function initializeMap() {
     throw new Error("A folha de estilos do Leaflet não carregou");
   }
   map.setView([-15.8, -47.85], 11);
-  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-  }).addTo(map);
   L.control.scale({ imperial: false }).addTo(map);
-  data = await loadData();
+  const [base, diagnosis] = await Promise.all([
+    loadData("mapa-base.json.gz"),
+    loadData("mapa-dados.json.gz"),
+  ]);
+  const basinBounds = addMapBase(map, base);
+  const fitBasin = () => map.fitBounds(basinBounds, { padding: [18, 18], animate: false });
+  fitBasin();
+  fit.addEventListener("click", fitBasin);
+  fit.disabled = false;
+  data = diagnosis;
   if (data.encoding !== "polyline-xy-5" || !Array.isArray(data.fields) || !Array.isArray(data.rows) || !data.rows.length) {
     throw new Error("Dados do mapa inválidos");
   }
@@ -209,10 +276,6 @@ async function initializeMap() {
     await new Promise(resolve => setTimeout(resolve, 0));
   }
   data.rows = [];
-  const basinBounds = fragments.getBounds();
-  const fitBasin = () => map.fitBounds(basinBounds, { padding: [18, 18], animate: false });
-  fitBasin();
-  fit.addEventListener("click", fitBasin);
   select.addEventListener("change", () => {
     active = indicators.get(select.value);
     showLegend();
@@ -220,7 +283,6 @@ async function initializeMap() {
     fragments.setStyle(style);
   });
   select.disabled = false;
-  fit.disabled = false;
   mapStatus.textContent = numberFormat.format(total) + " fragmentos disponíveis";
 }
 
