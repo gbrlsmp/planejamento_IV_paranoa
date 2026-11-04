@@ -36,7 +36,7 @@ const mapGroups = [
 
 const indicators = new Map(mapGroups.flatMap(([, list]) => list.map(item => [item.id, item])));
 let active = indicators.get("icu");
-let fieldIndex, data;
+let fieldIndex, data, colors;
 
 function readField(values, key) {
   return values[fieldIndex[key]] ?? null;
@@ -72,7 +72,9 @@ function decodeRing(encoded) {
   function readDelta() {
     let bits = 0, shift = 0, unit;
     do {
+      if (cursor >= encoded.length || shift > 30) throw new Error("Geometria do mapa inválida");
       unit = encoded.charCodeAt(cursor++) - 63;
+      if (unit < 0 || unit > 63) throw new Error("Geometria do mapa inválida");
       bits |= (unit & 31) << shift;
       shift += 5;
     } while (unit >= 32);
@@ -87,6 +89,8 @@ function decodeRing(encoded) {
 }
 
 function showLegend() {
+  const entries = active.continuous ? [] : legendEntries(active);
+  colors = new Map(entries);
   legendTitle.textContent = active.label;
   legendItems.replaceChildren();
   if (active.continuous) {
@@ -108,10 +112,8 @@ function showLegend() {
   } else {
     legendNote.textContent = active.distinct ? "Região administrativa predominante em cada fragmento." : "Classes registradas no diagnóstico por fragmento.";
   }
-  const entries = active.continuous ? [] : legendEntries(active);
-  entries.push(["Sem dados", missingColor]);
   const list = document.createElement("ul");
-  for (const [label, color] of entries) {
+  for (const [label, color] of [...entries, ["Sem dados", missingColor]]) {
     const row = document.createElement("li");
     const swatch = document.createElement("span");
     swatch.className = "map-swatch";
@@ -149,7 +151,7 @@ async function loadData() {
   const response = await fetch("mapa-dados.json.gz");
   if (!response.ok) throw new Error("Arquivo de dados indisponível");
   const bytes = await response.arrayBuffer();
-  const header = new Uint8Array(bytes, 0, 2);
+  const header = new Uint8Array(bytes, 0, Math.min(bytes.byteLength, 2));
   if (header[0] === 31 && header[1] === 139) {
     const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
     return new Response(stream).json();
@@ -158,16 +160,23 @@ async function loadData() {
 }
 
 async function initializeMap() {
-  const map = L.map("mapa", { scrollWheelZoom: false, minZoom: 8, maxZoom: 19 }).setView([-15.8, -47.85], 11);
+  const map = L.map("mapa", { scrollWheelZoom: false, minZoom: 8, maxZoom: 19 });
+  if (getComputedStyle(map.getContainer()).overflow !== "hidden") {
+    map.remove();
+    throw new Error("A folha de estilos do Leaflet não carregou");
+  }
+  map.setView([-15.8, -47.85], 11);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }).addTo(map);
   L.control.scale({ imperial: false }).addTo(map);
   data = await loadData();
-  if (data.encoding !== "polyline-xy-5" || !data.rows.length) throw new Error("Dados do mapa inválidos");
+  if (data.encoding !== "polyline-xy-5" || !Array.isArray(data.fields) || !Array.isArray(data.rows) || !data.rows.length) {
+    throw new Error("Dados do mapa inválidos");
+  }
   fieldIndex = Object.fromEntries(data.fields.map((field, i) => [field, i]));
-  let colors = new Map(legendEntries(active));
+  showLegend();
   const style = feature => {
     const values = feature.properties.values;
     const color = active.continuous
@@ -178,20 +187,17 @@ async function initializeMap() {
   const fragments = L.geoJSON(null, {
     renderer: L.canvas({ padding: 0.1 }),
     style,
-    onEachFeature(feature, layer) {
-      layer.on("click", event => {
-        L.popup().setLatLng(event.latlng).setContent(popupContent(feature.properties.values)).openOn(map);
-      });
-    },
   }).addTo(map);
+  fragments.on("click", event => {
+    const values = event.layer?.feature?.properties?.values;
+    if (values) L.popup().setLatLng(event.latlng).setContent(popupContent(values)).openOn(map);
+  });
   for (const [label, list] of mapGroups) {
     const group = document.createElement("optgroup");
     group.label = label;
     for (const item of list) group.append(new Option(item.label, item.id));
     select.append(group);
   }
-  showLegend();
-
   const total = data.rows.length;
   for (let offset = 0; offset < total; offset += 500) {
     fragments.addData(data.rows.slice(offset, offset + 500).map(([polygons, values]) => ({
@@ -209,10 +215,9 @@ async function initializeMap() {
   fit.addEventListener("click", fitBasin);
   select.addEventListener("change", () => {
     active = indicators.get(select.value);
-    colors = new Map(active.continuous ? [] : legendEntries(active));
+    showLegend();
     map.closePopup();
     fragments.setStyle(style);
-    showLegend();
   });
   select.disabled = false;
   fit.disabled = false;
