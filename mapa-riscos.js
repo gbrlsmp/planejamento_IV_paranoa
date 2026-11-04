@@ -8,6 +8,8 @@ const legendTitle = document.getElementById("legend-title");
 const legendNote = document.getElementById("legend-note");
 const legendItems = document.getElementById("legend-items");
 const missingColor = "#a9afb4";
+const basinColor = "#d2de7b";
+const waterColor = "#acc6cb";
 const numberFormat = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 3 });
 
 const heatClasses = ["base", "boa", "média", "ruim", "muito ruim"];
@@ -36,7 +38,7 @@ const mapGroups = [
 ];
 
 const indicators = new Map(mapGroups.flatMap(([, list]) => list.map(item => [item.id, item])));
-let active = indicators.get("icu");
+let active = null;
 let fieldIndex, data, colors;
 
 function readField(values, key) {
@@ -89,11 +91,35 @@ function decodeRing(encoded) {
   return points;
 }
 
+function appendLegendItems(entries) {
+  const list = document.createElement("ul");
+  for (const [label, color, outline] of entries) {
+    const row = document.createElement("li");
+    const swatch = document.createElement("span");
+    swatch.className = "map-swatch";
+    swatch.setAttribute("aria-hidden", "true");
+    if (outline) {
+      swatch.style.border = "2px solid " + color;
+    } else {
+      swatch.style.background = color;
+    }
+    row.append(swatch, document.createTextNode(label));
+    list.append(row);
+  }
+  legendItems.append(list);
+}
+
 function showLegend() {
+  legendItems.replaceChildren();
+  if (!active) {
+    legendTitle.textContent = "Base cartográfica";
+    legendNote.textContent = "Selecione um indicador para colorir os fragmentos.";
+    appendLegendItems([["Limite da bacia", basinColor, true], ["Massa d’água", waterColor]]);
+    return;
+  }
   const entries = active.continuous ? [] : legendEntries(active);
   colors = new Map(entries);
   legendTitle.textContent = active.label;
-  legendItems.replaceChildren();
   if (active.continuous) {
     legendNote.textContent = "Índice médio na faixa externa de cinco metros. A cor representa o valor numérico.";
     const range = data.ranges[active.value];
@@ -113,17 +139,7 @@ function showLegend() {
   } else {
     legendNote.textContent = active.distinct ? "Região administrativa predominante em cada fragmento." : "Classes registradas no diagnóstico por fragmento.";
   }
-  const list = document.createElement("ul");
-  for (const [label, color] of [...entries, ["Sem dados", missingColor]]) {
-    const row = document.createElement("li");
-    const swatch = document.createElement("span");
-    swatch.className = "map-swatch";
-    swatch.style.background = color;
-    swatch.setAttribute("aria-hidden", "true");
-    row.append(swatch, document.createTextNode(label));
-    list.append(row);
-  }
-  legendItems.append(list);
+  appendLegendItems([...entries, ["Sem dados", missingColor]]);
 }
 
 function popupContent(values) {
@@ -168,7 +184,7 @@ function addMapBase(map, base) {
 
   L.geoJSON(base.agua, {
     ...options,
-    style: { stroke: false, fillColor: "#acc6cb", fillOpacity: 1 },
+    style: { stroke: false, fillColor: waterColor, fillOpacity: 1 },
   }).addTo(map);
   const regions = L.geoJSON(base.ras, {
     ...options,
@@ -179,7 +195,7 @@ function addMapBase(map, base) {
   });
   const basin = L.geoJSON(base.bacia, {
     ...options,
-    style: { fill: false, color: "#d2de7b", weight: 3.78, lineJoin: "bevel" },
+    style: { fill: false, color: basinColor, weight: 3.78, lineJoin: "bevel" },
   }).addTo(map);
 
   const labels = base.ras.features.map(({ properties }) =>
@@ -222,7 +238,7 @@ function addMapBase(map, base) {
 }
 
 async function initializeMap() {
-  const map = L.map("mapa", { scrollWheelZoom: false, minZoom: 8, maxZoom: 19 });
+  const map = L.map("mapa", { scrollWheelZoom: false, minZoom: 8, maxZoom: 19, zoomAnimation: false });
   if (getComputedStyle(map.getContainer()).overflow !== "hidden") {
     map.remove();
     throw new Error("A folha de estilos do Leaflet não carregou");
@@ -238,6 +254,7 @@ async function initializeMap() {
   fitBasin();
   fit.addEventListener("click", fitBasin);
   fit.disabled = false;
+  addGoogleSatellite(map);
   data = diagnosis;
   if (data.encoding !== "polyline-xy-5" || !Array.isArray(data.fields) || !Array.isArray(data.rows) || !data.rows.length) {
     throw new Error("Dados do mapa inválidos");
@@ -245,14 +262,17 @@ async function initializeMap() {
   fieldIndex = Object.fromEntries(data.fields.map((field, i) => [field, i]));
   showLegend();
   const style = feature => {
+    if (!active) return { stroke: false, fill: false };
     const values = feature.properties.values;
     const color = active.continuous
       ? gradient(readField(values, active.value), data.ranges[active.value])
       : colors.get(readField(values, categoryKey(active))) ?? missingColor;
-    return { stroke: false, fillColor: color, fillOpacity: 0.8 };
+    return { stroke: false, fill: true, fillColor: color, fillOpacity: 0.8 };
   };
+  const fragmentPane = map.createPane("fragmentos");
+  fragmentPane.hidden = !active;
   const fragments = L.geoJSON(null, {
-    renderer: L.canvas({ padding: 0.1 }),
+    renderer: L.canvas({ pane: "fragmentos", padding: 0.1 }),
     style,
   }).addTo(map);
   fragments.on("click", event => {
@@ -276,12 +296,15 @@ async function initializeMap() {
     await new Promise(resolve => setTimeout(resolve, 0));
   }
   data.rows = [];
-  select.addEventListener("change", () => {
-    active = indicators.get(select.value);
+  function selectIndicator() {
+    active = indicators.get(select.value) ?? null;
     showLegend();
     map.closePopup();
-    fragments.setStyle(style);
-  });
+    fragmentPane.hidden = !active;
+    if (active) fragments.setStyle(style);
+  }
+  select.addEventListener("change", selectIndicator);
+  if (select.value) selectIndicator();
   select.disabled = false;
   mapStatus.textContent = numberFormat.format(total) + " fragmentos disponíveis";
 }

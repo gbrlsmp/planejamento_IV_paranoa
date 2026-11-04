@@ -3,12 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-maps-key" content="">
   <title>Mapa dos indicadores | Diagnóstico da Bacia do Paranoá</title>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="mapa-riscos.css">
+  <link rel="stylesheet" href="mapa-riscos.css?v=2">
   <script defer src="vendor/leaflet/leaflet.js"></script>
-  <script defer src="mapa-riscos.js"></script>
+  <script defer src="mapa-satelite.js"></script>
+  <script defer src="mapa-riscos.js?v=2"></script>
 </head>
 <body>
   <header class="masthead">
@@ -31,13 +33,20 @@
     <p>Selecione um indicador e clique em um fragmento para ver seu resultado.</p>
     <div class="map-tools">
       <label for="indicador">Indicador</label>
-      <select id="indicador" disabled></select>
+      <select id="indicador" disabled>
+        <option value="">Só a base cartográfica</option>
+      </select>
       <button id="enquadrar" type="button" disabled>Enquadrar a bacia</button>
       <label class="map-toggle">
         <input id="mostrar-ras" type="checkbox" disabled>
         Mostrar regiões administrativas (RAs)
       </label>
+      <label class="map-toggle">
+        <input id="mostrar-satelite" type="checkbox" aria-describedby="satelite-status" disabled>
+        Mostrar satélite do Google
+      </label>
     </div>
+    <p id="satelite-status" role="status"></p>
     <p id="map-status" role="status" aria-live="polite">Carregando os fragmentos…</p>
     <div class="map-layout">
       <div id="mapa" role="region" aria-label="Mapa interativo dos fragmentos da Bacia do Paranoá"></div>
@@ -49,6 +58,11 @@
     </div>
     <noscript><p>Ative JavaScript no navegador para visualizar o mapa.</p></noscript>
     <p class="map-source">Diagnóstico por fragmento, rodada v01, com geometrias simplificadas para visualização. Base cartográfica do IPE-DF (2023).</p>
+    <details class="map-source">
+      <summary>Termos de uso e privacidade da camada de satélite</summary>
+      <p>A camada de satélite é fornecida pelo Google Maps e seu uso está sujeito aos <a href="https://www.google.com/intl/pt-BR/help/terms_maps/">Termos do Google Maps</a> e aos <a href="https://policies.google.com/terms?hl=pt-BR">Termos de Serviço do Google</a>.</p>
+      <p>Ao ativar a camada, seu navegador se conecta ao Google e solicita imagens para a área e o nível de zoom exibidos. O Google recebe dados dessas solicitações, como o endereço IP, conforme sua <a href="https://policies.google.com/privacy?hl=pt-BR">Política de Privacidade</a>.</p>
+    </details>
   </main>
 </body>
 </html>
