@@ -48,7 +48,7 @@ Preencha o atributo `content` de `<meta name="google-maps-key">` em [`mapa-risco
 
 ## Como contribuir
 
-Use as [issues](https://github.com/gbrlsmp/planejamento_IV_paranoa/issues) para relatar problemas ou sugerir melhorias. Em alterações de metodologia, indique as camadas, os critérios e os campos afetados. Em alterações no mapa, descreva como testar a mudança e informe a origem de novos dados. As contribuições seguem o [código de conduta](CODE_OF_CONDUCT.md).
+Cada alteração começa com uma issue e passa por uma branch de trabalho e um pull request. Consulte o [guia de contribuição](CONTRIBUTING.md) para os tipos de branch, o padrão de nomes e o modelo de PR. As contribuições seguem o [código de conduta](CODE_OF_CONDUCT.md).
 
 ## Licença
 
