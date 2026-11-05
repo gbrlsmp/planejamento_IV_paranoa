@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Condicionantes | Diagnóstico da Bacia do Paranoá</title>
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
   <header class="masthead">
@@ -33,6 +33,35 @@
       <a href="mapa.html?tema=condicionantes">Mapa dos indicadores</a>
     </nav>
     <p>A análise reúne Momentos da Água e Potencial de Recuperação Ecológica. O cruzamento registra as proporções e as classes predominantes por fragmento.</p>
+    <nav class="section-nav method-stage-nav" aria-label="Etapas da metodologia">
+      <a href="#producao-camadas">1. Produção das camadas</a>
+      <a href="#aplicacao-diagnostico">2. Aplicação no diagnóstico</a>
+    </nav>
+
+    <section id="producao-camadas" class="report-section method-stage" aria-labelledby="titulo-producao-camadas">
+<h4 id="titulo-producao-camadas">1. Produção das camadas</h4>
+<p>Conheça a origem dos indicadores e o caminho dos dados até os mapas. Os resumos apresentam a leitura principal; abra o procedimento para consultar entradas, parâmetros, referências e limites.</p>
+<article id="producao-momentos" class="method-card" aria-labelledby="titulo-producao-momentos">
+<h5 id="titulo-producao-momentos">Momentos da Água</h5>
+<p>Organiza a leitura da paisagem em fonte, condução e acomodação da água. A classificação combina características do terreno, dos solos, da cobertura e do funcionamento hidrológico.</p>
+<ol class="method-flow" aria-label="Etapas do processo"><li>Preparar bases do território</li><li>Derivar critérios hidrológicos</li><li>Combinar graus de pertinência</li><li>Mapear momentos e transições</li></ol>
+<p><strong>No Paranoá:</strong> a execução 1.1.1 gera o momento dominante em grade de 5 m. O diagnóstico calcula a proporção de cada momento no fragmento.</p>
+<p class="method-reading"><strong>Como interpretar:</strong> O momento dominante é uma síntese das características avaliadas. Não substitui a profundidade de inundação nem garante que todo o fragmento tenha o mesmo comportamento.</p>
+<details class="method-details"><summary>Ver procedimento completo: Momentos da Água</summary><div class="method-detail-body"><h6>Fundamentação e adaptação</h6><p>A organização conceitual em fonte, condução e acomodação é referenciada em <a href="https://publicacoes.amigosdanatureza.org.br/index.php/rlaac_sustentabilidade/pt_BR/article/view/6127">Sandre et al. (2025)</a> e na <a href="https://renatobrodrigues-cmd.github.io/riscos-sbn-taquari/#mom-met">aplicação de Rodrigues (2026) ao Taquari</a>. As funções e os parâmetros do processamento do Paranoá são escolhas operacionais da adaptação e precisam ser lidos junto da proveniência da execução.</p><h6>Entradas e processamento</h6><ol><li>Preparar limite da bacia, curvas de nível, uso do solo, edificações, vias, solos e dados auxiliares.</li><li>Construir e condicionar o terreno; derivar drenagem, relevo e estimativas hidrológicas.</li><li>Avaliar nove critérios: declividade, fluxo, posição altimétrica, solos, infiltração, lençol freático, inundação, distância da drenagem e uso do solo.</li><li>Converter os critérios em graus de pertinência aos três momentos e combiná-los com pesos FAHP, isto é, uma ponderação multicritério com lógica fuzzy.</li><li>Selecionar o momento de maior pontuação e registrar a margem entre as duas maiores pontuações.</li></ol><h6>Configuração e leitura das transições</h6><p>A proveniência informa terreno inicial de 2 m, classificação de momentos em 5 m e hidrologia em 20 m. No processamento consultado, margem a partir de 0,15 corresponde a forte; de 0,05 até abaixo de 0,15, a moderado; abaixo de 0,05, a transição. São cortes desta implementação.</p><h6>Limites registrados</h6><p>Os poços disponíveis não sustentaram o ajuste local do lençol freático: esse critério ficou sem estimativa nas áreas terrestres e os pesos foram renormalizados. Reamostrar produtos hidrológicos para 5 m não cria detalhe hidrológico nessa resolução. O resumo por fragmento usa o momento dominante; o grau de definição permanece na síntese territorial.</p><p><a href="docs/metodologia-camadas.md#agua">Consultar registros, parâmetros e limitações</a> · <a href="scripts/LEIA_ME_CONDICIONANTES.md">Reproduzir o cruzamento por fragmento</a></p></div></details>
+</article>
+<article id="producao-pre" class="method-card" aria-labelledby="titulo-producao-pre">
+<h5 id="titulo-producao-pre">Potencial de Recuperação Ecológica</h5>
+<p>Indica classes de potencial para orientar a leitura de oportunidades de recuperação. A explicação distingue o método da tese de Rubens do Amaral, a camada fornecida pela SEDUH-DF e a aplicação dessa camada no estudo.</p>
+<ol class="method-flow" aria-label="Etapas do processo"><li>Compreender o método da tese</li><li>Identificar a camada da SEDUH</li><li>Recortar à bacia</li><li>Resumir classes por fragmento</li></ol>
+<p><strong>No Paranoá:</strong> o diagnóstico utiliza os polígonos da SEDUH-DF já classificados de muito alto a baixo. O cruzamento por fragmento não recalcula os índices da tese.</p>
+<p class="method-reading"><strong>Como interpretar:</strong> A legenda da camada utilizada precisa ser preservada. As categorias da tese não devem ser convertidas automaticamente em muito alto, alto, médio e baixo.</p>
+<details class="method-details"><summary>Ver procedimento completo: Potencial de Recuperação Ecológica</summary><div class="method-detail-body"><h6>Fundamentação na tese de Rubens do Amaral</h6><p>Amaral (2023, pp. 171–173) relaciona umidade topográfica (TWI) e fluxo de carbono (CO₂flux) para identificar demandas por recuperação ecológica. Seleciona TWI nas classes 6 e 7 e CO₂flux na classe 5, combina as seleções em uma máscara e recorta o CO₂flux.</p><p>No Quadro 4, alto fluxo corresponde à integridade dos processos ecológicos de suporte; médio, à adaptação; baixo, à transformabilidade 1; muito baixo ou ausente, à transformabilidade 2. <a href="https://repositorio.unb.br/handle/10482/45979">Consultar a tese de Rubens do Amaral</a>.</p><h6>Camada efetivamente utilizada</h6><p>A entrada do diagnóstico é <code>PRE_Bacia_Paranoa_MERGE_IPE_DF_2023.shp</code>, atribuída à SEDUH-DF e recortada à bacia. O campo <code>cat_pdot20</code> contém a legenda muito alto, alto, médio e baixo. A fundamentação da tese e a origem dessa base devem ser registradas separadamente.</p><h6>Aplicação no Paranoá</h6><ol><li>Preservar as classes da camada recebida e conferir o recorte à bacia.</li><li>Intersectar os polígonos com cada fragmento e unir recortes da mesma classe.</li><li>Calcular áreas e proporções, registrar sobreposição entre classes e identificar a predominância quando uma classe tiver a maior área exclusiva, sem empate.</li></ol><h6>Correspondência das legendas</h6><p>A equivalência entre as categorias de demanda da tese e as classes de potencial da SEDUH depende dos metadados da base ou de comparação das camadas originais. O diagnóstico não presume uma correspondência direta. Uma classe predominante deve ser lida junto da cobertura válida e das proporções.</p><p><a href="scripts/LEIA_ME_CONDICIONANTES.md">Consultar fontes, campos e regras do cruzamento</a> · <a href="#potencial-recuperacao">Consultar os resultados na bacia</a></p></div></details>
+</article>
+</section>
+
+    <section id="aplicacao-diagnostico" class="report-section method-stage" aria-labelledby="titulo-aplicacao-diagnostico">
+      <h4 id="titulo-aplicacao-diagnostico">2. Aplicação no diagnóstico</h4>
+      <p>Com as camadas preparadas, o diagnóstico reúne seus valores em cada fragmento. Consulte o procedimento, as regras de classificação e os resultados a seguir.</p>
     <nav class="section-nav" aria-label="Conteúdo de Condicionantes">
       <a href="#procedimento">Procedimento</a>
       <a href="#indicadores">Indicadores</a>
@@ -41,8 +70,9 @@
       <a href="#camadas">Dados e método</a>
     </nav>
 
+
     <section id="procedimento" class="report-section" aria-labelledby="titulo-procedimento">
-      <h4 id="titulo-procedimento">Como o diagnóstico foi feito</h4>
+      <h5 id="titulo-procedimento">Como as camadas são aplicadas aos fragmentos</h5>
       <ol class="steps">
         <li>O script lê os polígonos dos fragmentos, o raster de Momentos da Água e a camada de Potencial de Recuperação Ecológica.</li>
         <li>Para cada fragmento, calcula a área de interseção com as células ou polígonos de cada classe em SIRGAS 2000 / UTM 23S (EPSG:31983).</li>
@@ -51,28 +81,28 @@
     </section>
 
     <section id="indicadores" class="report-section" aria-labelledby="titulo-indicadores">
-      <h4 id="titulo-indicadores">Indicadores e critérios</h4>
+      <h5 id="titulo-indicadores">Indicadores e critérios</h5>
       <div class="table-scroll" role="region" aria-label="Indicadores de Condicionantes" tabindex="0">
         <table class="indicator-table">
           <thead>
             <tr><th scope="col">Indicador</th><th scope="col">Camada de entrada</th><th scope="col">Tratamento</th><th scope="col">Critério e registro</th></tr>
           </thead>
           <tbody>
-            <tr><th scope="row">Momentos da Água</th><td>Raster de momentos da água do Paranoá.</td><td>Interseção das células com os fragmentos, incluindo a parcela das células na borda.</td><td>Área e proporção de fonte, condução e acomodação. A maior área válida define o momento predominante.</td></tr>
-            <tr><th scope="row">Potencial de Recuperação Ecológica</th><td>Camada da SEDUH-DF recortada à bacia.</td><td>Interseção com os fragmentos e união de recortes da mesma classe.</td><td>Área e proporção em cada classe de potencial. As sobreposições entre classes ficam registradas à parte.</td></tr>
+            <tr><th scope="row"><a href="#producao-momentos">Momentos da Água</a></th><td>Raster de momentos da água do Paranoá.</td><td>Interseção das células com os fragmentos, incluindo a parcela das células na borda.</td><td>Área e proporção de fonte, condução e acomodação. A maior área válida define o momento predominante.</td></tr>
+            <tr><th scope="row"><a href="#producao-pre">Potencial de Recuperação Ecológica</a></th><td>Camada da SEDUH-DF recortada à bacia.</td><td>Interseção com os fragmentos e união de recortes da mesma classe.</td><td>Área e proporção em cada classe de potencial. As sobreposições entre classes ficam registradas à parte.</td></tr>
           </tbody>
         </table>
       </div>
     </section>
 
     <section id="classificacao" class="report-section" aria-labelledby="titulo-classificacao">
-      <h4 id="titulo-classificacao">Como ler as classes</h4>
+      <h5 id="titulo-classificacao">Como ler as classes</h5>
       <p>Momentos da Água distingue fonte, condução e acomodação. A síntese territorial também registra os graus forte, moderado e de transição. O cruzamento por fragmento usa o momento predominante em cada célula.</p>
       <p>O potencial de recuperação segue a legenda da SEDUH-DF, de muito alto a baixo. O resumo por fragmento sinaliza empates e áreas sem dados.</p>
     </section>
 
     <section id="saida" class="report-section" aria-labelledby="titulo-saida">
-      <h4 id="titulo-saida">Saída do diagnóstico</h4>
+      <h5 id="titulo-saida">Saída do diagnóstico</h5>
       <p>O cruzamento por fragmento gera um CSV vinculado pelo campo <code>patch_id</code>. As tabelas abaixo mostram os totais no recorte da bacia. <a href="https://github.com/gbrlsmp/planejamento_IV_paranoa/blob/main/scripts/LEIA_ME_CONDICIONANTES.md">Consultar o script de cruzamento</a>.</p>
       <article id="momentos-da-agua">
         <h5 id="titulo-agua">Momentos da água</h5>
@@ -112,7 +142,7 @@
     </section>
 
     <section id="camadas" class="report-section" aria-labelledby="titulo-camadas">
-      <h4 id="titulo-camadas">Dados e método</h4>
+      <h5 id="titulo-camadas">Dados e método</h5>
       <div class="table-scroll" role="region" aria-label="Fontes e tratamento de Condicionantes" tabindex="0">
         <table class="indicator-table">
           <thead>
@@ -124,6 +154,7 @@
           </tbody>
         </table>
       </div>
+    </section>
     </section>
     <p class="next-step"><a href="ecologia.html">Consultar a ecologia →</a></p>
   </main>
