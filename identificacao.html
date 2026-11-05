@@ -10,7 +10,8 @@
   <link rel="stylesheet" href="mapa-riscos.css?v=2">
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-base.js"></script>
-  <script defer src="mapa-identificacao.js"></script>
+  <script defer src="subabas.js"></script>
+  <script defer src="mapa-identificacao.js?v=2"></script>
 </head>
 <body>
   <header class="masthead">
@@ -28,7 +29,7 @@
     <h2>Identificação da Rede de Infraestrutura Verde</h2>
     <p class="intro">Identificar como a infraestrutura verde se estrutura na Bacia do Paranoá e qual é a organização fundiária das áreas que compõem a rede.</p>
 
-    <nav class="section-nav" aria-label="Conteúdo da identificação">
+    <nav class="risk-tabs" data-report-tabs aria-label="Conteúdo da identificação">
       <a href="#regioes-administrativas">Mapa da bacia e RAs</a>
       <a href="#leitura-da-rede">Como ler a rede</a>
       <a href="#uso-solo">Uso do solo</a>
