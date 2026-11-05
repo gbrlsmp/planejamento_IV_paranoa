@@ -23,6 +23,7 @@
     const destination = legacySections[location.hash];
     if (destination) location.replace(destination + location.search + location.hash);
   </script>
+  <script defer src="subabas.js"></script>
 </head>
 <body>
   <header class="masthead">
@@ -71,6 +72,13 @@
           </ul>
         </li>
       </ol>
+    </nav>
+
+    <nav class="risk-tabs" data-report-tabs aria-label="Conteúdo de O Sistema">
+      <a href="#objetivo">Objetivo</a>
+      <a href="#metodologia-geral">Metodologia geral</a>
+      <a href="#matriz-de-decisao">Matriz de decisão</a>
+      <a href="#referencias">Referências</a>
     </nav>
 
     <section id="objetivo" class="report-section" aria-labelledby="titulo-objetivo">
