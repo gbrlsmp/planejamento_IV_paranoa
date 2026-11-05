@@ -1,0 +1,440 @@
+{
+  "temp_dia": {
+    "title": "Temperatura de dia",
+    "input": "01_Clima/04_rasters/InVEST/v6/T_air_bacia_paranoa_v6_factors.tif",
+    "kind": "raster",
+    "bins": [
+      24,
+      26,
+      28,
+      30
+    ],
+    "classes": [
+      [
+        1,
+        "Até 24 °C",
+        "#fff1b9"
+      ],
+      [
+        2,
+        "Acima de 24 até 26 °C",
+        "#fbc87c"
+      ],
+      [
+        3,
+        "Acima de 26 até 28 °C",
+        "#f58f4c"
+      ],
+      [
+        4,
+        "Acima de 28 até 30 °C",
+        "#df4a35"
+      ],
+      [
+        5,
+        "Acima de 30 °C",
+        "#981e31"
+      ]
+    ],
+    "note": "Temperatura do raster do InVEST na célula. A legenda usa faixas cartográficas em °C.",
+    "bounds": [
+      -5355586.1499167,
+      -1803315.0294078272,
+      -5309836.1499167,
+      -1755265.0294078272
+    ]
+  },
+  "hm_dia": {
+    "title": "Mitigação térmica de dia",
+    "input": "01_Clima/04_rasters/InVEST/v6/hm_bacia_paranoa_v6_factors.tif",
+    "kind": "raster",
+    "bins": [
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "classes": [
+      [
+        1,
+        "Até 0,2",
+        "#e4f1d4"
+      ],
+      [
+        2,
+        "Acima de 0,2 até 0,4",
+        "#b5d7a0"
+      ],
+      [
+        3,
+        "Acima de 0,4 até 0,6",
+        "#77b77b"
+      ],
+      [
+        4,
+        "Acima de 0,6 até 0,8",
+        "#42966c"
+      ],
+      [
+        5,
+        "Acima de 0,8",
+        "#206249"
+      ]
+    ],
+    "note": "Índice HM do InVEST na célula, antes da média na faixa externa dos fragmentos.",
+    "bounds": [
+      -5355586.1499167,
+      -1803315.0294078272,
+      -5309836.1499167,
+      -1755265.0294078272
+    ]
+  },
+  "temp_noite": {
+    "title": "Temperatura à noite",
+    "input": "01_Clima/04_rasters/InVEST/v6/T_air_bacia_paranoa_v6_intenssity.tif",
+    "kind": "raster",
+    "bins": [
+      24,
+      26,
+      28,
+      30
+    ],
+    "classes": [
+      [
+        1,
+        "Até 24 °C",
+        "#fff1b9"
+      ],
+      [
+        2,
+        "Acima de 24 até 26 °C",
+        "#fbc87c"
+      ],
+      [
+        3,
+        "Acima de 26 até 28 °C",
+        "#f58f4c"
+      ],
+      [
+        4,
+        "Acima de 28 até 30 °C",
+        "#df4a35"
+      ],
+      [
+        5,
+        "Acima de 30 °C",
+        "#981e31"
+      ]
+    ],
+    "note": "Temperatura do raster do InVEST na célula. A legenda usa faixas cartográficas em °C.",
+    "bounds": [
+      -5355586.1499167,
+      -1803315.0294078272,
+      -5309836.1499167,
+      -1755265.0294078272
+    ]
+  },
+  "hm_noite": {
+    "title": "Mitigação térmica à noite",
+    "input": "01_Clima/04_rasters/InVEST/v6/hm_bacia_paranoa_v6_intenssity.tif",
+    "kind": "raster",
+    "bins": [
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "classes": [
+      [
+        1,
+        "Até 0,2",
+        "#e4f1d4"
+      ],
+      [
+        2,
+        "Acima de 0,2 até 0,4",
+        "#b5d7a0"
+      ],
+      [
+        3,
+        "Acima de 0,4 até 0,6",
+        "#77b77b"
+      ],
+      [
+        4,
+        "Acima de 0,6 até 0,8",
+        "#42966c"
+      ],
+      [
+        5,
+        "Acima de 0,8",
+        "#206249"
+      ]
+    ],
+    "note": "Índice HM do InVEST na célula, antes da média na faixa externa dos fragmentos.",
+    "bounds": [
+      -5355586.1499167,
+      -1803315.0294078272,
+      -5309836.1499167,
+      -1755265.0294078272
+    ]
+  },
+  "temp_media": {
+    "title": "Temperatura média",
+    "input": "01_Clima/04_rasters/InVEST/v6/v6 - algebra/T_air_bacia_paranoa_v6_media.tif",
+    "kind": "raster",
+    "bins": [
+      24,
+      26,
+      28,
+      30
+    ],
+    "classes": [
+      [
+        1,
+        "Até 24 °C",
+        "#fff1b9"
+      ],
+      [
+        2,
+        "Acima de 24 até 26 °C",
+        "#fbc87c"
+      ],
+      [
+        3,
+        "Acima de 26 até 28 °C",
+        "#f58f4c"
+      ],
+      [
+        4,
+        "Acima de 28 até 30 °C",
+        "#df4a35"
+      ],
+      [
+        5,
+        "Acima de 30 °C",
+        "#981e31"
+      ]
+    ],
+    "note": "Temperatura do raster do InVEST na célula. A legenda usa faixas cartográficas em °C.",
+    "bounds": [
+      -5355586.1499167,
+      -1803315.0294078272,
+      -5309836.1499167,
+      -1755265.0294078272
+    ]
+  },
+  "hm_media": {
+    "title": "Mitigação térmica média",
+    "input": "01_Clima/04_rasters/InVEST/v6/v6 - algebra/hm_bacia_paranoa_v6_media.tif",
+    "kind": "raster",
+    "bins": [
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "classes": [
+      [
+        1,
+        "Até 0,2",
+        "#e4f1d4"
+      ],
+      [
+        2,
+        "Acima de 0,2 até 0,4",
+        "#b5d7a0"
+      ],
+      [
+        3,
+        "Acima de 0,4 até 0,6",
+        "#77b77b"
+      ],
+      [
+        4,
+        "Acima de 0,6 até 0,8",
+        "#42966c"
+      ],
+      [
+        5,
+        "Acima de 0,8",
+        "#206249"
+      ]
+    ],
+    "note": "Índice HM do InVEST na célula, antes da média na faixa externa dos fragmentos.",
+    "bounds": [
+      -5355586.1499167,
+      -1803315.0294078272,
+      -5309836.1499167,
+      -1755265.0294078272
+    ]
+  },
+  "umid_pct": {
+    "title": "Umidade relativa",
+    "input": "01_Clima/04_rasters/Completo_20261103_143519_903343/Completo_umidade_relativa_media_pct.tif",
+    "kind": "raster",
+    "bins": [
+      40,
+      41,
+      42,
+      43
+    ],
+    "classes": [
+      [
+        1,
+        "Até 40%",
+        "#dceaf6"
+      ],
+      [
+        2,
+        "Acima de 40 até 41%",
+        "#9ac6e2"
+      ],
+      [
+        3,
+        "Acima de 41 até 42%",
+        "#60a0ca"
+      ],
+      [
+        4,
+        "Acima de 42 até 43%",
+        "#2e71a5"
+      ],
+      [
+        5,
+        "Acima de 43%",
+        "#164971"
+      ]
+    ],
+    "note": "Umidade relativa no raster que serve de entrada ao diagnóstico.",
+    "bounds": [
+      -5355589.312995788,
+      -1803311.8541774822,
+      -5309839.312995788,
+      -1755261.8541774822
+    ]
+  },
+  "inund_max": {
+    "title": "Profundidade de inundação · TR de 5 anos",
+    "input": "03_Água/01_raster/inundacao_profundidade_TR5_hidro.tif",
+    "kind": "raster",
+    "bins": [
+      0,
+      0.1,
+      0.5,
+      1
+    ],
+    "classes": [
+      [
+        1,
+        "Zero",
+        "#dceaf6"
+      ],
+      [
+        2,
+        "Acima de 0 até 0,1",
+        "#9ac6e2"
+      ],
+      [
+        3,
+        "Acima de 0,1 até 0,5",
+        "#60a0ca"
+      ],
+      [
+        4,
+        "Acima de 0,5 até 1",
+        "#2e71a5"
+      ],
+      [
+        5,
+        "Acima de 1",
+        "#164971"
+      ]
+    ],
+    "note": "Profundidade no raster de inundação, antes do cálculo do máximo por fragmento.",
+    "bounds": [
+      -5355588.476216868,
+      -1803306.6532468817,
+      -5309838.476216868,
+      -1755256.6532468817
+    ]
+  },
+  "icu": {
+    "title": "Zona de ilha de calor urbano",
+    "input": "01_Clima/01_vetores/Zona_ICU.shp",
+    "kind": "polygon",
+    "classes": [
+      [
+        1,
+        "Zona mapeada",
+        "#d34536"
+      ]
+    ],
+    "note": "Extensão da zona usada para verificar a sobreposição com os fragmentos.",
+    "bounds": [
+      -5352837.66573442,
+      -1801033.1123777882,
+      -5314937.66573442,
+      -1771333.1123777882
+    ]
+  },
+  "edif_pct": {
+    "title": "Edificações mapeadas",
+    "input": "04_Pressão Urbana/Construções Bacia do Paranoá.shp",
+    "kind": "polygon",
+    "resolution": 20,
+    "classes": [
+      [
+        1,
+        "Edificação mapeada",
+        "#a64b34"
+      ]
+    ],
+    "note": "Localização das edificações na camada de entrada. A pressão em porcentagem é calculada na vista por fragmento.",
+    "bounds": [
+      -5355069.550348343,
+      -1802825.0940895793,
+      -5310789.550348343,
+      -1755445.0940895793
+    ]
+  },
+  "renda_sm": {
+    "title": "Renda por setor censitário",
+    "input": "02_Social/01_vetores/Bacia_Paranoa_setores_renda_Censo2022.gpkg",
+    "kind": "income",
+    "classes": [
+      [
+        1,
+        "Até 1 SM",
+        "#f1e9f7"
+      ],
+      [
+        2,
+        "Acima de 1 até 3 SM",
+        "#d4bfe5"
+      ],
+      [
+        3,
+        "Acima de 3 até 6 SM",
+        "#ae86c7"
+      ],
+      [
+        4,
+        "Acima de 6 até 9 SM",
+        "#8151a4"
+      ],
+      [
+        5,
+        "Acima de 9 SM",
+        "#502b77"
+      ]
+    ],
+    "note": "Rendimento médio do responsável no setor, do Censo 2022. As faixas usam o salário mínimo de R$ 1.212 da rodada v01.",
+    "bounds": [
+      -5355164.584366482,
+      -1802857.5427429543,
+      -5310164.584366482,
+      -1755407.5427429543
+    ]
+  }
+}

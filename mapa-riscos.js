@@ -1,6 +1,7 @@
 "use strict";
 
 const select = document.getElementById("indicador");
+const viewSelect = document.getElementById("leitura-indicador");
 const fit = document.getElementById("enquadrar");
 const mapStatus = document.getElementById("map-status");
 const legendTitle = document.getElementById("legend-title");
@@ -226,17 +227,69 @@ async function initializeMap() {
     await new Promise(resolve => setTimeout(resolve, 0));
   }
   data.rows = [];
-  function selectIndicator() {
+  const contextPane = map.createPane("contexto-riscos");
+  contextPane.style.zIndex = "365";
+  contextPane.style.pointerEvents = "none";
+  const fragmentStatus = numberFormat.format(total) + " fragmentos disponíveis";
+  let contextImage, contextCatalog, request = 0;
+
+  map.on("click", ({ latlng }) => {
+    const label = contextImage?.classAt(L.CRS.EPSG3857.project(latlng));
+    if (!label) return;
+    const line = document.createElement("p");
+    line.textContent = legendTitle.textContent + " · " + label;
+    L.popup().setLatLng(latlng).setContent(line).openOn(map);
+  });
+
+  async function selectIndicator() {
+    const current = ++request;
     active = indicators.get(select.value) ?? null;
-    showLegend();
+    contextImage?.overlay.remove();
+    contextImage = null;
     map.closePopup();
-    fragmentPane.hidden = !active;
-    if (active) fragments.setStyle(style);
+
+    const showContext = active && viewSelect.value === "contexto";
+    fragmentPane.hidden = !active || showContext;
+    if (!showContext) {
+      showLegend();
+      if (active) fragments.setStyle(style);
+      mapStatus.textContent = fragmentStatus;
+      return;
+    }
+
+    legendTitle.textContent = "Contexto geral";
+    legendNote.textContent = "Carregando a camada de entrada…";
+    legendItems.replaceChildren();
+    mapStatus.textContent = "Carregando o contexto geral…";
+    try {
+      contextCatalog ??= await loadData("dados-mapas/contexto-riscos.json");
+      if (request !== current) return;
+      const layer = contextCatalog[active.id];
+      if (!layer) throw new Error("Camada de contexto indisponível");
+      legendTitle.textContent = layer.title;
+      legendNote.textContent = layer.note;
+      appendLegendItems(layer.classes.map(([, label, color]) => [label, color]));
+      contextImage = createMapImage("dados-mapas/contexto/" + active.id + ".png", layer, "contexto-riscos", 0.83);
+      contextImage.overlay.on("load", () => {
+        if (request === current) mapStatus.textContent = "Camada de entrada · contexto geral";
+      });
+      contextImage.overlay.on("error", () => {
+        if (request === current) mapStatus.textContent = "A imagem do contexto não pôde ser carregada.";
+      });
+      contextImage.overlay.addTo(map);
+    } catch (error) {
+      if (request !== current) return;
+      console.error(error);
+      mapStatus.textContent = "A camada de contexto não pôde ser carregada.";
+      legendNote.textContent = "";
+    }
   }
+
   select.addEventListener("change", selectIndicator);
-  if (select.value) selectIndicator();
+  viewSelect.addEventListener("change", selectIndicator);
   select.disabled = false;
-  mapStatus.textContent = numberFormat.format(total) + " fragmentos disponíveis";
+  viewSelect.disabled = false;
+  selectIndicator();
 }
 
 initializeMap().catch(error => {
