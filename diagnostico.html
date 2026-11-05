@@ -6,6 +6,11 @@
   <meta name="description" content="Metodologia do diagnóstico de riscos por fragmento na Bacia do Paranoá.">
   <title>Riscos socioambientais | Bacia do Paranoá</title>
   <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="cenarios-climaticos.css?v=1">
+  <script src="vendor/leaflet/leaflet.js" defer></script>
+  <script src="mapa-base.js" defer></script>
+  <script src="cenarios-climaticos.js?v=1" defer></script>
 </head>
 <body>
   <header class="masthead">
@@ -46,19 +51,62 @@
 <p>Conheça a origem dos indicadores e o caminho dos dados até os mapas. Os resumos apresentam a leitura principal; abra o procedimento para consultar entradas, parâmetros, referências e limites.</p>
 <article id="producao-ilhas-calor" class="method-card" aria-labelledby="titulo-producao-ilhas-calor">
 <h5 id="titulo-producao-ilhas-calor">Ilhas de calor urbano</h5>
-<p>Identifica se o fragmento intercepta uma zona de ilha de calor delimitada para o estudo. A delimitação das zonas e a estimativa de temperatura do ar são produtos com funções diferentes.</p>
+<p>Identifica se o fragmento intercepta uma zona de ilha de calor delimitada para o estudo. A zona é um subproduto da temperatura média do ar do InVEST: reúne as três classes mais quentes, conforme o critério adotado na pesquisa.</p>
 <ol class="method-flow" aria-label="Etapas do processo"><li>Delimitar as zonas de calor</li><li>Preparar os polígonos</li><li>Cruzar com os fragmentos</li><li>Registrar presença ou ausência</li></ol>
 <p><strong>No Paranoá:</strong> o diagnóstico recebe a camada de zonas já pronta e verifica se há sobreposição com área positiva.</p>
 <p class="method-reading"><strong>Como interpretar:</strong> “Sim” indica presença na zona adotada; não informa, sozinho, a intensidade do calor nem a temperatura do fragmento.</p>
-<details class="method-details"><summary>Ver procedimento completo: Ilhas de calor urbano</summary><div class="method-detail-body"><h6>Dados e procedimento registrado</h6><p>A entrada é <code>Zona_ICU.shp</code>. O script verifica a interseção geométrica e registra <code>icu</code> como sim ou não. A regra adotada considera qualquer interseção com área positiva.</p><h6>Documentação a completar</h6><p>Os registros consultados não identificam o dado térmico, o período, a referência espacial ou o limiar usados para delimitar essas zonas. Essa etapa precisa ser conferida com a memória de produção da camada. Não se atribui automaticamente a delimitação ao InVEST.</p><p><a href="#indicadores">Consultar o critério de cruzamento</a> · <a href="scripts/LEIA_ME_RISCOS.md">Guia do diagnóstico</a></p></div></details>
+<details class="method-details"><summary>Ver procedimento completo: Ilhas de calor urbano</summary><div class="method-detail-body"><h6>Dados e procedimento registrado</h6><p>A entrada é <code>Zona_ICU.shp</code>. O script verifica a interseção geométrica e registra <code>icu</code> como sim ou não. A regra adotada considera qualquer interseção com área positiva.</p><h6>Origem e atualização do limite</h6><p>A origem informada pela autora é a temperatura média do ar, calculada entre os cenários factors e intensity do InVEST. A revisão do estudo mantém as três classes mais quentes (média, ruim e muito ruim) como critério para a zona de calor. Os novos intervalos estão no <a href="#comparacao-temperatura">comparativo de temperatura</a>. O polígono usado no diagnóstico publicado ainda precisa ser atualizado com esses cortes e ter suas interseções recalculadas; o mapa exploratório não realiza essa atualização.</p><p><a href="#indicadores">Consultar o critério de cruzamento</a> · <a href="scripts/LEIA_ME_RISCOS.md">Guia do diagnóstico</a></p></div></details>
 </article>
 <article id="producao-temperatura" class="method-card" aria-labelledby="titulo-producao-temperatura">
 <h5 id="titulo-producao-temperatura">Temperatura do ar</h5>
 <p>O modelo InVEST Urban Cooling estima a temperatura do ar considerando a cobertura do solo e sua capacidade de resfriamento. O resultado é uma estimativa espacial para o cenário configurado.</p>
 <ol class="method-flow" aria-label="Etapas do processo"><li>Preparar cobertura e clima</li><li>Estimar capacidade de resfriamento</li><li>Calcular temperatura do ar</li><li>Resumir por fragmento</li></ol>
-<p><strong>No Paranoá:</strong> a rodada v6 usa o método factors como cenário de dia e intensity como cenário de noite; o diagnóstico também recebe uma camada média previamente preparada.</p>
+<p><strong>No Paranoá:</strong> a rodada v6 usa o método factors como cenário de dia e intensity como cenário de noite; a camada média corresponde à média aritmética, célula a célula, entre esses dois cenários.</p>
 <p class="method-reading"><strong>Como interpretar:</strong> Valores são estimativas modeladas, distintas da temperatura de superfície de uma imagem e de medições pontuais de estação.</p>
-<details class="method-details"><summary>Ver procedimento completo: Temperatura do ar</summary><div class="method-detail-body"><h6>Dados necessários</h6><p>Uso e cobertura do solo, tabela biofísica por classe, evapotranspiração de referência, limite da área e parâmetros térmicos. A rodada utiliza a cobertura final e a ETo de agosto–setembro de 2025, ambas em grade de 3 m, conforme nomes e metadados dos arquivos.</p><h6>Procedimento</h6><p>No método factors, sombra, albedo e evapotranspiração participam da capacidade de resfriamento. No intensity, o modelo usa a intensidade construtiva da tabela biofísica. A estimativa térmica incorpora a mitigação e a mistura espacial do ar. <a href="https://storage.googleapis.com/releases.naturalcapitalproject.org/invest-userguide/latest/en/urban_cooling_model.html">Manual do InVEST Urban Cooling</a>.</p><h6>Configuração registrada no Paranoá</h6><p>InVEST 3.20.2; temperatura de referência de 22,09 °C; magnitude máxima de ilha de calor de 10,71 °C; distância de resfriamento de 450 m; raio de mistura do ar de 500 m. Esses valores constam nos metadados das saídas v6 e não são valores universais.</p><h6>Aplicação e limites</h6><p>O diagnóstico calcula a média de cada raster no interior do fragmento e distribui os resultados em cinco faixas relativas ao conjunto analisado. Os rótulos das classes não representam limites de conforto térmico. A associação dia/noite é uma escolha do estudo. O script de diagnóstico não recalcula a camada média; sua expressão algébrica deve ser confirmada na memória de produção.</p><p><a href="docs/metodologia-camadas.md#clima">Consultar parâmetros e registros da rodada</a> · <a href="#indicadores">Consultar classificação</a></p></div></details>
+<section class="climate-explorer" data-climate="temperatura" aria-labelledby="comparacao-temperatura">
+<h6 id="comparacao-temperatura">Compare dia, noite e média</h6>
+<p>Os três mapas usam a mesma escala de cores. A média é calculada célula a célula entre os cenários de dia (<code>factors</code>) e noite (<code>intensity</code>); não é uma média observada de 24 horas.</p>
+<div class="climate-comparison">
+<figure>
+<img src="dados-mapas/clima/temperatura-dia-previa.png" width="560" height="588" loading="lazy" alt="Distribuição espacial de temperatura do ar no cenário dia, na mesma escala de cores dos demais cenários.">
+<figcaption><strong>Dia</strong><span>factors</span><span>Média espacial: 27,6 °C</span></figcaption>
+</figure><figure>
+<img src="dados-mapas/clima/temperatura-noite-previa.png" width="560" height="588" loading="lazy" alt="Distribuição espacial de temperatura do ar no cenário noite, na mesma escala de cores dos demais cenários.">
+<figcaption><strong>Noite</strong><span>intensity</span><span>Média espacial: 22,7 °C</span></figcaption>
+</figure><figure>
+<img src="dados-mapas/clima/temperatura-media-previa.png" width="560" height="588" loading="lazy" alt="Distribuição espacial de temperatura do ar no cenário média, na mesma escala de cores dos demais cenários.">
+<figcaption><strong>Média</strong><span>(dia + noite) / 2</span><span>Média espacial: 25,1 °C</span></figcaption>
+</figure>
+</div>
+<div class="climate-comparison-scale" aria-label="Escala comum de temperatura do ar">
+<div class="climate-ramp climate-temperature-ramp" aria-hidden="true"></div>
+<p class="climate-range"><span>22,1 °C</span><span>31,8 °C</span></p>
+</div>
+<p>No conjunto da área comparável, o cenário de dia é 4,9 °C mais quente que o de noite, em média.</p>
+<p class="climate-note">As médias espaciais são calculadas na mesma área válida dos seis rasters: 105.615,5 ha. Os mapas representam as camadas de entrada, antes do resumo por fragmento.</p>
+<h6 id="mapa-temperatura-metodologia">Explore o indicador no mapa</h6>
+<p>Escolha o cenário e a representação. Use o degradê para comparar valores na escala comum ou as classes para ver cinco faixas de igual amplitude, calculadas separadamente para cada cenário. Ao trocar o cenário, a posição e o zoom são mantidos.</p>
+<div class="climate-tools">
+<label for="cenario-temperatura">Cenário<select class="climate-scenario" id="cenario-temperatura" disabled>
+<option value="dia">Dia · factors</option><option value="noite">Noite · intensity</option><option value="media" selected>Média entre dia e noite</option>
+</select></label>
+<label for="representacao-temperatura">Representação<select class="climate-mode" id="representacao-temperatura" disabled>
+<option value="continuo">Degradê contínuo</option><option value="classes">Cinco classes</option>
+</select></label>
+<button class="climate-fit" type="button" disabled>Enquadrar a bacia</button>
+</div>
+<p class="climate-status" role="status" aria-live="polite">O mapa será carregado ao chegar a esta seção.</p>
+<button class="climate-retry" type="button" hidden>Tentar novamente</button>
+<div class="climate-map-layout">
+<div class="climate-map" id="mapa-clima-temperatura" role="region" aria-label="Mapa interativo de temperatura do ar" aria-describedby="ajuda-mapa-temperatura"></div>
+<aside class="climate-legend" aria-label="Legenda de temperatura do ar" hidden><strong class="climate-legend-title"></strong><div class="climate-legend-content"></div></aside>
+</div>
+<p class="climate-note" id="ajuda-mapa-temperatura">Aproxime pelos botões + e − ou pelo gesto de pinça; arraste para navegar. Com o mapa em foco, use +, − e as setas do teclado. A visualização usa resolução reduzida; o zoom não acrescenta detalhe aos dados.</p>
+<p class="climate-note">Base identifica a faixa mais fria do cenário; boa, média, ruim e muito ruim acompanham o aumento da temperatura. Esses nomes não são limites de conforto térmico. As porcentagens da legenda de classes se referem à área válida da camada original de cada cenário.</p>
+<p class="climate-source">Fonte: saídas do InVEST Urban Cooling v6, com rasters originais de 3 m. <a href="docs/cenarios-climaticos.md">Consultar cortes, dados e procedimento de exportação</a>.</p>
+<noscript><p>Ative o JavaScript para explorar o mapa. Os comparativos e as médias acima continuam disponíveis.</p></noscript>
+</section>
+<details class="method-details"><summary>Ver procedimento completo: Temperatura do ar</summary><div class="method-detail-body"><h6>Dados necessários</h6><p>Uso e cobertura do solo, tabela biofísica por classe, evapotranspiração de referência, limite da área e parâmetros térmicos. A rodada utiliza a cobertura final e a ETo de agosto–setembro de 2025, ambas em grade de 3 m, conforme nomes e metadados dos arquivos.</p><h6>Procedimento</h6><p>No método factors, sombra, albedo e evapotranspiração participam da capacidade de resfriamento. No intensity, o modelo usa a intensidade construtiva da tabela biofísica. A estimativa térmica incorpora a mitigação e a mistura espacial do ar. <a href="https://storage.googleapis.com/releases.naturalcapitalproject.org/invest-userguide/latest/en/urban_cooling_model.html">Manual do InVEST Urban Cooling</a>.</p><h6>Configuração registrada no Paranoá</h6><p>InVEST 3.20.2; temperatura de referência de 22,09 °C; magnitude máxima de ilha de calor de 10,71 °C; distância de resfriamento de 450 m; raio de mistura do ar de 500 m. Esses valores constam nos metadados das saídas v6 e não são valores universais.</p><h6>Aplicação e limites</h6><p>O diagnóstico calcula a média de cada raster no interior do fragmento e distribui os resultados em cinco faixas relativas ao conjunto analisado. Os rótulos das classes não representam limites de conforto térmico. A associação dia/noite é uma escolha do estudo. O script de diagnóstico recebe a camada média pronta. A expressão (dia + noite) / 2 foi confirmada por comparação das células válidas dos rasters. O comparativo acima usa as camadas integrais, enquanto as classes do diagnóstico publicado foram calculadas a partir dos valores por fragmento.</p><p><a href="docs/metodologia-camadas.md#clima">Consultar parâmetros e registros da rodada</a> · <a href="#indicadores">Consultar classificação</a></p></div></details>
 </article>
 <article id="producao-mitigacao" class="method-card" aria-labelledby="titulo-producao-mitigacao">
 <h5 id="titulo-producao-mitigacao">Mitigação térmica do entorno</h5>
@@ -66,7 +114,50 @@
 <ol class="method-flow" aria-label="Etapas do processo"><li>Usar as entradas climáticas</li><li>Gerar o índice HM</li><li>Delimitar a faixa externa</li><li>Calcular HM no entorno</li></ol>
 <p><strong>No Paranoá:</strong> são usadas as saídas HM de dia, noite e média. A faixa de análise tem 5 m e exclui o interior do fragmento.</p>
 <p class="method-reading"><strong>Como interpretar:</strong> Valores mais próximos de um indicam maior mitigação estimada. A faixa de 5 m é a área de consulta do diagnóstico; a distância de resfriamento configurada no modelo é 450 m.</p>
-<details class="method-details"><summary>Ver procedimento completo: Mitigação térmica do entorno</summary><div class="method-detail-body"><h6>Produção da camada</h6><p>O HM deriva da capacidade de resfriamento e do efeito de áreas verdes na vizinhança. É uma saída do mesmo processamento usado para estimar a temperatura do ar. <a href="https://storage.googleapis.com/releases.naturalcapitalproject.org/invest-userguide/latest/en/urban_cooling_model.html">Manual do InVEST Urban Cooling</a>.</p><h6>Procedimento por fragmento</h6><ol><li>Usar os rasters HM da rodada v6.</li><li>Criar um buffer externo de 5 m e subtrair o polígono original.</li><li>Calcular a média das células válidas nessa faixa para cada cenário.</li><li>Registrar os índices sem converter HM em temperatura ou em porcentagem de redução de calor.</li></ol><h6>Limites e reprodução</h6><p>O indicador descreve a condição modelada no entorno. Ele não mede isoladamente quanto resfriamento foi causado pelo fragmento. Os parâmetros da modelagem são compartilhados com <a href="#producao-temperatura">Temperatura do ar</a>; a largura da faixa é definida em <code>DISTANCIA_ENTORNO_M</code> no <a href="scripts/01_Diagnostico_RISCOS.py">script de riscos</a>.</p></div></details>
+<section class="climate-explorer" data-climate="hm" aria-labelledby="comparacao-hm">
+<h6 id="comparacao-hm">Compare dia, noite e média</h6>
+<p>Os três mapas usam a mesma escala de cores. A média é calculada célula a célula entre os cenários de dia (<code>factors</code>) e noite (<code>intensity</code>); não é uma média observada de 24 horas.</p>
+<div class="climate-comparison">
+<figure>
+<img src="dados-mapas/clima/hm-dia-previa.png" width="560" height="588" loading="lazy" alt="Distribuição espacial de mitigação térmica (HM) no cenário dia, na mesma escala de cores dos demais cenários.">
+<figcaption><strong>Dia</strong><span>factors</span><span>Média espacial: 0,4858</span></figcaption>
+</figure><figure>
+<img src="dados-mapas/clima/hm-noite-previa.png" width="560" height="588" loading="lazy" alt="Distribuição espacial de mitigação térmica (HM) no cenário noite, na mesma escala de cores dos demais cenários.">
+<figcaption><strong>Noite</strong><span>intensity</span><span>Média espacial: 0,9439</span></figcaption>
+</figure><figure>
+<img src="dados-mapas/clima/hm-media-previa.png" width="560" height="588" loading="lazy" alt="Distribuição espacial de mitigação térmica (HM) no cenário média, na mesma escala de cores dos demais cenários.">
+<figcaption><strong>Média</strong><span>(dia + noite) / 2</span><span>Média espacial: 0,7148</span></figcaption>
+</figure>
+</div>
+<div class="climate-comparison-scale" aria-label="Escala comum de mitigação térmica (HM)">
+<div class="climate-ramp climate-hm-ramp" aria-hidden="true"></div>
+<p class="climate-range"><span>0,0801</span><span>1,0000</span></p>
+</div>
+<p>No conjunto da área comparável, o HM de noite supera o de dia em 0,4581, em média. Essa diferença é do índice, não uma variação em graus ou uma porcentagem de resfriamento.</p>
+<p class="climate-note">As médias espaciais são calculadas na mesma área válida dos seis rasters: 105.615,5 ha. Os mapas representam as camadas de entrada, antes do resumo por fragmento.</p>
+<h6 id="mapa-hm-metodologia">Explore o indicador no mapa</h6>
+<p>Escolha o cenário e a representação. Use o degradê para comparar valores na escala comum ou as classes para ver cinco faixas de igual amplitude, calculadas separadamente para cada cenário. Ao trocar o cenário, a posição e o zoom são mantidos.</p>
+<div class="climate-tools">
+<label for="cenario-hm">Cenário<select class="climate-scenario" id="cenario-hm" disabled>
+<option value="dia">Dia · factors</option><option value="noite">Noite · intensity</option><option value="media" selected>Média entre dia e noite</option>
+</select></label>
+<label for="representacao-hm">Representação<select class="climate-mode" id="representacao-hm" disabled>
+<option value="continuo">Degradê contínuo</option><option value="classes">Cinco classes</option>
+</select></label>
+<button class="climate-fit" type="button" disabled>Enquadrar a bacia</button>
+</div>
+<p class="climate-status" role="status" aria-live="polite">O mapa será carregado ao chegar a esta seção.</p>
+<button class="climate-retry" type="button" hidden>Tentar novamente</button>
+<div class="climate-map-layout">
+<div class="climate-map" id="mapa-clima-hm" role="region" aria-label="Mapa interativo de mitigação térmica (HM)" aria-describedby="ajuda-mapa-hm"></div>
+<aside class="climate-legend" aria-label="Legenda de mitigação térmica (HM)" hidden><strong class="climate-legend-title"></strong><div class="climate-legend-content"></div></aside>
+</div>
+<p class="climate-note" id="ajuda-mapa-hm">Aproxime pelos botões + e − ou pelo gesto de pinça; arraste para navegar. Com o mapa em foco, use +, − e as setas do teclado. A visualização usa resolução reduzida; o zoom não acrescenta detalhe aos dados.</p>
+<p class="climate-note">Base identifica a maior mitigação; boa, média, ruim e muito ruim acompanham a diminuição do HM. HM alto, sozinho, não define um refúgio climático: essa interpretação depende do cruzamento com as demais condições na matriz. As porcentagens da legenda de classes se referem à área válida da camada original de cada cenário.</p>
+<p class="climate-source">Fonte: saídas do InVEST Urban Cooling v6, com rasters originais de 3 m. <a href="docs/cenarios-climaticos.md">Consultar cortes, dados e procedimento de exportação</a>.</p>
+<noscript><p>Ative o JavaScript para explorar o mapa. Os comparativos e as médias acima continuam disponíveis.</p></noscript>
+</section>
+<details class="method-details"><summary>Ver procedimento completo: Mitigação térmica do entorno</summary><div class="method-detail-body"><h6>Produção da camada</h6><p>O HM deriva da capacidade de resfriamento e do efeito de áreas verdes na vizinhança. É uma saída do mesmo processamento usado para estimar a temperatura do ar. O HM médio também é a média aritmética, célula a célula, entre as saídas de dia e de noite; essa relação foi conferida nas camadas originais. <a href="https://storage.googleapis.com/releases.naturalcapitalproject.org/invest-userguide/latest/en/urban_cooling_model.html">Manual do InVEST Urban Cooling</a>.</p><h6>Procedimento por fragmento</h6><ol><li>Usar os rasters HM da rodada v6.</li><li>Criar um buffer externo de 5 m e subtrair o polígono original.</li><li>Calcular a média das células válidas nessa faixa para cada cenário.</li><li>Registrar os índices sem converter HM em temperatura ou em porcentagem de redução de calor.</li></ol><h6>Limites e reprodução</h6><p>O indicador descreve a condição modelada no entorno. Ele não mede isoladamente quanto resfriamento foi causado pelo fragmento. Os parâmetros da modelagem são compartilhados com <a href="#producao-temperatura">Temperatura do ar</a>; a largura da faixa é definida em <code>DISTANCIA_ENTORNO_M</code> no <a href="scripts/01_Diagnostico_RISCOS.py">script de riscos</a>.</p></div></details>
 </article>
 <article id="producao-inundacao" class="method-card" aria-labelledby="titulo-producao-inundacao">
 <h5 id="titulo-producao-inundacao">Inundação</h5>
@@ -222,7 +313,7 @@
                 </tr>
                 <tr>
                   <th scope="row">Zonas de ilha de calor urbano<br><code>Zona_ICU.shp</code></th>
-                  <td>Zonas delimitadas previamente. Fonte primária a confirmar.</td>
+                  <td>Derivada da temperatura média do ar do InVEST, conforme a memória de produção informada pela autora. A atualização do limite com os novos intervalos está pendente.</td>
                   <td>Interseção entre a zona e o fragmento. Registra ocorrência quando há área de sobreposição positiva.</td>
                   <td>Presença do fragmento em ilha de calor urbano.</td>
                 </tr>

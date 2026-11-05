@@ -1,0 +1,318 @@
+{
+  "version": 1,
+  "source_resolution_m": 3,
+  "visualization": {
+    "crs": "EPSG:3857",
+    "resolution": 20,
+    "resampling": "nearest",
+    "continuous_colors": 255,
+    "size": [
+      2287,
+      2402
+    ]
+  },
+  "classification": {
+    "intervals": 5,
+    "method": "equal_interval",
+    "boundary": "lower_numeric_interval",
+    "rounding": "display_only"
+  },
+  "comparison": {
+    "common_valid_pixels": 117350582,
+    "common_area_ha": 105615.5238,
+    "differences": {
+      "temperatura_dia_menos_noite": {
+        "minimum": 2.835700656602235,
+        "maximum": 8.178504943847656,
+        "mean": 4.897812374464145
+      },
+      "hm_noite_menos_dia": {
+        "minimum": 0.15032634139060974,
+        "maximum": 0.857362799346447,
+        "mean": 0.4580736929851762
+      }
+    },
+    "maximum_absolute_mean_residual": {
+      "temperatura": 9.5367431640625e-07,
+      "hm": 2.9802322387695312e-08
+    }
+  },
+  "indicators": {
+    "temperatura": {
+      "range": [
+        22.089974679632284,
+        31.83981383520795
+      ],
+      "colors": [
+        "#365b95",
+        "#83bdc1",
+        "#f4e7a0",
+        "#ef9653",
+        "#a52d3e"
+      ],
+      "scenarios": {
+        "dia": {
+          "minimum": 24.964663926162746,
+          "maximum": 31.83981383520795,
+          "cuts": [
+            24.964663926162746,
+            26.339693907971785,
+            27.714723889780828,
+            29.089753871589867,
+            30.464783853398906,
+            31.83981383520795
+          ],
+          "valid_pixels": 117350582,
+          "class_counts": [
+            44482753,
+            23472956,
+            18840316,
+            22720261,
+            7834296
+          ],
+          "mean": 27.586937055777117,
+          "common_mean": 27.586937055777117,
+          "class_percent": [
+            37.905864838403616,
+            20.0024197579182,
+            16.05472736385747,
+            19.361012627956118,
+            6.675975411864596
+          ],
+          "class_area_ha": [
+            40034.477699999996,
+            21125.6604,
+            16956.2844,
+            20448.2349,
+            7050.8664
+          ],
+          "source": "T_air_bacia_paranoa_v6_factors.tif",
+          "continuous": "temperatura-dia-continuo.png",
+          "classes": "temperatura-dia-classes.png",
+          "preview": "temperatura-dia-previa.png"
+        },
+        "noite": {
+          "minimum": 22.089974679632284,
+          "maximum": 26.813500302972532,
+          "cuts": [
+            22.089974679632284,
+            23.034679804300335,
+            23.979384928968383,
+            24.924090053636434,
+            25.86879517830448,
+            26.813500302972532
+          ],
+          "valid_pixels": 117377002,
+          "class_counts": [
+            88885818,
+            17765220,
+            6601532,
+            2960657,
+            1163775
+          ],
+          "mean": 22.68910919897611,
+          "common_mean": 22.68912468131295,
+          "class_percent": [
+            75.72677482425391,
+            15.135179547352896,
+            5.624212484145744,
+            2.522348458005428,
+            0.9914846862420289
+          ],
+          "class_area_ha": [
+            79997.2362,
+            15988.698,
+            5941.3787999999995,
+            2664.5913,
+            1047.3975
+          ],
+          "source": "T_air_bacia_paranoa_v6_intenssity.tif",
+          "continuous": "temperatura-noite-continuo.png",
+          "classes": "temperatura-noite-classes.png",
+          "preview": "temperatura-noite-previa.png"
+        },
+        "media": {
+          "minimum": 23.54193687438965,
+          "maximum": 29.143688201904297,
+          "cuts": [
+            23.54193687438965,
+            24.662287139892577,
+            25.78263740539551,
+            26.902987670898437,
+            28.02333793640137,
+            29.143688201904297
+          ],
+          "valid_pixels": 117350582,
+          "class_counts": [
+            54889651,
+            26715774,
+            22638998,
+            10543609,
+            2562550
+          ],
+          "mean": 25.138030849185807,
+          "common_mean": 25.138030849185807,
+          "class_percent": [
+            46.77407650181062,
+            22.76577886933701,
+            19.29176456917785,
+            8.984709594367414,
+            2.1836704653071086
+          ],
+          "class_area_ha": [
+            49400.6859,
+            24044.1966,
+            20375.0982,
+            9489.248099999999,
+            2306.295
+          ],
+          "source": "v6 - algebra/T_air_bacia_paranoa_v6_media.tif",
+          "continuous": "temperatura-media-continuo.png",
+          "classes": "temperatura-media-classes.png",
+          "preview": "temperatura-media-previa.png"
+        }
+      }
+    },
+    "hm": {
+      "range": [
+        0.0800904631614685,
+        1.0
+      ],
+      "colors": [
+        "#f4deb5",
+        "#c0d6b6",
+        "#70b7a3",
+        "#328777",
+        "#145342"
+      ],
+      "scenarios": {
+        "dia": {
+          "minimum": 0.0800904631614685,
+          "maximum": 0.7972076535224915,
+          "cuts": [
+            0.0800904631614685,
+            0.2235139012336731,
+            0.3669373393058777,
+            0.5103607773780823,
+            0.6537842154502869,
+            0.7972076535224915
+          ],
+          "valid_pixels": 117350582,
+          "class_counts": [
+            23564886,
+            16496057,
+            12628645,
+            41918176,
+            22742818
+          ],
+          "mean": 0.4857961445790269,
+          "common_mean": 0.4857961445790269,
+          "class_percent": [
+            20.080757673617672,
+            14.057073019032833,
+            10.761467719009694,
+            35.720467070201664,
+            19.38023451813814
+          ],
+          "class_area_ha": [
+            21208.397399999998,
+            14846.451299999999,
+            11365.780499999999,
+            37726.3584,
+            20468.5362
+          ],
+          "source": "hm_bacia_paranoa_v6_factors.tif",
+          "continuous": "hm-dia-continuo.png",
+          "classes": "hm-dia-classes.png",
+          "preview": "hm-dia-previa.png"
+        },
+        "noite": {
+          "minimum": 0.47280001640319824,
+          "maximum": 1.0,
+          "cuts": [
+            0.47280001640319824,
+            0.5782400131225586,
+            0.6836800098419189,
+            0.7891200065612793,
+            0.8945600032806397,
+            1.0
+          ],
+          "valid_pixels": 117377002,
+          "class_counts": [
+            3122851,
+            0,
+            9481191,
+            12604285,
+            92168675
+          ],
+          "mean": 0.9438753605603486,
+          "common_mean": 0.9438698375642031,
+          "class_percent": [
+            2.660530552654599,
+            0.0,
+            8.077554238435907,
+            10.738291816313387,
+            78.52362339259611
+          ],
+          "class_area_ha": [
+            2810.5659,
+            0.0,
+            8533.071899999999,
+            11343.8565,
+            82951.8075
+          ],
+          "source": "hm_bacia_paranoa_v6_intenssity.tif",
+          "continuous": "hm-noite-continuo.png",
+          "classes": "hm-noite-classes.png",
+          "preview": "hm-noite-previa.png"
+        },
+        "media": {
+          "minimum": 0.2764452397823334,
+          "maximum": 0.8986037969589233,
+          "cuts": [
+            0.2764452397823334,
+            0.4008769512176514,
+            0.5253086626529694,
+            0.6497403740882873,
+            0.7741720855236054,
+            0.8986037969589233
+          ],
+          "valid_pixels": 117350582,
+          "class_counts": [
+            6074290,
+            12678092,
+            17972792,
+            17630087,
+            62995321
+          ],
+          "mean": 0.7148329910700507,
+          "common_mean": 0.7148329910700507,
+          "class_percent": [
+            5.176190775091341,
+            10.80360385430385,
+            15.315468993583687,
+            15.023433799416521,
+            53.6813025776046
+          ],
+          "class_area_ha": [
+            5466.861,
+            11410.282799999999,
+            16175.5128,
+            15867.0783,
+            56695.7889
+          ],
+          "source": "v6 - algebra/hm_bacia_paranoa_v6_media.tif",
+          "continuous": "hm-media-continuo.png",
+          "classes": "hm-media-classes.png",
+          "preview": "hm-media-previa.png"
+        }
+      }
+    }
+  },
+  "bounds_3857": [
+    -5355586.1499167,
+    -1803305.0294078272,
+    -5309846.1499167,
+    -1755265.0294078272
+  ]
+}
