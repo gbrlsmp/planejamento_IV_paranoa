@@ -20,6 +20,7 @@ O mapa abre com o limite da bacia e as massas d’água. Selecione um indicador 
 | [`mapa-base.json.gz`](mapa-base.json.gz) | Limite da bacia, massas d’água e regiões administrativas a partir da base do IPE-DF (2023), em WGS 84. |
 | [`mapa-dados.json.gz`](mapa-dados.json.gz) | Geometrias e indicadores dos fragmentos da rodada v01, preparados para visualização. |
 | [`scripts/01_Diagnostico_RISCOS.py`](scripts/01_Diagnostico_RISCOS.py) | Cálculo dos indicadores de riscos por fragmento em PyQGIS. |
+| [`scripts/02_Diagnostico_CONDICIONANTES.py`](scripts/02_Diagnostico_CONDICIONANTES.py) | Proporções e classes predominantes de Momentos da Água e PRE por fragmento. [Guia de execução](scripts/LEIA_ME_CONDICIONANTES.md). |
 | [`scripts/exportar_mapa.py`](scripts/exportar_mapa.py) | Exportador que prepara a camada final do diagnóstico para o navegador. |
 
 ## Como rodar localmente
