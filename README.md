@@ -8,19 +8,20 @@ Relatório metodológico da Bacia do Paranoá, no Distrito Federal. O projeto bu
 
 Nos indicadores de Riscos, use **Visualização** para alternar entre os resultados por fragmento e o contexto da camada de entrada.
 
-A vista [Riscos por RA](riscos-por-ra.html) reúne os indicadores dos fragmentos em cada Região Administrativa que intercepta a bacia.
+A seção [Riscos por RA](mapa-riscos.html#riscos-por-ra), na mesma página do mapa dos indicadores, reúne os indicadores dos fragmentos em cada Região Administrativa que intercepta a bacia.
 
 O [mapa interativo geral](https://gbrlsmp.github.io/planejamento_IV_paranoa/mapa.html) permite combinar camadas temáticas, limites das RAs e indicadores de Riscos. Os tópicos do relatório também têm vistas de Metodologia e Mapa. [Dados e exportação das camadas](docs/mapas-tematicos.md).
 
-O mapa abre com o limite da bacia e as massas d’água. Selecione um indicador para colorir os fragmentos e clique em um deles para consultar seus valores. O mapa das regiões administrativas fica na aba de identificação da rede. O fundo de satélite do Google é opcional e depende da configuração descrita abaixo.
+O mapa abre com o limite da bacia e as massas d’água. Selecione um indicador para colorir os fragmentos e clique em um deles para consultar seus valores. Os limites e os códigos das regiões administrativas aparecem no mapa, com legenda de nomes e números. O fundo de satélite Sentinel-2 é opcional e funciona sem chave de API.
 
 ## O que há no repositório
 
 | Caminho | Conteúdo |
 | --- | --- |
-| [`index.html`](index.html) | Sumário do relatório, objetivo, metodologia geral, matriz de decisão e referências. |
-| [`identificacao.html`](identificacao.html) | Mapa da bacia e das RAs, leitura da rede, uso do solo, tipologias de AVU e IV e métricas de forma. |
+| [`index.html`](index.html) | Sumário do relatório, objetivo, metodologia geral e referências. |
+| [`identificacao.html`](identificacao.html) | Uso do solo, tipologias de AVU e IV e métricas de forma. |
 | [`docs/referencias-parte-iv.md`](docs/referencias-parte-iv.md) | Referências, páginas da tese e relação com o conteúdo da Parte IV. |
+| [`estrategias.html`](estrategias.html) | Matriz de decisão, matriz de resolução de problemas e estratégias. |
 | [`diagnostico.html`](diagnostico.html) | Metodologia e indicadores de riscos socioambientais, com acesso a Condicionantes e Ecologia. |
 | [`mapa-riscos.html`](mapa-riscos.html) | Interface do mapa, com estilos e scripts próprios e Leaflet 1.9.4 em [`vendor/leaflet`](vendor/leaflet). |
 | [`mapa-base.json.gz`](mapa-base.json.gz) | Limite da bacia, massas d’água e regiões administrativas a partir da base do IPE-DF (2023), em WGS 84. |
@@ -53,11 +54,11 @@ python scripts/exportar_mapa.py "caminho-do-diagnostico.gpkg"
 
 A camada de entrada padrão é `diagnostico_risco_v01`. Use `--camada` para indicar outro nome e `--ogr2ogr` para informar o caminho do executável se ele estiver fora do `PATH`. O arquivo de saída padrão é `mapa-dados.json.gz`.
 
-### Satélite do Google
+### Satélite gratuito
 
-Ative a Maps JavaScript API em um projeto do Google Cloud com faturamento habilitado. Crie uma chave de navegador restrita a essa API e à origem `https://gbrlsmp.github.io`. [Configuração de chaves do Google Maps](https://developers.google.com/maps/documentation/javascript/get-api-key?hl=pt-br)
+Ative **Mostrar satélite (Sentinel-2)** no mapa geral ou no mapa dos indicadores. A camada usa o mosaico Sentinel-2 cloudless 2025 da [EOX::Maps](https://maps.eox.at), com resolução de 10 m e dados Copernicus Sentinel modificados (2025). Não exige chave de API, cadastro ou faturamento.
 
-Preencha o atributo `content` de `<meta name="google-maps-key">` em [`mapa-riscos.html`](mapa-riscos.html). Essa chave de navegador fica visível no HTML publicado. A API só é carregada quando alguém ativa a opção de satélite.
+O serviço é gratuito para este uso acadêmico e não comercial, sob [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Os créditos permanecem visíveis no mapa. O provedor aplica limites de acesso e não garante disponibilidade; falhas de carregamento são informadas na interface. Ampliar além do zoom nativo 14 mantém a imagem, sem acrescentar detalhes. [Condições da EOX](https://cloudless.eox.at/products/viewing).
 
 ## Como contribuir
 
@@ -65,4 +66,4 @@ Cada alteração começa com uma issue e passa por uma branch de trabalho e um p
 
 ## Licença
 
-O código original do projeto é licenciado sob a [GNU General Public License, versão 3](LICENSE) (`GPL-3.0-only`). O Leaflet mantém sua [licença BSD de duas cláusulas](vendor/leaflet/LICENSE). Para reutilizar os dados geográficos, consulte os termos das respectivas fontes. As imagens de satélite seguem os [termos do Google Maps](https://www.google.com/intl/pt-BR/help/terms_maps/).
+O código original do projeto é licenciado sob a [GNU General Public License, versão 3](LICENSE) (`GPL-3.0-only`). O Leaflet mantém sua [licença BSD de duas cláusulas](vendor/leaflet/LICENSE). Para reutilizar os dados geográficos, consulte os termos das respectivas fontes. As imagens de satélite Sentinel-2 cloudless 2025 seguem a licença [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/), distinta da licença do código.

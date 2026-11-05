@@ -14,14 +14,22 @@
       "#classificacao": "diagnostico.html",
       "#saida": "diagnostico.html",
       "#camadas": "diagnostico.html",
-      "#leitura-da-rede": "identificacao.html",
+      "#matriz-de-decisao": "estrategias.html",
+      "#leitura-da-rede": "mapa.html?tema=rede",
       "#uso-solo": "identificacao.html",
       "#metricas-forma": "identificacao.html",
       "#tipologias": "identificacao.html",
-      "#regioes-administrativas": "identificacao.html",
+      "#regioes-administrativas": "mapa.html?tema=ras",
     };
     const destination = legacySections[location.hash];
-    if (destination) location.replace(destination + location.search + location.hash);
+    if (destination) {
+      const url = new URL(destination, location.href);
+      for (const [key, value] of new URLSearchParams(location.search)) {
+        if (!url.searchParams.has(key)) url.searchParams.append(key, value);
+      }
+      url.hash = location.hash;
+      location.replace(url);
+    }
   </script>
   <script defer src="subabas.js"></script>
 </head>
@@ -50,15 +58,12 @@
           <ul>
             <li><a href="#objetivo">Objetivo</a></li>
             <li><a href="#metodologia-geral">Metodologia geral</a></li>
-            <li><a href="#matriz-de-decisao">Matriz de decisão</a></li>
             <li><a href="#referencias">Referências</a></li>
           </ul>
         </li>
         <li>
           <h4>Identificação da Rede de Infraestrutura Verde</h4>
           <ul>
-            <li><a href="identificacao.html#regioes-administrativas">Bacia e regiões administrativas</a></li>
-            <li><a href="identificacao.html#leitura-da-rede">Como ler a rede</a></li>
             <li><a href="identificacao.html#uso-solo">Uso e cobertura do solo</a></li>
             <li><a href="identificacao.html#tipologias">Tipologias de AVU e de IV</a></li>
             <li><a href="identificacao.html#metricas-forma">Métricas de forma</a></li>
@@ -69,20 +74,26 @@
           <ul>
             <li><a href="diagnostico.html#riscos">Riscos socioambientais</a></li>
             <li><a href="mapa-riscos.html">Mapa dos indicadores</a></li>
-            <li><a href="riscos-por-ra.html">Riscos por RA</a></li>
+            <li><a href="mapa-riscos.html#riscos-por-ra">Riscos por RA</a></li>
             <li><a href="condicionantes.html">Condicionantes</a></li>
             <li><a href="ecologia.html">Ecologia</a></li>
           </ul>
         </li>
+        <li>
+          <h4><a href="estrategias.html">Matriz e estratégias</a></h4>
+          <ul>
+            <li><a href="estrategias.html#matriz-de-decisao">Matriz de decisão</a></li>
+            <li><a href="estrategias.html#matriz-resolucao">Matriz de resolução de problemas</a></li>
+            <li><a href="estrategias.html#estrategias-resolucao">Estratégias de resolução</a></li>
+          </ul>
+        </li>
+        <li><h4><a href="mapa.html">Mapa interativo geral</a></h4></li>
       </ol>
-      <p><a href="estrategias.html#matriz-resolucao">Matriz de resolução de problemas</a> · <a href="estrategias.html#estrategias-resolucao">Estratégias de resolução</a></p>
-      <p><a href="mapa.html">Mapa interativo geral</a></p>
     </nav>
 
     <nav class="risk-tabs" data-report-tabs aria-label="Conteúdo de O Sistema">
       <a href="#objetivo">Objetivo</a>
       <a href="#metodologia-geral">Metodologia geral</a>
-      <a href="#matriz-de-decisao">Matriz de decisão</a>
       <a href="#referencias">Referências</a>
     </nav>
 
@@ -96,18 +107,12 @@
       <p>O estudo começa pela <a href="identificacao.html">identificação da Rede de Infraestrutura Verde</a>. Em seguida, o <a href="diagnostico.html">diagnóstico</a> reúne, para cada fragmento de vegetação, informações sobre riscos socioambientais, condicionantes e ecologia.</p>
     </section>
 
-    <section id="matriz-de-decisao" class="report-section" aria-labelledby="titulo-matriz">
-      <h3 id="titulo-matriz">Matriz de decisão</h3>
-      <p>Os resultados do diagnóstico serão cruzados em uma matriz de decisão para agrupar fragmentos em situações semelhantes. A partir desses grupos, o estudo vai propor estratégias para reconectar a rede e fortalecer os serviços ecossistêmicos de regulação, contribuindo para mitigar riscos como o calor e a inundação.</p>
-      <p>A Figura 70 de Sant’Anna (2020, p. 127) orienta a passagem do diagnóstico à escolha de ações. Os critérios de agrupamento e as estratégias para o Paranoá serão definidos a partir dos resultados do estudo.</p>
-    </section>
-
     <section id="referencias" class="report-section" aria-labelledby="titulo-referencias">
       <h3 id="titulo-referencias">Referências</h3>
       <ol class="file-list">
         <li>
           <p>SANT' ANNA, Camila Gomes. <cite>A infraestrutura verde e sua contribuição para o desenho da paisagem da cidade</cite>. 2020. 303 f. Tese (Doutorado em Arquitetura e Urbanismo) — Universidade de Brasília, Brasília, 2020. <a href="https://repositorio.unb.br/handle/10482/39399">Tese no Repositório Institucional da UnB</a>.</p>
-          <p>A tese fundamenta a <a href="identificacao.html#leitura-da-rede">leitura dos elementos da rede</a> (pp. 124–127 e 134–144) e a relação entre diagnóstico e estratégias (Figura 70, p. 127, e p. 282).</p>
+          <p>A tese fundamenta a leitura dos elementos da rede (pp. 124–127 e 134–144) e a relação entre diagnóstico e estratégias (Figura 70, p. 127, e p. 282).</p>
         </li>
       </ol>
       <p class="note">As notas de pesquisa relacionam as páginas da tese ao conteúdo de O Sistema, Identificação e Diagnóstico. <a href="https://github.com/gbrlsmp/planejamento_IV_paranoa/blob/main/docs/referencias-parte-iv.md">Ver referências e decisões no GitHub</a>.</p>

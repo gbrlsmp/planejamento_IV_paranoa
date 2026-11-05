@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="google-maps-key" content="">
   <title>Mapa dos indicadores | Diagnóstico da Bacia do Paranoá</title>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="style.css?v=4">
-  <link rel="stylesheet" href="mapa-riscos.css?v=4">
+  <link rel="stylesheet" href="mapa-riscos.css?v=5">
   <script defer src="vendor/leaflet/leaflet.js"></script>
-  <script defer src="mapa-satelite.js"></script>
-  <script defer src="mapa-base.js"></script>
+  <script defer src="mapa-satelite.js?v=2"></script>
+  <script defer src="mapa-base.js?v=2"></script>
   <script defer src="mapa-camadas.js"></script>
-  <script defer src="mapa-riscos.js?v=5"></script>
+  <script defer src="mapa-riscos.js?v=6"></script>
+  <script defer src="riscos-por-ra.js?v=2"></script>
 </head>
 <body>
   <header class="masthead">
@@ -39,7 +39,6 @@
     <nav class="risk-tabs" aria-label="Vistas do diagnóstico de riscos">
       <a href="diagnostico.html#riscos">Metodologia</a>
       <a href="mapa-riscos.html" aria-current="page">Mapa dos indicadores</a>
-      <a href="riscos-por-ra.html">Por RA</a>
     </nav>
     <p>Escolha um indicador. Use <strong>Nos fragmentos</strong> para consultar o diagnóstico ou <strong>Contexto geral</strong> para ver a camada usada antes do cruzamento.</p>
     <div class="map-tools">
@@ -52,10 +51,14 @@
         <option value="fragmentos">Nos fragmentos</option>
         <option value="contexto">Contexto geral</option>
       </select>
+      <label class="map-toggle">
+        <input id="mostrar-ras" type="checkbox" checked disabled>
+        Mostrar regiões administrativas (RAs)
+      </label>
       <button id="enquadrar" type="button" disabled>Enquadrar a bacia</button>
       <label class="map-toggle">
         <input id="mostrar-satelite" type="checkbox" aria-describedby="satelite-status" disabled>
-        Mostrar satélite do Google
+        Mostrar satélite (Sentinel-2)
       </label>
     </div>
     <p id="satelite-status" role="status"></p>
@@ -66,9 +69,34 @@
         <h3 id="legend-title">Legenda</h3>
         <p id="legend-note"></p>
         <div id="legend-items"></div>
+        <section id="legenda-ras" hidden aria-label="Legenda das regiões administrativas"></section>
       </aside>
     </div>
     <noscript><p>Ative JavaScript no navegador para visualizar o mapa.</p></noscript>
+
+    <section id="riscos-por-ra" class="report-section" aria-labelledby="titulo-riscos-ra">
+      <h3 id="titulo-riscos-ra">Riscos por Região Administrativa</h3>
+      <p>A tabela resume os fragmentos no trecho de cada RA que fica dentro da bacia. Escolha um indicador para ver seus valores ou a distribuição das classes.</p>
+      <div class="map-tools">
+        <label for="indicador-ra">Indicador do resumo por RA</label>
+        <select id="indicador-ra" disabled></select>
+      </div>
+      <p id="status-ra" role="status">Carregando os resultados por RA…</p>
+      <div class="table-scroll" id="resultados-ra" role="region" aria-label="Resultados por Região Administrativa" tabindex="0" hidden>
+        <table class="indicator-table">
+          <thead id="colunas-ra"></thead>
+          <tbody id="linhas-ra"></tbody>
+        </table>
+      </div>
+      <noscript><p>Ative JavaScript para escolher um indicador e consultar a tabela.</p></noscript>
+
+      <details class="data-method">
+        <summary>Dados e método do resumo por RA</summary>
+        <p>O cruzamento usa as geometrias completas das RAs, o limite da bacia e o GeoPackage do diagnóstico de Riscos v01. A coluna de inclusão compara a RA completa com a bacia. Cada fragmento contribui com a área que ocupa dentro de cada RA.</p>
+        <p>A média é ponderada por essa área. Mínimo e máximo são valores dos fragmentos com dado válido que interceptam a RA. A cobertura informa quanto da área dos fragmentos tem dado válido, e as classes são distribuídas sobre a área classificada.</p>
+        <p><a href="https://github.com/gbrlsmp/planejamento_IV_paranoa/blob/main/scripts/LEIA_ME_RISCOS_POR_RA.md">Consultar a metodologia e o script de agregação</a>.</p>
+      </details>
+    </section>
 
     <section id="dados-do-mapa" class="report-section" aria-labelledby="titulo-dados-do-mapa">
       <h4 id="titulo-dados-do-mapa">Dados e método</h4>
@@ -95,7 +123,7 @@
               </tr>
               <tr>
                 <th scope="row">Imagem de satélite</th>
-                <td>Google Maps.</td>
+                <td>Sentinel-2 cloudless 2025, EOX; dados Copernicus Sentinel.</td>
                 <td>Exibição opcional de imagens no nível de zoom selecionado.</td>
                 <td>Oferece contexto visual para interpretar a localização dos fragmentos.</td>
               </tr>
@@ -107,8 +135,8 @@
 
     <details class="map-source">
       <summary>Termos de uso e privacidade da camada de satélite</summary>
-      <p>A camada de satélite é fornecida pelo Google Maps e seu uso está sujeito aos <a href="https://www.google.com/intl/pt-BR/help/terms_maps/">Termos do Google Maps</a> e aos <a href="https://policies.google.com/terms?hl=pt-BR">Termos de Serviço do Google</a>.</p>
-      <p>Ao ativar a camada, seu navegador se conecta ao Google e solicita imagens para a área e o nível de zoom exibidos. O Google recebe dados dessas solicitações, como o endereço IP, conforme sua <a href="https://policies.google.com/privacy?hl=pt-BR">Política de Privacidade</a>.</p>
+      <p>Imagens Sentinel-2 cloudless 2025 fornecidas por <a href="https://maps.eox.at">EOX::Maps</a>, com dados Copernicus Sentinel modificados (2025), sob <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Uso gratuito para fins não comerciais. Resolução de 10 m; ampliar além dessa resolução não acrescenta detalhes.</p>
+      <p>Ao ativar a camada, o navegador solicita imagens aos servidores da EOX para a área exibida. Consulte as <a href="https://cloudless.eox.at/products/viewing">condições de uso</a> e a <a href="https://eox.at/privacy-policy/">política de privacidade</a>.</p>
     </details>
     <p class="next-step"><a href="condicionantes.html">Consultar os condicionantes →</a></p>
   </main>

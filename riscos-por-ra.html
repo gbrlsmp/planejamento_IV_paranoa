@@ -3,58 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="0; url=mapa-riscos.html#riscos-por-ra">
   <title>Riscos por RA | Bacia do Paranoá</title>
-  <link rel="stylesheet" href="style.css?v=4">
-  <link rel="stylesheet" href="mapa-riscos.css?v=3">
-  <script defer src="riscos-por-ra.js"></script>
+  <script>location.replace("mapa-riscos.html" + location.search + "#riscos-por-ra");</script>
 </head>
-<body>
-  <header class="masthead">
-    <div class="container">
-      <p class="eyebrow">Relatório metodológico</p>
-      <h1><a href="index.html#sumario" aria-label="Bacia do Paranoá, sumário do relatório">Bacia do Paranoá</a></h1>
-      <nav class="main-tabs" aria-label="Blocos do relatório">
-        <a href="index.html">O Sistema</a>
-        <a href="identificacao.html">Identificação da Rede de Infraestrutura Verde</a>
-        <a href="diagnostico.html" aria-current="location">Diagnóstico</a>
-        <a href="estrategias.html">Matriz e estratégias</a>
-        <a href="mapa.html">Mapa interativo</a>
-      </nav>
-    </div>
-  </header>
-  <main class="container map-container">
-    <h2>Diagnóstico</h2>
-    <nav class="risk-tabs" aria-label="Tópicos do diagnóstico">
-      <a href="diagnostico.html#riscos" aria-current="location">Riscos socioambientais</a>
-      <a href="condicionantes.html">Condicionantes</a>
-      <a href="ecologia.html">Ecologia</a>
-    </nav>
-    <h3>Riscos por Região Administrativa</h3>
-    <nav class="risk-tabs" aria-label="Vistas do diagnóstico de riscos">
-      <a href="diagnostico.html#riscos">Metodologia</a>
-      <a href="mapa-riscos.html">Mapa dos indicadores</a>
-      <a href="riscos-por-ra.html" aria-current="page">Por RA</a>
-    </nav>
-    <p>A tabela resume os fragmentos no trecho de cada RA que fica dentro da bacia. Escolha um indicador para ver seus valores ou a distribuição das classes.</p>
-    <div class="map-tools">
-      <label for="indicador-ra">Indicador</label>
-      <select id="indicador-ra" disabled></select>
-    </div>
-    <p id="status-ra" role="status">Carregando os resultados por RA…</p>
-    <div class="table-scroll" id="resultados-ra" role="region" aria-label="Resultados por Região Administrativa" tabindex="0" hidden>
-      <table class="indicator-table">
-        <thead id="colunas-ra"></thead>
-        <tbody id="linhas-ra"></tbody>
-      </table>
-    </div>
-    <noscript><p>Ative JavaScript para escolher um indicador e consultar a tabela.</p></noscript>
-
-    <section class="report-section" aria-labelledby="metodo-ra">
-      <h3 id="metodo-ra">Dados e método</h3>
-      <p>O cruzamento usa as geometrias completas das RAs, o limite da bacia e o GeoPackage do diagnóstico de Riscos v01. A coluna de inclusão compara a RA completa com a bacia. Cada fragmento contribui com a área que ocupa dentro de cada RA.</p>
-      <p>A média é ponderada por essa área. Mínimo e máximo são valores dos fragmentos com dado válido que interceptam a RA. A cobertura informa quanto da área dos fragmentos tem dado válido, e as classes são distribuídas sobre a área classificada.</p>
-      <p><a href="https://github.com/gbrlsmp/planejamento_IV_paranoa/blob/main/scripts/LEIA_ME_RISCOS_POR_RA.md">Consultar a metodologia e o script de agregação</a>.</p>
-    </section>
-  </main>
-</body>
+<body><p><a href="mapa-riscos.html#riscos-por-ra">Consultar os riscos por RA na página do mapa dos indicadores</a>.</p></body>
 </html>

@@ -4,13 +4,13 @@ const reportMapThemes = {
   "condicionantes": ["condicionantes.html", "condicionantes", "Mapa dos indicadores de Condicionantes", ["momentos", "pre"]],
   "ecologia": ["ecologia.html", "ecologia", "Mapa dos indicadores de Ecologia", []],
   "ras": [
-    "identificacao.html",
-    "regioes-administrativas",
+    "mapa.html?tema=ras",
+    "",
     "Bacia e regiões administrativas"
   ],
   "rede": [
-    "identificacao.html",
-    "leitura-da-rede",
+    "mapa.html?tema=rede",
+    "",
     "Leitura da rede"
   ],
   "uso": [
@@ -82,7 +82,7 @@ function configureThemeView() {
   const mapLink = document.getElementById("mapa-do-tema");
   mapLink.href = "mapa.html?tema=" + id;
   if (theme.length > 3) mapLink.textContent = "Mapa dos indicadores";
-  document.getElementById("vistas-do-tema").hidden = false;
+  document.getElementById("vistas-do-tema").hidden = ["ras", "rede"].includes(id);
   document.getElementById("indicadores-do-atlas").hidden = true;
   document.getElementById("fonte-riscos-atlas").hidden = true;
   return view;

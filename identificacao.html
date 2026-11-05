@@ -9,6 +9,10 @@
   <link rel="stylesheet" href="style.css?v=4">
 
 
+  <script>
+    const removedTopics = { "#regioes-administrativas": "ras", "#leitura-da-rede": "rede" };
+    if (removedTopics[location.hash]) location.replace("mapa.html?tema=" + removedTopics[location.hash]);
+  </script>
   <script defer src="subabas.js"></script>
 
 </head>
@@ -31,97 +35,10 @@
     <p class="intro">Identificar como a infraestrutura verde se estrutura na Bacia do Paranoá e qual é a organização fundiária das áreas que compõem a rede.</p>
 
     <nav class="risk-tabs" data-report-tabs aria-label="Conteúdo da identificação">
-      <a href="#regioes-administrativas">Mapa da bacia e RAs</a>
-      <a href="#leitura-da-rede">Como ler a rede</a>
       <a href="#uso-solo">Uso do solo</a>
       <a href="#tipologias">Tipologias de AVU e de IV</a>
       <a href="#metricas-forma">Métricas de forma</a>
     </nav>
-
-    <section id="regioes-administrativas" class="report-section" aria-labelledby="titulo-regioes">
-      <h3 id="titulo-regioes">Mapa da bacia e regiões administrativas</h3>
-      <nav class="risk-tabs" aria-label="Vistas de Bacia e regiões administrativas">
-        <a href="identificacao.html#regioes-administrativas" aria-current="page">Metodologia</a>
-        <a href="mapa.html?tema=ras">Mapa</a>
-      </nav>
-      <p>A base inclui 30 regiões administrativas no recorte da bacia. Os números no mapa correspondem aos códigos da lista.</p>
-      <details>
-        <summary>Ver nomes e códigos das RAs</summary>
-        <ul class="region-list">
-          <li>1 · Plano Piloto</li>
-          <li>2 · Gama</li>
-          <li>3 · Taguatinga</li>
-          <li>4 · Brazlândia</li>
-          <li>5 · Sobradinho</li>
-          <li>7 · Paranoá</li>
-          <li>8 · Núcleo Bandeirante</li>
-          <li>10 · Guará</li>
-          <li>11 · Cruzeiro</li>
-          <li>12 · Samambaia</li>
-          <li>13 · Santa Maria</li>
-          <li>15 · Recanto das Emas</li>
-          <li>16 · Lago Sul</li>
-          <li>17 · Riacho Fundo</li>
-          <li>18 · Lago Norte</li>
-          <li>19 · Candangolândia</li>
-          <li>20 · Águas Claras</li>
-          <li>21 · Riacho Fundo II</li>
-          <li>22 · Sudoeste/Octogonal</li>
-          <li>23 · Varjão</li>
-          <li>24 · Park Way</li>
-          <li>25 · SCIA</li>
-          <li>26 · Sobradinho II</li>
-          <li>27 · Jardim Botânico</li>
-          <li>28 · Itapoã</li>
-          <li>29 · SIA</li>
-          <li>30 · Vicente Pires</li>
-          <li>33 · Arniqueira</li>
-          <li>36 · 26 de Setembro</li>
-          <li>37 · Ponte Alta</li>
-        </ul>
-      </details>
-      <details class="data-method">
-        <summary>Dados e método</summary>
-        <div class="table-scroll" role="region" aria-label="Dados do mapa da bacia" tabindex="0">
-          <table class="indicator-table data-table">
-            <thead>
-              <tr><th scope="col">Dado utilizado</th><th scope="col">Fonte</th><th scope="col">Tratamento aplicado</th><th scope="col">O que analisa</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Limite da bacia</th>
-                <td>IPE-DF (2023).</td>
-                <td>Exportação em WGS 84 para a base interativa.</td>
-                <td>Delimita o recorte do estudo.</td>
-              </tr>
-              <tr>
-                <th scope="row">Massas d’água</th>
-                <td>IPE-DF (2023).</td>
-                <td>Exportação em WGS 84 para a base interativa.</td>
-                <td>Localiza as superfícies de água no recorte.</td>
-              </tr>
-              <tr>
-                <th scope="row">Regiões administrativas (RAs)</th>
-                <td>IPE-DF (2023).</td>
-                <td>Recorte à bacia e exportação em WGS 84.</td>
-                <td>Situa os fragmentos e demais elementos da rede em relação aos limites administrativos.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </details>
-    </section>
-
-    <section id="leitura-da-rede" class="report-section" aria-labelledby="titulo-leitura">
-      <h3 id="titulo-leitura">Como ler a rede</h3>
-      <nav class="risk-tabs" aria-label="Vistas de Leitura da rede">
-        <a href="identificacao.html#leitura-da-rede" aria-current="page">Metodologia</a>
-        <a href="mapa.html?tema=rede">Mapa</a>
-      </nav>
-      <p>A leitura proposta por Sant’Anna (2020, pp. 124–127 e 134–144) articula núcleos, conexões e lugares. O papel de cada elemento depende da escala e de como ele se relaciona com os demais.</p>
-      <p>No estudo do Paranoá, unidades de conservação e parques urbanos são classificados como <strong>âncoras</strong> da infraestrutura verde. Esse critério ajuda a identificar áreas que estruturam a rede.</p>
-      <p><a href="index.html#referencias">Consultar a referência completa</a></p>
-    </section>
 
     <section id="uso-solo" class="report-section" aria-labelledby="titulo-uso-solo">
       <h3 id="titulo-uso-solo">Uso e cobertura do solo</h3>
@@ -180,7 +97,7 @@
       <p>Esta seção reúne os tipos de áreas verdes urbanas (AVU) e de infraestrutura verde (IV). A classificação consolidada está pendente de inclusão.</p>
       <details class="data-method">
         <summary>Dados e método</summary>
-        <p>As camadas e o tratamento da classificação serão documentados junto com os resultados. O critério das âncoras está descrito em <a href="#leitura-da-rede">Como ler a rede</a>.</p>
+        <p>As camadas e o tratamento da classificação serão documentados junto com os resultados. Unidades de conservação e parques urbanos são classificados como âncoras da infraestrutura verde, conforme Sant’Anna (2020, pp. 124–127 e 134–144).</p>
       </details>
     </section>
 
