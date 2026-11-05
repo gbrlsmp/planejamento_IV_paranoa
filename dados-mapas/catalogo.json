@@ -1,0 +1,161 @@
+{
+  "uso": {
+    "title": "Uso e cobertura do solo",
+    "classes": [
+      [
+        3,
+        "Formação florestal",
+        "#1f7047"
+      ],
+      [
+        4,
+        "Formação savânica",
+        "#70a953"
+      ],
+      [
+        11,
+        "Campo alagado e área pantanosa",
+        "#58c3bb"
+      ],
+      [
+        12,
+        "Formação campestre",
+        "#add97e"
+      ],
+      [
+        9,
+        "Silvicultura",
+        "#785c9b"
+      ],
+      [
+        15,
+        "Pastagem",
+        "#e1c480"
+      ],
+      [
+        19,
+        "Lavoura temporária",
+        "#dd9976"
+      ],
+      [
+        21,
+        "Mosaico de usos",
+        "#eedc97"
+      ],
+      [
+        36,
+        "Lavoura perene",
+        "#a976a8"
+      ],
+      [
+        24,
+        "Área urbanizada",
+        "#b64a3d"
+      ],
+      [
+        25,
+        "Outras áreas não vegetadas",
+        "#a68d7f"
+      ],
+      [
+        33,
+        "Rio, lago e oceano",
+        "#5c99b1"
+      ]
+    ],
+    "bounds": [
+      -5355581.927014676,
+      -1803315.3046882006,
+      -5309831.927014676,
+      -1755265.3046882006
+    ]
+  },
+  "metricas": {
+    "title": "Área dos fragmentos",
+    "classes": [
+      [
+        1,
+        "Até 1 ha",
+        "#dcecc1"
+      ],
+      [
+        2,
+        "Acima de 1 até 10 ha",
+        "#9acb88"
+      ],
+      [
+        3,
+        "Acima de 10 até 100 ha",
+        "#519658"
+      ],
+      [
+        4,
+        "Acima de 100 ha",
+        "#215f45"
+      ]
+    ],
+    "bounds": [
+      -5355561.280436723,
+      -1803265.3938695707,
+      -5310011.280436723,
+      -1755265.3938695707
+    ]
+  },
+  "momentos": {
+    "title": "Momentos da água",
+    "classes": [
+      [
+        1,
+        "Fonte",
+        "#60944a"
+      ],
+      [
+        2,
+        "Condução",
+        "#c68b42"
+      ],
+      [
+        3,
+        "Acomodação",
+        "#426fbc"
+      ]
+    ],
+    "bounds": [
+      -5355588.476216868,
+      -1803306.6532468817,
+      -5309838.476216868,
+      -1755256.6532468817
+    ]
+  },
+  "pre": {
+    "title": "Potencial de recuperação ecológica",
+    "classes": [
+      [
+        1,
+        "Baixo",
+        "#cf866b"
+      ],
+      [
+        2,
+        "Médio",
+        "#dfc877"
+      ],
+      [
+        3,
+        "Alto",
+        "#86b66f"
+      ],
+      [
+        4,
+        "Muito alto",
+        "#387957"
+      ]
+    ],
+    "bounds": [
+      -5355586.372087586,
+      -1803313.4452431868,
+      -5309836.372087586,
+      -1755263.4452431868
+    ]
+  }
+}

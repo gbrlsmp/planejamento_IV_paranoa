@@ -106,7 +106,7 @@ function showLegend() {
   legendItems.replaceChildren();
   if (!active) {
     legendTitle.textContent = "Base cartográfica";
-    legendNote.textContent = "Selecione um indicador para colorir os fragmentos.";
+    legendNote.textContent = document.getElementById("camadas-tematicas") ? "" : "Selecione um indicador para colorir os fragmentos.";
     appendLegendItems([["Limite da bacia", basinColor, true], ["Massa d’água", waterColor]]);
     return;
   }
@@ -162,17 +162,29 @@ async function initializeMap() {
   }
   map.setView([-15.8, -47.85], 11);
   L.control.scale({ imperial: false }).addTo(map);
-  const [base, diagnosis] = await Promise.all([
-    loadData("mapa-base.json.gz"),
-    loadData("mapa-dados.json.gz"),
-  ]);
-  const basinBounds = addMapBase(map, base);
+  const isAtlas = document.getElementById("camadas-tematicas") !== null;
+  const view = isAtlas ? configureThemeView() : null;
+  const base = await loadData("mapa-base.json.gz");
+  const regions = isAtlas ? document.getElementById("mostrar-ras") : null;
+  if (regions) regions.checked = view.id === "ras";
+  const basinBounds = addMapBase(map, base, regions);
   const fitBasin = () => map.fitBounds(basinBounds, { padding: [18, 18], animate: false });
   fitBasin();
   fit.addEventListener("click", fitBasin);
   fit.disabled = false;
   addGoogleSatellite(map);
-  data = diagnosis;
+  if (view) {
+    addThemeLayers(map, view).catch(error => {
+      console.error(error);
+      document.getElementById("contexto-atlas").textContent = "As camadas temáticas não puderam ser carregadas.";
+    });
+    mapStatus.textContent = "Base cartográfica carregada.";
+    if (view.id) {
+      showLegend();
+      return;
+    }
+  }
+  data = await loadData("mapa-dados.json.gz");
   if (data.encoding !== "polyline-xy-5" || !Array.isArray(data.fields) || !Array.isArray(data.rows) || !data.rows.length) {
     throw new Error("Dados do mapa inválidos");
   }
@@ -190,6 +202,7 @@ async function initializeMap() {
   fragmentPane.hidden = !active;
   const fragments = L.geoJSON(null, {
     renderer: L.canvas({ pane: "fragmentos", padding: 0.1 }),
+    bubblingMouseEvents: !isAtlas,
     style,
   }).addTo(map);
   fragments.on("click", event => {
