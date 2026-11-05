@@ -20,7 +20,6 @@ O mapa abre com o limite da bacia e as massas d’água. Selecione um indicador 
 | [`mapa-base.json.gz`](mapa-base.json.gz) | Limite da bacia, massas d’água e regiões administrativas a partir da base do IPE-DF (2023), em WGS 84. |
 | [`mapa-dados.json.gz`](mapa-dados.json.gz) | Geometrias e indicadores dos fragmentos da rodada v01, preparados para visualização. |
 | [`scripts/01_Diagnostico_RISCOS.py`](scripts/01_Diagnostico_RISCOS.py) | Cálculo dos indicadores de riscos por fragmento em PyQGIS. |
-| [`scripts/condicionantes/`](scripts/condicionantes/) | Código de Momentos da Água e do resumo de Potencial de Recuperação Ecológica. |
 | [`scripts/exportar_mapa.py`](scripts/exportar_mapa.py) | Exportador que prepara a camada final do diagnóstico para o navegador. |
 
 ## Como rodar localmente
@@ -35,14 +34,9 @@ python -m http.server 8000
 
 Abra o [mapa local](http://localhost:8000/mapa-riscos.html). Os arquivos de dados publicados já permitem explorar o mapa. O GitHub Pages publica os arquivos estáticos na raiz da branch `main`.
 
-## Como reproduzir as análises
+## Como atualizar os indicadores
 
-- **Riscos socioambientais**. [Executar o diagnóstico por fragmento no QGIS](scripts/LEIA_ME_RISCOS.md).
-- **Condicionantes**. [Executar Momentos da Água e resumir o Potencial de Recuperação Ecológica](scripts/condicionantes/LEIA_ME_MOMENTOS_AGUA.md).
-
-Os guias registram as entradas e os parâmetros. As camadas de origem são necessárias para uma nova execução.
-
-## Como atualizar os indicadores no mapa
+Para calcular o diagnóstico por fragmento no QGIS, consulte o [guia de execução do script de Riscos](scripts/LEIA_ME_RISCOS.md).
 
 O exportador parte do GeoPackage final do diagnóstico e requer Python 3 e o `ogr2ogr` do GDAL, disponível no QGIS. Ele mantém os atributos usados pelo mapa, simplifica as geometrias em três unidades do sistema de coordenadas de entrada e as reprojeta para WGS 84.
 
