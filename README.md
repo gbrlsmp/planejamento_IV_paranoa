@@ -8,6 +8,8 @@ Relatório metodológico da Bacia do Paranoá, no Distrito Federal. O projeto bu
 
 As páginas de Riscos e Condicionantes apresentam **Produção das camadas** (resumo, sequência de etapas e procedimento expansível) e **Aplicação no diagnóstico** (cruzamento com os fragmentos e classificação). [Parâmetros, fontes e limites documentados](docs/metodologia-camadas.md).
 
+Na explicação de Temperatura do ar e Mitigação térmica (HM), compare **dia, noite e média** e explore cada cenário com zoom. Alterne entre **Degradê contínuo**, em escala comum aos três cenários, e **Cinco classes**, com cortes próprios de cada raster e porcentagens de área na legenda. [Critérios, valores e reprodução dos mapas climáticos](docs/cenarios-climaticos.md).
+
 ## Como usar o mapa
 
 Nos indicadores de Riscos, use **Visualização** para alternar entre os resultados por fragmento e o contexto da camada de entrada.

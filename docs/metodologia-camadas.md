@@ -21,9 +21,9 @@ Entradas identificadas: uso_cobertura_final_v01.tif, tab_biofisica_InVEST_v5.csv
 
 Para reproduzir a modelagem, reunir as entradas originais, a tabela biofísica e os parâmetros acima. Consultar o [manual oficial do InVEST Urban Cooling](https://storage.googleapis.com/releases.naturalcapitalproject.org/invest-userguide/latest/en/urban_cooling_model.html). Os campos de pesos de factors constam sem valores explícitos nos argumentos; não se atribuem aqui pesos locais não registrados.
 
-O [script de riscos](../scripts/01_Diagnostico_RISCOS.py) recebe as saídas prontas: temperatura é consultada no interior do fragmento; HM, em faixa externa de 5 m. A camada média é uma entrada previamente preparada. A expressão usada para gerá-la precisa ser confirmada; não foi inferida a partir do nome do arquivo.
+O [script de riscos](../scripts/01_Diagnostico_RISCOS.py) recebe as saídas prontas: temperatura é consultada no interior do fragmento; HM, em faixa externa de 5 m. As camadas médias de temperatura e HM correspondem a `(dia + noite) / 2`, célula a célula. Essa expressão foi conferida nas seis camadas originais, com diferenças residuais compatíveis com ponto flutuante. Não é uma média observada de 24 horas. Os [comparativos e mapas de cenários](cenarios-climaticos.md) distinguem a escala contínua comum das cinco classes de cada raster.
 
-A entrada Zona_ICU.shp é independente desses cálculos por fragmento. O diagnóstico registra interseção com área positiva. Sua fonte térmica, período e limiar de delimitação ainda precisam de memória de produção.
+A entrada Zona_ICU.shp é um subproduto da temperatura média do ar do InVEST, conforme origem esclarecida pela autora. O critério do estudo reúne as três classes mais quentes da temperatura média (média, ruim e muito ruim). O diagnóstico recebe o polígono pronto e registra interseção com área positiva. Sua atualização com os novos cortes integrais, e o recálculo das interseções, permanecem uma etapa posterior aos mapas exploratórios desta entrega.
 
 ## Água
 
@@ -61,4 +61,4 @@ A aplicação atual recebe PRE_Bacia_Paranoa_MERGE_IPE_DF_2023.shp da SEDUH-DF, 
 
 ## Escopo desta documentação
 
-A organização editorial não altera camadas, valores, scripts de cálculo nem critérios de classificação. Para reproduzir a produção, ainda é necessário reunir os geradores, as entradas e os registros originais da pesquisa. Para reproduzir o cruzamento com os fragmentos, seguir os guias de Riscos e Condicionantes do repositório.
+Os comparativos e as imagens de visualização acrescentam uma exploração das camadas climáticas de entrada, sem alterar rasters originais, scripts de diagnóstico ou os resultados publicados por fragmento. Para reproduzir a produção, ainda é necessário reunir os geradores, as entradas e os registros originais da pesquisa. Para reproduzir o cruzamento com os fragmentos, seguir os guias de Riscos e Condicionantes do repositório.
