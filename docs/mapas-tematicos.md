@@ -21,6 +21,6 @@ python scripts/exportar_camadas_tematicas.py momentos "caminho/momento_dominante
 
 Copie para `bounds` no catálogo os limites projetados que o comando imprime, na ordem oeste, sul, leste e norte. Use os mesmos nomes de tema para o PNG e para a entrada no catálogo.
 
-## Resultados por bairro
+## Riscos por Região Administrativa
 
-A síntese de Riscos por bairro depende de uma malha poligonal com nomes de bairro. Na camada de setores do Censo 2022 usada no diagnóstico, os 2.191 setores do recorte estão sem código e nome de bairro. O recorte territorial e a agregação estão em discussão na [issue #18](https://github.com/gbrlsmp/planejamento_IV_paranoa/issues/18).
+A [vista Por RA](../riscos-por-ra.html) resume todos os indicadores de Riscos por Região Administrativa. A tabela usa o recorte da RA pela bacia e informa se a RA completa está dentro dela. [Método de agregação e fontes](../scripts/LEIA_ME_RISCOS_POR_RA.md).
