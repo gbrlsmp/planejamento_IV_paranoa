@@ -4,6 +4,10 @@ Relatório metodológico da Bacia do Paranoá, no Distrito Federal. O projeto bu
 
 [Ler o relatório](https://gbrlsmp.github.io/planejamento_IV_paranoa/) · [Abrir o mapa interativo](https://gbrlsmp.github.io/planejamento_IV_paranoa/mapa-riscos.html)
 
+## Como consultar a metodologia
+
+As páginas de Riscos e Condicionantes apresentam **Produção das camadas** (resumo, sequência de etapas e procedimento expansível) e **Aplicação no diagnóstico** (cruzamento com os fragmentos e classificação). [Parâmetros, fontes e limites documentados](docs/metodologia-camadas.md).
+
 ## Como usar o mapa
 
 Nos indicadores de Riscos, use **Visualização** para alternar entre os resultados por fragmento e o contexto da camada de entrada.

@@ -173,3 +173,24 @@ footer { border-top: 1px solid var(--line); padding-block: 1rem 1.5rem; font-siz
 
 .report-section article + article { margin-top: 1.3rem; }
 .report-section article h5 { margin: 0.8rem 0 0.4rem; font-size: 1rem; }
+
+/* Methodology: summaries first, reproducible procedures on demand. */
+.method-stage { margin-top: 2rem; }
+.method-stage > h4 { font-size: 1.3rem; }
+.method-stage-nav { gap: 0.6rem; }
+.method-stage-nav a { padding: 0.5rem 0.85rem; border: 1px solid var(--line); border-radius: 0.35rem; background: var(--surface); }
+.method-card { scroll-margin-top: 1rem; margin-top: 1.25rem; padding: 1.15rem; border: 1px solid var(--line); border-radius: 0.5rem; background: var(--surface); }
+.method-stage .method-card > h5 { margin: 0 0 0.7rem; font-size: 1.15rem; }
+.method-flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.5rem; padding: 0; margin: 1rem 0; list-style: none; counter-reset: method-step; }
+.method-flow li { padding: 0.7rem; background: #edf1e7; border-radius: 0.3rem; font-size: 0.9rem; }
+.method-flow li::before { counter-increment: method-step; content: counter(method-step) ". "; color: var(--accent); font-weight: 750; }
+.method-reading { color: var(--muted); }
+.method-details { padding-top: 0.75rem; border-top: 1px solid var(--line); }
+.method-details summary { padding-block: 0.25rem; }
+.method-detail-body { margin-top: 1rem; }
+.method-detail-body h6 { margin: 1rem 0 0.45rem; font-size: 1rem; }
+.method-detail-body li + li { margin-top: 0.35rem; }
+.method-stage > .report-section > h5 { font-size: 1.1rem; margin: 0 0 0.7rem; }
+.method-card:target { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 40rem) { .method-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 24rem) { .method-flow { grid-template-columns: 1fr; } .method-card { padding: 0.85rem; } }

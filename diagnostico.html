@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Metodologia do diagnóstico de riscos por fragmento na Bacia do Paranoá.">
   <title>Riscos socioambientais | Bacia do Paranoá</title>
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
   <header class="masthead">
@@ -36,6 +36,51 @@
         <a href="mapa-riscos.html">Mapa dos indicadores</a>
       </nav>
       <p>O diagnóstico reúne, para cada fragmento de vegetação da Bacia do Paranoá, indicadores de calor, umidade, inundação e ocupação por edificações. A renda ajuda a situar cada fragmento no contexto socioeconômico.</p>
+    <nav class="section-nav method-stage-nav" aria-label="Etapas da metodologia">
+      <a href="#producao-camadas">1. Produção das camadas</a>
+      <a href="#aplicacao-diagnostico">2. Aplicação no diagnóstico</a>
+    </nav>
+
+    <section id="producao-camadas" class="report-section method-stage" aria-labelledby="titulo-producao-camadas">
+<h4 id="titulo-producao-camadas">1. Produção das camadas</h4>
+<p>Conheça a origem dos indicadores e o caminho dos dados até os mapas. Os resumos apresentam a leitura principal; abra o procedimento para consultar entradas, parâmetros, referências e limites.</p>
+<article id="producao-ilhas-calor" class="method-card" aria-labelledby="titulo-producao-ilhas-calor">
+<h5 id="titulo-producao-ilhas-calor">Ilhas de calor urbano</h5>
+<p>Identifica se o fragmento intercepta uma zona de ilha de calor delimitada para o estudo. A delimitação das zonas e a estimativa de temperatura do ar são produtos com funções diferentes.</p>
+<ol class="method-flow" aria-label="Etapas do processo"><li>Delimitar as zonas de calor</li><li>Preparar os polígonos</li><li>Cruzar com os fragmentos</li><li>Registrar presença ou ausência</li></ol>
+<p><strong>No Paranoá:</strong> o diagnóstico recebe a camada de zonas já pronta e verifica se há sobreposição com área positiva.</p>
+<p class="method-reading"><strong>Como interpretar:</strong> “Sim” indica presença na zona adotada; não informa, sozinho, a intensidade do calor nem a temperatura do fragmento.</p>
+<details class="method-details"><summary>Ver procedimento completo: Ilhas de calor urbano</summary><div class="method-detail-body"><h6>Dados e procedimento registrado</h6><p>A entrada é <code>Zona_ICU.shp</code>. O script verifica a interseção geométrica e registra <code>icu</code> como sim ou não. A regra adotada considera qualquer interseção com área positiva.</p><h6>Documentação a completar</h6><p>Os registros consultados não identificam o dado térmico, o período, a referência espacial ou o limiar usados para delimitar essas zonas. Essa etapa precisa ser conferida com a memória de produção da camada. Não se atribui automaticamente a delimitação ao InVEST.</p><p><a href="#indicadores">Consultar o critério de cruzamento</a> · <a href="scripts/LEIA_ME_RISCOS.md">Guia do diagnóstico</a></p></div></details>
+</article>
+<article id="producao-temperatura" class="method-card" aria-labelledby="titulo-producao-temperatura">
+<h5 id="titulo-producao-temperatura">Temperatura do ar</h5>
+<p>O modelo InVEST Urban Cooling estima a temperatura do ar considerando a cobertura do solo e sua capacidade de resfriamento. O resultado é uma estimativa espacial para o cenário configurado.</p>
+<ol class="method-flow" aria-label="Etapas do processo"><li>Preparar cobertura e clima</li><li>Estimar capacidade de resfriamento</li><li>Calcular temperatura do ar</li><li>Resumir por fragmento</li></ol>
+<p><strong>No Paranoá:</strong> a rodada v6 usa o método factors como cenário de dia e intensity como cenário de noite; o diagnóstico também recebe uma camada média previamente preparada.</p>
+<p class="method-reading"><strong>Como interpretar:</strong> Valores são estimativas modeladas, distintas da temperatura de superfície de uma imagem e de medições pontuais de estação.</p>
+<details class="method-details"><summary>Ver procedimento completo: Temperatura do ar</summary><div class="method-detail-body"><h6>Dados necessários</h6><p>Uso e cobertura do solo, tabela biofísica por classe, evapotranspiração de referência, limite da área e parâmetros térmicos. A rodada utiliza a cobertura final e a ETo de agosto–setembro de 2025, ambas em grade de 3 m, conforme nomes e metadados dos arquivos.</p><h6>Procedimento</h6><p>No método factors, sombra, albedo e evapotranspiração participam da capacidade de resfriamento. No intensity, o modelo usa a intensidade construtiva da tabela biofísica. A estimativa térmica incorpora a mitigação e a mistura espacial do ar. <a href="https://storage.googleapis.com/releases.naturalcapitalproject.org/invest-userguide/latest/en/urban_cooling_model.html">Manual do InVEST Urban Cooling</a>.</p><h6>Configuração registrada no Paranoá</h6><p>InVEST 3.20.2; temperatura de referência de 22,09 °C; magnitude máxima de ilha de calor de 10,71 °C; distância de resfriamento de 450 m; raio de mistura do ar de 500 m. Esses valores constam nos metadados das saídas v6 e não são valores universais.</p><h6>Aplicação e limites</h6><p>O diagnóstico calcula a média de cada raster no interior do fragmento e distribui os resultados em cinco faixas relativas ao conjunto analisado. Os rótulos das classes não representam limites de conforto térmico. A associação dia/noite é uma escolha do estudo. O script de diagnóstico não recalcula a camada média; sua expressão algébrica deve ser confirmada na memória de produção.</p><p><a href="docs/metodologia-camadas.md#clima">Consultar parâmetros e registros da rodada</a> · <a href="#indicadores">Consultar classificação</a></p></div></details>
+</article>
+<article id="producao-mitigacao" class="method-card" aria-labelledby="titulo-producao-mitigacao">
+<h5 id="titulo-producao-mitigacao">Mitigação térmica do entorno</h5>
+<p>O índice HM expressa a mitigação térmica estimada pelo InVEST. No diagnóstico, ele é consultado na faixa externa que acompanha cada fragmento.</p>
+<ol class="method-flow" aria-label="Etapas do processo"><li>Usar as entradas climáticas</li><li>Gerar o índice HM</li><li>Delimitar a faixa externa</li><li>Calcular HM no entorno</li></ol>
+<p><strong>No Paranoá:</strong> são usadas as saídas HM de dia, noite e média. A faixa de análise tem 5 m e exclui o interior do fragmento.</p>
+<p class="method-reading"><strong>Como interpretar:</strong> Valores mais próximos de um indicam maior mitigação estimada. A faixa de 5 m é a área de consulta do diagnóstico; a distância de resfriamento configurada no modelo é 450 m.</p>
+<details class="method-details"><summary>Ver procedimento completo: Mitigação térmica do entorno</summary><div class="method-detail-body"><h6>Produção da camada</h6><p>O HM deriva da capacidade de resfriamento e do efeito de áreas verdes na vizinhança. É uma saída do mesmo processamento usado para estimar a temperatura do ar. <a href="https://storage.googleapis.com/releases.naturalcapitalproject.org/invest-userguide/latest/en/urban_cooling_model.html">Manual do InVEST Urban Cooling</a>.</p><h6>Procedimento por fragmento</h6><ol><li>Usar os rasters HM da rodada v6.</li><li>Criar um buffer externo de 5 m e subtrair o polígono original.</li><li>Calcular a média das células válidas nessa faixa para cada cenário.</li><li>Registrar os índices sem converter HM em temperatura ou em porcentagem de redução de calor.</li></ol><h6>Limites e reprodução</h6><p>O indicador descreve a condição modelada no entorno. Ele não mede isoladamente quanto resfriamento foi causado pelo fragmento. Os parâmetros da modelagem são compartilhados com <a href="#producao-temperatura">Temperatura do ar</a>; a largura da faixa é definida em <code>DISTANCIA_ENTORNO_M</code> no <a href="scripts/01_Diagnostico_RISCOS.py">script de riscos</a>.</p></div></details>
+</article>
+<article id="producao-inundacao" class="method-card" aria-labelledby="titulo-producao-inundacao">
+<h5 id="titulo-producao-inundacao">Inundação</h5>
+<p>A profundidade de inundação é produzida na modelagem hidrológica usada no fluxo de Momentos da Água. O diagnóstico de riscos consulta o cenário de chuva com tempo de retorno de cinco anos.</p>
+<ol class="method-flow" aria-label="Etapas do processo"><li>Preparar terreno e drenagem</li><li>Simular chuva e escoamento</li><li>Estimar nível e profundidade</li><li>Resumir por fragmento</li></ol>
+<p><strong>No Paranoá:</strong> é usado o raster hidrológico TR5. O sistema registra a profundidade média e máxima em cada fragmento e classifica pelo máximo.</p>
+<p class="method-reading"><strong>Como interpretar:</strong> O mapa é uma estimativa exploratória. TR5 se refere à chuva de projeto; não significa que a cheia ocorrerá exatamente a cada cinco anos.</p>
+<details class="method-details"><summary>Ver procedimento completo: Inundação</summary><div class="method-detail-body"><h6>Entradas e etapas</h6><p>A modelagem usa terreno, drenagem derivada, uso do solo, grupos hidrológicos de solo, parâmetros de escoamento e chuvas de projeto. Na implementação consultada, a chuva gera excesso pelo método SCS-CN; hidrogramas são propagados pela rede, e curvas de vazão e nível associadas ao HAND permitem estimar profundidades.</p><h6>Configuração do Paranoá</h6><p>O registro da execução 1.1.1 informa grade hidrológica de 20 m, durações de chuva de 60, 180, 360, 720 e 1.440 minutos e passo de cinco minutos. Para cada trecho, é retido o maior pico entre durações. O diagnóstico usa <code>inundacao_profundidade_TR5_hidro.tif</code>, sem substituir esse produto pela versão de visualização.</p><h6>Relação com Momentos da Água</h6><p>O fluxo produz cenários de inundação e utiliza informação hidrológica na avaliação dos momentos. A profundidade não é calculada a partir dos rótulos finais fonte, condução e acomodação. <a href="condicionantes.html#producao-momentos">Ver o processo de Momentos da Água</a>.</p><h6>Limites</h6><p>A execução não foi calibrada com vazões ou observações independentes de inundação. Não simula a operação do Lago Paranoá, pontes, bueiros, batimetria e remanso. Zonas sem estimativa válida devem permanecer sem dados. A envoltória de máximos por trecho não descreve uma única cheia simultânea.</p><p><a href="docs/metodologia-camadas.md#agua">Consultar parâmetros e registros hidrológicos</a> · <a href="#indicadores">Consultar classificação por fragmento</a></p></div></details>
+</article>
+</section>
+
+    <section id="aplicacao-diagnostico" class="report-section method-stage" aria-labelledby="titulo-aplicacao-diagnostico">
+      <h4 id="titulo-aplicacao-diagnostico">2. Aplicação no diagnóstico</h4>
+      <p>Com as camadas preparadas, o diagnóstico reúne seus valores em cada fragmento. Consulte o procedimento, as regras de classificação e os resultados a seguir.</p>
 
       <nav class="section-nav" aria-label="Conteúdo do diagnóstico de riscos">
         <a href="#procedimento">Procedimento</a>
@@ -45,8 +90,9 @@
         <a href="#camadas">Dados e método</a>
       </nav>
 
+
       <section id="procedimento" class="report-section" aria-labelledby="titulo-procedimento">
-        <h4 id="titulo-procedimento">Como o diagnóstico foi feito</h4>
+        <h5 id="titulo-procedimento">Como as camadas são aplicadas aos fragmentos</h5>
         <ol class="steps">
           <li>O script abre as camadas prontas no QGIS e verifica os arquivos, os sistemas de coordenadas, as geometrias e a identificação dos fragmentos. Cada fragmento recebe uma linha na saída, vinculada pelo campo <code>patch_id</code>.</li>
           <li>O script usa SIRGAS 2000 / UTM 23S (<code>EPSG:31983</code>) para medir distâncias em metros e áreas em metros quadrados. Para extrair valores de um raster, o polígono de análise é transformado para o sistema de coordenadas daquela camada.</li>
@@ -55,7 +101,7 @@
       </section>
 
       <section id="indicadores" class="report-section" aria-labelledby="titulo-indicadores">
-        <h4 id="titulo-indicadores">Indicadores e critérios</h4>
+        <h5 id="titulo-indicadores">Indicadores e critérios</h5>
 
         <div class="table-scroll" role="region" aria-label="Tabela de indicadores e critérios" tabindex="0">
           <table class="indicator-table" aria-label="Entrada, tratamento e critério por indicador">
@@ -69,7 +115,7 @@
             </thead>
             <tbody>
               <tr>
-                <th scope="row">Ilha de calor urbano</th>
+                <th scope="row"><a href="#producao-ilhas-calor">Ilha de calor urbano</a></th>
                 <td>Zonas de ilha de calor já delimitadas.</td>
                 <td>Cruza o fragmento com as zonas e verifica a área de sobreposição.</td>
                 <td>
@@ -78,7 +124,7 @@
                 </td>
               </tr>
               <tr>
-                <th scope="row">Temperatura do ar</th>
+                <th scope="row"><a href="#producao-temperatura">Temperatura do ar</a></th>
                 <td>Rasters do InVEST para dia (<code>factors</code>), noite (<code>intensity</code>) e média já preparada.</td>
                 <td>Calcula a temperatura média dentro do fragmento para cada cenário.</td>
                 <td>
@@ -91,7 +137,7 @@
                 </td>
               </tr>
               <tr>
-                <th scope="row">Mitigação térmica do entorno (HM)</th>
+                <th scope="row"><a href="#producao-mitigacao">Mitigação térmica do entorno (HM)</a></th>
                 <td>Rasters de mitigação térmica do InVEST para dia, noite e média.</td>
                 <td>Cria um buffer de cinco metros, subtrai o fragmento e calcula a média na faixa externa resultante.</td>
                 <td>
@@ -109,7 +155,7 @@
                 </td>
               </tr>
               <tr>
-                <th scope="row">Inundação</th>
+                <th scope="row"><a href="#producao-inundacao">Inundação</a></th>
                 <td>Raster de profundidade para o tempo de retorno de cinco anos.</td>
                 <td>Calcula a profundidade média e máxima dentro do fragmento.</td>
                 <td>
@@ -147,18 +193,18 @@
       </section>
 
       <section id="classificacao" class="report-section" aria-labelledby="titulo-classificacao">
-        <h4 id="titulo-classificacao">Como ler as classes</h4>
+        <h5 id="titulo-classificacao">Como ler as classes</h5>
         <p>Nos indicadores classificados por intervalos iguais, o script divide a diferença entre o maior e o menor valor válido pelo número de classes. Assim, as faixas de temperatura, umidade e inundação representam posições relativas no conjunto de fragmentos analisado. Edificações e renda usam os cortes definidos para cada indicador.</p>
         <p>Valores ausentes ficam nulos. Quando a classificação por intervalos recebe valores válidos todos iguais, a classe registrada é <strong>sem variação</strong>.</p>
       </section>
 
       <section id="saida" class="report-section" aria-labelledby="titulo-saida">
-        <h4 id="titulo-saida">Saída do diagnóstico</h4>
+        <h5 id="titulo-saida">Saída do diagnóstico</h5>
         <p>A rotina reúne os valores e as classes em um GeoPackage com as geometrias e os atributos dos fragmentos. O script confere a quantidade de registros e a presença dos campos esperados na camada gravada. Para a rodada <code>Diagnostico_RISCOS_v01</code>, a configuração prevê a saída <code>Diagnostico_RISCOS_v01_diagnostico.gpkg</code> e um JSON com as entradas, os critérios e os limites calculados.</p>
       </section>
 
       <section id="camadas" class="report-section" aria-labelledby="titulo-camadas">
-        <h4 id="titulo-camadas">Dados e método</h4>
+        <h5 id="titulo-camadas">Dados e método</h5>
         <p>Camadas de entrada usadas na rodada v01. A região administrativa é um atributo auxiliar da camada de saída. Os cortes de classificação e os campos da saída estão na seção <a href="#indicadores">Indicadores e critérios</a>.</p>
         <details class="data-method">
           <summary>Ver a ficha das camadas de entrada</summary>
@@ -251,6 +297,7 @@
           </div>
         </details>
       </section>
+    </section>
     </section>
     <p class="next-step"><a href="condicionantes.html">Consultar os condicionantes →</a></p>
   </main>
