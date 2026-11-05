@@ -4,19 +4,63 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Condicionantes | Diagnóstico da Bacia do Paranoá</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <header class="masthead">
     <div class="container">
       <p class="eyebrow">Relatório metodológico</p>
-      <h1>Diagnóstico da Bacia do Paranoá</h1>
-      <nav aria-label="Blocos do relatório">
-        <a href="index.html">Riscos</a>
-        <a href="condicionantes.html" aria-current="page">Condicionantes</a>
-        <a href="ecologia.html">Ecologia</a>
+      <h1>Bacia do Paranoá</h1>
+      <nav class="main-tabs" aria-label="Blocos do relatório">
+        <a href="index.html">Identificação da Rede de Infraestrutura Verde</a>
+        <a href="diagnostico.html" aria-current="location">Diagnóstico</a>
       </nav>
     </div>
   </header>
+  <main class="container">
+    <h2>Diagnóstico</h2>
+    <nav class="risk-tabs" aria-label="Tópicos do diagnóstico">
+      <a href="diagnostico.html#riscos">Riscos socioambientais</a>
+      <a href="condicionantes.html" aria-current="page">Condicionantes</a>
+      <a href="ecologia.html">Ecologia</a>
+    </nav>
+    <h3>Condicionantes</h3>
+    <section class="report-section" id="momentos-da-agua" aria-labelledby="titulo-agua">
+      <h4 id="titulo-agua">Momentos da água</h4>
+      <p>Distribuição das áreas classificadas como fonte, condução e acomodação, por grau de definição. Os valores estão em hectares.</p>
+      <div class="table-scroll" role="region" aria-label="Áreas dos momentos da água em hectares" tabindex="0">
+        <table class="indicator-table summary-table">
+          <thead>
+            <tr><th scope="col">Momento</th><th scope="col">Forte</th><th scope="col">Moderado</th><th scope="col">Transição</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Fonte</th><td>84.735,06</td><td>5.755,80</td><td>3.677,54</td></tr>
+            <tr><th scope="row">Condução</th><td>444,69</td><td>1.443,30</td><td>1.400,45</td></tr>
+            <tr><th scope="row">Acomodação</th><td>5.797,80</td><td>805,34</td><td>518,82</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="map-source">Fonte: tabela <code>areas_momentos.csv</code>, saída da análise Momentos da Água na Bacia do Paranoá.</p>
+    </section>
+
+    <section class="report-section" id="potencial-recuperacao" aria-labelledby="titulo-pre">
+      <h4 id="titulo-pre">Potencial de recuperação ecológica</h4>
+      <p>Contagem e soma da área dos polígonos classificados por potencial de recuperação ecológica no recorte da bacia.</p>
+      <div class="table-scroll" role="region" aria-label="Potencial de recuperação ecológica por classe" tabindex="0">
+        <table class="indicator-table summary-table">
+          <thead>
+            <tr><th scope="col">Potencial</th><th scope="col">Polígonos</th><th scope="col">Área (ha)</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Muito alto</th><td>29.479</td><td>7.937,90</td></tr>
+            <tr><th scope="row">Alto</th><td>58.608</td><td>17.393,59</td></tr>
+            <tr><th scope="row">Médio</th><td>146.839</td><td>9.854,56</td></tr>
+            <tr><th scope="row">Baixo</th><td>31.099</td><td>8.366,97</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="map-source">Fonte: camada <code>PRE_Bacia_Paranoa_MERGE_IPE_DF_2023</code>, campo <code>cat_pdot20</code>. Áreas em SIRGAS 2000 / UTM 23S.</p>
+    </section>
+  </main>
 </body>
 </html>

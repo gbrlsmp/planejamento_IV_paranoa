@@ -1,18 +1,19 @@
 # Diagnóstico da Bacia do Paranoá
 
-Relatório metodológico e mapa interativo do diagnóstico de riscos ambientais por fragmento de vegetação na Bacia do Paranoá, no Distrito Federal. O projeto reúne indicadores de calor, umidade, inundação e ocupação por edificações, com renda e região administrativa como informações de contexto.
+Relatório metodológico da Bacia do Paranoá, no Distrito Federal. O projeto busca definir estratégias para qualificar a conectividade ecológica e a prestação de serviços ecossistêmicos de regulação. O site reúne a identificação da Rede de Infraestrutura Verde e o diagnóstico de riscos socioambientais, condicionantes e ecologia.
 
 [Ler o relatório](https://gbrlsmp.github.io/planejamento_IV_paranoa/) · [Abrir o mapa interativo](https://gbrlsmp.github.io/planejamento_IV_paranoa/mapa-riscos.html)
 
 ## Como usar o mapa
 
-O mapa abre com o limite da bacia e as massas d’água. Selecione um indicador para colorir os fragmentos e clique em um deles para consultar seus valores. As regiões administrativas podem ser ativadas separadamente. O fundo de satélite do Google é opcional e depende da configuração descrita abaixo.
+O mapa abre com o limite da bacia e as massas d’água. Selecione um indicador para colorir os fragmentos e clique em um deles para consultar seus valores. O mapa das regiões administrativas fica na aba de identificação da rede. O fundo de satélite do Google é opcional e depende da configuração descrita abaixo.
 
 ## O que há no repositório
 
 | Caminho | Conteúdo |
 | --- | --- |
-| [`index.html`](index.html) | Metodologia, indicadores, critérios de classificação e camadas de entrada do diagnóstico de riscos. |
+| [`index.html`](index.html) | Identificação da rede, uso do solo, métricas de forma, tipologias de AVU e IV e mapa das RAs. |
+| [`diagnostico.html`](diagnostico.html) | Metodologia e indicadores de riscos socioambientais, com acesso a Condicionantes e Ecologia. |
 | [`mapa-riscos.html`](mapa-riscos.html) | Interface do mapa, com estilos e scripts próprios e Leaflet 1.9.4 em [`vendor/leaflet`](vendor/leaflet). |
 | [`mapa-base.json.gz`](mapa-base.json.gz) | Limite da bacia, massas d’água e regiões administrativas a partir da base do IPE-DF (2023), em WGS 84. |
 | [`mapa-dados.json.gz`](mapa-dados.json.gz) | Geometrias e indicadores dos fragmentos da rodada v01, preparados para visualização. |

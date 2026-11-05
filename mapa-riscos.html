@@ -6,28 +6,34 @@
   <meta name="google-maps-key" content="">
   <title>Mapa dos indicadores | Diagnóstico da Bacia do Paranoá</title>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=3">
   <link rel="stylesheet" href="mapa-riscos.css?v=2">
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-satelite.js"></script>
-  <script defer src="mapa-riscos.js?v=2"></script>
+  <script defer src="mapa-base.js"></script>
+  <script defer src="mapa-riscos.js?v=3"></script>
 </head>
 <body>
   <header class="masthead">
     <div class="container">
       <p class="eyebrow">Relatório metodológico</p>
-      <h1>Diagnóstico da Bacia do Paranoá</h1>
-      <nav aria-label="Blocos do relatório">
-        <a href="index.html" aria-current="location">Riscos</a>
-        <a href="condicionantes.html">Condicionantes</a>
-        <a href="ecologia.html">Ecologia</a>
+      <h1>Bacia do Paranoá</h1>
+      <nav class="main-tabs" aria-label="Blocos do relatório">
+        <a href="index.html">Identificação da Rede de Infraestrutura Verde</a>
+        <a href="diagnostico.html" aria-current="location">Diagnóstico</a>
       </nav>
     </div>
   </header>
   <main class="container map-container">
-    <h2>Mapa dos indicadores</h2>
+    <h2>Diagnóstico</h2>
+    <nav class="risk-tabs" aria-label="Tópicos do diagnóstico">
+      <a href="diagnostico.html#riscos" aria-current="location">Riscos socioambientais</a>
+      <a href="condicionantes.html">Condicionantes</a>
+      <a href="ecologia.html">Ecologia</a>
+    </nav>
+    <h3>Mapa dos indicadores de riscos socioambientais</h3>
     <nav class="risk-tabs" aria-label="Vistas do diagnóstico de riscos">
-      <a href="index.html#riscos">Metodologia</a>
+      <a href="diagnostico.html#riscos">Metodologia</a>
       <a href="mapa-riscos.html" aria-current="page">Mapa dos indicadores</a>
     </nav>
     <p>Selecione um indicador e clique em um fragmento para ver seu resultado.</p>
@@ -37,10 +43,6 @@
         <option value="">Só a base cartográfica</option>
       </select>
       <button id="enquadrar" type="button" disabled>Enquadrar a bacia</button>
-      <label class="map-toggle">
-        <input id="mostrar-ras" type="checkbox" disabled>
-        Mostrar regiões administrativas (RAs)
-      </label>
       <label class="map-toggle">
         <input id="mostrar-satelite" type="checkbox" aria-describedby="satelite-status" disabled>
         Mostrar satélite do Google

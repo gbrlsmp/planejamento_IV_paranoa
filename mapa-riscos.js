@@ -2,14 +2,11 @@
 
 const select = document.getElementById("indicador");
 const fit = document.getElementById("enquadrar");
-const showRegions = document.getElementById("mostrar-ras");
 const mapStatus = document.getElementById("map-status");
 const legendTitle = document.getElementById("legend-title");
 const legendNote = document.getElementById("legend-note");
 const legendItems = document.getElementById("legend-items");
 const missingColor = "#a9afb4";
-const basinColor = "#d2de7b";
-const waterColor = "#acc6cb";
 const numberFormat = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 3 });
 
 const heatClasses = ["base", "boa", "média", "ruim", "muito ruim"];
@@ -33,7 +30,6 @@ const mapGroups = [
   ]],
   ["Contexto territorial", [
     { id: "renda_sm", label: "Contexto de renda", value: "renda_sm", category: "renda_cls", unit: "SM", classes: incomeClasses, colors: ["#f1e9f7", "#d4bfe5", "#ae86c7", "#8151a4", "#502b77"] },
-    { id: "ra_nome", label: "Região administrativa", distinct: true },
   ]],
 ];
 
@@ -56,9 +52,6 @@ function categoryKey(item) {
 }
 
 function legendEntries(item) {
-  if (item.distinct) {
-    return (data.classes[item.id] ?? []).map((label, i) => [label, "hsl(" + ((i * 137.5) % 360) + " 50% 52%)"]);
-  }
   return item.classes.map((label, i) => [label, item.colors[i]]);
 }
 
@@ -137,7 +130,7 @@ function showLegend() {
       legendItems.append(ramp, labels);
     }
   } else {
-    legendNote.textContent = active.distinct ? "Região administrativa predominante em cada fragmento." : "Classes registradas no diagnóstico por fragmento.";
+    legendNote.textContent = "Classes registradas no diagnóstico por fragmento.";
   }
   appendLegendItems([...entries, ["Sem dados", missingColor]]);
 }
@@ -153,88 +146,12 @@ function popupContent(values) {
     paragraph.textContent = text;
     panel.append(paragraph);
   }
-  add("RA · " + formatValue(readField(values, "ra_nome")));
-  if (active.id !== "ra_nome") {
-    const measure = active.value ? readField(values, active.value) : readField(values, categoryKey(active));
-    add(active.label + " · " + formatValue(measure, active.unit));
-  }
+  const measure = active.value ? readField(values, active.value) : readField(values, categoryKey(active));
+  add(active.label + " · " + formatValue(measure, active.unit));
   if (active.category) add("Classe · " + formatValue(readField(values, active.category)));
   if (active.id === "inund_max") add("Profundidade média · " + formatValue(readField(values, "inund_med")));
   if (active.id === "edif_pct") add("Presença de edificações · " + formatValue(readField(values, "edif")));
   return panel;
-}
-
-async function loadData(file) {
-  const response = await fetch(file);
-  if (!response.ok) throw new Error("Arquivo de dados indisponível");
-  const bytes = await response.arrayBuffer();
-  const header = new Uint8Array(bytes, 0, Math.min(bytes.byteLength, 2));
-  if (header[0] === 31 && header[1] === 139) {
-    const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
-    return new Response(stream).json();
-  }
-  return JSON.parse(new TextDecoder().decode(bytes));
-}
-
-function addMapBase(map, base) {
-  const pane = map.createPane("cartografia");
-  pane.style.zIndex = "410";
-  pane.style.pointerEvents = "none";
-  const options = { pane: "cartografia", interactive: false, smoothFactor: 0 };
-
-  L.geoJSON(base.agua, {
-    ...options,
-    style: { stroke: false, fillColor: waterColor, fillOpacity: 1 },
-  }).addTo(map);
-  const regions = L.geoJSON(base.ras, {
-    ...options,
-    style: {
-      fill: false, color: "#000", opacity: 0.6895, weight: 0.76,
-      dashArray: "0.76 1.52", lineCap: "square", lineJoin: "bevel",
-    },
-  });
-  const basin = L.geoJSON(base.bacia, {
-    ...options,
-    style: { fill: false, color: basinColor, weight: 3.78, lineJoin: "bevel" },
-  }).addTo(map);
-
-  const labels = base.ras.features.map(({ properties }) =>
-    L.tooltip({ permanent: true, direction: "center", className: "ra-label", opacity: 1 })
-      .setLatLng(L.GeoJSON.coordsToLatLng(properties.rotulo))
-      .setContent(String(properties.ra_cira))
-  );
-  const regionOverlay = L.layerGroup([regions, ...labels]);
-
-  function positionLabels() {
-    if (!map.hasLayer(regionOverlay)) return;
-    const visible = [];
-    const viewport = map.getContainer().getBoundingClientRect();
-    for (const label of labels) {
-      const element = label.getElement();
-      const box = element.getBoundingClientRect();
-      const fits = box.left >= viewport.left && box.right <= viewport.right
-        && box.top >= viewport.top && box.bottom <= viewport.bottom;
-      const overlaps = visible.some(other => box.left < other.right && box.right > other.left
-        && box.top < other.bottom && box.bottom > other.top);
-      element.style.visibility = fits && !overlaps ? "" : "hidden";
-      if (fits && !overlaps) visible.push(box);
-    }
-  }
-
-  function toggleRegions() {
-    if (showRegions.checked) {
-      regionOverlay.addTo(map);
-      basin.bringToFront();
-      positionLabels();
-    } else {
-      regionOverlay.remove();
-    }
-  }
-  map.on("moveend", positionLabels);
-  showRegions.addEventListener("change", toggleRegions);
-  showRegions.disabled = false;
-  toggleRegions();
-  return basin.getBounds();
 }
 
 async function initializeMap() {
