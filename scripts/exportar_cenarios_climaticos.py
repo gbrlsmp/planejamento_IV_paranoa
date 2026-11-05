@@ -178,7 +178,7 @@ def main():
             projected = None
             print(f"Exportado: {indicator}/{scenario}", flush=True)
     catalog["bounds_3857"] = grid
-    (args.out_dir / "catalogo.json").write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (args.out_dir / "catalogo.json").write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
 
 
 if __name__ == "__main__":
