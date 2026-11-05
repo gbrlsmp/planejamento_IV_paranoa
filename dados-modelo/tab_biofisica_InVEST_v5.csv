@@ -1,0 +1,17 @@
+classe,lucode,kc,green_area,shade,albedo,building_intensity
+Formação Floresta,3,1.003927,1,0.95,0.140110,0
+Formação Savânica,4,1.003927,1,0.70,0.140110,0
+Silvicultura,9,1.000000,1,0.50,0.140110,0
+Campo Alagado e Área Pantanosa,11,1.100000,1,0.15,0.141964,0
+Formação Campestre,12,0.931543,1,0.05,0.192888,0
+Pastagem,15,0.931543,0,0.05,0.192888,0
+Lavoura Temporária,19,0.717214,0,0.05,0.160713,0
+Mosaico de Usos,21,0.470496,1,0.40,0.220078,0
+Área Urbanizada,24,0.327539,0,0,0.208190,0.041
+Outras Áreas não Vegetadas,25,0.613452,0,0,0.231966,0
+"Rio, Lago e Oceano",33,1.000000,1,0,0.056354,0
+Vegetação Não Nativa,100,1.003927,1,0.9,0.208190,0
+Área Urbanizada - Muito Baixa,241,0.327539,0,0,0.208190,0.041
+Área Urbanizada - Baixa,242,0.327539,0,0,0.208190,0.1409
+Área Urbanizada - Média,243,0.327539,0,0,0.12,0.3132
+Área Urbanizada - Alta,244,0.327539,0,0,0.10,0.5272

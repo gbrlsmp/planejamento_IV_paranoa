@@ -1,6 +1,6 @@
-# Produção das camadas e aplicação no diagnóstico
+# Produção do indicador e aplicação no diagnóstico
 
-As páginas de Riscos e Condicionantes distinguem o processo que gera cada camada do cruzamento posterior com os fragmentos. Os modelos não são executados pelo site.
+Riscos, Condicionantes e Ecologia começam pela explicação breve e pela tabela de indicadores e critérios. Depois apresentam Produção do indicador e Aplicação no diagnóstico. Em temperatura e HM, o comparativo fixo e o mapa interativo ficam dentro do procedimento expansível da respectiva caixa. As lacunas científicas de Ecologia continuam explícitas. Os modelos não são executados pelo site.
 
 ## Clima
 
@@ -19,7 +19,7 @@ As descrições de temperatura e HM foram conferidas nos metadados das saídas v
 
 Entradas identificadas: uso_cobertura_final_v01.tif, tab_biofisica_InVEST_v5.csv, ETo_2025_ago_set_bacia_paranoa_3m.tif e limite da bacia. Os metadados T_air_bacia_paranoa_v6_factors.tif.yml e T_air_bacia_paranoa_v6_intenssity.tif.yml registram a linhagem das saídas. Os registros da rodada integram a base de pesquisa local; esses arquivos não são distribuídos por este repositório.
 
-Para reproduzir a modelagem, reunir as entradas originais, a tabela biofísica e os parâmetros acima. Consultar o [manual oficial do InVEST Urban Cooling](https://storage.googleapis.com/releases.naturalcapitalproject.org/invest-userguide/latest/en/urban_cooling_model.html). Os campos de pesos de factors constam sem valores explícitos nos argumentos; não se atribuem aqui pesos locais não registrados.
+Para reproduzir a modelagem, reunir as entradas originais, a tabela biofísica e os parâmetros acima. Consultar o [manual oficial do InVEST Urban Cooling](https://storage.googleapis.com/releases.naturalcapitalproject.org/invest-userguide/latest/en/urban_cooling_model.html). Os argumentos de pesos de factors estão vazios. Foi conferido no código oficial da versão 3.20.2 que isso ativa os padrões 0,6 para sombra, 0,2 para albedo e 0,2 para ETI; os pesos são normalizados pela soma. A [aplicação local do modelo](../aplicacao-invest.html) documenta entradas, tabelas e dependências. O [registro de conferência](conferencia-invest.md) distingue a ETo da rodada v6 do processamento posterior.
 
 O [script de riscos](../scripts/01_Diagnostico_RISCOS.py) recebe as saídas prontas: temperatura é consultada no interior do fragmento; HM, em faixa externa de 5 m. As camadas médias de temperatura e HM correspondem a `(dia + noite) / 2`, célula a célula. Essa expressão foi conferida nas seis camadas originais, com diferenças residuais compatíveis com ponto flutuante. Não é uma média observada de 24 horas. Os [comparativos e mapas de cenários](cenarios-climaticos.md) distinguem a escala contínua comum das cinco classes de cada raster.
 
