@@ -6,9 +6,11 @@ Relatório metodológico da Bacia do Paranoá, no Distrito Federal. O projeto bu
 
 ## Como consultar a metodologia
 
-As páginas de Riscos e Condicionantes apresentam **Produção das camadas** (resumo, sequência de etapas e procedimento expansível) e **Aplicação no diagnóstico** (cruzamento com os fragmentos e classificação). [Parâmetros, fontes e limites documentados](docs/metodologia-camadas.md).
+Riscos, Condicionantes e Ecologia apresentam a mesma sequência: breve explicação, **Indicadores e critérios**, **Produção do indicador** (caixas com resumo e procedimento expansível) e **Aplicação no diagnóstico**. As lacunas de Ecologia permanecem identificadas. [Parâmetros, fontes e limites documentados](docs/metodologia-camadas.md).
 
-Na explicação de Temperatura do ar e Mitigação térmica (HM), compare **dia, noite e média** e explore cada cenário com zoom. Alterne entre **Degradê contínuo**, em escala comum aos três cenários, e **Cinco classes**, com cortes próprios de cada raster e porcentagens de área na legenda. [Critérios, valores e reprodução dos mapas climáticos](docs/cenarios-climaticos.md).
+Ao abrir **Ver procedimento completo** nas caixas de Temperatura do ar e Mitigação térmica (HM), compare **dia, noite e média** e explore cada cenário com zoom. Alterne entre **Degradê contínuo**, em escala comum aos três cenários, e **Cinco classes**, com cortes próprios de cada raster e porcentagens de área na legenda. [Critérios, valores e reprodução dos mapas climáticos](docs/cenarios-climaticos.md).
+
+As menções ao [InVEST na metodologia](aplicacao-invest.html) abrem a aplicação local do Urban Cooling, com entradas, tabela biofísica v5, ETo/INMET, parâmetros e dependências de cada indicador. [Registro de conferência](docs/conferencia-invest.md).
 
 ## Como usar o mapa
 

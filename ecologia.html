@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ecologia | Diagnóstico da Bacia do Paranoá</title>
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
   <header class="masthead">
@@ -33,20 +33,7 @@
       <a href="mapa.html?tema=ecologia">Mapa dos indicadores</a>
     </nav>
     <p>A análise reúne fragmentos afetados por rodovias, trampolins ecológicos e os animais estudados. As duas distâncias de análise são 300 m e 1.750 m.</p>
-    <nav class="section-nav" aria-label="Conteúdo de Ecologia">
-      <a href="#procedimento">Procedimento</a>
-      <a href="#indicadores">Indicadores</a>
-      <a href="#classificacao">Classificação</a>
-      <a href="#saida">Saída</a>
-      <a href="#camadas">Dados e método</a>
-    </nav>
-
-    <section id="procedimento" class="report-section" aria-labelledby="titulo-procedimento">
-      <h4 id="titulo-procedimento">Como o diagnóstico foi feito</h4>
-      <p>Procedimento em documentação. Esta seção vai descrever como as camadas foram preparadas e como foram analisadas as distâncias de 300 m e 1.750 m.</p>
-    </section>
-
-    <section id="indicadores" class="report-section" aria-labelledby="titulo-indicadores">
+<section id="indicadores" class="report-section method-stage" aria-labelledby="titulo-indicadores">
       <h4 id="titulo-indicadores">Indicadores e critérios</h4>
       <div class="table-scroll" role="region" aria-label="Indicadores de Ecologia" tabindex="0">
         <table class="indicator-table">
@@ -54,21 +41,35 @@
             <tr><th scope="col">Indicador</th><th scope="col">Camada de entrada</th><th scope="col">Tratamento</th><th scope="col">Critério e registro</th></tr>
           </thead>
           <tbody>
-            <tr><th scope="row">Fragmentos afetados por rodovias</th><td>Aguardando as camadas finais.</td><td>A documentar.</td><td>Critérios em documentação para 300 m e 1.750 m.</td></tr>
-            <tr><th scope="row">Trampolins ecológicos</th><td>Aguardando as camadas finais.</td><td>A documentar.</td><td>Critérios em documentação para 300 m e 1.750 m.</td></tr>
-            <tr><th scope="row">Animais estudados</th><td>Referências por espécie a documentar.</td><td>A documentar.</td><td>Distâncias e critérios de interpretação a documentar.</td></tr>
+            <tr><th scope="row"><a href="#producao-rodovias">Fragmentos afetados por rodovias</a></th><td>Aguardando as camadas finais.</td><td>A documentar.</td><td>Critérios em documentação para 300 m e 1.750 m.</td></tr>
+            <tr><th scope="row"><a href="#producao-trampolins">Trampolins ecológicos</a></th><td>Aguardando as camadas finais.</td><td>A documentar.</td><td>Critérios em documentação para 300 m e 1.750 m.</td></tr>
+            <tr><th scope="row"><a href="#producao-fauna">Animais estudados</a></th><td>Referências por espécie a documentar.</td><td>A documentar.</td><td>Distâncias e critérios de interpretação a documentar.</td></tr>
           </tbody>
         </table>
       </div>
     </section>
+<nav class="section-nav method-stage-nav" aria-label="Etapas da metodologia">
+<a href="#indicadores">Indicadores e critérios</a><a href="#producao-camadas">Produção do indicador</a><a href="#aplicacao-diagnostico">Aplicação no diagnóstico</a>
+</nav>
+
+<section id="producao-camadas" class="report-section method-stage" aria-labelledby="titulo-producao-camadas"><h4 id="titulo-producao-camadas">Produção do indicador</h4><p>Consulte a origem e o procedimento de cada indicador. As lacunas abaixo correspondem a análises cuja memória de produção ainda precisa ser incorporada.</p><article id="producao-rodovias" class="method-card" aria-labelledby="titulo-producao-rodovias"><h5 id="titulo-producao-rodovias">Fragmentos afetados por rodovias</h5><p>Organiza a análise da relação dos fragmentos com as rodovias nas distâncias de 300 m e 1.750 m.</p><p class="method-reading">As distâncias estão previstas no relatório; a regra que caracteriza um fragmento como afetado ainda precisa ser documentada.</p><details class="method-details"><summary>Ver procedimento completo: Fragmentos afetados por rodovias</summary><div class="method-detail-body"><h6>Procedimento a documentar</h6><p>Faltam a identificação da base viária, a memória de preparação das geometrias, a regra de distância e as camadas finais. Sem esses registros, não se atribui um método de buffer, corte ou seleção à análise.</p></div></details></article>
+<article id="producao-trampolins" class="method-card" aria-labelledby="titulo-producao-trampolins"><h5 id="titulo-producao-trampolins">Trampolins ecológicos</h5><p>Reúne a análise dos fragmentos que podem participar da conectividade, nas distâncias de 300 m e 1.750 m.</p><p class="method-reading">O papel de trampolim depende dos critérios de conectividade e das espécies consideradas, ainda em documentação.</p><details class="method-details"><summary>Ver procedimento completo: Trampolins ecológicos</summary><div class="method-detail-body"><h6>Procedimento a documentar</h6><p>Faltam as camadas finais, os critérios de conexão entre fragmentos e as regras de classificação. As distâncias são mantidas como configuração prevista, sem presumir um algoritmo ainda não registrado.</p></div></details></article>
+<article id="producao-fauna" class="method-card" aria-labelledby="titulo-producao-fauna"><h5 id="titulo-producao-fauna">Animais estudados</h5><p>Reúne as espécies e referências usadas para interpretar o deslocamento e a conectividade.</p><p class="method-reading">As espécies e suas distâncias de referência ainda precisam ser associadas às análises.</p><details class="method-details"><summary>Ver procedimento completo: Animais estudados</summary><div class="method-detail-body"><h6>Procedimento a documentar</h6><p>Incorporar as referências por espécie e a justificativa das distâncias usadas.</p></div></details></article>
+</section>
+<section id="aplicacao-diagnostico" class="report-section method-stage" aria-labelledby="titulo-aplicacao-diagnostico"><h4 id="titulo-aplicacao-diagnostico">Aplicação no diagnóstico</h4>    <section id="procedimento" class="report-section" aria-labelledby="titulo-procedimento">
+      <h5 id="titulo-procedimento">Como o diagnóstico foi feito</h5>
+      <p>Procedimento em documentação. Esta seção vai descrever como as camadas foram preparadas e como foram analisadas as distâncias de 300 m e 1.750 m.</p>
+    </section>
+
+
 
     <section id="classificacao" class="report-section" aria-labelledby="titulo-classificacao">
-      <h4 id="titulo-classificacao">Como ler as classes</h4>
+      <h5 id="titulo-classificacao">Como ler as classes</h5>
       <p>Os critérios de interpretação e a legenda serão apresentados com as camadas finais de cada análise.</p>
     </section>
 
     <section id="saida" class="report-section" aria-labelledby="titulo-saida">
-      <h4 id="titulo-saida">Saída do diagnóstico</h4>
+      <h5 id="titulo-saida">Saída do diagnóstico</h5>
       <p>As tabelas organizam as saídas previstas por tema e distância.</p>
       <article id="fragmentos-rodovias">
         <h5 id="titulo-rodovias">Fragmentos afetados por rodovias</h5>
@@ -108,7 +109,7 @@
     </section>
 
     <section id="camadas" class="report-section" aria-labelledby="titulo-camadas">
-      <h4 id="titulo-camadas">Dados e método</h4>
+      <h5 id="titulo-camadas">Dados e método</h5>
       <div class="table-scroll" role="region" aria-label="Fontes e tratamento de Ecologia" tabindex="0">
         <table class="indicator-table">
           <thead>
@@ -122,6 +123,6 @@
         </table>
       </div>
     </section>
-  </main>
+</section>  </main>
 </body>
 </html>

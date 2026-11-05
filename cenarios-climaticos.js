@@ -105,7 +105,7 @@
       });
       L.control.zoom({ zoomInTitle: "Aproximar", zoomOutTitle: "Afastar" }).addTo(map);
       L.control.scale({ imperial: false, maxWidth: 100 }).addTo(map);
-      map.attributionControl.addAttribution('InVEST v6 · <a href="docs/cenarios-climaticos.md">Dados e método</a>');
+      map.attributionControl.addAttribution('<a href="aplicacao-invest.html" target="_blank" rel="noopener">InVEST v6</a> · <a href="docs/cenarios-climaticos.md">Dados e método</a>');
       const boundaryPane = map.createPane("climate-boundary");
       boundaryPane.style.zIndex = "450";
       boundaryPane.style.pointerEvents = "none";

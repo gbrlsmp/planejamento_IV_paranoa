@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Condicionantes | Diagnóstico da Bacia do Paranoá</title>
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
   <header class="masthead">
@@ -33,14 +33,27 @@
       <a href="mapa.html?tema=condicionantes">Mapa dos indicadores</a>
     </nav>
     <p>A análise reúne Momentos da Água e Potencial de Recuperação Ecológica. O cruzamento registra as proporções e as classes predominantes por fragmento.</p>
-    <nav class="section-nav method-stage-nav" aria-label="Etapas da metodologia">
-      <a href="#producao-camadas">1. Produção das camadas</a>
-      <a href="#aplicacao-diagnostico">2. Aplicação no diagnóstico</a>
-    </nav>
+    <section id="indicadores" class="report-section method-stage" aria-labelledby="titulo-indicadores">
+      <h4 id="titulo-indicadores">Indicadores e critérios</h4>
+      <div class="table-scroll" role="region" aria-label="Indicadores de Condicionantes" tabindex="0">
+        <table class="indicator-table">
+          <thead>
+            <tr><th scope="col">Indicador</th><th scope="col">Camada de entrada</th><th scope="col">Tratamento</th><th scope="col">Critério e registro</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row"><a href="#producao-momentos">Momentos da Água</a></th><td>Mapa das funções fonte, condução e acomodação da água, produzido pela modelagem de Momentos da Água no Paranoá.</td><td>Interseção das células com os fragmentos, incluindo a parcela das células na borda.</td><td>Área e proporção de fonte, condução e acomodação. A maior área válida define o momento predominante.</td></tr>
+            <tr><th scope="row"><a href="#producao-pre">Potencial de Recuperação Ecológica</a></th><td>Polígonos da SEDUH-DF já classificados em potencial muito alto, alto, médio e baixo, recortados à bacia.</td><td>Interseção com os fragmentos e união de recortes da mesma classe.</td><td>Área e proporção em cada classe de potencial. As sobreposições entre classes ficam registradas à parte.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+<nav class="section-nav method-stage-nav" aria-label="Etapas da metodologia">
+<a href="#indicadores">Indicadores e critérios</a><a href="#producao-camadas">Produção do indicador</a><a href="#aplicacao-diagnostico">Aplicação no diagnóstico</a>
+</nav>
 
     <section id="producao-camadas" class="report-section method-stage" aria-labelledby="titulo-producao-camadas">
-<h4 id="titulo-producao-camadas">1. Produção das camadas</h4>
-<p>Conheça a origem dos indicadores e o caminho dos dados até os mapas. Os resumos apresentam a leitura principal; abra o procedimento para consultar entradas, parâmetros, referências e limites.</p>
+<h4 id="titulo-producao-camadas">Produção do indicador</h4>
+<p>Cada caixa explica como o indicador é obtido. Abra o procedimento completo para consultar entradas, parâmetros, referências e, quando disponíveis, comparativos e mapas interativos.</p>
 <article id="producao-momentos" class="method-card" aria-labelledby="titulo-producao-momentos">
 <h5 id="titulo-producao-momentos">Momentos da Água</h5>
 <p>Organiza a leitura da paisagem em fonte, condução e acomodação da água. A classificação combina características do terreno, dos solos, da cobertura e do funcionamento hidrológico.</p>
@@ -60,7 +73,7 @@
 </section>
 
     <section id="aplicacao-diagnostico" class="report-section method-stage" aria-labelledby="titulo-aplicacao-diagnostico">
-      <h4 id="titulo-aplicacao-diagnostico">2. Aplicação no diagnóstico</h4>
+      <h4 id="titulo-aplicacao-diagnostico">Aplicação no diagnóstico</h4>
       <p>Com as camadas preparadas, o diagnóstico reúne seus valores em cada fragmento. Consulte o procedimento, as regras de classificação e os resultados a seguir.</p>
     <nav class="section-nav" aria-label="Conteúdo de Condicionantes">
       <a href="#procedimento">Procedimento</a>
@@ -80,20 +93,7 @@
       </ol>
     </section>
 
-    <section id="indicadores" class="report-section" aria-labelledby="titulo-indicadores">
-      <h5 id="titulo-indicadores">Indicadores e critérios</h5>
-      <div class="table-scroll" role="region" aria-label="Indicadores de Condicionantes" tabindex="0">
-        <table class="indicator-table">
-          <thead>
-            <tr><th scope="col">Indicador</th><th scope="col">Camada de entrada</th><th scope="col">Tratamento</th><th scope="col">Critério e registro</th></tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row"><a href="#producao-momentos">Momentos da Água</a></th><td>Raster de momentos da água do Paranoá.</td><td>Interseção das células com os fragmentos, incluindo a parcela das células na borda.</td><td>Área e proporção de fonte, condução e acomodação. A maior área válida define o momento predominante.</td></tr>
-            <tr><th scope="row"><a href="#producao-pre">Potencial de Recuperação Ecológica</a></th><td>Camada da SEDUH-DF recortada à bacia.</td><td>Interseção com os fragmentos e união de recortes da mesma classe.</td><td>Área e proporção em cada classe de potencial. As sobreposições entre classes ficam registradas à parte.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+
 
     <section id="classificacao" class="report-section" aria-labelledby="titulo-classificacao">
       <h5 id="titulo-classificacao">Como ler as classes</h5>

@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Metodologia do diagnóstico de riscos por fragmento na Bacia do Paranoá.">
   <title>Riscos socioambientais | Bacia do Paranoá</title>
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="cenarios-climaticos.css?v=1">
   <script src="vendor/leaflet/leaflet.js" defer></script>
   <script src="mapa-base.js" defer></script>
-  <script src="cenarios-climaticos.js?v=1" defer></script>
+  <script src="cenarios-climaticos.js?v=2" defer></script>
 </head>
 <body>
   <header class="masthead">
@@ -41,29 +41,120 @@
         <a href="mapa-riscos.html">Mapa dos indicadores</a>
       </nav>
       <p>O diagnóstico reúne, para cada fragmento de vegetação da Bacia do Paranoá, indicadores de calor, umidade, inundação e ocupação por edificações. A renda ajuda a situar cada fragmento no contexto socioeconômico.</p>
-    <nav class="section-nav method-stage-nav" aria-label="Etapas da metodologia">
-      <a href="#producao-camadas">1. Produção das camadas</a>
-      <a href="#aplicacao-diagnostico">2. Aplicação no diagnóstico</a>
-    </nav>
+    <section id="indicadores" class="report-section method-stage" aria-labelledby="titulo-indicadores">
+        <h4 id="titulo-indicadores">Indicadores e critérios</h4>
+
+        <div class="table-scroll" role="region" aria-label="Tabela de indicadores e critérios" tabindex="0">
+          <table class="indicator-table" aria-label="Entrada, tratamento e critério por indicador">
+            <thead>
+              <tr>
+                <th scope="col">Indicador</th>
+                <th scope="col">Camada de entrada</th>
+                <th scope="col">Tratamento</th>
+                <th scope="col">Critério e registro</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row"><a href="#producao-ilhas-calor">Ilha de calor urbano</a></th>
+                <td>Zonas de ilha de calor já delimitadas.</td>
+                <td>Cruza o fragmento com as zonas e verifica a área de sobreposição.</td>
+                <td>
+                  <p>Registra <strong>sim</strong> quando a interseção tem área positiva e <strong>não</strong> nos demais casos.</p>
+                  <p class="field-list"><code>icu</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="#producao-temperatura">Temperatura do ar</a></th>
+                <td>Mapas da temperatura do ar estimada pelo <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>: dia (<code>factors</code>), noite (<code>intensity</code>) e média aritmética entre as duas saídas, preparada após o modelo.</td>
+                <td>Calcula a temperatura média dentro do fragmento para cada cenário.</td>
+                <td>
+                  <p>Cada cenário usa cinco faixas de igual amplitude. Da mais fria à mais quente, são <strong>base, boa, média, ruim e muito ruim</strong>.</p>
+                  <p class="field-list">
+                    <code>temp_dia</code> e <code>td_classe</code><br>
+                    <code>temp_noite</code> e <code>tn_classe</code><br>
+                    <code>temp_media</code> e <code>tm_classe</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="#producao-mitigacao">Mitigação térmica do entorno (HM)</a></th>
+                <td>Mapas do índice HM do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>, que combina capacidade local e influência das áreas verdes. São usadas as saídas de dia, noite e a média aritmética entre elas.</td>
+                <td>Cria um buffer de cinco metros, subtrai o fragmento e calcula a média na faixa externa resultante.</td>
+                <td>
+                  <p>Registra os três valores do índice. Valores mais próximos de um indicam maior mitigação modelada no entorno.</p>
+                  <p class="field-list"><code>hm_dia</code>, <code>hm_noite</code> e <code>hm_media</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="#producao-umidade">Umidade relativa</a></th>
+                <td>Mapa da umidade relativa média (%) derivado de cinco estações do INMET, em agosto–setembro de 2025; não é uma saída do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>.</td>
+                <td>Extrai a umidade relativa média no interior do fragmento.</td>
+                <td>
+                  <p>Quatro faixas de igual amplitude. Em ordem crescente de umidade, os rótulos de potencial são <strong>muito baixo, médio baixo, médio e alto</strong>.</p>
+                  <p class="field-list"><code>umid_pct</code> e <code>umid_cls</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="#producao-inundacao">Inundação</a></th>
+                <td>Mapa de profundidade de inundação do fluxo de Momentos da Água, para chuva com tempo de retorno de cinco anos; não é produzido pelo <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>.</td>
+                <td>Calcula a profundidade média e máxima dentro do fragmento.</td>
+                <td>
+                  <p>Usa o máximo para representar o trecho mais profundo. Divide a amplitude dos máximos em quatro faixas iguais, da <strong>muito baixa</strong> à <strong>alta</strong>, passando por <strong>baixa</strong> e <strong>média</strong>.</p>
+                  <p class="field-list"><code>inund_med</code>, <code>inund_max</code> e <code>inund_cls</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="#producao-edificacoes">Pressão de edificações</a></th>
+                <td>Polígonos das edificações.</td>
+                <td>Recorta e une as edificações dentro do fragmento para contar sobreposições uma vez. Divide a área ocupada pela área total do fragmento e expressa o resultado em porcentagem.</td>
+                <td>
+                  <p>Registra se há ocupação e aplica estas classes.</p>
+                  <ul class="ranges">
+                    <li><strong>Inexistente</strong> em 0%.</li>
+                    <li><strong>Baixa</strong> acima de zero até um terço.</li>
+                    <li><strong>Média</strong> acima de um terço até dois terços.</li>
+                    <li><strong>Alta</strong> acima de dois terços.</li>
+                  </ul>
+                  <p class="field-list"><code>edif</code>, <code>edif_pct</code> e <code>edif_cls</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><a href="#producao-renda">Contexto de renda</a></th>
+                <td>Setores censitários com o rendimento médio dos responsáveis pelo domicílio com renda, no campo <code>V06004</code> do Censo 2022.</td>
+                <td>Escolhe o setor de maior sobreposição e usa sua renda como referência socioeconômica. Registra o valor em reais e em salários mínimos pela referência de R$ 1.212, além do código do setor, da sobreposição e da situação do dado.</td>
+                <td>
+                  <p>Faixas de até 1, acima de 1 até 3, acima de 3 até 6, acima de 6 até 9 e acima de 9 salários mínimos. Renda ausente ou suprimida recebe a classe <strong>sem dados</strong>.</p>
+                  <p class="field-list"><code>renda_rs</code>, <code>renda_sm</code>, <code>renda_cls</code>, <code>renda_st</code>, <code>setor</code> e <code>setor_pct</code></p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+<nav class="section-nav method-stage-nav" aria-label="Etapas da metodologia">
+<a href="#indicadores">Indicadores e critérios</a><a href="#producao-camadas">Produção do indicador</a><a href="#aplicacao-diagnostico">Aplicação no diagnóstico</a>
+</nav>
 
     <section id="producao-camadas" class="report-section method-stage" aria-labelledby="titulo-producao-camadas">
-<h4 id="titulo-producao-camadas">1. Produção das camadas</h4>
-<p>Conheça a origem dos indicadores e o caminho dos dados até os mapas. Os resumos apresentam a leitura principal; abra o procedimento para consultar entradas, parâmetros, referências e limites.</p>
+<h4 id="titulo-producao-camadas">Produção do indicador</h4>
+<p>Cada caixa explica como o indicador é obtido. Abra o procedimento completo para consultar entradas, parâmetros, referências e, quando disponíveis, comparativos e mapas interativos.</p>
 <article id="producao-ilhas-calor" class="method-card" aria-labelledby="titulo-producao-ilhas-calor">
 <h5 id="titulo-producao-ilhas-calor">Ilhas de calor urbano</h5>
-<p>Identifica se o fragmento intercepta uma zona de ilha de calor delimitada para o estudo. A zona é um subproduto da temperatura média do ar do InVEST: reúne as três classes mais quentes, conforme o critério adotado na pesquisa.</p>
-<ol class="method-flow" aria-label="Etapas do processo"><li>Delimitar as zonas de calor</li><li>Preparar os polígonos</li><li>Cruzar com os fragmentos</li><li>Registrar presença ou ausência</li></ol>
+<p>Identifica se o fragmento intercepta uma zona de ilha de calor delimitada para o estudo. A zona é um subproduto da temperatura média do ar do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>: reúne as três classes mais quentes, conforme o critério adotado na pesquisa.</p>
+<ol class="method-flow" aria-label="Etapas do processo"><li>Usar a temperatura média</li><li>Selecionar as três classes mais quentes</li><li>Delimitar a zona de calor</li><li>Cruzar com os fragmentos</li></ol>
 <p><strong>No Paranoá:</strong> o diagnóstico recebe a camada de zonas já pronta e verifica se há sobreposição com área positiva.</p>
 <p class="method-reading"><strong>Como interpretar:</strong> “Sim” indica presença na zona adotada; não informa, sozinho, a intensidade do calor nem a temperatura do fragmento.</p>
-<details class="method-details"><summary>Ver procedimento completo: Ilhas de calor urbano</summary><div class="method-detail-body"><h6>Dados e procedimento registrado</h6><p>A entrada é <code>Zona_ICU.shp</code>. O script verifica a interseção geométrica e registra <code>icu</code> como sim ou não. A regra adotada considera qualquer interseção com área positiva.</p><h6>Origem e atualização do limite</h6><p>A origem informada pela autora é a temperatura média do ar, calculada entre os cenários factors e intensity do InVEST. A revisão do estudo mantém as três classes mais quentes (média, ruim e muito ruim) como critério para a zona de calor. Os novos intervalos estão no <a href="#comparacao-temperatura">comparativo de temperatura</a>. O polígono usado no diagnóstico publicado ainda precisa ser atualizado com esses cortes e ter suas interseções recalculadas; o mapa exploratório não realiza essa atualização.</p><p><a href="#indicadores">Consultar o critério de cruzamento</a> · <a href="scripts/LEIA_ME_RISCOS.md">Guia do diagnóstico</a></p></div></details>
+<details class="method-details"><summary>Ver procedimento completo: Ilhas de calor urbano</summary><div class="method-detail-body"><h6>Dados e procedimento registrado</h6><p>A entrada é <code>Zona_ICU.shp</code>. O script verifica a interseção geométrica e registra <code>icu</code> como sim ou não. A regra adotada considera qualquer interseção com área positiva.</p><h6>Dependência da modelagem</h6><p>Os valores térmicos vêm dos cenários de temperatura e herdam a tabela biofísica, o método de CC, a distância de resfriamento de 450 m, a referência de 22,09 °C, o efeito máximo de 10,71 °C e a mistura do ar de 500 m. A regra do estudo seleciona as três faixas mais quentes da média; não adota um limite universal de temperatura. <a href="aplicacao-invest.html#parametros" target="_blank" rel="noopener">Consultar os parâmetros do modelo (nova aba)</a>.</p><h6>Origem e atualização do limite</h6><p>A origem informada pela autora é a temperatura média do ar, calculada entre os cenários factors e intensity do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>. A revisão do estudo mantém as três classes mais quentes (média, ruim e muito ruim) como critério para a zona de calor. Os novos intervalos estão no <a href="#comparacao-temperatura">comparativo de temperatura</a>. O polígono usado no diagnóstico publicado ainda precisa ser atualizado com esses cortes e ter suas interseções recalculadas; o mapa exploratório não realiza essa atualização.</p><p><a href="#indicadores">Consultar o critério de cruzamento</a> · <a href="scripts/LEIA_ME_RISCOS.md">Guia do diagnóstico</a></p></div></details>
 </article>
 <article id="producao-temperatura" class="method-card" aria-labelledby="titulo-producao-temperatura">
 <h5 id="titulo-producao-temperatura">Temperatura do ar</h5>
-<p>O modelo InVEST Urban Cooling estima a temperatura do ar considerando a cobertura do solo e sua capacidade de resfriamento. O resultado é uma estimativa espacial para o cenário configurado.</p>
-<ol class="method-flow" aria-label="Etapas do processo"><li>Preparar cobertura e clima</li><li>Estimar capacidade de resfriamento</li><li>Calcular temperatura do ar</li><li>Resumir por fragmento</li></ol>
+<p>O modelo <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a> Urban Cooling estima a temperatura do ar considerando a cobertura do solo e sua capacidade de resfriamento. O resultado é uma estimativa espacial para o cenário configurado.</p>
+<ol class="method-flow" aria-label="Etapas do processo"><li>Preparar cobertura e entradas</li><li>Calcular CC e HM em cada cenário</li><li>Estimar temperatura e misturar o ar</li><li>Gerar a média e consultar os fragmentos</li></ol>
 <p><strong>No Paranoá:</strong> a rodada v6 usa o método factors como cenário de dia e intensity como cenário de noite; a camada média corresponde à média aritmética, célula a célula, entre esses dois cenários.</p>
 <p class="method-reading"><strong>Como interpretar:</strong> Valores são estimativas modeladas, distintas da temperatura de superfície de uma imagem e de medições pontuais de estação.</p>
-<section class="climate-explorer" data-climate="temperatura" aria-labelledby="comparacao-temperatura">
+
+<details class="method-details"><summary>Ver procedimento completo: Temperatura do ar</summary><div class="method-detail-body"><section class="climate-explorer" data-climate="temperatura" aria-labelledby="comparacao-temperatura">
 <h6 id="comparacao-temperatura">Compare dia, noite e média</h6>
 <p>Os três mapas usam a mesma escala de cores. A média é calculada célula a célula entre os cenários de dia (<code>factors</code>) e noite (<code>intensity</code>); não é uma média observada de 24 horas.</p>
 <div class="climate-comparison">
@@ -103,18 +194,18 @@
 </div>
 <p class="climate-note" id="ajuda-mapa-temperatura">Aproxime pelos botões + e − ou pelo gesto de pinça; arraste para navegar. Com o mapa em foco, use +, − e as setas do teclado. A visualização usa resolução reduzida; o zoom não acrescenta detalhe aos dados.</p>
 <p class="climate-note">Base identifica a faixa mais fria do cenário; boa, média, ruim e muito ruim acompanham o aumento da temperatura. Esses nomes não são limites de conforto térmico. As porcentagens da legenda de classes se referem à área válida da camada original de cada cenário.</p>
-<p class="climate-source">Fonte: saídas do InVEST Urban Cooling v6, com rasters originais de 3 m. <a href="docs/cenarios-climaticos.md">Consultar cortes, dados e procedimento de exportação</a>.</p>
+<p class="climate-source">Fonte: saídas do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a> Urban Cooling v6, com rasters originais de 3 m. <a href="docs/cenarios-climaticos.md">Consultar cortes, dados e procedimento de exportação</a>.</p>
 <noscript><p>Ative o JavaScript para explorar o mapa. Os comparativos e as médias acima continuam disponíveis.</p></noscript>
-</section>
-<details class="method-details"><summary>Ver procedimento completo: Temperatura do ar</summary><div class="method-detail-body"><h6>Dados necessários</h6><p>Uso e cobertura do solo, tabela biofísica por classe, evapotranspiração de referência, limite da área e parâmetros térmicos. A rodada utiliza a cobertura final e a ETo de agosto–setembro de 2025, ambas em grade de 3 m, conforme nomes e metadados dos arquivos.</p><h6>Procedimento</h6><p>No método factors, sombra, albedo e evapotranspiração participam da capacidade de resfriamento. No intensity, o modelo usa a intensidade construtiva da tabela biofísica. A estimativa térmica incorpora a mitigação e a mistura espacial do ar. <a href="https://storage.googleapis.com/releases.naturalcapitalproject.org/invest-userguide/latest/en/urban_cooling_model.html">Manual do InVEST Urban Cooling</a>.</p><h6>Configuração registrada no Paranoá</h6><p>InVEST 3.20.2; temperatura de referência de 22,09 °C; magnitude máxima de ilha de calor de 10,71 °C; distância de resfriamento de 450 m; raio de mistura do ar de 500 m. Esses valores constam nos metadados das saídas v6 e não são valores universais.</p><h6>Aplicação e limites</h6><p>O diagnóstico calcula a média de cada raster no interior do fragmento e distribui os resultados em cinco faixas relativas ao conjunto analisado. Os rótulos das classes não representam limites de conforto térmico. A associação dia/noite é uma escolha do estudo. O script de diagnóstico recebe a camada média pronta. A expressão (dia + noite) / 2 foi confirmada por comparação das células válidas dos rasters. O comparativo acima usa as camadas integrais, enquanto as classes do diagnóstico publicado foram calculadas a partir dos valores por fragmento.</p><p><a href="docs/metodologia-camadas.md#clima">Consultar parâmetros e registros da rodada</a> · <a href="#indicadores">Consultar classificação</a></p></div></details>
+</section><h6>Dados necessários</h6><p>Uso e cobertura do solo em grade de 3 m, tabela biofísica v5 por classe, ETo derivada de dados do INMET de agosto–setembro de 2025, limite da bacia e parâmetros térmicos. A <a href="aplicacao-invest.html#entradas" target="_blank" rel="noopener">ficha de aplicação (nova aba)</a> apresenta as tabelas e distingue a entrada de ETo da rodada v6 do processamento climático posterior.</p><h6>Procedimento</h6><p>No método factors, sombra, albedo e evapotranspiração participam da capacidade de resfriamento. No intensity, o modelo usa a intensidade construtiva da tabela biofísica. A estimativa térmica incorpora a mitigação e a mistura espacial do ar. <a href="aplicacao-invest.html" target="_blank" rel="noopener">Aplicação do InVEST Urban Cooling no Paranoá</a>.</p><h6>Parâmetros que afetam este indicador</h6><p><a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a> 3.20.2; temperatura de referência de 22,09 °C; magnitude máxima de ilha de calor de 10,71 °C; distância de resfriamento de 450 m; raio de mistura do ar de 500 m. A distância de 450 m participa do HM; a referência de 22,09 °C e a magnitude de 10,71 °C convertem esse índice em temperatura antes da mistura espacial configurada em 500 m. Os pesos padrão do cenário factors são 0,6 para sombra, 0,2 para albedo e 0,2 para ETI. Consulte a <a href="aplicacao-invest.html#parametros" target="_blank" rel="noopener">aplicação do modelo e as dependências dos parâmetros (nova aba)</a>.</p><h6>Aplicação e limites</h6><p>O diagnóstico calcula a média de cada raster no interior do fragmento e distribui os resultados em cinco faixas relativas ao conjunto analisado. Os rótulos das classes não representam limites de conforto térmico. A associação dia/noite é uma escolha do estudo. O script de diagnóstico recebe a camada média pronta. A expressão (dia + noite) / 2 foi confirmada por comparação das células válidas dos rasters. O comparativo acima usa as camadas integrais, enquanto as classes do diagnóstico publicado foram calculadas a partir dos valores por fragmento.</p><p><a href="docs/metodologia-camadas.md#clima">Consultar parâmetros e registros da rodada</a> · <a href="#indicadores">Consultar classificação</a></p></div></details>
 </article>
 <article id="producao-mitigacao" class="method-card" aria-labelledby="titulo-producao-mitigacao">
 <h5 id="titulo-producao-mitigacao">Mitigação térmica do entorno</h5>
-<p>O índice HM expressa a mitigação térmica estimada pelo InVEST. No diagnóstico, ele é consultado na faixa externa que acompanha cada fragmento.</p>
-<ol class="method-flow" aria-label="Etapas do processo"><li>Usar as entradas climáticas</li><li>Gerar o índice HM</li><li>Delimitar a faixa externa</li><li>Calcular HM no entorno</li></ol>
+<p>O índice HM expressa a mitigação térmica estimada pelo <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>. No diagnóstico, ele é consultado na faixa externa que acompanha cada fragmento.</p>
+<ol class="method-flow" aria-label="Etapas do processo"><li>Calcular a capacidade de resfriamento</li><li>Estimar a influência das áreas verdes</li><li>Combinar os efeitos no HM</li><li>Consultar a faixa externa de 5 m</li></ol>
 <p><strong>No Paranoá:</strong> são usadas as saídas HM de dia, noite e média. A faixa de análise tem 5 m e exclui o interior do fragmento.</p>
 <p class="method-reading"><strong>Como interpretar:</strong> Valores mais próximos de um indicam maior mitigação estimada. A faixa de 5 m é a área de consulta do diagnóstico; a distância de resfriamento configurada no modelo é 450 m.</p>
-<section class="climate-explorer" data-climate="hm" aria-labelledby="comparacao-hm">
+
+<details class="method-details"><summary>Ver procedimento completo: Mitigação térmica do entorno</summary><div class="method-detail-body"><section class="climate-explorer" data-climate="hm" aria-labelledby="comparacao-hm">
 <h6 id="comparacao-hm">Compare dia, noite e média</h6>
 <p>Os três mapas usam a mesma escala de cores. A média é calculada célula a célula entre os cenários de dia (<code>factors</code>) e noite (<code>intensity</code>); não é uma média observada de 24 horas.</p>
 <div class="climate-comparison">
@@ -154,11 +245,11 @@
 </div>
 <p class="climate-note" id="ajuda-mapa-hm">Aproxime pelos botões + e − ou pelo gesto de pinça; arraste para navegar. Com o mapa em foco, use +, − e as setas do teclado. A visualização usa resolução reduzida; o zoom não acrescenta detalhe aos dados.</p>
 <p class="climate-note">Base identifica a maior mitigação; boa, média, ruim e muito ruim acompanham a diminuição do HM. HM alto, sozinho, não define um refúgio climático: essa interpretação depende do cruzamento com as demais condições na matriz. As porcentagens da legenda de classes se referem à área válida da camada original de cada cenário.</p>
-<p class="climate-source">Fonte: saídas do InVEST Urban Cooling v6, com rasters originais de 3 m. <a href="docs/cenarios-climaticos.md">Consultar cortes, dados e procedimento de exportação</a>.</p>
+<p class="climate-source">Fonte: saídas do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a> Urban Cooling v6, com rasters originais de 3 m. <a href="docs/cenarios-climaticos.md">Consultar cortes, dados e procedimento de exportação</a>.</p>
 <noscript><p>Ative o JavaScript para explorar o mapa. Os comparativos e as médias acima continuam disponíveis.</p></noscript>
-</section>
-<details class="method-details"><summary>Ver procedimento completo: Mitigação térmica do entorno</summary><div class="method-detail-body"><h6>Produção da camada</h6><p>O HM deriva da capacidade de resfriamento e do efeito de áreas verdes na vizinhança. É uma saída do mesmo processamento usado para estimar a temperatura do ar. O HM médio também é a média aritmética, célula a célula, entre as saídas de dia e de noite; essa relação foi conferida nas camadas originais. <a href="https://storage.googleapis.com/releases.naturalcapitalproject.org/invest-userguide/latest/en/urban_cooling_model.html">Manual do InVEST Urban Cooling</a>.</p><h6>Procedimento por fragmento</h6><ol><li>Usar os rasters HM da rodada v6.</li><li>Criar um buffer externo de 5 m e subtrair o polígono original.</li><li>Calcular a média das células válidas nessa faixa para cada cenário.</li><li>Registrar os índices sem converter HM em temperatura ou em porcentagem de redução de calor.</li></ol><h6>Limites e reprodução</h6><p>O indicador descreve a condição modelada no entorno. Ele não mede isoladamente quanto resfriamento foi causado pelo fragmento. Os parâmetros da modelagem são compartilhados com <a href="#producao-temperatura">Temperatura do ar</a>; a largura da faixa é definida em <code>DISTANCIA_ENTORNO_M</code> no <a href="scripts/01_Diagnostico_RISCOS.py">script de riscos</a>.</p></div></details>
+</section><h6>Como o índice é produzido</h6><p>O HM deriva da capacidade de resfriamento e do efeito de áreas verdes na vizinhança. É uma saída do mesmo processamento usado para estimar a temperatura do ar. O HM médio também é a média aritmética, célula a célula, entre as saídas de dia e de noite; essa relação foi conferida nas camadas originais. <a href="aplicacao-invest.html" target="_blank" rel="noopener">Aplicação do InVEST Urban Cooling no Paranoá</a>.</p><h6>Parâmetros que afetam o HM</h6><p>A tabela biofísica v5 e o método escolhido definem CC. Em factors, CC usa sombra, albedo e ETI (Kc × ETo / ETo máxima), com pesos padrão 0,6, 0,2 e 0,2. Em intensity, CC = 1 − intensidade construtiva. O HM combina CC local com a influência das áreas marcadas como verdes, usando a distância de resfriamento de 450 m e a regra interna de área verde acumulada de pelo menos 2 ha na vizinhança. Temperatura de referência, magnitude de ilha de calor e mistura do ar são aplicadas depois do HM e não alteram diretamente esse índice. <a href="aplicacao-invest.html#processamento" target="_blank" rel="noopener">Ver a aplicação do modelo (nova aba)</a>.</p><h6>Procedimento por fragmento</h6><ol><li>Usar os rasters HM da rodada v6.</li><li>Criar um buffer externo de 5 m e subtrair o polígono original.</li><li>Calcular a média das células válidas nessa faixa para cada cenário.</li><li>Registrar os índices sem converter HM em temperatura ou em porcentagem de redução de calor.</li></ol><h6>Limites e reprodução</h6><p>O indicador descreve a condição modelada no entorno. Ele não mede isoladamente quanto resfriamento foi causado pelo fragmento. Os parâmetros da modelagem são compartilhados com <a href="#producao-temperatura">Temperatura do ar</a>; a largura da faixa é definida em <code>DISTANCIA_ENTORNO_M</code> no <a href="scripts/01_Diagnostico_RISCOS.py">script de riscos</a>.</p></div></details>
 </article>
+<article id="producao-umidade" class="method-card" aria-labelledby="titulo-producao-umidade"><h5 id="titulo-producao-umidade">Umidade relativa</h5><p>Representa a umidade relativa média do período de 1º de agosto a 30 de setembro de 2025, com base em cinco estações do INMET. É uma camada meteorológica independente do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>.</p><ol class="method-flow" aria-label="Etapas do processo"><li>Selecionar os dias válidos comuns</li><li>Calcular a média por estação</li><li>Interpolar as médias na bacia</li><li>Consultar e classificar por fragmento</li></ol><p class="method-reading">A grade de 3 m é a resolução de representação; os dados de origem são observações de estações meteorológicas.</p><details class="method-details"><summary>Ver procedimento completo: Umidade relativa</summary><div class="method-detail-body"><h6>Origem e processamento</h6><p>O raster <code>Completo_umidade_relativa_media_pct.tif</code>, no processamento de 3 de novembro de 2026, registra 57 dias válidos comuns às estações A001, A042, A045, A046 e A047. As médias do período são interpoladas por IDW com potência 2. O script disponível usa controle de registros diários e cobertura antes da agregação.</p><h6>Aplicação no indicador</h6><p>O diagnóstico calcula a média no interior de cada fragmento e a distribui em quatro intervalos iguais, com rótulos muito baixo, médio baixo, médio e alto. Os parâmetros térmicos do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a> não participam desse cálculo.</p></div></details></article>
 <article id="producao-inundacao" class="method-card" aria-labelledby="titulo-producao-inundacao">
 <h5 id="titulo-producao-inundacao">Inundação</h5>
 <p>A profundidade de inundação é produzida na modelagem hidrológica usada no fluxo de Momentos da Água. O diagnóstico de riscos consulta o cenário de chuva com tempo de retorno de cinco anos.</p>
@@ -167,10 +258,12 @@
 <p class="method-reading"><strong>Como interpretar:</strong> O mapa é uma estimativa exploratória. TR5 se refere à chuva de projeto; não significa que a cheia ocorrerá exatamente a cada cinco anos.</p>
 <details class="method-details"><summary>Ver procedimento completo: Inundação</summary><div class="method-detail-body"><h6>Entradas e etapas</h6><p>A modelagem usa terreno, drenagem derivada, uso do solo, grupos hidrológicos de solo, parâmetros de escoamento e chuvas de projeto. Na implementação consultada, a chuva gera excesso pelo método SCS-CN; hidrogramas são propagados pela rede, e curvas de vazão e nível associadas ao HAND permitem estimar profundidades.</p><h6>Configuração do Paranoá</h6><p>O registro da execução 1.1.1 informa grade hidrológica de 20 m, durações de chuva de 60, 180, 360, 720 e 1.440 minutos e passo de cinco minutos. Para cada trecho, é retido o maior pico entre durações. O diagnóstico usa <code>inundacao_profundidade_TR5_hidro.tif</code>, sem substituir esse produto pela versão de visualização.</p><h6>Relação com Momentos da Água</h6><p>O fluxo produz cenários de inundação e utiliza informação hidrológica na avaliação dos momentos. A profundidade não é calculada a partir dos rótulos finais fonte, condução e acomodação. <a href="condicionantes.html#producao-momentos">Ver o processo de Momentos da Água</a>.</p><h6>Limites</h6><p>A execução não foi calibrada com vazões ou observações independentes de inundação. Não simula a operação do Lago Paranoá, pontes, bueiros, batimetria e remanso. Zonas sem estimativa válida devem permanecer sem dados. A envoltória de máximos por trecho não descreve uma única cheia simultânea.</p><p><a href="docs/metodologia-camadas.md#agua">Consultar parâmetros e registros hidrológicos</a> · <a href="#indicadores">Consultar classificação por fragmento</a></p></div></details>
 </article>
+<article id="producao-edificacoes" class="method-card" aria-labelledby="titulo-producao-edificacoes"><h5 id="titulo-producao-edificacoes">Pressão de edificações</h5><p>Expressa quanto da área do fragmento é ocupado por polígonos de edificações.</p><ol class="method-flow" aria-label="Etapas do processo"><li>Preparar as geometrias</li><li>Recortar edificações no fragmento</li><li>Unir recortes sobrepostos</li><li>Calcular a proporção ocupada</li></ol><p class="method-reading">O percentual representa ocupação espacial. É um cálculo geométrico do diagnóstico, independente da intensidade construtiva usada na tabela biofísica do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>.</p><details class="method-details"><summary>Ver procedimento completo: Pressão de edificações</summary><div class="method-detail-body"><h6>Dados e cálculo</h6><p>A camada de entrada é <code>Construções Bacia do Paranoá.shp</code>. Os recortes são unidos para contar sobreposições uma vez. Calcula-se 100 × área ocupada / área do fragmento.</p><h6>Critério</h6><p>Inexistente em 0%; baixa acima de zero até um terço; média acima de um terço até dois terços; alta acima de dois terços. A fonte primária da camada de edificações permanece a documentar.</p></div></details></article>
+<article id="producao-renda" class="method-card" aria-labelledby="titulo-producao-renda"><h5 id="titulo-producao-renda">Contexto de renda</h5><p>Situa o fragmento no contexto socioeconômico do setor censitário com maior sobreposição.</p><ol class="method-flow" aria-label="Etapas do processo"><li>Consultar os setores censitários</li><li>Identificar a maior sobreposição</li><li>Associar o rendimento do setor</li><li>Converter em salários mínimos</li></ol><p class="method-reading">O valor caracteriza o setor selecionado; não estima a renda de pessoas que utilizam o fragmento.</p><details class="method-details"><summary>Ver procedimento completo: Contexto de renda</summary><div class="method-detail-body"><h6>Dados e aplicação</h6><p>São usados os setores do Censo 2022 e o campo <code>V06004</code>, com rendimento médio dos responsáveis pelo domicílio com renda. O diagnóstico registra o setor de maior sobreposição e sua proporção de área. A referência de salário mínimo é R$ 1.212, correspondente a 2022.</p><h6>Critério</h6><p>As classes são até 1, acima de 1 até 3, acima de 3 até 6, acima de 6 até 9 e acima de 9 salários mínimos. Valores ausentes ou suprimidos permanecem sem dados. Este indicador não depende dos parâmetros do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>.</p></div></details></article>
 </section>
 
     <section id="aplicacao-diagnostico" class="report-section method-stage" aria-labelledby="titulo-aplicacao-diagnostico">
-      <h4 id="titulo-aplicacao-diagnostico">2. Aplicação no diagnóstico</h4>
+      <h4 id="titulo-aplicacao-diagnostico">Aplicação no diagnóstico</h4>
       <p>Com as camadas preparadas, o diagnóstico reúne seus valores em cada fragmento. Consulte o procedimento, as regras de classificação e os resultados a seguir.</p>
 
       <nav class="section-nav" aria-label="Conteúdo do diagnóstico de riscos">
@@ -191,97 +284,7 @@
         </ol>
       </section>
 
-      <section id="indicadores" class="report-section" aria-labelledby="titulo-indicadores">
-        <h5 id="titulo-indicadores">Indicadores e critérios</h5>
 
-        <div class="table-scroll" role="region" aria-label="Tabela de indicadores e critérios" tabindex="0">
-          <table class="indicator-table" aria-label="Entrada, tratamento e critério por indicador">
-            <thead>
-              <tr>
-                <th scope="col">Indicador</th>
-                <th scope="col">Camada de entrada</th>
-                <th scope="col">Tratamento</th>
-                <th scope="col">Critério e registro</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row"><a href="#producao-ilhas-calor">Ilha de calor urbano</a></th>
-                <td>Zonas de ilha de calor já delimitadas.</td>
-                <td>Cruza o fragmento com as zonas e verifica a área de sobreposição.</td>
-                <td>
-                  <p>Registra <strong>sim</strong> quando a interseção tem área positiva e <strong>não</strong> nos demais casos.</p>
-                  <p class="field-list"><code>icu</code></p>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row"><a href="#producao-temperatura">Temperatura do ar</a></th>
-                <td>Rasters do InVEST para dia (<code>factors</code>), noite (<code>intensity</code>) e média já preparada.</td>
-                <td>Calcula a temperatura média dentro do fragmento para cada cenário.</td>
-                <td>
-                  <p>Cada cenário usa cinco faixas de igual amplitude. Da mais fria à mais quente, são <strong>base, boa, média, ruim e muito ruim</strong>.</p>
-                  <p class="field-list">
-                    <code>temp_dia</code> e <code>td_classe</code><br>
-                    <code>temp_noite</code> e <code>tn_classe</code><br>
-                    <code>temp_media</code> e <code>tm_classe</code>
-                  </p>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row"><a href="#producao-mitigacao">Mitigação térmica do entorno (HM)</a></th>
-                <td>Rasters de mitigação térmica do InVEST para dia, noite e média.</td>
-                <td>Cria um buffer de cinco metros, subtrai o fragmento e calcula a média na faixa externa resultante.</td>
-                <td>
-                  <p>Registra os três valores do índice. Valores mais próximos de um indicam maior mitigação modelada no entorno.</p>
-                  <p class="field-list"><code>hm_dia</code>, <code>hm_noite</code> e <code>hm_media</code></p>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Umidade relativa</th>
-                <td>Raster pronto derivado dos dados do INMET.</td>
-                <td>Extrai a umidade relativa média no interior do fragmento.</td>
-                <td>
-                  <p>Quatro faixas de igual amplitude. Em ordem crescente de umidade, os rótulos de potencial são <strong>muito baixo, médio baixo, médio e alto</strong>.</p>
-                  <p class="field-list"><code>umid_pct</code> e <code>umid_cls</code></p>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row"><a href="#producao-inundacao">Inundação</a></th>
-                <td>Raster de profundidade para o tempo de retorno de cinco anos.</td>
-                <td>Calcula a profundidade média e máxima dentro do fragmento.</td>
-                <td>
-                  <p>Usa o máximo para representar o trecho mais profundo. Divide a amplitude dos máximos em quatro faixas iguais, da <strong>muito baixa</strong> à <strong>alta</strong>, passando por <strong>baixa</strong> e <strong>média</strong>.</p>
-                  <p class="field-list"><code>inund_med</code>, <code>inund_max</code> e <code>inund_cls</code></p>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Pressão de edificações</th>
-                <td>Polígonos das edificações.</td>
-                <td>Recorta e une as edificações dentro do fragmento para contar sobreposições uma vez. Divide a área ocupada pela área total do fragmento e expressa o resultado em porcentagem.</td>
-                <td>
-                  <p>Registra se há ocupação e aplica estas classes.</p>
-                  <ul class="ranges">
-                    <li><strong>Inexistente</strong> em 0%.</li>
-                    <li><strong>Baixa</strong> acima de zero até um terço.</li>
-                    <li><strong>Média</strong> acima de um terço até dois terços.</li>
-                    <li><strong>Alta</strong> acima de dois terços.</li>
-                  </ul>
-                  <p class="field-list"><code>edif</code>, <code>edif_pct</code> e <code>edif_cls</code></p>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Contexto de renda</th>
-                <td>Setores censitários com o rendimento médio dos responsáveis pelo domicílio com renda, no campo <code>V06004</code> do Censo 2022.</td>
-                <td>Escolhe o setor de maior sobreposição e usa sua renda como referência socioeconômica. Registra o valor em reais e em salários mínimos pela referência de R$ 1.212, além do código do setor, da sobreposição e da situação do dado.</td>
-                <td>
-                  <p>Faixas de até 1, acima de 1 até 3, acima de 3 até 6, acima de 6 até 9 e acima de 9 salários mínimos. Renda ausente ou suprimida recebe a classe <strong>sem dados</strong>.</p>
-                  <p class="field-list"><code>renda_rs</code>, <code>renda_sm</code>, <code>renda_cls</code>, <code>renda_st</code>, <code>setor</code> e <code>setor_pct</code></p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
 
       <section id="classificacao" class="report-section" aria-labelledby="titulo-classificacao">
         <h5 id="titulo-classificacao">Como ler as classes</h5>
@@ -313,49 +316,49 @@
                 </tr>
                 <tr>
                   <th scope="row">Zonas de ilha de calor urbano<br><code>Zona_ICU.shp</code></th>
-                  <td>Derivada da temperatura média do ar do InVEST, conforme a memória de produção informada pela autora. A atualização do limite com os novos intervalos está pendente.</td>
+                  <td>Derivada da temperatura média do ar do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>, conforme a memória de produção informada pela autora. A atualização do limite com os novos intervalos está pendente.</td>
                   <td>Interseção entre a zona e o fragmento. Registra ocorrência quando há área de sobreposição positiva.</td>
                   <td>Presença do fragmento em ilha de calor urbano.</td>
                 </tr>
                 <tr>
                   <th scope="row">Temperatura do ar · dia<br><code>T_air_bacia_paranoa_v6_factors.tif</code></th>
-                  <td>Saída do modelo InVEST.</td>
+                  <td>Saída do modelo <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>.</td>
                   <td>Média dentro do fragmento, classificada em cinco faixas de igual amplitude.</td>
                   <td>Exposição térmica diurna.</td>
                 </tr>
                 <tr>
                   <th scope="row">Temperatura do ar · noite<br><code>T_air_bacia_paranoa_v6_intenssity.tif</code></th>
-                  <td>Saída do modelo InVEST.</td>
+                  <td>Saída do modelo <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>.</td>
                   <td>Média dentro do fragmento, classificada em cinco faixas de igual amplitude.</td>
                   <td>Exposição térmica noturna.</td>
                 </tr>
                 <tr>
                   <th scope="row">Temperatura do ar · média<br><code>T_air_bacia_paranoa_v6_media.tif</code></th>
-                  <td>Média preparada a partir das saídas do InVEST.</td>
+                  <td>Média preparada a partir das saídas do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>.</td>
                   <td>Média dentro do fragmento, classificada em cinco faixas de igual amplitude.</td>
                   <td>Exposição térmica no cenário médio.</td>
                 </tr>
                 <tr>
                   <th scope="row">Mitigação térmica (HM) · dia<br><code>hm_bacia_paranoa_v6_factors.tif</code></th>
-                  <td>Índice de mitigação térmica do InVEST.</td>
+                  <td>Índice de mitigação térmica do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>.</td>
                   <td>Média do índice na faixa externa de 5 m ao redor do fragmento.</td>
                   <td>Mitigação térmica modelada no entorno durante o dia.</td>
                 </tr>
                 <tr>
                   <th scope="row">Mitigação térmica (HM) · noite<br><code>hm_bacia_paranoa_v6_intenssity.tif</code></th>
-                  <td>Índice de mitigação térmica do InVEST.</td>
+                  <td>Índice de mitigação térmica do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>.</td>
                   <td>Média do índice na faixa externa de 5 m ao redor do fragmento.</td>
                   <td>Mitigação térmica modelada no entorno à noite.</td>
                 </tr>
                 <tr>
                   <th scope="row">Mitigação térmica (HM) · média<br><code>hm_bacia_paranoa_v6_media.tif</code></th>
-                  <td>Índice de mitigação térmica do InVEST.</td>
+                  <td>Índice de mitigação térmica do <a href="aplicacao-invest.html" target="_blank" rel="noopener" title="Aplicação do modelo no Paranoá (nova aba)">InVEST</a>.</td>
                   <td>Média do índice na faixa externa de 5 m ao redor do fragmento.</td>
                   <td>Mitigação térmica modelada no entorno no cenário médio.</td>
                 </tr>
                 <tr>
                   <th scope="row">Umidade relativa<br><code>Completo_umidade_relativa_media_pct.tif</code></th>
-                  <td>Raster derivado de dados do INMET. Período de referência a confirmar.</td>
+                  <td>Raster derivado de dados do INMET. Agosto–setembro de 2025, com 57 dias válidos comuns e interpolação IDW de potência 2, conforme metadados do raster.</td>
                   <td>Média dentro do fragmento, classificada em quatro faixas de igual amplitude.</td>
                   <td>Umidade relativa no interior do fragmento.</td>
                 </tr>
