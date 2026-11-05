@@ -4,19 +4,63 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ecologia | Diagnóstico da Bacia do Paranoá</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
   <header class="masthead">
     <div class="container">
       <p class="eyebrow">Relatório metodológico</p>
-      <h1>Diagnóstico da Bacia do Paranoá</h1>
-      <nav aria-label="Blocos do relatório">
-        <a href="index.html">Riscos</a>
-        <a href="condicionantes.html">Condicionantes</a>
-        <a href="ecologia.html" aria-current="page">Ecologia</a>
+      <h1>Bacia do Paranoá</h1>
+      <nav class="main-tabs" aria-label="Blocos do relatório">
+        <a href="index.html">Identificação da Rede de Infraestrutura Verde</a>
+        <a href="diagnostico.html" aria-current="location">Diagnóstico</a>
       </nav>
     </div>
   </header>
+  <main class="container">
+    <h2>Diagnóstico</h2>
+    <nav class="risk-tabs" aria-label="Tópicos do diagnóstico">
+      <a href="diagnostico.html#riscos">Riscos socioambientais</a>
+      <a href="condicionantes.html">Condicionantes</a>
+      <a href="ecologia.html" aria-current="page">Ecologia</a>
+    </nav>
+    <h3>Ecologia</h3>
+    <p>O diagnóstico de conectividade ecológica considera duas distâncias de análise, 300 m e 1.750 m.</p>
+
+    <section class="report-section" id="fragmentos-rodovias" aria-labelledby="titulo-rodovias">
+      <h4 id="titulo-rodovias">Fragmentos afetados por rodovias</h4>
+      <div class="table-scroll" role="region" aria-label="Fragmentos afetados por rodovias por distância" tabindex="0">
+        <table class="indicator-table summary-table">
+          <thead>
+            <tr><th scope="col">Distância</th><th scope="col">Resultados</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">300 m</th><td>Aguardando a camada de fragmentos afetados.</td></tr>
+            <tr><th scope="row">1.750 m</th><td>Aguardando a camada de fragmentos afetados.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="report-section" id="trampolins-ecologicos" aria-labelledby="titulo-trampolins">
+      <h4 id="titulo-trampolins">Trampolins ecológicos</h4>
+      <div class="table-scroll" role="region" aria-label="Trampolins ecológicos por distância" tabindex="0">
+        <table class="indicator-table summary-table">
+          <thead>
+            <tr><th scope="col">Distância</th><th scope="col">Resultados</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">300 m</th><td>Aguardando a identificação dos fragmentos conectores.</td></tr>
+            <tr><th scope="row">1.750 m</th><td>Aguardando a identificação dos fragmentos conectores.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="report-section" id="animais-estudados" aria-labelledby="titulo-animais">
+      <h4 id="titulo-animais">Animais estudados</h4>
+      <p>Esta seção vai reunir as espécies estudadas e as referências usadas para interpretar suas distâncias de deslocamento.</p>
+    </section>
+  </main>
 </body>
 </html>

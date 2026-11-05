@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Metodologia do diagnóstico de riscos por fragmento na Bacia do Paranoá.">
+  <title>Riscos socioambientais | Bacia do Paranoá</title>
+  <link rel="stylesheet" href="style.css?v=3">
+</head>
+<body>
+  <header class="masthead">
+    <div class="container">
+      <p class="eyebrow">Relatório metodológico</p>
+      <h1>Bacia do Paranoá</h1>
+      <nav class="main-tabs" aria-label="Blocos do relatório">
+        <a href="index.html">Identificação da Rede de Infraestrutura Verde</a>
+        <a href="diagnostico.html" aria-current="location">Diagnóstico</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2>Diagnóstico</h2>
+    <nav class="risk-tabs" aria-label="Tópicos do diagnóstico">
+      <a href="diagnostico.html#riscos" aria-current="location">Riscos socioambientais</a>
+      <a href="condicionantes.html">Condicionantes</a>
+      <a href="ecologia.html">Ecologia</a>
+    </nav>
+    <section id="riscos" aria-labelledby="titulo-riscos">
+      <h3 id="titulo-riscos">Riscos socioambientais</h3>
+      <nav class="risk-tabs" aria-label="Vistas do diagnóstico de riscos">
+        <a href="diagnostico.html#riscos" aria-current="page">Metodologia</a>
+        <a href="mapa-riscos.html">Mapa dos indicadores</a>
+      </nav>
+      <p>O diagnóstico reúne, para cada fragmento de vegetação da Bacia do Paranoá, indicadores de calor, umidade, inundação e ocupação por edificações. A renda ajuda a situar cada fragmento no contexto socioeconômico.</p>
+
+      <nav class="section-nav" aria-label="Conteúdo do diagnóstico de riscos">
+        <a href="#procedimento">Procedimento</a>
+        <a href="#indicadores">Indicadores</a>
+        <a href="#classificacao">Classificação</a>
+        <a href="#saida">Saída</a>
+        <a href="#camadas">Camadas de entrada</a>
+      </nav>
+
+      <section id="procedimento" class="report-section" aria-labelledby="titulo-procedimento">
+        <h4 id="titulo-procedimento">Como o diagnóstico foi feito</h4>
+        <ol class="steps">
+          <li>O script abre as camadas prontas no QGIS e verifica os arquivos, os sistemas de coordenadas, as geometrias e a identificação dos fragmentos. Cada fragmento recebe uma linha na saída, vinculada pelo campo <code>patch_id</code>.</li>
+          <li>O script usa SIRGAS 2000 / UTM 23S (<code>EPSG:31983</code>) para medir distâncias em metros e áreas em metros quadrados. Para extrair valores de um raster, o polígono de análise é transformado para o sistema de coordenadas daquela camada.</li>
+          <li>Os valores dos rasters são resumidos por fragmento com estatística zonal. Os indicadores baseados em polígonos usam a área de interseção. Em seguida, o script atribui as classes e reúne os resultados em uma camada.</li>
+        </ol>
+      </section>
+
+      <section id="indicadores" class="report-section" aria-labelledby="titulo-indicadores">
+        <h4 id="titulo-indicadores">Indicadores e critérios</h4>
+
+        <div class="table-scroll" role="region" aria-label="Tabela de indicadores e critérios" tabindex="0">
+          <table class="indicator-table" aria-label="Entrada, tratamento e critério por indicador">
+            <thead>
+              <tr>
+                <th scope="col">Indicador</th>
+                <th scope="col">Camada de entrada</th>
+                <th scope="col">Tratamento</th>
+                <th scope="col">Critério e registro</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Ilha de calor urbano</th>
+                <td>Zonas de ilha de calor já delimitadas.</td>
+                <td>Cruza o fragmento com as zonas e verifica a área de sobreposição.</td>
+                <td>
+                  <p>Registra <strong>sim</strong> quando a interseção tem área positiva e <strong>não</strong> nos demais casos.</p>
+                  <p class="field-list"><code>icu</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Temperatura do ar</th>
+                <td>Rasters do InVEST para dia (<code>factors</code>), noite (<code>intensity</code>) e média já preparada.</td>
+                <td>Calcula a temperatura média dentro do fragmento para cada cenário.</td>
+                <td>
+                  <p>Cada cenário usa cinco faixas de igual amplitude. Da mais fria à mais quente, são <strong>base, boa, média, ruim e muito ruim</strong>.</p>
+                  <p class="field-list">
+                    <code>temp_dia</code> e <code>td_classe</code><br>
+                    <code>temp_noite</code> e <code>tn_classe</code><br>
+                    <code>temp_media</code> e <code>tm_classe</code>
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Mitigação térmica do entorno (HM)</th>
+                <td>Rasters de mitigação térmica do InVEST para dia, noite e média.</td>
+                <td>Cria um buffer de cinco metros, subtrai o fragmento e calcula a média na faixa externa resultante.</td>
+                <td>
+                  <p>Registra os três valores do índice. Valores mais próximos de um indicam maior mitigação modelada no entorno.</p>
+                  <p class="field-list"><code>hm_dia</code>, <code>hm_noite</code> e <code>hm_media</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Umidade relativa</th>
+                <td>Raster pronto derivado dos dados do INMET.</td>
+                <td>Extrai a umidade relativa média no interior do fragmento.</td>
+                <td>
+                  <p>Quatro faixas de igual amplitude. Em ordem crescente de umidade, os rótulos de potencial são <strong>muito baixo, médio baixo, médio e alto</strong>.</p>
+                  <p class="field-list"><code>umid_pct</code> e <code>umid_cls</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Inundação</th>
+                <td>Raster de profundidade para o tempo de retorno de cinco anos.</td>
+                <td>Calcula a profundidade média e máxima dentro do fragmento.</td>
+                <td>
+                  <p>Usa o máximo para representar o trecho mais profundo. Divide a amplitude dos máximos em quatro faixas iguais, da <strong>muito baixa</strong> à <strong>alta</strong>, passando por <strong>baixa</strong> e <strong>média</strong>.</p>
+                  <p class="field-list"><code>inund_med</code>, <code>inund_max</code> e <code>inund_cls</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Pressão de edificações</th>
+                <td>Polígonos das edificações.</td>
+                <td>Recorta e une as edificações dentro do fragmento para contar sobreposições uma vez. Divide a área ocupada pela área total do fragmento e expressa o resultado em porcentagem.</td>
+                <td>
+                  <p>Registra se há ocupação e aplica estas classes.</p>
+                  <ul class="ranges">
+                    <li><strong>Inexistente</strong> em 0%.</li>
+                    <li><strong>Baixa</strong> acima de zero até um terço.</li>
+                    <li><strong>Média</strong> acima de um terço até dois terços.</li>
+                    <li><strong>Alta</strong> acima de dois terços.</li>
+                  </ul>
+                  <p class="field-list"><code>edif</code>, <code>edif_pct</code> e <code>edif_cls</code></p>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Contexto de renda</th>
+                <td>Setores censitários com o rendimento médio dos responsáveis pelo domicílio com renda, no campo <code>V06004</code> do Censo 2022.</td>
+                <td>Escolhe o setor de maior sobreposição e usa sua renda como referência socioeconômica. Registra o valor em reais e em salários mínimos pela referência de R$ 1.212, além do código do setor, da sobreposição e da situação do dado.</td>
+                <td>
+                  <p>Faixas de até 1, acima de 1 até 3, acima de 3 até 6, acima de 6 até 9 e acima de 9 salários mínimos. Renda ausente ou suprimida recebe a classe <strong>sem dados</strong>.</p>
+                  <p class="field-list"><code>renda_rs</code>, <code>renda_sm</code>, <code>renda_cls</code>, <code>renda_st</code>, <code>setor</code> e <code>setor_pct</code></p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="classificacao" class="report-section" aria-labelledby="titulo-classificacao">
+        <h4 id="titulo-classificacao">Como ler as classes</h4>
+        <p>Nos indicadores classificados por intervalos iguais, o script divide a diferença entre o maior e o menor valor válido pelo número de classes. Assim, as faixas de temperatura, umidade e inundação representam posições relativas no conjunto de fragmentos analisado. Edificações e renda usam os cortes definidos para cada indicador.</p>
+        <p>Valores ausentes ficam nulos. Quando a classificação por intervalos recebe valores válidos todos iguais, a classe registrada é <strong>sem variação</strong>.</p>
+      </section>
+
+      <section id="saida" class="report-section" aria-labelledby="titulo-saida">
+        <h4 id="titulo-saida">Saída do diagnóstico</h4>
+        <p>A rotina reúne os valores e as classes em um GeoPackage com as geometrias e os atributos dos fragmentos. O script confere a quantidade de registros e a presença dos campos esperados na camada gravada. Para a rodada <code>Diagnostico_RISCOS_v01</code>, a configuração prevê a saída <code>Diagnostico_RISCOS_v01_diagnostico.gpkg</code> e um JSON com as entradas, os critérios e os limites calculados.</p>
+      </section>
+
+      <section id="camadas" class="report-section" aria-labelledby="titulo-camadas">
+        <h4 id="titulo-camadas">Camadas de entrada</h4>
+        <details>
+          <summary>Ver os arquivos usados no diagnóstico</summary>
+          <ul class="file-list">
+            <li><strong>Fragmentos</strong> · <code>MK_Fragmentation_Bacia_Paranoa_45m_PatchMetrics.shp</code></li>
+            <li><strong>Ilha de calor</strong> · <code>Zona_ICU.shp</code></li>
+            <li><strong>Temperatura</strong> · <code>T_air_bacia_paranoa_v6_factors.tif</code>, <code>T_air_bacia_paranoa_v6_intenssity.tif</code> e <code>T_air_bacia_paranoa_v6_media.tif</code></li>
+            <li><strong>Mitigação térmica</strong> · <code>hm_bacia_paranoa_v6_factors.tif</code>, <code>hm_bacia_paranoa_v6_intenssity.tif</code> e <code>hm_bacia_paranoa_v6_media.tif</code></li>
+            <li><strong>Umidade relativa</strong> · <code>Completo_umidade_relativa_media_pct.tif</code></li>
+            <li><strong>Inundação</strong> · <code>inundacao_profundidade_TR5_hidro.tif</code></li>
+            <li><strong>Edificações</strong> · <code>Construções Bacia do Paranoá.shp</code></li>
+            <li><strong>Renda</strong> · <code>Bacia_Paranoa_setores_renda_Censo2022.gpkg</code>, camada <code>recortado</code></li>
+          </ul>
+        </details>
+        <aside class="note" aria-label="Documentação das camadas">
+          <p><strong>Origem e preparação das camadas.</strong> Espaço reservado para detalhar as fontes, os períodos de referência e como as camadas foram obtidas e preparadas.</p>
+        </aside>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Metodologia baseada no script <code>01_Diagnostico_RISCOS.py</code>, versão v01.</p>
+    </div>
+  </footer>
+</body>
+</html>
