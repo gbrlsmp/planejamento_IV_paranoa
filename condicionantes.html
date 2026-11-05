@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Condicionantes | Diagnóstico da Bacia do Paranoá</title>
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
   <header class="masthead">
     <div class="container">
       <p class="eyebrow">Relatório metodológico</p>
-      <h1>Bacia do Paranoá</h1>
+      <h1><a href="index.html#sumario" aria-label="Bacia do Paranoá, sumário do relatório">Bacia do Paranoá</a></h1>
       <nav class="main-tabs" aria-label="Blocos do relatório">
         <a href="index.html">O Sistema</a>
         <a href="identificacao.html">Identificação da Rede de Infraestrutura Verde</a>
@@ -41,7 +41,24 @@
           </tbody>
         </table>
       </div>
-      <p class="map-source">Fonte: tabela <code>areas_momentos.csv</code>, saída da análise Momentos da Água na Bacia do Paranoá.</p>
+      <details class="data-method">
+        <summary>Dados e método</summary>
+        <div class="table-scroll" role="region" aria-label="Dados dos momentos da água" tabindex="0">
+          <table class="indicator-table data-table">
+            <thead>
+              <tr><th scope="col">Dado utilizado</th><th scope="col">Fonte</th><th scope="col">Tratamento aplicado</th><th scope="col">O que analisa</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Áreas dos momentos da água<br><code>areas_momentos.csv</code></th>
+                <td>Saída da análise Momentos da Água na Bacia do Paranoá.</td>
+                <td>Organização das áreas em hectares por momento e grau de definição (forte, moderado ou transição).</td>
+                <td>Distribuição territorial das áreas de fonte, condução e acomodação da água.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
     </section>
 
     <section class="report-section" id="potencial-recuperacao" aria-labelledby="titulo-pre">
@@ -60,8 +77,26 @@
           </tbody>
         </table>
       </div>
-      <p class="map-source">Fonte: camada <code>PRE_Bacia_Paranoa_MERGE_IPE_DF_2023</code>, campo <code>cat_pdot20</code>. Áreas em SIRGAS 2000 / UTM 23S.</p>
+      <details class="data-method">
+        <summary>Dados e método</summary>
+        <div class="table-scroll" role="region" aria-label="Dados do potencial de recuperação ecológica" tabindex="0">
+          <table class="indicator-table data-table">
+            <thead>
+              <tr><th scope="col">Dado utilizado</th><th scope="col">Fonte</th><th scope="col">Tratamento aplicado</th><th scope="col">O que analisa</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Potencial de recuperação ecológica<br><code>PRE_Bacia_Paranoa_MERGE_IPE_DF_2023</code></th>
+                <td>Camada de potencial de recuperação ecológica usada no estudo, campo <code>cat_pdot20</code>. Fonte primária a confirmar.</td>
+                <td>Agrupamento por classe, contagem de polígonos e soma de áreas em SIRGAS 2000 / UTM 23S.</td>
+                <td>Distribuição do potencial de recuperação ecológica no recorte da bacia.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
     </section>
+    <p class="next-step"><a href="ecologia.html">Consultar a ecologia →</a></p>
   </main>
 </body>
 </html>

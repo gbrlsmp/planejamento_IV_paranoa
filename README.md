@@ -12,8 +12,8 @@ O mapa abre com o limite da bacia e as massas d’água. Selecione um indicador 
 
 | Caminho | Conteúdo |
 | --- | --- |
-| [`index.html`](index.html) | Apresentação do sistema, objetivo, leitura da rede e referências. |
-| [`identificacao.html`](identificacao.html) | Identificação da rede, uso do solo, métricas de forma, tipologias de AVU e IV e mapa das RAs. |
+| [`index.html`](index.html) | Sumário do relatório, objetivo, metodologia geral, matriz de decisão e referências. |
+| [`identificacao.html`](identificacao.html) | Mapa da bacia e das RAs, leitura da rede, uso do solo, tipologias de AVU e IV e métricas de forma. |
 | [`docs/referencias-parte-iv.md`](docs/referencias-parte-iv.md) | Referências, páginas da tese e relação com o conteúdo da Parte IV. |
 | [`diagnostico.html`](diagnostico.html) | Metodologia e indicadores de riscos socioambientais, com acesso a Condicionantes e Ecologia. |
 | [`mapa-riscos.html`](mapa-riscos.html) | Interface do mapa, com estilos e scripts próprios e Leaflet 1.9.4 em [`vendor/leaflet`](vendor/leaflet). |

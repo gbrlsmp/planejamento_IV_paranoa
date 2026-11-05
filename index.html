@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Apresentação do Sistema de Infraestrutura Verde da Bacia do Paranoá.">
   <title>O Sistema | Bacia do Paranoá</title>
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
   <script>
     const legacySections = {
       "#riscos": "diagnostico.html",
@@ -14,6 +14,7 @@
       "#classificacao": "diagnostico.html",
       "#saida": "diagnostico.html",
       "#camadas": "diagnostico.html",
+      "#leitura-da-rede": "identificacao.html",
       "#uso-solo": "identificacao.html",
       "#metricas-forma": "identificacao.html",
       "#tipologias": "identificacao.html",
@@ -27,7 +28,7 @@
   <header class="masthead">
     <div class="container">
       <p class="eyebrow">Relatório metodológico</p>
-      <h1>Bacia do Paranoá</h1>
+      <h1><a href="index.html#sumario" aria-label="Bacia do Paranoá, sumário do relatório">Bacia do Paranoá</a></h1>
       <nav class="main-tabs" aria-label="Blocos do relatório">
         <a href="index.html" aria-current="page">O Sistema</a>
         <a href="identificacao.html">Identificação da Rede de Infraestrutura Verde</a>
@@ -38,10 +39,38 @@
   <main class="container">
     <h2>O Sistema</h2>
     <p>O Sistema de Infraestrutura Verde da Bacia do Paranoá reúne áreas que contribuem ou podem contribuir para a conectividade ecológica e a prestação de serviços ecossistêmicos de regulação.</p>
-    <nav class="section-nav" aria-label="Conteúdo da apresentação">
-      <a href="#objetivo">Objetivo</a>
-      <a href="#leitura-da-rede">Leitura da rede</a>
-      <a href="#referencias">Referências</a>
+    <nav id="sumario" class="report-summary report-section" aria-labelledby="titulo-sumario">
+      <h3 id="titulo-sumario">Sumário</h3>
+      <ol>
+        <li>
+          <h4>O Sistema</h4>
+          <ul>
+            <li><a href="#objetivo">Objetivo</a></li>
+            <li><a href="#metodologia-geral">Metodologia geral</a></li>
+            <li><a href="#matriz-de-decisao">Matriz de decisão</a></li>
+            <li><a href="#referencias">Referências</a></li>
+          </ul>
+        </li>
+        <li>
+          <h4>Identificação da Rede de Infraestrutura Verde</h4>
+          <ul>
+            <li><a href="identificacao.html#regioes-administrativas">Mapa da bacia e RAs</a></li>
+            <li><a href="identificacao.html#leitura-da-rede">Como ler a rede</a></li>
+            <li><a href="identificacao.html#uso-solo">Uso e cobertura do solo</a></li>
+            <li><a href="identificacao.html#tipologias">Tipologias de AVU e de IV</a></li>
+            <li><a href="identificacao.html#metricas-forma">Métricas de forma</a></li>
+          </ul>
+        </li>
+        <li>
+          <h4>Diagnóstico</h4>
+          <ul>
+            <li><a href="diagnostico.html#riscos">Riscos socioambientais</a></li>
+            <li><a href="mapa-riscos.html">Mapa dos indicadores</a></li>
+            <li><a href="condicionantes.html">Condicionantes</a></li>
+            <li><a href="ecologia.html">Ecologia</a></li>
+          </ul>
+        </li>
+      </ol>
     </nav>
 
     <section id="objetivo" class="report-section" aria-labelledby="titulo-objetivo">
@@ -49,10 +78,15 @@
       <p>Definir estratégias para qualificar a conectividade ecológica e a prestação de serviços ecossistêmicos de regulação da infraestrutura verde da Bacia do Paranoá, no Distrito Federal.</p>
     </section>
 
-    <section id="leitura-da-rede" class="report-section" aria-labelledby="titulo-leitura">
-      <h3 id="titulo-leitura">Como o estudo lê a rede</h3>
-      <p>A leitura proposta por Sant’Anna (2020, pp. 124–127 e 134–144) articula núcleos, conexões e lugares. O papel de cada elemento depende da escala e de como ele se relaciona com os demais.</p>
-      <p>No estudo do Paranoá, unidades de conservação e parques urbanos entram como <strong>âncoras</strong>. A identificação da rede descreve as áreas que a compõem. A leitura conjunta de riscos socioambientais, condicionantes e ecologia orienta a escolha de estratégias de adaptação ou conservação.</p>
+    <section id="metodologia-geral" class="report-section" aria-labelledby="titulo-metodologia">
+      <h3 id="titulo-metodologia">Metodologia geral</h3>
+      <p>O estudo começa pela <a href="identificacao.html">identificação da Rede de Infraestrutura Verde</a>. Em seguida, o <a href="diagnostico.html">diagnóstico</a> reúne, para cada fragmento de vegetação, informações sobre riscos socioambientais, condicionantes e ecologia.</p>
+    </section>
+
+    <section id="matriz-de-decisao" class="report-section" aria-labelledby="titulo-matriz">
+      <h3 id="titulo-matriz">Matriz de decisão</h3>
+      <p>Os resultados do diagnóstico serão cruzados em uma matriz de decisão para agrupar fragmentos em situações semelhantes. A partir desses grupos, o estudo vai propor estratégias para reconectar a rede e fortalecer os serviços ecossistêmicos de regulação, contribuindo para mitigar riscos como o calor e a inundação.</p>
+      <p>A Figura 70 de Sant’Anna (2020, p. 127) orienta a passagem do diagnóstico à escolha de ações. Os critérios de agrupamento e as estratégias para o Paranoá serão definidos a partir dos resultados do estudo.</p>
     </section>
 
     <section id="referencias" class="report-section" aria-labelledby="titulo-referencias">
@@ -60,11 +94,12 @@
       <ol class="file-list">
         <li>
           <p>SANT' ANNA, Camila Gomes. <cite>A infraestrutura verde e sua contribuição para o desenho da paisagem da cidade</cite>. 2020. 303 f. Tese (Doutorado em Arquitetura e Urbanismo) — Universidade de Brasília, Brasília, 2020. <a href="https://repositorio.unb.br/handle/10482/39399">Tese no Repositório Institucional da UnB</a>.</p>
-          <p>A tese fundamenta a leitura dos elementos da rede (pp. 124–127), a análise de seus papéis em diferentes escalas (Quadro 12, pp. 139–143) e a relação entre diagnóstico e estratégias (Figura 70, p. 127, e p. 282).</p>
+          <p>A tese fundamenta a <a href="identificacao.html#leitura-da-rede">leitura dos elementos da rede</a> (pp. 124–127 e 134–144) e a relação entre diagnóstico e estratégias (Figura 70, p. 127, e p. 282).</p>
         </li>
       </ol>
       <p class="note">As notas de pesquisa relacionam as páginas da tese ao conteúdo de O Sistema, Identificação e Diagnóstico. <a href="https://github.com/gbrlsmp/planejamento_IV_paranoa/blob/main/docs/referencias-parte-iv.md">Ver referências e decisões no GitHub</a>.</p>
     </section>
+    <p class="next-step"><a href="identificacao.html">Explorar a rede →</a></p>
   </main>
 </body>
 </html>

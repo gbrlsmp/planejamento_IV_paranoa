@@ -6,7 +6,7 @@
   <meta name="description" content="Identificação da Rede de Infraestrutura Verde na Bacia do Paranoá.">
   <title>Identificação da Rede de Infraestrutura Verde | Bacia do Paranoá</title>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
   <link rel="stylesheet" href="mapa-riscos.css?v=2">
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-base.js"></script>
@@ -16,7 +16,7 @@
   <header class="masthead">
     <div class="container">
       <p class="eyebrow">Relatório metodológico</p>
-      <h1>Bacia do Paranoá</h1>
+      <h1><a href="index.html#sumario" aria-label="Bacia do Paranoá, sumário do relatório">Bacia do Paranoá</a></h1>
       <nav class="main-tabs" aria-label="Blocos do relatório">
         <a href="index.html">O Sistema</a>
         <a href="identificacao.html" aria-current="page">Identificação da Rede de Infraestrutura Verde</a>
@@ -27,55 +27,17 @@
   <main class="container">
     <h2>Identificação da Rede de Infraestrutura Verde</h2>
     <p class="intro">Identificar como a infraestrutura verde se estrutura na Bacia do Paranoá e qual é a organização fundiária das áreas que compõem a rede.</p>
-    <p>O objetivo geral é definir estratégias para qualificar a conectividade ecológica e a prestação de serviços ecossistêmicos de regulação.</p>
 
     <nav class="section-nav" aria-label="Conteúdo da identificação">
+      <a href="#regioes-administrativas">Mapa da bacia e RAs</a>
+      <a href="#leitura-da-rede">Como ler a rede</a>
       <a href="#uso-solo">Uso do solo</a>
-      <a href="#metricas-forma">Métricas de forma</a>
       <a href="#tipologias">Tipologias de AVU e de IV</a>
-      <a href="#regioes-administrativas">Regiões administrativas</a>
+      <a href="#metricas-forma">Métricas de forma</a>
     </nav>
 
-    <section id="uso-solo" class="report-section" aria-labelledby="titulo-uso-solo">
-      <h3 id="titulo-uso-solo">Uso e cobertura do solo</h3>
-      <p>Áreas por classe no recorte da Bacia do Paranoá. A tabela usa os códigos de legenda da base MapBiomas de 10 m.</p>
-      <div class="table-scroll" role="region" aria-label="Área por classe de uso e cobertura do solo" tabindex="0">
-        <table class="indicator-table summary-table">
-          <thead>
-            <tr><th scope="col">Classe</th><th scope="col">Código</th><th scope="col">Área (ha)</th></tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">Formação florestal</th><td>3</td><td>10.868,45</td></tr>
-            <tr><th scope="row">Formação savânica</th><td>4</td><td>38.852,18</td></tr>
-            <tr><th scope="row">Campo alagado e área pantanosa</th><td>11</td><td>1.574,24</td></tr>
-            <tr><th scope="row">Formação campestre</th><td>12</td><td>5.437,79</td></tr>
-            <tr><th scope="row">Silvicultura</th><td>9</td><td>702,43</td></tr>
-            <tr><th scope="row">Pastagem</th><td>15</td><td>7.556,96</td></tr>
-            <tr><th scope="row">Lavoura temporária</th><td>19</td><td>222,59</td></tr>
-            <tr><th scope="row">Mosaico de usos</th><td>21</td><td>1.336,73</td></tr>
-            <tr><th scope="row">Lavoura perene</th><td>36</td><td>1,96</td></tr>
-            <tr><th scope="row">Área urbanizada</th><td>24</td><td>32.848,81</td></tr>
-            <tr><th scope="row">Outras áreas não vegetadas</th><td>25</td><td>1.613,12</td></tr>
-            <tr><th scope="row">Rio, lago e oceano</th><td>33</td><td>4.612,85</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="map-source">Fonte: camada <code>uso_cobertura_MapBiomas_Bacia_Paranoa</code>. Áreas calculadas em SIRGAS 2000 / UTM 23S. <a href="https://brasil.mapbiomas.org/iniciativas-e-produtos/cobertura-e-uso-da-terra/cobertura-10m/cobertura/">Legenda do MapBiomas</a>.</p>
-    </section>
-
-    <section id="metricas-forma" class="report-section" aria-labelledby="titulo-metricas-forma">
-      <h3 id="titulo-metricas-forma">Métricas de forma</h3>
-      <p>O levantamento reúne <strong>33.454 fragmentos</strong> de vegetação, com área total de 60.572,18 ha e área média de 1,81 ha. A base registra área, perímetro, área de núcleo, percentual de borda, razão perímetro/área, índice de forma e dimensão fractal por fragmento.</p>
-      <p class="map-source">Fonte: tabelas <code>MK_Fragmentation_Bacia_Paranoa_45m_PatchMetrics.csv</code> e <code>MK_Fragmentation_Bacia_Paranoa_45m_LandscapeMetrics.csv</code>.</p>
-    </section>
-
-    <section id="tipologias" class="report-section" aria-labelledby="titulo-tipologias">
-      <h3 id="titulo-tipologias">Tipologias de AVU e de IV</h3>
-      <p>Esta seção reúne a identificação das áreas verdes urbanas (AVU), os tipos de infraestrutura verde (IV) e a situação fundiária das áreas que compõem a rede. A classificação consolidada está pendente de inclusão.</p>
-    </section>
-
     <section id="regioes-administrativas" class="report-section" aria-labelledby="titulo-regioes">
-      <h3 id="titulo-regioes">Regiões administrativas</h3>
+      <h3 id="titulo-regioes">Mapa da bacia e regiões administrativas</h3>
       <p>A base inclui 30 regiões administrativas no recorte da bacia. Os números no mapa correspondem aos códigos da lista.</p>
       <div class="map-tools">
         <label class="map-toggle">
@@ -84,7 +46,7 @@
         </label>
       </div>
       <p id="map-status" role="status">Carregando o mapa das regiões administrativas…</p>
-      <div id="mapa" role="region" aria-label="Mapa das regiões administrativas da Bacia do Paranoá"></div>
+      <div id="mapa" role="region" aria-label="Mapa da bacia, das massas d’água e das regiões administrativas"></div>
       <noscript><p>Ative JavaScript para visualizar o mapa interativo.</p></noscript>
       <details>
         <summary>Ver nomes e códigos das RAs</summary>
@@ -121,8 +83,128 @@
           <li>37 · Ponte Alta</li>
         </ul>
       </details>
-      <p class="map-source">Base cartográfica do IPE-DF (2023).</p>
+      <details class="data-method">
+        <summary>Dados e método</summary>
+        <div class="table-scroll" role="region" aria-label="Dados do mapa da bacia" tabindex="0">
+          <table class="indicator-table data-table">
+            <thead>
+              <tr><th scope="col">Dado utilizado</th><th scope="col">Fonte</th><th scope="col">Tratamento aplicado</th><th scope="col">O que analisa</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Limite da bacia</th>
+                <td>IPE-DF (2023).</td>
+                <td>Exportação em WGS 84 para a base interativa.</td>
+                <td>Delimita o recorte do estudo.</td>
+              </tr>
+              <tr>
+                <th scope="row">Massas d’água</th>
+                <td>IPE-DF (2023).</td>
+                <td>Exportação em WGS 84 para a base interativa.</td>
+                <td>Localiza as superfícies de água no recorte.</td>
+              </tr>
+              <tr>
+                <th scope="row">Regiões administrativas (RAs)</th>
+                <td>IPE-DF (2023).</td>
+                <td>Recorte à bacia e exportação em WGS 84.</td>
+                <td>Situa os fragmentos e demais elementos da rede em relação aos limites administrativos.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
     </section>
+
+    <section id="leitura-da-rede" class="report-section" aria-labelledby="titulo-leitura">
+      <h3 id="titulo-leitura">Como ler a rede</h3>
+      <p>A leitura proposta por Sant’Anna (2020, pp. 124–127 e 134–144) articula núcleos, conexões e lugares. O papel de cada elemento depende da escala e de como ele se relaciona com os demais.</p>
+      <p>No estudo do Paranoá, unidades de conservação e parques urbanos são classificados como <strong>âncoras</strong> da infraestrutura verde. Esse critério ajuda a identificar áreas que estruturam a rede.</p>
+      <p><a href="index.html#referencias">Consultar a referência completa</a></p>
+    </section>
+
+    <section id="uso-solo" class="report-section" aria-labelledby="titulo-uso-solo">
+      <h3 id="titulo-uso-solo">Uso e cobertura do solo</h3>
+      <p>Áreas por classe no recorte da Bacia do Paranoá. A tabela usa os códigos de legenda da base MapBiomas de 10 m.</p>
+      <div class="table-scroll" role="region" aria-label="Área por classe de uso e cobertura do solo" tabindex="0">
+        <table class="indicator-table summary-table">
+          <thead>
+            <tr><th scope="col">Classe</th><th scope="col">Código</th><th scope="col">Área (ha)</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Formação florestal</th><td>3</td><td>10.868,45</td></tr>
+            <tr><th scope="row">Formação savânica</th><td>4</td><td>38.852,18</td></tr>
+            <tr><th scope="row">Campo alagado e área pantanosa</th><td>11</td><td>1.574,24</td></tr>
+            <tr><th scope="row">Formação campestre</th><td>12</td><td>5.437,79</td></tr>
+            <tr><th scope="row">Silvicultura</th><td>9</td><td>702,43</td></tr>
+            <tr><th scope="row">Pastagem</th><td>15</td><td>7.556,96</td></tr>
+            <tr><th scope="row">Lavoura temporária</th><td>19</td><td>222,59</td></tr>
+            <tr><th scope="row">Mosaico de usos</th><td>21</td><td>1.336,73</td></tr>
+            <tr><th scope="row">Lavoura perene</th><td>36</td><td>1,96</td></tr>
+            <tr><th scope="row">Área urbanizada</th><td>24</td><td>32.848,81</td></tr>
+            <tr><th scope="row">Outras áreas não vegetadas</th><td>25</td><td>1.613,12</td></tr>
+            <tr><th scope="row">Rio, lago e oceano</th><td>33</td><td>4.612,85</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <details class="data-method">
+        <summary>Dados e método</summary>
+        <div class="table-scroll" role="region" aria-label="Dados de uso e cobertura do solo" tabindex="0">
+          <table class="indicator-table data-table">
+            <thead>
+              <tr><th scope="col">Dado utilizado</th><th scope="col">Fonte</th><th scope="col">Tratamento aplicado</th><th scope="col">O que analisa</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Uso e cobertura do solo<br><code>uso_cobertura_MapBiomas_Bacia_Paranoa</code></th>
+                <td>MapBiomas, resolução de 10 m. <a href="https://brasil.mapbiomas.org/iniciativas-e-produtos/cobertura-e-uso-da-terra/cobertura-10m/cobertura/">Legenda da base</a>.</td>
+                <td>Recorte à bacia e cálculo de áreas por classe em SIRGAS 2000 / UTM 23S. Valores em hectares.</td>
+                <td>Distribuição da área da bacia entre classes de uso e cobertura.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <section id="tipologias" class="report-section" aria-labelledby="titulo-tipologias">
+      <h3 id="titulo-tipologias">Tipologias de AVU e de IV</h3>
+      <p>Esta seção reúne os tipos de áreas verdes urbanas (AVU) e de infraestrutura verde (IV). A classificação consolidada está pendente de inclusão.</p>
+      <details class="data-method">
+        <summary>Dados e método</summary>
+        <p>As camadas e o tratamento da classificação serão documentados junto com os resultados. O critério das âncoras está descrito em <a href="#leitura-da-rede">Como ler a rede</a>.</p>
+      </details>
+    </section>
+
+    <section id="metricas-forma" class="report-section" aria-labelledby="titulo-metricas-forma">
+      <h3 id="titulo-metricas-forma">Métricas de forma</h3>
+      <p>O levantamento reúne <strong>33.454 fragmentos</strong> de vegetação, com área total de 60.572,18 ha e área média de 1,81 ha. A base registra área, perímetro, área de núcleo, percentual de borda, razão perímetro/área, índice de forma e dimensão fractal por fragmento.</p>
+      <details class="data-method">
+        <summary>Dados e método</summary>
+        <div class="table-scroll" role="region" aria-label="Dados de métricas de forma" tabindex="0">
+          <table class="indicator-table data-table">
+            <thead>
+              <tr><th scope="col">Dado utilizado</th><th scope="col">Fonte</th><th scope="col">Tratamento aplicado</th><th scope="col">O que analisa</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Métricas por fragmento<br><code>MK_Fragmentation_Bacia_Paranoa_45m_PatchMetrics.csv</code></th>
+                <td>Saída da análise de fragmentação a 45 m.</td>
+                <td>Leitura das métricas registradas por fragmento.</td>
+                <td>Área, perímetro, área de núcleo, borda e complexidade da forma.</td>
+              </tr>
+              <tr>
+                <th scope="row">Métricas da paisagem<br><code>MK_Fragmentation_Bacia_Paranoa_45m_LandscapeMetrics.csv</code></th>
+                <td>Saída da análise de fragmentação a 45 m.</td>
+                <td>Leitura das métricas agregadas, com áreas expressas em hectares.</td>
+                <td>Número de fragmentos e suas áreas total e média.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
+    <p class="next-step"><a href="diagnostico.html">Consultar o diagnóstico →</a></p>
   </main>
 </body>
 </html>
