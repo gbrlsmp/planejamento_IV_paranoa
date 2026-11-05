@@ -6,6 +6,8 @@ Relatório metodológico da Bacia do Paranoá, no Distrito Federal. O projeto bu
 
 ## Como usar o mapa
 
+O [mapa interativo geral](https://gbrlsmp.github.io/planejamento_IV_paranoa/mapa.html) permite combinar camadas temáticas, limites das RAs e indicadores de Riscos. Os tópicos do relatório também têm vistas de Metodologia e Mapa. [Dados e exportação das camadas](docs/mapas-tematicos.md).
+
 O mapa abre com o limite da bacia e as massas d’água. Selecione um indicador para colorir os fragmentos e clique em um deles para consultar seus valores. O mapa das regiões administrativas fica na aba de identificação da rede. O fundo de satélite do Google é opcional e depende da configuração descrita abaixo.
 
 ## O que há no repositório

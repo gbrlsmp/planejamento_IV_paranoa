@@ -89,3 +89,18 @@
   .map-layout { grid-template-columns: 1fr; }
   #mapa { min-height: 20rem; height: 52vh; }
 }
+
+#camadas-tematicas {
+  margin: 1rem 0;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+}
+
+#camadas-tematicas .map-toggle {
+  display: inline-flex;
+  margin: 0.25rem 1rem 0.25rem 0;
+}
+
+.mapa-classe { image-rendering: pixelated; }
+#legendas-tematicas h4 { margin-top: 0.9rem; }
+.risk-tabs[hidden] { display: none; }

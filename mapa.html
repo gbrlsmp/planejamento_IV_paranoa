@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-maps-key" content="">
+  <title>Mapa interativo | Bacia do Paranoá</title>
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="mapa-riscos.css?v=3">
+  <script defer src="vendor/leaflet/leaflet.js"></script>
+  <script defer src="mapa-satelite.js"></script>
+  <script defer src="mapa-base.js"></script>
+  <script defer src="mapa-temas.js"></script>
+  <script defer src="mapa-riscos.js?v=4"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="container">
+      <p class="eyebrow">Relatório metodológico</p>
+      <h1><a href="index.html#sumario" aria-label="Bacia do Paranoá, sumário do relatório">Bacia do Paranoá</a></h1>
+      <nav class="main-tabs" aria-label="Blocos do relatório">
+        <a href="index.html">O Sistema</a>
+        <a href="identificacao.html">Identificação da Rede de Infraestrutura Verde</a>
+        <a href="diagnostico.html">Diagnóstico</a>
+        <a href="mapa.html" aria-current="page">Mapa interativo</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container map-container">
+    <h2 id="titulo-atlas">Mapa interativo geral</h2>
+    <nav class="risk-tabs" id="vistas-do-tema" aria-label="Vistas do tema" hidden>
+      <a id="metodologia-do-tema" href="index.html#sumario">Metodologia</a>
+      <a id="mapa-do-tema" href="mapa.html" aria-current="page">Mapa</a>
+    </nav>
+    <p id="contexto-atlas">Ative as camadas que deseja comparar e selecione um indicador para consultar os fragmentos.</p>
+    <fieldset id="camadas-tematicas" disabled>
+      <legend>Camadas temáticas</legend>
+    </fieldset>
+    <div class="map-tools">
+      <div id="indicadores-do-atlas">
+        <label for="indicador">Indicador de Riscos</label>
+        <select id="indicador" disabled>
+          <option value="">Nenhum</option>
+        </select>
+      </div>
+      <label class="map-toggle">
+        <input id="mostrar-ras" type="checkbox" disabled>
+        Mostrar regiões administrativas (RAs)
+      </label>
+      <button id="enquadrar" type="button" disabled>Enquadrar a bacia</button>
+      <label class="map-toggle">
+        <input id="mostrar-satelite" type="checkbox" aria-describedby="satelite-status" disabled>
+        Mostrar satélite do Google
+      </label>
+    </div>
+    <p id="satelite-status" role="status"></p>
+    <p id="map-status" role="status" aria-live="polite">Carregando a base cartográfica…</p>
+    <div class="map-layout">
+      <div id="mapa" role="region" aria-label="Mapa interativo da Bacia do Paranoá"></div>
+      <aside class="map-legend" aria-labelledby="legend-title">
+        <h3 id="legend-title">Legenda</h3>
+        <p id="legend-note"></p>
+        <div id="legend-items"></div>
+        <div id="legendas-tematicas"></div>
+      </aside>
+    </div>
+    <noscript><p>Ative JavaScript no navegador para visualizar o mapa.</p></noscript>
+
+    <section class="report-section" aria-labelledby="titulo-origem-atlas">
+      <h3 id="titulo-origem-atlas">Dados e método</h3>
+      <p>O limite da bacia, as massas d’água e os limites das RAs vêm da base do IPE-DF (2023). As camadas temáticas usam uma grade de 50 m em Web Mercator. As tabelas do relatório usam as bases originais.</p>
+      <ul id="fontes-atlas"></ul>
+      <p id="fonte-riscos-atlas"><a href="diagnostico.html#camadas">Dados e método dos indicadores de Riscos</a></p>
+    </section>
+
+    <details class="map-source">
+      <summary>Termos de uso e privacidade da camada de satélite</summary>
+      <p>A camada de satélite é fornecida pelo Google Maps e seu uso está sujeito aos <a href="https://www.google.com/intl/pt-BR/help/terms_maps/">Termos do Google Maps</a> e aos <a href="https://policies.google.com/terms?hl=pt-BR">Termos de Serviço do Google</a>.</p>
+      <p>Ao ativar a camada, seu navegador se conecta ao Google e solicita imagens para a área e o nível de zoom exibidos. O Google recebe dados dessas solicitações, como o endereço IP, conforme sua <a href="https://policies.google.com/privacy?hl=pt-BR">Política de Privacidade</a>.</p>
+    </details>
+  </main>
+</body>
+</html>

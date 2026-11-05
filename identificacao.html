@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Identificação da Rede de Infraestrutura Verde na Bacia do Paranoá.">
   <title>Identificação da Rede de Infraestrutura Verde | Bacia do Paranoá</title>
-  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+
   <link rel="stylesheet" href="style.css?v=4">
-  <link rel="stylesheet" href="mapa-riscos.css?v=2">
-  <script defer src="vendor/leaflet/leaflet.js"></script>
-  <script defer src="mapa-base.js"></script>
+
+
   <script defer src="subabas.js"></script>
-  <script defer src="mapa-identificacao.js?v=2"></script>
+
 </head>
 <body>
   <header class="masthead">
@@ -22,6 +21,7 @@
         <a href="index.html">O Sistema</a>
         <a href="identificacao.html" aria-current="page">Identificação da Rede de Infraestrutura Verde</a>
         <a href="diagnostico.html">Diagnóstico</a>
+        <a href="mapa.html">Mapa interativo</a>
       </nav>
     </div>
   </header>
@@ -39,16 +39,11 @@
 
     <section id="regioes-administrativas" class="report-section" aria-labelledby="titulo-regioes">
       <h3 id="titulo-regioes">Mapa da bacia e regiões administrativas</h3>
+      <nav class="risk-tabs" aria-label="Vistas de Bacia e regiões administrativas">
+        <a href="identificacao.html#regioes-administrativas" aria-current="page">Metodologia</a>
+        <a href="mapa.html?tema=ras">Mapa</a>
+      </nav>
       <p>A base inclui 30 regiões administrativas no recorte da bacia. Os números no mapa correspondem aos códigos da lista.</p>
-      <div class="map-tools">
-        <label class="map-toggle">
-          <input id="mostrar-ras" type="checkbox" checked disabled>
-          Mostrar regiões administrativas (RAs)
-        </label>
-      </div>
-      <p id="map-status" role="status">Carregando o mapa das regiões administrativas…</p>
-      <div id="mapa" role="region" aria-label="Mapa da bacia, das massas d’água e das regiões administrativas"></div>
-      <noscript><p>Ative JavaScript para visualizar o mapa interativo.</p></noscript>
       <details>
         <summary>Ver nomes e códigos das RAs</summary>
         <ul class="region-list">
@@ -118,6 +113,10 @@
 
     <section id="leitura-da-rede" class="report-section" aria-labelledby="titulo-leitura">
       <h3 id="titulo-leitura">Como ler a rede</h3>
+      <nav class="risk-tabs" aria-label="Vistas de Leitura da rede">
+        <a href="identificacao.html#leitura-da-rede" aria-current="page">Metodologia</a>
+        <a href="mapa.html?tema=rede">Mapa</a>
+      </nav>
       <p>A leitura proposta por Sant’Anna (2020, pp. 124–127 e 134–144) articula núcleos, conexões e lugares. O papel de cada elemento depende da escala e de como ele se relaciona com os demais.</p>
       <p>No estudo do Paranoá, unidades de conservação e parques urbanos são classificados como <strong>âncoras</strong> da infraestrutura verde. Esse critério ajuda a identificar áreas que estruturam a rede.</p>
       <p><a href="index.html#referencias">Consultar a referência completa</a></p>
@@ -125,6 +124,10 @@
 
     <section id="uso-solo" class="report-section" aria-labelledby="titulo-uso-solo">
       <h3 id="titulo-uso-solo">Uso e cobertura do solo</h3>
+      <nav class="risk-tabs" aria-label="Vistas de Uso e cobertura do solo">
+        <a href="identificacao.html#uso-solo" aria-current="page">Metodologia</a>
+        <a href="mapa.html?tema=uso">Mapa</a>
+      </nav>
       <p>Áreas por classe no recorte da Bacia do Paranoá. A tabela usa os códigos de legenda da base MapBiomas de 10 m.</p>
       <div class="table-scroll" role="region" aria-label="Área por classe de uso e cobertura do solo" tabindex="0">
         <table class="indicator-table summary-table">
@@ -169,6 +172,10 @@
 
     <section id="tipologias" class="report-section" aria-labelledby="titulo-tipologias">
       <h3 id="titulo-tipologias">Tipologias de AVU e de IV</h3>
+      <nav class="risk-tabs" aria-label="Vistas de Tipologias de AVU e de IV">
+        <a href="identificacao.html#tipologias" aria-current="page">Metodologia</a>
+        <a href="mapa.html?tema=tipologias">Mapa</a>
+      </nav>
       <p>Esta seção reúne os tipos de áreas verdes urbanas (AVU) e de infraestrutura verde (IV). A classificação consolidada está pendente de inclusão.</p>
       <details class="data-method">
         <summary>Dados e método</summary>
@@ -178,6 +185,10 @@
 
     <section id="metricas-forma" class="report-section" aria-labelledby="titulo-metricas-forma">
       <h3 id="titulo-metricas-forma">Métricas de forma</h3>
+      <nav class="risk-tabs" aria-label="Vistas de Métricas de forma">
+        <a href="identificacao.html#metricas-forma" aria-current="page">Metodologia</a>
+        <a href="mapa.html?tema=metricas">Mapa</a>
+      </nav>
       <p>O levantamento reúne <strong>33.454 fragmentos</strong> de vegetação, com área total de 60.572,18 ha e área média de 1,81 ha. A base registra área, perímetro, área de núcleo, percentual de borda, razão perímetro/área, índice de forma e dimensão fractal por fragmento.</p>
       <details class="data-method">
         <summary>Dados e método</summary>
