@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Metodologia do diagnóstico de riscos por fragmento na Bacia do Paranoá.">
   <title>Riscos socioambientais | Bacia do Paranoá</title>
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
   <header class="masthead">
     <div class="container">
       <p class="eyebrow">Relatório metodológico</p>
-      <h1>Bacia do Paranoá</h1>
+      <h1><a href="index.html#sumario" aria-label="Bacia do Paranoá, sumário do relatório">Bacia do Paranoá</a></h1>
       <nav class="main-tabs" aria-label="Blocos do relatório">
         <a href="index.html">O Sistema</a>
         <a href="identificacao.html">Identificação da Rede de Infraestrutura Verde</a>
@@ -40,7 +40,7 @@
         <a href="#indicadores">Indicadores</a>
         <a href="#classificacao">Classificação</a>
         <a href="#saida">Saída</a>
-        <a href="#camadas">Camadas de entrada</a>
+        <a href="#camadas">Dados e método</a>
       </nav>
 
       <section id="procedimento" class="report-section" aria-labelledby="titulo-procedimento">
@@ -156,25 +156,95 @@
       </section>
 
       <section id="camadas" class="report-section" aria-labelledby="titulo-camadas">
-        <h4 id="titulo-camadas">Camadas de entrada</h4>
-        <details>
-          <summary>Ver os arquivos usados no diagnóstico</summary>
-          <ul class="file-list">
-            <li><strong>Fragmentos</strong> · <code>MK_Fragmentation_Bacia_Paranoa_45m_PatchMetrics.shp</code></li>
-            <li><strong>Ilha de calor</strong> · <code>Zona_ICU.shp</code></li>
-            <li><strong>Temperatura</strong> · <code>T_air_bacia_paranoa_v6_factors.tif</code>, <code>T_air_bacia_paranoa_v6_intenssity.tif</code> e <code>T_air_bacia_paranoa_v6_media.tif</code></li>
-            <li><strong>Mitigação térmica</strong> · <code>hm_bacia_paranoa_v6_factors.tif</code>, <code>hm_bacia_paranoa_v6_intenssity.tif</code> e <code>hm_bacia_paranoa_v6_media.tif</code></li>
-            <li><strong>Umidade relativa</strong> · <code>Completo_umidade_relativa_media_pct.tif</code></li>
-            <li><strong>Inundação</strong> · <code>inundacao_profundidade_TR5_hidro.tif</code></li>
-            <li><strong>Edificações</strong> · <code>Construções Bacia do Paranoá.shp</code></li>
-            <li><strong>Renda</strong> · <code>Bacia_Paranoa_setores_renda_Censo2022.gpkg</code>, camada <code>recortado</code></li>
-          </ul>
+        <h4 id="titulo-camadas">Dados e método</h4>
+        <p>Camadas de entrada usadas na rodada v01. Os cortes de classificação e os campos da saída estão na seção <a href="#indicadores">Indicadores e critérios</a>.</p>
+        <details class="data-method">
+          <summary>Ver a ficha das camadas de entrada</summary>
+          <div class="table-scroll" role="region" aria-label="Fontes e tratamento dos dados de riscos socioambientais" tabindex="0">
+            <table class="indicator-table data-table">
+              <thead>
+                <tr><th scope="col">Dado utilizado</th><th scope="col">Fonte</th><th scope="col">Tratamento aplicado</th><th scope="col">O que analisa</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Fragmentos de vegetação<br><code>MK_Fragmentation_Bacia_Paranoa_45m_PatchMetrics.shp</code></th>
+                  <td>Análise de fragmentação a 45 m.</td>
+                  <td>Verificação da geometria e do identificador patch_id.</td>
+                  <td>Unidade de análise que reúne os indicadores do diagnóstico.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Zonas de ilha de calor urbano<br><code>Zona_ICU.shp</code></th>
+                  <td>Zonas delimitadas previamente. Fonte primária a confirmar.</td>
+                  <td>Interseção entre a zona e o fragmento. Registra ocorrência quando há área de sobreposição positiva.</td>
+                  <td>Presença do fragmento em ilha de calor urbano.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Temperatura do ar · dia<br><code>T_air_bacia_paranoa_v6_factors.tif</code></th>
+                  <td>Saída do modelo InVEST.</td>
+                  <td>Média dentro do fragmento, classificada em cinco faixas de igual amplitude.</td>
+                  <td>Exposição térmica diurna.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Temperatura do ar · noite<br><code>T_air_bacia_paranoa_v6_intenssity.tif</code></th>
+                  <td>Saída do modelo InVEST.</td>
+                  <td>Média dentro do fragmento, classificada em cinco faixas de igual amplitude.</td>
+                  <td>Exposição térmica noturna.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Temperatura do ar · média<br><code>T_air_bacia_paranoa_v6_media.tif</code></th>
+                  <td>Média preparada a partir das saídas do InVEST.</td>
+                  <td>Média dentro do fragmento, classificada em cinco faixas de igual amplitude.</td>
+                  <td>Exposição térmica no cenário médio.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Mitigação térmica (HM) · dia<br><code>hm_bacia_paranoa_v6_factors.tif</code></th>
+                  <td>Índice de mitigação térmica do InVEST.</td>
+                  <td>Média do índice na faixa externa de 5 m ao redor do fragmento.</td>
+                  <td>Mitigação térmica modelada no entorno durante o dia.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Mitigação térmica (HM) · noite<br><code>hm_bacia_paranoa_v6_intenssity.tif</code></th>
+                  <td>Índice de mitigação térmica do InVEST.</td>
+                  <td>Média do índice na faixa externa de 5 m ao redor do fragmento.</td>
+                  <td>Mitigação térmica modelada no entorno à noite.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Mitigação térmica (HM) · média<br><code>hm_bacia_paranoa_v6_media.tif</code></th>
+                  <td>Índice de mitigação térmica do InVEST.</td>
+                  <td>Média do índice na faixa externa de 5 m ao redor do fragmento.</td>
+                  <td>Mitigação térmica modelada no entorno no cenário médio.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Umidade relativa<br><code>Completo_umidade_relativa_media_pct.tif</code></th>
+                  <td>Raster derivado de dados do INMET. Período de referência a confirmar.</td>
+                  <td>Média dentro do fragmento, classificada em quatro faixas de igual amplitude.</td>
+                  <td>Umidade relativa no interior do fragmento.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Profundidade de inundação<br><code>inundacao_profundidade_TR5_hidro.tif</code></th>
+                  <td>Raster de profundidade para tempo de retorno de 5 anos. Fonte primária a confirmar.</td>
+                  <td>Média e máximo dentro do fragmento. O máximo é classificado em quatro faixas de igual amplitude.</td>
+                  <td>Profundidade de inundação modelada no fragmento.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Edificações<br><code>Construções Bacia do Paranoá.shp</code></th>
+                  <td>Camada de edificações no recorte da bacia. Fonte primária a confirmar.</td>
+                  <td>Recorte e união das edificações dentro do fragmento para calcular o percentual ocupado.</td>
+                  <td>Pressão da ocupação por edificações sobre o fragmento.</td>
+                </tr>
+                <tr>
+                  <th scope="row">Renda por setor censitário<br><code>Bacia_Paranoa_setores_renda_Censo2022.gpkg</code></th>
+                  <td>IBGE, Censo 2022, campo <code>V06004</code> na camada <code>recortado</code>.</td>
+                  <td>Atribui a renda do setor com maior sobreposição ao fragmento e classifica o valor em salários mínimos pela referência de R$ 1.212.</td>
+                  <td>Contexto socioeconômico do fragmento a partir da renda do setor.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </details>
-        <aside class="note" aria-label="Documentação das camadas">
-          <p><strong>Origem e preparação das camadas.</strong> Espaço reservado para detalhar as fontes, os períodos de referência e como as camadas foram obtidas e preparadas.</p>
-        </aside>
       </section>
     </section>
+    <p class="next-step"><a href="condicionantes.html">Consultar os condicionantes →</a></p>
   </main>
 
   <footer>

@@ -6,7 +6,7 @@
   <meta name="google-maps-key" content="">
   <title>Mapa dos indicadores | Diagnóstico da Bacia do Paranoá</title>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
   <link rel="stylesheet" href="mapa-riscos.css?v=2">
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-satelite.js"></script>
@@ -17,7 +17,7 @@
   <header class="masthead">
     <div class="container">
       <p class="eyebrow">Relatório metodológico</p>
-      <h1>Bacia do Paranoá</h1>
+      <h1><a href="index.html#sumario" aria-label="Bacia do Paranoá, sumário do relatório">Bacia do Paranoá</a></h1>
       <nav class="main-tabs" aria-label="Blocos do relatório">
         <a href="index.html">O Sistema</a>
         <a href="identificacao.html">Identificação da Rede de Infraestrutura Verde</a>
@@ -60,12 +60,48 @@
       </aside>
     </div>
     <noscript><p>Ative JavaScript no navegador para visualizar o mapa.</p></noscript>
-    <p class="map-source">Diagnóstico por fragmento, rodada v01, com geometrias simplificadas para visualização. Base cartográfica do IPE-DF (2023).</p>
+
+    <section id="dados-do-mapa" class="report-section" aria-labelledby="titulo-dados-do-mapa">
+      <h4 id="titulo-dados-do-mapa">Dados e método</h4>
+      <p>Consulte <a href="diagnostico.html#camadas">as fontes e o tratamento de cada indicador</a> na metodologia de riscos socioambientais.</p>
+      <details class="data-method">
+        <summary>Ver a ficha dos dados do mapa</summary>
+        <div class="table-scroll" role="region" aria-label="Dados do mapa dos indicadores" tabindex="0">
+          <table class="indicator-table data-table">
+            <thead>
+              <tr><th scope="col">Dado utilizado</th><th scope="col">Fonte</th><th scope="col">Tratamento aplicado</th><th scope="col">O que analisa</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Fragmentos e indicadores<br><code>mapa-dados.json.gz</code></th>
+                <td>Saída do diagnóstico por fragmento, rodada v01.</td>
+                <td>Simplificação das geometrias com tolerância de três unidades do sistema de coordenadas de entrada, seguida de exportação em WGS 84.</td>
+                <td>Exibe o resultado de cada indicador por fragmento.</td>
+              </tr>
+              <tr>
+                <th scope="row">Limite da bacia e massas d’água<br><code>mapa-base.json.gz</code></th>
+                <td>IPE-DF (2023).</td>
+                <td>Exportação em WGS 84 para a base interativa.</td>
+                <td>Situa os fragmentos no recorte da bacia.</td>
+              </tr>
+              <tr>
+                <th scope="row">Imagem de satélite</th>
+                <td>Google Maps.</td>
+                <td>Exibição opcional de imagens no nível de zoom selecionado.</td>
+                <td>Oferece contexto visual para interpretar a localização dos fragmentos.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+
     <details class="map-source">
       <summary>Termos de uso e privacidade da camada de satélite</summary>
       <p>A camada de satélite é fornecida pelo Google Maps e seu uso está sujeito aos <a href="https://www.google.com/intl/pt-BR/help/terms_maps/">Termos do Google Maps</a> e aos <a href="https://policies.google.com/terms?hl=pt-BR">Termos de Serviço do Google</a>.</p>
       <p>Ao ativar a camada, seu navegador se conecta ao Google e solicita imagens para a área e o nível de zoom exibidos. O Google recebe dados dessas solicitações, como o endereço IP, conforme sua <a href="https://policies.google.com/privacy?hl=pt-BR">Política de Privacidade</a>.</p>
     </details>
+    <p class="next-step"><a href="condicionantes.html">Consultar os condicionantes →</a></p>
   </main>
 </body>
 </html>
