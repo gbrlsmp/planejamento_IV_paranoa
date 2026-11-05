@@ -157,7 +157,7 @@
 
       <section id="camadas" class="report-section" aria-labelledby="titulo-camadas">
         <h4 id="titulo-camadas">Dados e método</h4>
-        <p>Camadas de entrada usadas na rodada v01. Os cortes de classificação e os campos da saída estão na seção <a href="#indicadores">Indicadores e critérios</a>.</p>
+        <p>Camadas de entrada usadas na rodada v01. A região administrativa é um atributo auxiliar da camada de saída. Os cortes de classificação e os campos da saída estão na seção <a href="#indicadores">Indicadores e critérios</a>.</p>
         <details class="data-method">
           <summary>Ver a ficha das camadas de entrada</summary>
           <div class="table-scroll" role="region" aria-label="Fontes e tratamento dos dados de riscos socioambientais" tabindex="0">
@@ -233,6 +233,12 @@
                   <td>Pressão da ocupação por edificações sobre o fragmento.</td>
                 </tr>
                 <tr>
+                  <th scope="row">Regiões administrativas<br><code>RAs_Bacia_Paranoa_MERGE_IPE_DF_2023.shp</code></th>
+                  <td>Base cartográfica do IPE-DF (2023).</td>
+                  <td>Associa ao fragmento a região administrativa de maior sobreposição e registra a porcentagem da área sobreposta.</td>
+                  <td>Localização administrativa do fragmento.</td>
+                </tr>
+                <tr>
                   <th scope="row">Renda por setor censitário<br><code>Bacia_Paranoa_setores_renda_Censo2022.gpkg</code></th>
                   <td>IBGE, Censo 2022, campo <code>V06004</code> na camada <code>recortado</code>.</td>
                   <td>Atribui a renda do setor com maior sobreposição ao fragmento e classifica o valor em salários mínimos pela referência de R$ 1.212.</td>
@@ -249,7 +255,7 @@
 
   <footer>
     <div class="container">
-      <p>Metodologia baseada no script <code>01_Diagnostico_RISCOS.py</code>, versão v01.</p>
+      <p>Metodologia baseada no <a href="https://github.com/gbrlsmp/planejamento_IV_paranoa/blob/main/scripts/01_Diagnostico_RISCOS.py">script de diagnóstico de riscos v01</a>. <a href="https://github.com/gbrlsmp/planejamento_IV_paranoa/blob/main/scripts/LEIA_ME_RISCOS.md">Instruções de execução</a>.</p>
     </div>
   </footer>
 </body>
