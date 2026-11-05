@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Identificação da Rede de Infraestrutura Verde na Bacia do Paranoá.">
+  <title>Identificação da Rede de Infraestrutura Verde | Bacia do Paranoá</title>
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="mapa-riscos.css?v=2">
+  <script defer src="vendor/leaflet/leaflet.js"></script>
+  <script defer src="mapa-base.js"></script>
+  <script defer src="mapa-identificacao.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="container">
+      <p class="eyebrow">Relatório metodológico</p>
+      <h1>Bacia do Paranoá</h1>
+      <nav class="main-tabs" aria-label="Blocos do relatório">
+        <a href="index.html">O Sistema</a>
+        <a href="identificacao.html" aria-current="page">Identificação da Rede de Infraestrutura Verde</a>
+        <a href="diagnostico.html">Diagnóstico</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <h2>Identificação da Rede de Infraestrutura Verde</h2>
+    <p class="intro">Identificar como a infraestrutura verde se estrutura na Bacia do Paranoá e qual é a organização fundiária das áreas que compõem a rede.</p>
+    <p>O objetivo geral é definir estratégias para qualificar a conectividade ecológica e a prestação de serviços ecossistêmicos de regulação.</p>
+
+    <nav class="section-nav" aria-label="Conteúdo da identificação">
+      <a href="#uso-solo">Uso do solo</a>
+      <a href="#metricas-forma">Métricas de forma</a>
+      <a href="#tipologias">Tipologias de AVU e de IV</a>
+      <a href="#regioes-administrativas">Regiões administrativas</a>
+    </nav>
+
+    <section id="uso-solo" class="report-section" aria-labelledby="titulo-uso-solo">
+      <h3 id="titulo-uso-solo">Uso e cobertura do solo</h3>
+      <p>Áreas por classe no recorte da Bacia do Paranoá. A tabela usa os códigos de legenda da base MapBiomas de 10 m.</p>
+      <div class="table-scroll" role="region" aria-label="Área por classe de uso e cobertura do solo" tabindex="0">
+        <table class="indicator-table summary-table">
+          <thead>
+            <tr><th scope="col">Classe</th><th scope="col">Código</th><th scope="col">Área (ha)</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Formação florestal</th><td>3</td><td>10.868,45</td></tr>
+            <tr><th scope="row">Formação savânica</th><td>4</td><td>38.852,18</td></tr>
+            <tr><th scope="row">Campo alagado e área pantanosa</th><td>11</td><td>1.574,24</td></tr>
+            <tr><th scope="row">Formação campestre</th><td>12</td><td>5.437,79</td></tr>
+            <tr><th scope="row">Silvicultura</th><td>9</td><td>702,43</td></tr>
+            <tr><th scope="row">Pastagem</th><td>15</td><td>7.556,96</td></tr>
+            <tr><th scope="row">Lavoura temporária</th><td>19</td><td>222,59</td></tr>
+            <tr><th scope="row">Mosaico de usos</th><td>21</td><td>1.336,73</td></tr>
+            <tr><th scope="row">Lavoura perene</th><td>36</td><td>1,96</td></tr>
+            <tr><th scope="row">Área urbanizada</th><td>24</td><td>32.848,81</td></tr>
+            <tr><th scope="row">Outras áreas não vegetadas</th><td>25</td><td>1.613,12</td></tr>
+            <tr><th scope="row">Rio, lago e oceano</th><td>33</td><td>4.612,85</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="map-source">Fonte: camada <code>uso_cobertura_MapBiomas_Bacia_Paranoa</code>. Áreas calculadas em SIRGAS 2000 / UTM 23S. <a href="https://brasil.mapbiomas.org/iniciativas-e-produtos/cobertura-e-uso-da-terra/cobertura-10m/cobertura/">Legenda do MapBiomas</a>.</p>
+    </section>
+
+    <section id="metricas-forma" class="report-section" aria-labelledby="titulo-metricas-forma">
+      <h3 id="titulo-metricas-forma">Métricas de forma</h3>
+      <p>O levantamento reúne <strong>33.454 fragmentos</strong> de vegetação, com área total de 60.572,18 ha e área média de 1,81 ha. A base registra área, perímetro, área de núcleo, percentual de borda, razão perímetro/área, índice de forma e dimensão fractal por fragmento.</p>
+      <p class="map-source">Fonte: tabelas <code>MK_Fragmentation_Bacia_Paranoa_45m_PatchMetrics.csv</code> e <code>MK_Fragmentation_Bacia_Paranoa_45m_LandscapeMetrics.csv</code>.</p>
+    </section>
+
+    <section id="tipologias" class="report-section" aria-labelledby="titulo-tipologias">
+      <h3 id="titulo-tipologias">Tipologias de AVU e de IV</h3>
+      <p>Esta seção reúne a identificação das áreas verdes urbanas (AVU), os tipos de infraestrutura verde (IV) e a situação fundiária das áreas que compõem a rede. A classificação consolidada está pendente de inclusão.</p>
+    </section>
+
+    <section id="regioes-administrativas" class="report-section" aria-labelledby="titulo-regioes">
+      <h3 id="titulo-regioes">Regiões administrativas</h3>
+      <p>A base inclui 30 regiões administrativas no recorte da bacia. Os números no mapa correspondem aos códigos da lista.</p>
+      <div class="map-tools">
+        <label class="map-toggle">
+          <input id="mostrar-ras" type="checkbox" checked disabled>
+          Mostrar regiões administrativas (RAs)
+        </label>
+      </div>
+      <p id="map-status" role="status">Carregando o mapa das regiões administrativas…</p>
+      <div id="mapa" role="region" aria-label="Mapa das regiões administrativas da Bacia do Paranoá"></div>
+      <noscript><p>Ative JavaScript para visualizar o mapa interativo.</p></noscript>
+      <details>
+        <summary>Ver nomes e códigos das RAs</summary>
+        <ul class="region-list">
+          <li>1 · Plano Piloto</li>
+          <li>2 · Gama</li>
+          <li>3 · Taguatinga</li>
+          <li>4 · Brazlândia</li>
+          <li>5 · Sobradinho</li>
+          <li>7 · Paranoá</li>
+          <li>8 · Núcleo Bandeirante</li>
+          <li>10 · Guará</li>
+          <li>11 · Cruzeiro</li>
+          <li>12 · Samambaia</li>
+          <li>13 · Santa Maria</li>
+          <li>15 · Recanto das Emas</li>
+          <li>16 · Lago Sul</li>
+          <li>17 · Riacho Fundo</li>
+          <li>18 · Lago Norte</li>
+          <li>19 · Candangolândia</li>
+          <li>20 · Águas Claras</li>
+          <li>21 · Riacho Fundo II</li>
+          <li>22 · Sudoeste/Octogonal</li>
+          <li>23 · Varjão</li>
+          <li>24 · Park Way</li>
+          <li>25 · SCIA</li>
+          <li>26 · Sobradinho II</li>
+          <li>27 · Jardim Botânico</li>
+          <li>28 · Itapoã</li>
+          <li>29 · SIA</li>
+          <li>30 · Vicente Pires</li>
+          <li>33 · Arniqueira</li>
+          <li>36 · 26 de Setembro</li>
+          <li>37 · Ponte Alta</li>
+        </ul>
+      </details>
+      <p class="map-source">Base cartográfica do IPE-DF (2023).</p>
+    </section>
+  </main>
+</body>
+</html>
