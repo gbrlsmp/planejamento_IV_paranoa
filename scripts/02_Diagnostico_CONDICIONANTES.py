@@ -65,7 +65,9 @@ def indexar_pre(camada, campo):
 
 def areas_pre(fragmento, indice, classes, tolerancia):
     candidatos = indice.query(fragmento, predicate="intersects")
-    recortes = shapely.intersection(fragmento, indice.geometries[candidatos])
+    recortes = indice.geometries[candidatos]
+    parcial = ~shapely.covers(fragmento, recortes)
+    recortes[parcial] = shapely.intersection(fragmento, recortes[parcial])
     classes_recortes = classes[candidatos]
     unioes = {
         classe: shapely.union_all(recortes[classes_recortes == classe])
@@ -109,12 +111,25 @@ class RasterMomentos:
             for coluna in range(col0, col1, BLOCO):
                 largura = min(BLOCO, col1 - coluna)
                 altura = min(BLOCO, lin1 - linha)
+                bloco = shapely.box(
+                    self.x + coluna * self.dx,
+                    self.y - (linha + altura) * self.dy,
+                    self.x + (coluna + largura) * self.dx,
+                    self.y - linha * self.dy,
+                )
+                if not fragmento.intersects(bloco):
+                    continue
                 argumentos = coluna, linha, largura, altura
                 dados = self.banda.ReadAsArray(*argumentos)
                 validos = self.mascara.ReadAsArray(*argumentos) != 0
                 if np.any(validos & ~np.isin(dados, list(MOMENTOS))):
                     raise ValueError("Raster de Momentos contém código válido diferente de 1, 2 ou 3.")
                 valores = np.where(validos, dados, 0).astype(np.uint8)
+                if fragmento.covers(bloco):
+                    totais += np.bincount(valores.ravel(), minlength=4) * self.dx * self.dy
+                    continue
+                parte = fragmento.intersection(bloco)
+                shapely.prepare(parte)
 
                 # Une células contíguas de mesmo código em faixas de uma linha.
                 limites = np.pad(valores, ((0, 0), (1, 1)))
@@ -125,11 +140,11 @@ class RasterMomentos:
                 x1 = self.x + (coluna + fins + 1) * self.dx
                 y1 = self.y - (linha + linhas) * self.dy
                 faixas = shapely.box(x0, y1 - self.dy, x1, y1)
-                toca = shapely.intersects(fragmento, faixas)
+                toca = shapely.intersects(parte, faixas)
                 faixas = faixas[toca]
-                dentro = shapely.covers(fragmento, faixas)
+                dentro = shapely.covers(parte, faixas)
                 areas = shapely.area(faixas)
-                areas[~dentro] = shapely.area(shapely.intersection(fragmento, faixas[~dentro]))
+                areas[~dentro] = shapely.area(shapely.intersection(parte, faixas[~dentro]))
                 codigos = valores[linhas, inicios][toca]
                 totais += np.bincount(codigos, weights=areas, minlength=4)
         return {classe: totais[codigo] for codigo, classe in MOMENTOS.items()}
