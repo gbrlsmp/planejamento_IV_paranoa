@@ -26,6 +26,7 @@
       <a href="ecologia.html">Ecologia</a>
     </nav>
     <h3>Condicionantes</h3>
+    <p>O cruzamento por fragmento calcula as proporções e a classe predominante de Momentos da Água e de Potencial de Recuperação Ecológica. <a href="https://github.com/gbrlsmp/planejamento_IV_paranoa/blob/main/scripts/LEIA_ME_CONDICIONANTES.md">Consultar o método e o script de cruzamento</a>.</p>
     <section class="report-section" id="momentos-da-agua" aria-labelledby="titulo-agua">
       <h4 id="titulo-agua">Momentos da água</h4>
       <p>Distribuição das áreas classificadas como fonte, condução e acomodação, por grau de definição. Os valores estão em hectares.</p>
@@ -51,7 +52,7 @@
             <tbody>
               <tr>
                 <th scope="row">Áreas dos momentos da água<br><code>areas_momentos.csv</code></th>
-                <td>Saída da análise Momentos da Água na Bacia do Paranoá.</td>
+                <td>Saída da análise Momentos da Água na Bacia do Paranoá. Referências metodológicas em <a href="https://publicacoes.amigosdanatureza.org.br/index.php/rlaac_sustentabilidade/pt_BR/article/view/6127">Sandre et al. (2025)</a> e <a href="https://renatobrodrigues-cmd.github.io/riscos-sbn-taquari/#mom-met">Rodrigues (2026), estudo do Taquari</a>.</td>
                 <td>Organização das áreas em hectares por momento e grau de definição (forte, moderado ou transição).</td>
                 <td>Distribuição territorial das áreas de fonte, condução e acomodação da água.</td>
               </tr>
@@ -87,7 +88,7 @@
             <tbody>
               <tr>
                 <th scope="row">Potencial de recuperação ecológica<br><code>PRE_Bacia_Paranoa_MERGE_IPE_DF_2023</code></th>
-                <td>Camada de potencial de recuperação ecológica usada no estudo, campo <code>cat_pdot20</code>. Fonte primária a confirmar.</td>
+                <td>Camada da SEDUH-DF recortada à bacia, campo <code>cat_pdot20</code>. <a href="https://www.cl.df.gov.br/documents/5744638/35297378/DCL%2Bn%C2%BA%2B039%2C%2B2%2Bde%2Bmar%C3%A7o%2Bde%2B2026%2B-%2BSuplemento.pdf/d3817c42-f581-436c-f2b9-48c965c52d7f?t=1772223936113">Mapa 7 do PDOT</a> e <a href="https://repositorio.unb.br/handle/10482/45979">fundamentação em Amaral (2023)</a>.</td>
                 <td>Agrupamento por classe, contagem de polígonos e soma de áreas em SIRGAS 2000 / UTM 23S.</td>
                 <td>Distribuição do potencial de recuperação ecológica no recorte da bacia.</td>
               </tr>

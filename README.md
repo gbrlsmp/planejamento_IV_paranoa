@@ -19,6 +19,7 @@ O mapa abre com o limite da bacia e as massas d’água. Selecione um indicador 
 | [`mapa-riscos.html`](mapa-riscos.html) | Interface do mapa, com estilos e scripts próprios e Leaflet 1.9.4 em [`vendor/leaflet`](vendor/leaflet). |
 | [`mapa-base.json.gz`](mapa-base.json.gz) | Limite da bacia, massas d’água e regiões administrativas a partir da base do IPE-DF (2023), em WGS 84. |
 | [`mapa-dados.json.gz`](mapa-dados.json.gz) | Geometrias e indicadores dos fragmentos da rodada v01, preparados para visualização. |
+| [`scripts/02_Diagnostico_CONDICIONANTES.py`](scripts/02_Diagnostico_CONDICIONANTES.py) | Proporções e classes predominantes de Momentos da Água e PRE por fragmento. [Guia de execução](scripts/LEIA_ME_CONDICIONANTES.md). |
 | [`scripts/exportar_mapa.py`](scripts/exportar_mapa.py) | Exportador que prepara a camada final do diagnóstico para o navegador. |
 
 ## Como rodar localmente
