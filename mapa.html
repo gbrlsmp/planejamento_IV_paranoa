@@ -7,12 +7,13 @@
   <title>Mapa interativo | Bacia do Paranoá</title>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="style.css?v=4">
-  <link rel="stylesheet" href="mapa-riscos.css?v=3">
+  <link rel="stylesheet" href="mapa-riscos.css?v=4">
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-satelite.js"></script>
   <script defer src="mapa-base.js"></script>
-  <script defer src="mapa-temas.js"></script>
-  <script defer src="mapa-riscos.js?v=4"></script>
+  <script defer src="mapa-camadas.js"></script>
+  <script defer src="mapa-temas.js?v=2"></script>
+  <script defer src="mapa-riscos.js?v=5"></script>
 </head>
 <body>
   <header class="masthead">
@@ -23,17 +24,26 @@
         <a href="index.html">O Sistema</a>
         <a href="identificacao.html">Identificação da Rede de Infraestrutura Verde</a>
         <a href="diagnostico.html">Diagnóstico</a>
+        <a href="estrategias.html">Matriz e estratégias</a>
         <a href="mapa.html" aria-current="page">Mapa interativo</a>
       </nav>
     </div>
   </header>
   <main class="container map-container">
+    <div id="diagnostico-atlas" hidden>
+      <h2>Diagnóstico</h2>
+      <nav class="risk-tabs" aria-label="Tópicos do diagnóstico">
+        <a href="diagnostico.html#riscos">Riscos socioambientais</a>
+        <a href="condicionantes.html">Condicionantes</a>
+        <a href="ecologia.html">Ecologia</a>
+      </nav>
+    </div>
     <h2 id="titulo-atlas">Mapa interativo geral</h2>
     <nav class="risk-tabs" id="vistas-do-tema" aria-label="Vistas do tema" hidden>
       <a id="metodologia-do-tema" href="index.html#sumario">Metodologia</a>
       <a id="mapa-do-tema" href="mapa.html" aria-current="page">Mapa</a>
     </nav>
-    <p id="contexto-atlas">Ative as camadas que deseja comparar e selecione um indicador para consultar os fragmentos.</p>
+    <p id="contexto-atlas">Ative as camadas que deseja comparar. Para um indicador de Riscos, alterne entre a leitura por fragmento e a camada de entrada.</p>
     <fieldset id="camadas-tematicas" disabled>
       <legend>Camadas temáticas</legend>
     </fieldset>
@@ -42,6 +52,11 @@
         <label for="indicador">Indicador de Riscos</label>
         <select id="indicador" disabled>
           <option value="">Nenhum</option>
+        </select>
+        <label for="leitura-indicador">Visualização</label>
+        <select id="leitura-indicador" disabled>
+          <option value="fragmentos">Nos fragmentos</option>
+          <option value="contexto">Contexto geral</option>
         </select>
       </div>
       <label class="map-toggle">

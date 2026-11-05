@@ -7,11 +7,12 @@
   <title>Mapa dos indicadores | Diagnóstico da Bacia do Paranoá</title>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="style.css?v=4">
-  <link rel="stylesheet" href="mapa-riscos.css?v=2">
+  <link rel="stylesheet" href="mapa-riscos.css?v=4">
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-satelite.js"></script>
   <script defer src="mapa-base.js"></script>
-  <script defer src="mapa-riscos.js?v=4"></script>
+  <script defer src="mapa-camadas.js"></script>
+  <script defer src="mapa-riscos.js?v=5"></script>
 </head>
 <body>
   <header class="masthead">
@@ -22,6 +23,7 @@
         <a href="index.html">O Sistema</a>
         <a href="identificacao.html">Identificação da Rede de Infraestrutura Verde</a>
         <a href="diagnostico.html" aria-current="location">Diagnóstico</a>
+        <a href="estrategias.html">Matriz e estratégias</a>
         <a href="mapa.html">Mapa interativo</a>
       </nav>
     </div>
@@ -39,11 +41,16 @@
       <a href="mapa-riscos.html" aria-current="page">Mapa dos indicadores</a>
       <a href="riscos-por-ra.html">Por RA</a>
     </nav>
-    <p>Selecione um indicador e clique em um fragmento para ver seu resultado.</p>
+    <p>Escolha um indicador. Use <strong>Nos fragmentos</strong> para consultar o diagnóstico ou <strong>Contexto geral</strong> para ver a camada usada antes do cruzamento.</p>
     <div class="map-tools">
       <label for="indicador">Indicador</label>
       <select id="indicador" disabled>
         <option value="">Só a base cartográfica</option>
+      </select>
+      <label for="leitura-indicador">Visualização</label>
+      <select id="leitura-indicador" disabled>
+        <option value="fragmentos">Nos fragmentos</option>
+        <option value="contexto">Contexto geral</option>
       </select>
       <button id="enquadrar" type="button" disabled>Enquadrar a bacia</button>
       <label class="map-toggle">
@@ -65,7 +72,7 @@
 
     <section id="dados-do-mapa" class="report-section" aria-labelledby="titulo-dados-do-mapa">
       <h4 id="titulo-dados-do-mapa">Dados e método</h4>
-      <p>Consulte <a href="diagnostico.html#camadas">as fontes e o tratamento de cada indicador</a> na metodologia de riscos socioambientais.</p>
+      <p>Consulte <a href="diagnostico.html#camadas">as fontes e o tratamento de cada indicador</a> na metodologia de riscos socioambientais. <a href="https://github.com/gbrlsmp/planejamento_IV_paranoa/blob/main/docs/mapas-tematicos.md#contexto-geral-de-riscos">Consultar as faixas e a exportação das camadas de contexto</a>.</p>
       <details class="data-method">
         <summary>Ver a ficha dos dados do mapa</summary>
         <div class="table-scroll" role="region" aria-label="Dados do mapa dos indicadores" tabindex="0">

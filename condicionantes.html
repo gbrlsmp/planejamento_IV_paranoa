@@ -4,8 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Condicionantes | Diagnóstico da Bacia do Paranoá</title>
-  <link rel="stylesheet" href="style.css?v=4">
-  <script defer src="subabas.js"></script>
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
   <header class="masthead">
@@ -16,6 +15,7 @@
         <a href="index.html">O Sistema</a>
         <a href="identificacao.html">Identificação da Rede de Infraestrutura Verde</a>
         <a href="diagnostico.html" aria-current="location">Diagnóstico</a>
+        <a href="estrategias.html">Matriz e estratégias</a>
         <a href="mapa.html">Mapa interativo</a>
       </nav>
     </div>
@@ -27,90 +27,103 @@
       <a href="condicionantes.html" aria-current="page">Condicionantes</a>
       <a href="ecologia.html">Ecologia</a>
     </nav>
-    <h3>Condicionantes</h3>
-    <p>O cruzamento por fragmento calcula as proporções e a classe predominante de Momentos da Água e de Potencial de Recuperação Ecológica. <a href="https://github.com/gbrlsmp/planejamento_IV_paranoa/blob/main/scripts/LEIA_ME_CONDICIONANTES.md">Consultar o método e o script de cruzamento</a>.</p>
-    <nav class="risk-tabs" data-report-tabs aria-label="Vistas de Condicionantes">
-      <a href="#momentos-da-agua">Momentos da água</a>
-      <a href="#potencial-recuperacao">Potencial de recuperação ecológica</a>
+    <h3 id="condicionantes">Condicionantes</h3>
+    <nav class="risk-tabs" aria-label="Vistas de Condicionantes">
+      <a href="condicionantes.html#condicionantes" aria-current="page">Metodologia</a>
+      <a href="mapa.html?tema=condicionantes">Mapa dos indicadores</a>
+    </nav>
+    <p>A análise reúne Momentos da Água e Potencial de Recuperação Ecológica. O cruzamento registra as proporções e as classes predominantes por fragmento.</p>
+    <nav class="section-nav" aria-label="Conteúdo de Condicionantes">
+      <a href="#procedimento">Procedimento</a>
+      <a href="#indicadores">Indicadores</a>
+      <a href="#classificacao">Classificação</a>
+      <a href="#saida">Saída</a>
+      <a href="#camadas">Dados e método</a>
     </nav>
 
-    <section class="report-section" id="momentos-da-agua" aria-labelledby="titulo-agua">
-      <h4 id="titulo-agua">Momentos da água</h4>
-      <nav class="risk-tabs" aria-label="Vistas de Momentos da água">
-        <a href="condicionantes.html#momentos-da-agua" aria-current="page">Metodologia</a>
-        <a href="mapa.html?tema=momentos">Mapa</a>
-      </nav>
-      <p>Distribuição das áreas classificadas como fonte, condução e acomodação, por grau de definição. Os valores estão em hectares.</p>
-      <div class="table-scroll" role="region" aria-label="Áreas dos momentos da água em hectares" tabindex="0">
-        <table class="indicator-table summary-table">
-          <thead>
-            <tr><th scope="col">Momento</th><th scope="col">Forte</th><th scope="col">Moderado</th><th scope="col">Transição</th></tr>
-          </thead>
-          <tbody>
-            <tr><th scope="row">Fonte</th><td>84.735,06</td><td>5.755,80</td><td>3.677,54</td></tr>
-            <tr><th scope="row">Condução</th><td>444,69</td><td>1.443,30</td><td>1.400,45</td></tr>
-            <tr><th scope="row">Acomodação</th><td>5.797,80</td><td>805,34</td><td>518,82</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <details class="data-method">
-        <summary>Dados e método</summary>
-        <div class="table-scroll" role="region" aria-label="Dados dos momentos da água" tabindex="0">
-          <table class="indicator-table data-table">
-            <thead>
-              <tr><th scope="col">Dado utilizado</th><th scope="col">Fonte</th><th scope="col">Tratamento aplicado</th><th scope="col">O que analisa</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Áreas dos momentos da água<br><code>areas_momentos.csv</code></th>
-                <td>Saída da análise Momentos da Água na Bacia do Paranoá. Referências metodológicas em <a href="https://publicacoes.amigosdanatureza.org.br/index.php/rlaac_sustentabilidade/pt_BR/article/view/6127">Sandre et al. (2025)</a> e <a href="https://renatobrodrigues-cmd.github.io/riscos-sbn-taquari/#mom-met">Rodrigues (2026), estudo do Taquari</a>.</td>
-                <td>Organização das áreas em hectares por momento e grau de definição (forte, moderado ou transição).</td>
-                <td>Distribuição territorial das áreas de fonte, condução e acomodação da água.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </details>
+    <section id="procedimento" class="report-section" aria-labelledby="titulo-procedimento">
+      <h4 id="titulo-procedimento">Como o diagnóstico foi feito</h4>
+      <ol class="steps">
+        <li>O script lê os polígonos dos fragmentos, o raster de Momentos da Água e a camada de Potencial de Recuperação Ecológica.</li>
+        <li>Para cada fragmento, calcula a área de interseção com as células ou polígonos de cada classe em SIRGAS 2000 / UTM 23S (EPSG:31983).</li>
+        <li>Registra os percentuais sobre a área total do fragmento e identifica a classe predominante de cada camada.</li>
+      </ol>
     </section>
 
-    <section class="report-section" id="potencial-recuperacao" aria-labelledby="titulo-pre">
-      <h4 id="titulo-pre">Potencial de recuperação ecológica</h4>
-      <nav class="risk-tabs" aria-label="Vistas de Potencial de recuperação ecológica">
-        <a href="condicionantes.html#potencial-recuperacao" aria-current="page">Metodologia</a>
-        <a href="mapa.html?tema=pre">Mapa</a>
-      </nav>
-      <p>Contagem e soma da área dos polígonos classificados por potencial de recuperação ecológica no recorte da bacia.</p>
-      <div class="table-scroll" role="region" aria-label="Potencial de recuperação ecológica por classe" tabindex="0">
-        <table class="indicator-table summary-table">
+    <section id="indicadores" class="report-section" aria-labelledby="titulo-indicadores">
+      <h4 id="titulo-indicadores">Indicadores e critérios</h4>
+      <div class="table-scroll" role="region" aria-label="Indicadores de Condicionantes" tabindex="0">
+        <table class="indicator-table">
           <thead>
-            <tr><th scope="col">Potencial</th><th scope="col">Polígonos</th><th scope="col">Área (ha)</th></tr>
+            <tr><th scope="col">Indicador</th><th scope="col">Camada de entrada</th><th scope="col">Tratamento</th><th scope="col">Critério e registro</th></tr>
           </thead>
           <tbody>
-            <tr><th scope="row">Muito alto</th><td>29.479</td><td>7.937,90</td></tr>
-            <tr><th scope="row">Alto</th><td>58.608</td><td>17.393,59</td></tr>
-            <tr><th scope="row">Médio</th><td>146.839</td><td>9.854,56</td></tr>
-            <tr><th scope="row">Baixo</th><td>31.099</td><td>8.366,97</td></tr>
+            <tr><th scope="row">Momentos da Água</th><td>Raster de momentos da água do Paranoá.</td><td>Interseção das células com os fragmentos, incluindo a parcela das células na borda.</td><td>Área e proporção de fonte, condução e acomodação. A maior área válida define o momento predominante.</td></tr>
+            <tr><th scope="row">Potencial de Recuperação Ecológica</th><td>Camada da SEDUH-DF recortada à bacia.</td><td>Interseção com os fragmentos e união de recortes da mesma classe.</td><td>Área e proporção em cada classe de potencial. As sobreposições entre classes ficam registradas à parte.</td></tr>
           </tbody>
         </table>
       </div>
-      <details class="data-method">
-        <summary>Dados e método</summary>
-        <div class="table-scroll" role="region" aria-label="Dados do potencial de recuperação ecológica" tabindex="0">
-          <table class="indicator-table data-table">
+    </section>
+
+    <section id="classificacao" class="report-section" aria-labelledby="titulo-classificacao">
+      <h4 id="titulo-classificacao">Como ler as classes</h4>
+      <p>Momentos da Água distingue fonte, condução e acomodação. A síntese territorial também registra os graus forte, moderado e de transição. O cruzamento por fragmento usa o momento predominante em cada célula.</p>
+      <p>O potencial de recuperação segue a legenda da SEDUH-DF, de muito alto a baixo. O resumo por fragmento sinaliza empates e áreas sem dados.</p>
+    </section>
+
+    <section id="saida" class="report-section" aria-labelledby="titulo-saida">
+      <h4 id="titulo-saida">Saída do diagnóstico</h4>
+      <p>O cruzamento por fragmento gera um CSV vinculado pelo campo <code>patch_id</code>. As tabelas abaixo mostram os totais no recorte da bacia. <a href="https://github.com/gbrlsmp/planejamento_IV_paranoa/blob/main/scripts/LEIA_ME_CONDICIONANTES.md">Consultar o script de cruzamento</a>.</p>
+      <article id="momentos-da-agua">
+        <h5 id="titulo-agua">Momentos da água</h5>
+        <p>Distribuição das áreas classificadas como fonte, condução e acomodação, por grau de definição. Os valores estão em hectares.</p>
+        <div class="table-scroll" role="region" aria-label="Áreas dos momentos da água em hectares" tabindex="0">
+          <table class="indicator-table summary-table">
             <thead>
-              <tr><th scope="col">Dado utilizado</th><th scope="col">Fonte</th><th scope="col">Tratamento aplicado</th><th scope="col">O que analisa</th></tr>
+              <tr><th scope="col">Momento</th><th scope="col">Forte</th><th scope="col">Moderado</th><th scope="col">Transição</th></tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">Potencial de recuperação ecológica<br><code>PRE_Bacia_Paranoa_MERGE_IPE_DF_2023</code></th>
-                <td>Camada da SEDUH-DF recortada à bacia, campo <code>cat_pdot20</code>. <a href="https://www.cl.df.gov.br/documents/5744638/35297378/DCL%2Bn%C2%BA%2B039%2C%2B2%2Bde%2Bmar%C3%A7o%2Bde%2B2026%2B-%2BSuplemento.pdf/d3817c42-f581-436c-f2b9-48c965c52d7f?t=1772223936113">Mapa 7 do PDOT</a> e <a href="https://repositorio.unb.br/handle/10482/45979">fundamentação em Amaral (2023)</a>.</td>
-                <td>Agrupamento por classe, contagem de polígonos e soma de áreas em SIRGAS 2000 / UTM 23S.</td>
-                <td>Distribuição do potencial de recuperação ecológica no recorte da bacia.</td>
-              </tr>
+              <tr><th scope="row">Fonte</th><td>84.735,06</td><td>5.755,80</td><td>3.677,54</td></tr>
+              <tr><th scope="row">Condução</th><td>444,69</td><td>1.443,30</td><td>1.400,45</td></tr>
+              <tr><th scope="row">Acomodação</th><td>5.797,80</td><td>805,34</td><td>518,82</td></tr>
             </tbody>
           </table>
         </div>
-      </details>
+        <p><a href="mapa.html?tema=momentos">Consultar no mapa</a></p>
+      </article>
+      <article id="potencial-recuperacao">
+        <h5 id="titulo-pre">Potencial de recuperação ecológica</h5>
+        <p>Contagem e soma da área dos polígonos classificados por potencial de recuperação ecológica no recorte da bacia.</p>
+        <div class="table-scroll" role="region" aria-label="Potencial de recuperação ecológica por classe" tabindex="0">
+          <table class="indicator-table summary-table">
+            <thead>
+              <tr><th scope="col">Potencial</th><th scope="col">Polígonos</th><th scope="col">Área (ha)</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Muito alto</th><td>29.479</td><td>7.937,90</td></tr>
+              <tr><th scope="row">Alto</th><td>58.608</td><td>17.393,59</td></tr>
+              <tr><th scope="row">Médio</th><td>146.839</td><td>9.854,56</td></tr>
+              <tr><th scope="row">Baixo</th><td>31.099</td><td>8.366,97</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><a href="mapa.html?tema=pre">Consultar no mapa</a></p>
+      </article>
+    </section>
+
+    <section id="camadas" class="report-section" aria-labelledby="titulo-camadas">
+      <h4 id="titulo-camadas">Dados e método</h4>
+      <div class="table-scroll" role="region" aria-label="Fontes e tratamento de Condicionantes" tabindex="0">
+        <table class="indicator-table">
+          <thead>
+            <tr><th scope="col">Dado utilizado</th><th scope="col">Fonte</th><th scope="col">Tratamento aplicado</th><th scope="col">O que analisa</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Áreas dos momentos da água<br><code>areas_momentos.csv</code></th><td>Saída da análise Momentos da Água na Bacia do Paranoá. Referências metodológicas em <a href="https://publicacoes.amigosdanatureza.org.br/index.php/rlaac_sustentabilidade/pt_BR/article/view/6127">Sandre et al. (2025)</a> e <a href="https://renatobrodrigues-cmd.github.io/riscos-sbn-taquari/#mom-met">Rodrigues (2026), estudo do Taquari</a>.</td><td>Organização das áreas em hectares por momento e grau de definição (forte, moderado ou transição).</td><td>Distribuição territorial das áreas de fonte, condução e acomodação da água.</td></tr>
+            <tr><th scope="row">Potencial de recuperação ecológica<br><code>PRE_Bacia_Paranoa_MERGE_IPE_DF_2023</code></th><td>Camada da SEDUH-DF recortada à bacia, campo <code>cat_pdot20</code>. <a href="https://www.cl.df.gov.br/documents/5744638/35297378/DCL%2Bn%C2%BA%2B039%2C%2B2%2Bde%2Bmar%C3%A7o%2Bde%2B2026%2B-%2BSuplemento.pdf/d3817c42-f581-436c-f2b9-48c965c52d7f?t=1772223936113">Mapa 7 do PDOT</a> e <a href="https://repositorio.unb.br/handle/10482/45979">fundamentação em Amaral (2023)</a>.</td><td>Agrupamento por classe, contagem de polígonos e soma de áreas em SIRGAS 2000 / UTM 23S.</td><td>Distribuição do potencial de recuperação ecológica no recorte da bacia.</td></tr>
+          </tbody>
+        </table>
+      </div>
     </section>
     <p class="next-step"><a href="ecologia.html">Consultar a ecologia →</a></p>
   </main>

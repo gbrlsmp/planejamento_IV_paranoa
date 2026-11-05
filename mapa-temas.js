@@ -1,6 +1,8 @@
 "use strict";
 
 const reportMapThemes = {
+  "condicionantes": ["condicionantes.html", "condicionantes", "Mapa dos indicadores de Condicionantes", ["momentos", "pre"]],
+  "ecologia": ["ecologia.html", "ecologia", "Mapa dos indicadores de Ecologia", []],
   "ras": [
     "identificacao.html",
     "regioes-administrativas",
@@ -59,11 +61,27 @@ function configureThemeView() {
   const view = { id: theme ? id : null };
   if (!theme) return view;
 
-  const [page, anchor, title] = theme;
+  const [page, anchor, title, members = [id]] = theme;
+  view.members = members;
   document.title = title + " | Mapa interativo";
-  document.getElementById("titulo-atlas").textContent = title;
+  const heading = document.getElementById("titulo-atlas");
+  heading.textContent = title;
+  const topics = document.getElementById("diagnostico-atlas");
+  const topic = topics.querySelector('a[href="' + page + '"]');
+  if (topic) {
+    topics.hidden = false;
+    topic.setAttribute("aria-current", "location");
+    const subheading = document.createElement("h3");
+    subheading.id = heading.id;
+    subheading.textContent = title;
+    heading.replaceWith(subheading);
+    document.querySelector('.main-tabs a[href="mapa.html"]').removeAttribute("aria-current");
+    document.querySelector('.main-tabs a[href="diagnostico.html"]').setAttribute("aria-current", "location");
+  }
   document.getElementById("metodologia-do-tema").href = page + "#" + anchor;
-  document.getElementById("mapa-do-tema").href = "mapa.html?tema=" + id;
+  const mapLink = document.getElementById("mapa-do-tema");
+  mapLink.href = "mapa.html?tema=" + id;
+  if (theme.length > 3) mapLink.textContent = "Mapa dos indicadores";
   document.getElementById("vistas-do-tema").hidden = false;
   document.getElementById("indicadores-do-atlas").hidden = true;
   document.getElementById("fonte-riscos-atlas").hidden = true;
@@ -76,7 +94,7 @@ async function addThemeLayers(map, view) {
   const sources = document.getElementById("fontes-atlas");
   const legends = document.getElementById("legendas-tematicas");
   const catalog = await loadData("dados-mapas/catalogo.json");
-  const choices = view.id ? Object.entries(catalog).filter(([id]) => id === view.id) : Object.entries(catalog);
+  const choices = Object.entries(catalog).filter(([id]) => !view.id || view.members.includes(id));
   if (!choices.length) {
     controls.hidden = true;
     note.textContent = view.id === "ras"
@@ -96,7 +114,7 @@ async function addThemeLayers(map, view) {
     control.className = "map-toggle";
     const input = document.createElement("input");
     input.type = "checkbox";
-    input.checked = id === view.id;
+    input.checked = id === view.members?.[0];
     control.append(input, document.createTextNode(layer.title));
     controls.append(control);
 
@@ -112,7 +130,6 @@ async function addThemeLayers(map, view) {
     const heading = document.createElement("h4");
     heading.textContent = layer.title;
     const list = document.createElement("ul");
-    const colors = new Map();
     for (const [, label, color] of layer.classes) {
       const row = document.createElement("li");
       const swatch = document.createElement("span");
@@ -121,24 +138,12 @@ async function addThemeLayers(map, view) {
       swatch.setAttribute("aria-hidden", "true");
       row.append(swatch, document.createTextNode(label));
       list.append(row);
-      const code = Number.parseInt(color.slice(1), 16);
-      colors.set(code, label);
     }
     legend.append(heading, list);
     legends.append(legend);
 
-    const [west, south, east, north] = layer.bounds;
-    const project = L.CRS.EPSG3857;
-    const bounds = [
-      project.unproject(L.point(west, south)),
-      project.unproject(L.point(east, north)),
-    ];
-    const overlay = L.imageOverlay("dados-mapas/" + id + ".png", bounds, {
-      pane: "temas", opacity: 0.72, className: "mapa-classe", alt: layer.title,
-    });
-    const item = { layer, input, overlay, colors, canvas: null, loaded: false };
-    layers.push(item);
-    overlay.on("load", () => { item.loaded = true; });
+    const { overlay, classAt } = createMapImage("dados-mapas/" + id + ".png", layer, "temas", 0.72);
+    layers.push({ layer, input, classAt });
     overlay.on("error", () => {
       input.checked = false;
       input.disabled = true;
@@ -159,25 +164,13 @@ async function addThemeLayers(map, view) {
   controls.disabled = false;
 
   map.on("click", ({ latlng }) => {
+    if (document.getElementById("leitura-indicador")?.value === "contexto" &&
+        document.getElementById("indicador").value) return;
     const point = L.CRS.EPSG3857.project(latlng);
     const panel = document.createElement("div");
     for (const item of layers) {
-      if (!item.input.checked || !item.loaded) continue;
-      const [west, south, east, north] = item.layer.bounds;
-      if (point.x < west || point.x >= east || point.y <= south || point.y > north) continue;
-      if (!item.canvas) {
-        const img = item.overlay.getElement();
-        const canvas = document.createElement("canvas");
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-        item.canvas = canvas.getContext("2d", { willReadFrequently: true });
-        item.canvas.drawImage(img, 0, 0);
-      }
-      const ctx = item.canvas;
-      const x = Math.floor((point.x - west) / (east - west) * ctx.canvas.width);
-      const y = Math.floor((north - point.y) / (north - south) * ctx.canvas.height);
-      const [r, g, b, alpha] = ctx.getImageData(x, y, 1, 1).data;
-      const label = alpha ? item.colors.get((r << 16) | (g << 8) | b) : null;
+      if (!item.input.checked) continue;
+      const label = item.classAt(point);
       if (label) {
         const line = document.createElement("p");
         line.textContent = item.layer.title + " · " + label;

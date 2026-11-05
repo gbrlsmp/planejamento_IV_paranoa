@@ -6,6 +6,8 @@ Relatório metodológico da Bacia do Paranoá, no Distrito Federal. O projeto bu
 
 ## Como usar o mapa
 
+Nos indicadores de Riscos, use **Visualização** para alternar entre os resultados por fragmento e o contexto da camada de entrada.
+
 A vista [Riscos por RA](riscos-por-ra.html) reúne os indicadores dos fragmentos em cada Região Administrativa que intercepta a bacia.
 
 O [mapa interativo geral](https://gbrlsmp.github.io/planejamento_IV_paranoa/mapa.html) permite combinar camadas temáticas, limites das RAs e indicadores de Riscos. Os tópicos do relatório também têm vistas de Metodologia e Mapa. [Dados e exportação das camadas](docs/mapas-tematicos.md).

@@ -170,3 +170,6 @@ footer { border-top: 1px solid var(--line); padding-block: 1rem 1.5rem; font-siz
 @media (max-width: 30rem) {
   .masthead { padding-top: 1.7rem; }
 }
+
+.report-section article + article { margin-top: 1.3rem; }
+.report-section article h5 { margin: 0.8rem 0 0.4rem; font-size: 1rem; }
