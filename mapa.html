@@ -3,17 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="google-maps-key" content="">
   <title>Mapa interativo | Bacia do Paranoá</title>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="style.css?v=4">
-  <link rel="stylesheet" href="mapa-riscos.css?v=4">
+  <link rel="stylesheet" href="mapa-riscos.css?v=5">
   <script defer src="vendor/leaflet/leaflet.js"></script>
-  <script defer src="mapa-satelite.js"></script>
-  <script defer src="mapa-base.js"></script>
+  <script defer src="mapa-satelite.js?v=2"></script>
+  <script defer src="mapa-base.js?v=2"></script>
   <script defer src="mapa-camadas.js"></script>
-  <script defer src="mapa-temas.js?v=2"></script>
-  <script defer src="mapa-riscos.js?v=5"></script>
+  <script defer src="mapa-temas.js?v=3"></script>
+  <script defer src="mapa-riscos.js?v=6"></script>
 </head>
 <body>
   <header class="masthead">
@@ -60,13 +59,13 @@
         </select>
       </div>
       <label class="map-toggle">
-        <input id="mostrar-ras" type="checkbox" disabled>
+        <input id="mostrar-ras" type="checkbox" checked disabled>
         Mostrar regiões administrativas (RAs)
       </label>
       <button id="enquadrar" type="button" disabled>Enquadrar a bacia</button>
       <label class="map-toggle">
         <input id="mostrar-satelite" type="checkbox" aria-describedby="satelite-status" disabled>
-        Mostrar satélite do Google
+        Mostrar satélite (Sentinel-2)
       </label>
     </div>
     <p id="satelite-status" role="status"></p>
@@ -78,6 +77,7 @@
         <p id="legend-note"></p>
         <div id="legend-items"></div>
         <div id="legendas-tematicas"></div>
+        <section id="legenda-ras" hidden aria-label="Legenda das regiões administrativas"></section>
       </aside>
     </div>
     <noscript><p>Ative JavaScript no navegador para visualizar o mapa.</p></noscript>
@@ -91,8 +91,8 @@
 
     <details class="map-source">
       <summary>Termos de uso e privacidade da camada de satélite</summary>
-      <p>A camada de satélite é fornecida pelo Google Maps e seu uso está sujeito aos <a href="https://www.google.com/intl/pt-BR/help/terms_maps/">Termos do Google Maps</a> e aos <a href="https://policies.google.com/terms?hl=pt-BR">Termos de Serviço do Google</a>.</p>
-      <p>Ao ativar a camada, seu navegador se conecta ao Google e solicita imagens para a área e o nível de zoom exibidos. O Google recebe dados dessas solicitações, como o endereço IP, conforme sua <a href="https://policies.google.com/privacy?hl=pt-BR">Política de Privacidade</a>.</p>
+      <p>Imagens Sentinel-2 cloudless 2025 fornecidas por <a href="https://maps.eox.at">EOX::Maps</a>, com dados Copernicus Sentinel modificados (2025), sob <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Uso gratuito para fins não comerciais. Resolução de 10 m; ampliar além dessa resolução não acrescenta detalhes.</p>
+      <p>Ao ativar a camada, o navegador solicita imagens aos servidores da EOX para a área exibida. Consulte as <a href="https://cloudless.eox.at/products/viewing">condições de uso</a> e a <a href="https://eox.at/privacy-policy/">política de privacidade</a>.</p>
     </details>
   </main>
 </body>

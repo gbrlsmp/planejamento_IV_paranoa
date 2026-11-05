@@ -34,7 +34,7 @@ function renderizarRas(dados) {
   for (const ra of dados.regioes) {
     const linha = document.createElement("tr");
     const resumo = ra.indicadores[pos];
-    adicionarCelula(linha, ra.nome, "th", "row");
+    adicionarCelula(linha, ra.codigo + " · " + ra.nome, "th", "row");
     adicionarCelula(linha, ra.inteira ? "Sim" : "Não");
     for (const valor of [ra.fragmentos, ra.area_ha, resumo.cobertura]) {
       adicionarCelula(linha, valorRa(valor));
@@ -60,7 +60,22 @@ async function iniciarRas() {
     seletorRa.add(new Option(indicador.titulo, indicador.id));
   }
   seletorRa.disabled = false;
-  seletorRa.addEventListener("change", () => renderizarRas(dados));
+  const mapIndicator = document.getElementById("indicador");
+  function syncFromMap() {
+    if (dados.indicadores.some(item => item.id === mapIndicator.value)) {
+      seletorRa.value = mapIndicator.value;
+      renderizarRas(dados);
+    }
+  }
+  mapIndicator.addEventListener("change", syncFromMap);
+  seletorRa.addEventListener("change", () => {
+    renderizarRas(dados);
+    if (Array.from(mapIndicator.options).some(option => option.value === seletorRa.value)) {
+      mapIndicator.value = seletorRa.value;
+      mapIndicator.dispatchEvent(new Event("change"));
+    }
+  });
+  syncFromMap();
   renderizarRas(dados);
   document.getElementById("resultados-ra").hidden = false;
 }

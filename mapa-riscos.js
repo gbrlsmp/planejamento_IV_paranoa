@@ -166,14 +166,14 @@ async function initializeMap() {
   const isAtlas = document.getElementById("camadas-tematicas") !== null;
   const view = isAtlas ? configureThemeView() : null;
   const base = await loadData("mapa-base.json.gz");
-  const regions = isAtlas ? document.getElementById("mostrar-ras") : null;
-  if (regions) regions.checked = view.id === "ras";
+  const regions = document.getElementById("mostrar-ras");
+  if (regions && view?.id) regions.checked = view.id === "ras";
   const basinBounds = addMapBase(map, base, regions);
   const fitBasin = () => map.fitBounds(basinBounds, { padding: [18, 18], animate: false });
   fitBasin();
   fit.addEventListener("click", fitBasin);
   fit.disabled = false;
-  addGoogleSatellite(map);
+  addSatellite(map);
   if (view) {
     addThemeLayers(map, view).catch(error => {
       console.error(error);

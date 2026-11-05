@@ -23,7 +23,7 @@ Copie para `bounds` no catálogo os limites projetados que o comando imprime, na
 
 ## Riscos por Região Administrativa
 
-A [vista Por RA](../riscos-por-ra.html) resume todos os indicadores de Riscos por Região Administrativa. A tabela usa o recorte da RA pela bacia e informa se a RA completa está dentro dela. [Método de agregação e fontes](../scripts/LEIA_ME_RISCOS_POR_RA.md).
+A [seção Por RA, na página do mapa dos indicadores](../mapa-riscos.html#riscos-por-ra) resume todos os indicadores de Riscos por Região Administrativa. A tabela usa o recorte da RA pela bacia e informa se a RA completa está dentro dela. [Método de agregação e fontes](../scripts/LEIA_ME_RISCOS_POR_RA.md).
 
 ## Contexto geral de Riscos
 

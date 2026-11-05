@@ -39,18 +39,6 @@
   border-radius: 0.35rem;
   background: var(--surface);
 }
-.google-satellite, .map-vector-viewport {
-  position: absolute;
-  inset: 0;
-}
-.google-satellite { pointer-events: none; }
-.google-satellite a, .google-satellite button { pointer-events: auto; }
-.map-vector-viewport { pointer-events: none; }
-.map-vector-viewport .leaflet-map-pane { pointer-events: auto; }
-/* Keep Leaflet's overlays and controls clear of the imagery attribution. */
-#mapa.satellite-active { --satellite-credit-space: 32px; }
-.satellite-active .map-vector-viewport { clip-path: inset(0 0 var(--satellite-credit-space)); }
-.satellite-active .leaflet-bottom { bottom: var(--satellite-credit-space); }
 .leaflet-tooltip.ra-label {
   padding: 0 4px;
   border: 0;
@@ -104,3 +92,13 @@
 .mapa-classe { image-rendering: pixelated; }
 #legendas-tematicas h4 { margin-top: 0.9rem; }
 .risk-tabs[hidden] { display: none; }
+
+#legenda-ras h4 { margin-top: 1rem; }
+#legenda-ras p { font-size: 0.85rem; color: var(--muted); }
+#legenda-ras button {
+  border: 0; padding: 0.15rem 0; background: transparent;
+  color: var(--accent); text-align: left; font: inherit; cursor: pointer;
+}
+#legenda-ras button:hover { text-decoration: underline; }
+#riscos-por-ra .table-scroll { max-height: 32rem; overflow: auto; }
+#riscos-por-ra thead { position: sticky; top: 0; }

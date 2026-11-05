@@ -1,6 +1,6 @@
 # Riscos por Região Administrativa
 
-A [tabela por RA](../riscos-por-ra.html) resume os resultados da rodada v01 do diagnóstico por fragmento.
+A [tabela por RA](../mapa-riscos.html#riscos-por-ra) resume os resultados da rodada v01 do diagnóstico por fragmento.
 
 | Entrada | Uso |
 | --- | --- |
