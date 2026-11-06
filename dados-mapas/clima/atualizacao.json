@@ -1,0 +1,49 @@
+{
+  "revision": "2425412d1d3ff171",
+  "source_diagnostic_sha256": "5ba7c0e7b90223a718c124dcd092348cf812f6a9d43885b163c23f3e2bf29435",
+  "fragments": 33454,
+  "changes": {
+    "td_classe": 867,
+    "tn_classe": 1078,
+    "tm_classe": 939,
+    "hmd_cls": 33450,
+    "hmn_cls": 33452,
+    "hmm_cls": 33450,
+    "icu": 17
+  },
+  "zone": {
+    "pixels": 35745157,
+    "area_ha": 32170.6413,
+    "polygons": 6
+  },
+  "numeric_values": "preserved_from_zonal_statistics",
+  "migration": true,
+  "artifacts_sha256": {
+    "mapa-dados.json.gz": "514f564d37a03d796af129c6611fc0e2f3a13a25a0c3ee6f2a2d5ee517db2f1b",
+    "dados-mapas/riscos-por-ra.json": "0e4508172685a1c99365cc17dee5712ae506a85207c7e636e2fc16fea3fcc779",
+    "dados-mapas/metodologia-riscos.json": "8bfa9dcf2baed1af9624309d1afb998998ebcb3539f878c4be597bd132169e75",
+    "dados-mapas/contexto-riscos.json": "980887eb3f38ec91819736217529d614e8bdc891ba42ebcc32519725f486d83b",
+    "dados-mapas/contexto/icu.png": "4b1f805140bd95fb075de94ad0ece045cc900530db8e3125332d1df6ab02a70a",
+    "dados-mapas/metodologia-riscos/icu-fragmentos-classes.png": "1d85519f2419e9be2bc8de75f69ef5e4d4b19276d4e76b70d417749616929db8",
+    "dados-mapas/clima/hm-dia-classes.png": "1207dad9243217015f102de361f3a520454c47e549ff98b32c3cda9924bd6cb1",
+    "dados-mapas/clima/hm-dia-continuo.png": "e924bea043e0f86bfbc0f96dafefc9ba91017164bebd28f4f6072b6385f3371e",
+    "dados-mapas/clima/hm-dia-previa.png": "84c9b0d1bd5cf8ba7da95d4739aeaa2f10686a60b764f696d8871831a297997f",
+    "dados-mapas/clima/hm-media-classes.png": "109b5bbdbefdd6ff4d057dc0ab16f2ed2d1abfe9c0795263698117cfc265eea1",
+    "dados-mapas/clima/hm-media-continuo.png": "bded9ad17cdd2cee2388b035ac7666e3b5b3aeb437b3138796715f338a0ef571",
+    "dados-mapas/clima/hm-media-previa.png": "387b0e5b8bb84991e16b15139fd52be0b2733a3dcf420943c908189c46e4062e",
+    "dados-mapas/clima/hm-noite-classes.png": "18819d5bab8b1fe4180fb4aae90f5c1bea0f266026a825b32bc20dbfa76991ff",
+    "dados-mapas/clima/hm-noite-continuo.png": "48f7f43a39c4fa79263cc241d167ab5ee17d89564df2f1a8d223f4349a092152",
+    "dados-mapas/clima/hm-noite-previa.png": "3111cbb705bea15fdd198c2980b1ab0c8979473414848a00e2869e13eac98a0b",
+    "dados-mapas/clima/temperatura-dia-classes.png": "55786daa0d145f949665df7f65efc853cf8677f95b3942c5bb07618f6ce093fd",
+    "dados-mapas/clima/temperatura-dia-continuo.png": "deb6e661fa7812bce6b2bf285741b19e3a73d3049c25a5055f468f6a8674e749",
+    "dados-mapas/clima/temperatura-dia-previa.png": "341701c797c0c7cede24ea86f2f74ab5911daf04e7ce9cfff2486ba63b01ddee",
+    "dados-mapas/clima/temperatura-media-classes.png": "484b5882cb13aba6ad88ceaa2da21e475847cbdd74cd9f123ceb0cb3bdcb78a8",
+    "dados-mapas/clima/temperatura-media-continuo.png": "52fdc91ab849822205035d7d8d80720b630c9855eb11901bbf1c4ae2c714d132",
+    "dados-mapas/clima/temperatura-media-previa.png": "a10c07b625bb65074499ad33461d1d3b5c38b2cf48e17316222d9e0a85400603",
+    "dados-mapas/clima/temperatura-noite-classes.png": "46dae0120e42d003ceab85e73797246248841190a4216110e6df39fb8b8c626d",
+    "dados-mapas/clima/temperatura-noite-continuo.png": "2c0f551a0001b1b693811c89beefceffa76dcf9279cfc7041e7e2d8cbfdc8efe",
+    "dados-mapas/clima/temperatura-noite-previa.png": "910c14d7b8a26c201f9571266ce3e51c9ad2443c3f6d055fcaea44b171134f14",
+    "dados-mapas/clima/zona-icu.gpkg": "e0946dea639266a3ba931424fca190614e15260fa5d308eef1a12a8ff7935040",
+    "dados-mapas/clima/catalogo.json": "e82f7e8deaf92a2d540d542a96c8b4044248c8591b7351c686f0ae7c42fd7cf5"
+  }
+}

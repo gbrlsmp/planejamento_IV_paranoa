@@ -13,6 +13,7 @@ from datetime import datetime
 from math import isfinite
 import json
 import re
+import importlib.util
 
 from qgis.PyQt.QtCore import QVariant
 from qgis.core import (
@@ -46,6 +47,14 @@ if not BASE_CONFIGURADA:
     raise RuntimeError("Defina PARANOA_BASE_DADOS com a pasta 02 BASE DE DADOS.")
 BASE = Path(BASE_CONFIGURADA).expanduser()
 RISCOS = BASE / "02_Análises/01_Riscos"
+SITE = Path(__file__).resolve().parents[1]
+helper_spec = importlib.util.spec_from_file_location("clima_comum", SITE / "scripts/clima_comum.py")
+clima = importlib.util.module_from_spec(helper_spec)
+helper_spec.loader.exec_module(clima)
+CATALOGO_CLIMA = json.loads((SITE / "dados-mapas/clima/catalogo.json").read_text(encoding="utf-8"))
+if clima.complete(json.loads(json.dumps(CATALOGO_CLIMA)))["revision"] != CATALOGO_CLIMA["revision"]:
+    raise RuntimeError("Catálogo climático alterado sem regeneração.")
+
 
 INVEST = RISCOS / "01_Clima/04_rasters/InVEST/v6"
 INVEST_MEDIA = INVEST / "v6 - algebra"
@@ -61,7 +70,7 @@ VETORES = {
         / "MK_Fragmentation_Bacia_Paranoa_45m_PatchMetrics.shp"
     ),
     "icu": (
-        RISCOS / "01_Clima/01_vetores/Zona_ICU.shp"
+        SITE / "dados-mapas/clima" / CATALOGO_CLIMA["zone"]["vector"]
     ),
     "edificacoes": (
         RISCOS / "04_Pressão Urbana"
@@ -108,6 +117,11 @@ ARQUIVOS_RASTER = {
     ),
 }
 
+for config in CATALOGO_CLIMA["indicators"].values():
+    for record in config["scenarios"].values():
+        if clima.sha256(ARQUIVOS_RASTER[record["field"]]) != record["source_sha256"]:
+            raise RuntimeError("Raster climático difere do catálogo. Regenere as camadas antes do diagnóstico.")
+
 CAMPO_ID = "patch_id"
 
 CAMADA_RENDA = "recortado"
@@ -148,15 +162,8 @@ ESTATISTICA_INUNDACAO = "max"
 # >segundo corte              -> alta
 CORTES_EDIFICACAO = (100.0 / 3.0, 200.0 / 3.0)
 
-# None: calcular mínimo e máximo entre os valores dos fragmentos.
-# Para fixar uma referência entre testes, informar (mínimo, máximo).
-#
-# Dia, noite e média da temperatura têm limites independentes.
-LIMITES_TEMPERATURA = {
-    "temp_dia": None,
-    "temp_noite": None,
-    "temp_media": None,
-}
+# Temperatura e HM usam os cortes integrais do catálogo vigente, também no site.
+# Umidade e inundação conservam seus critérios próprios.
 LIMITES_UMIDADE = None
 LIMITES_INUNDACAO = None
 
@@ -600,6 +607,7 @@ textos = {
     "td_classe": 32,
     "tn_classe": 32,
     "tm_classe": 32,
+    "hmd_cls": 32, "hmn_cls": 32, "hmm_cls": 32,
     "umid_cls": 32,
     "inund_cls": 32,
     "edif": 8,
@@ -824,15 +832,14 @@ if saida.featureCount() != processados:
 # 6. CLASSIFICAÇÕES POR INTERVALOS IGUAIS
 # ============================================================
 
-# Temperatura: limites independentes por cenário.
 limites_temperatura = {
-    origem: criar_limites(
-        saida,
-        [origem],
-        len(ROTULOS_TEMPERATURA),
-        LIMITES_TEMPERATURA[origem],
-    )
-    for origem in CAMPOS_TEMPERATURA
+    record["field"]: record["cuts"]
+    for record in CATALOGO_CLIMA["indicators"]["temperatura"]["scenarios"].values()
+}
+classes_clima = {
+    record["class_field"]: (record["field"], config, scenario)
+    for config in CATALOGO_CLIMA["indicators"].values()
+    for scenario, record in config["scenarios"].items()
 }
 
 limites_umidade = criar_limites(
@@ -854,14 +861,7 @@ limites_inundacao = criar_limites(
     LIMITES_INUNDACAO,
 )
 
-classificacoes = {
-    destino: (
-        origem,
-        limites_temperatura[origem],
-        ROTULOS_TEMPERATURA,
-    )
-    for origem, destino in CAMPOS_TEMPERATURA.items()
-}
+classificacoes = {}
 classificacoes.update({
     "umid_cls": (
         "umid_pct",
@@ -884,6 +884,10 @@ for feicao in saida.getFeatures():
         for destino, (origem, limites, rotulos)
         in classificacoes.items()
     }
+    alteracoes[feicao.id()].update({
+        saida.fields().indexFromName(destino): clima.classify(numero(feicao[origem]), config, scenario)
+        for destino, (origem, config, scenario) in classes_clima.items()
+    })
 
     if len(alteracoes) >= 500:
         if not provedor.changeAttributeValues(alteracoes):
@@ -939,6 +943,12 @@ if (
 
 if SALVAR_PARAMETROS:
     registro = {
+        "climate_revision": CATALOGO_CLIMA["revision"],
+        "climate_sources": {
+            record["field"]: clima.sha256(ARQUIVOS_RASTER[record["field"]])
+            for config in CATALOGO_CLIMA["indicators"].values()
+            for record in config["scenarios"].values()
+        },
         "teste": TESTE,
         "data_execucao": datetime.now().astimezone().isoformat(),
         "qgis": Qgis.QGIS_VERSION,
@@ -968,7 +978,8 @@ if SALVAR_PARAMETROS:
             "estatistica": "média na faixa externa",
             "distancia_m": DISTANCIA_ENTORNO_M,
             "interior_do_fragmento": "excluído",
-            "classificacao": "não definida; manter valores",
+            "classificacao": "cinco intervalos do catálogo; maior HM = base",
+            "catalogo": CATALOGO_CLIMA["revision"],
         },
         "umidade": {
             "fonte": "raster pronto derivado do INMET",

@@ -12,6 +12,7 @@ from pathlib import Path
 import numpy as np
 from osgeo import gdal
 from PIL import Image
+from clima_comum import complete, sha256
 
 
 SOURCES = {
@@ -162,6 +163,7 @@ def main():
             grid = current_grid
             record = records[(indicator, scenario)]
             record["source"] = filename
+            record["source_sha256"] = sha256(args.source_dir / filename)
             record["continuous"] = f"{indicator}-{scenario}-continuo.png"
             record["classes"] = f"{indicator}-{scenario}-classes.png"
             record["preview"] = f"{indicator}-{scenario}-previa.png"
@@ -178,6 +180,7 @@ def main():
             projected = None
             print(f"Exportado: {indicator}/{scenario}", flush=True)
     catalog["bounds_3857"] = grid
+    complete(catalog)
     (args.out_dir / "catalogo.json").write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
 
 

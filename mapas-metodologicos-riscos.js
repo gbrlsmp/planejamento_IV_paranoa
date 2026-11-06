@@ -4,7 +4,7 @@
   let shared;
   function data() {
     shared ??= Promise.all([
-      loadData("dados-mapas/metodologia-riscos.json"), loadData("mapa-base.json.gz"),
+      loadData("dados-mapas/metodologia-riscos.json"), loadData("mapa-base.json.gz"), ClimateData.load(),
     ]).catch(error => { shared = null; throw error; });
     return shared;
   }
@@ -80,7 +80,8 @@
     retry.hidden = true;
     status.textContent = "Carregando o mapa…";
     try {
-      const [catalog, base] = await data();
+      const [catalog, base, climate] = await data();
+      ClimateData.verify(climate, catalog);
       const config = catalog.indicators[key];
       map = L.map(container, {
         zoomControl: false, scrollWheelZoom: false,
@@ -121,7 +122,7 @@
           L.CRS.EPSG3857.unproject(L.point(left, bottom)),
           L.CRS.EPSG3857.unproject(L.point(right, top)),
         );
-        const next = L.imageOverlay(layer.image, bounds, {
+        const next = L.imageOverlay(layer.image + "?v=" + catalog.climate_revision, bounds, {
           opacity: 0, className: selectedMode === "classes" ? "climate-pixels" : "",
           alt: item.title + " · " + (selectedMode === "continuo" ? "degradê" : "classes"),
         });

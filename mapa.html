@@ -9,11 +9,12 @@
   <link rel="stylesheet" href="mapa-riscos.css?v=5">
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-satelite.js?v=2"></script>
-  <script defer src="mapa-base.js?v=2"></script>
+  <script defer src="mapa-base.js?v=3"></script>
   <script defer src="mapa-camadas.js"></script>
+  <script defer src="clima-dados.js?v=1"></script>
   <script defer src="mapa-temas.js?v=3"></script>
-  <script defer src="mapa-riscos.js?v=7"></script>
-  <script defer src="riscos-por-ra.js?v=3"></script>
+  <script defer src="mapa-riscos.js?v=8"></script>
+  <script defer src="riscos-por-ra.js?v=4"></script>
 </head>
 <body>
   <header class="masthead">
@@ -43,7 +44,7 @@
       <a id="metodologia-do-tema" href="index.html#sumario">Metodologia</a>
       <a id="mapa-do-tema" href="mapa.html" aria-current="page">Mapa</a>
     </nav>
-    <p id="contexto-atlas">Ative as camadas que deseja comparar. Para um indicador de Riscos, alterne entre a leitura por fragmento e a camada de entrada.</p>
+    <p id="contexto-atlas">Ative as camadas que deseja comparar. Temperatura e HM usam a mesma versão e as mesmas classes da metodologia. Para um indicador de Riscos, alterne entre a leitura por fragmento e a camada de entrada.</p>
     <fieldset id="camadas-tematicas" disabled>
       <legend>Camadas temáticas</legend>
     </fieldset>
@@ -58,6 +59,9 @@
           <option value="fragmentos">Nos fragmentos</option>
           <option value="contexto">Contexto geral</option>
         </select>
+      </div>
+      <div id="controle-representacao-clima" hidden><label for="representacao-clima">Representação</label>
+        <select id="representacao-clima"><option value="classes">Classes</option><option value="continuo">Degradê</option></select>
       </div>
       <label class="map-toggle">
         <input id="mostrar-ras" type="checkbox" checked disabled>
@@ -109,7 +113,7 @@
 
     <section class="report-section" aria-labelledby="titulo-origem-atlas">
       <h3 id="titulo-origem-atlas">Dados e método</h3>
-      <p>O limite da bacia, as massas d’água e os limites das RAs vêm da base do IPE-DF (2023). As camadas temáticas usam uma grade de 50 m em Web Mercator. As tabelas do relatório usam as bases originais.</p>
+      <p>O limite da bacia, as massas d’água e os limites das RAs vêm da base do IPE-DF (2023). Temperatura, HM e zona de calor usam visualização de 20 m em Web Mercator; as demais camadas temáticas mantêm sua grade de 50 m. As tabelas do relatório usam as bases originais.</p>
       <ul id="fontes-atlas"></ul>
       <p id="fonte-riscos-atlas"><a href="diagnostico.html#camadas">Dados e método dos indicadores de Riscos</a></p>
     </section>

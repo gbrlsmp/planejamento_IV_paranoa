@@ -80,6 +80,8 @@ def main():
     args = parser.parse_args()
     catalogo = Path(__file__).resolve().parents[1] / "dados-mapas/contexto-riscos.json"
     config = json.loads(catalogo.read_text(encoding="utf-8"))[args.indicador]
+    if config["kind"] == "derived":
+        parser.error("Use atualizar_clima.py para regenerar a zona e todas as suas dependências")
     grade, limites, _ = preparar(args.entrada, config)
     gdal.GetDriverByName("PNG").CreateCopy(args.saida, grade, options=["ZLEVEL=9"])
     print(json.dumps(limites))

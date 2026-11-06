@@ -36,7 +36,7 @@ const regionNames = {
 };
 
 async function loadData(file) {
-  const response = await fetch(file);
+  const response = await fetch(file, { cache: "no-cache" });
   if (!response.ok) throw new Error("Arquivo de dados indisponível");
   const bytes = await response.arrayBuffer();
   const header = new Uint8Array(bytes, 0, Math.min(bytes.byteLength, 2));
