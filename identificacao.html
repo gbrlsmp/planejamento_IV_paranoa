@@ -42,38 +42,34 @@
 
     <section id="uso-solo" class="report-section" aria-labelledby="titulo-uso-solo">
       <h3 id="titulo-uso-solo">Uso e cobertura do solo</h3>
-      <nav class="risk-tabs" aria-label="Vistas de Uso e cobertura do solo">
-        <a href="identificacao.html#uso-solo" aria-current="page">Metodologia</a>
-        <a href="mapa.html?tema=uso">Mapa</a>
-      </nav>
-      <p>A identificação em desenvolvimento combina as imagens PlanetScope com referências do MapBiomas e do ZEE-DF para localizar e distinguir a vegetação na grade de 3 m. A escolha dos componentes da rede de infraestrutura verde será tratada em etapa posterior.</p>
+      <p>A identificação em desenvolvimento usa as imagens PlanetScope, o MapBiomas e o ZEE-DF de cobertura vegetal. A concordância entre referências apoia a identificação das formações vegetais; as demais classes de uso e cobertura seguirão a legenda do MapBiomas, na grade PlanetScope. A forma de produzir essas classes está em discussão.</p>
       <h4>Camadas de entrada</h4>
       <div class="table-scroll" role="region" aria-label="Camadas de entrada da identificação" tabindex="0">
         <table class="indicator-table data-table">
-          <thead><tr><th scope="col">Camada</th><th scope="col">Data e resolução ou escala</th><th scope="col">Função</th></tr></thead>
+          <thead><tr><th scope="col">Camada de entrada</th><th scope="col">Fonte, data e resolução, se disponível</th><th scope="col">Função</th><th scope="col">Tratamento</th></tr></thead>
           <tbody>
-            <tr><th scope="row">MapBiomas</th><td>Cópia local de 2025; produto de 10 m. Coleção a confirmar.</td><td>Referência de uso e cobertura; cruzamento temático com o ZEE.</td></tr>
-            <tr><th scope="row">PlanetScope da chuva e da seca</th><td>17/01/2026 e 30/07/2026; 3 m; oito bandas.</td><td>Calcular os dois NDVIs e apoiar a classificação da vegetação.</td></tr>
-            <tr><th scope="row">ZEE-DF de cobertura vegetal</th><td>Vetor; data e escala da cópia em conferência.</td><td>Referência das formações campestre, savânica e florestal.</td></tr>
-            <tr><th scope="row">ZEE-DF de risco de perda de remanescentes</th><td>Vetor; data e escala da cópia em conferência.</td><td>Registrar o contexto dos remanescentes e a categoria de ausência de Cerrado nativo.</td></tr>
-            <tr><th scope="row">Limite da Bacia do Paranoá</th><td>Vetor identificado como IPE-DF 2023.</td><td>Definir a área comum de análise.</td></tr>
-            <tr><th scope="row">Máscaras de qualidade das imagens</th><td>Correspondentes às cenas e datas; não localizadas separadamente.</td><td>Controlar nuvens e sombras. Os relatórios dos mosaicos informam que UDM2 não foi aplicado.</td></tr>
+            <tr><th scope="row">MapBiomas</th><td>Cópia local identificada como 2025; 10 m; coleção a confirmar.</td><td>Legenda das demais classes e referência para formações.</td><td>Recortar à bacia e compatibilizar legenda e grade. Forma de transferência ou refinamento em discussão.</td></tr>
+            <tr><th scope="row">PlanetScope — chuva e seca</th><td>Planet; 17/01/2026 e 30/07/2026; mosaicos com pixels de 3 m; oito bandas.</td><td>Fornecer a grade de trabalho e informação espectral para análise da vegetação.</td><td>Calcular NDVI separado por data com vermelho e infravermelho próximo; verificar qualidade e alinhamento.</td></tr>
+            <tr><th scope="row">ZEE-DF de cobertura vegetal</th><td>ZEE-DF; vetor local; data e escala a confirmar.</td><td>Referência das formações vegetais em comparação com o MapBiomas.</td><td>Compatibilizar as classes e identificar as concordâncias na bacia.</td></tr>
+            <tr><th scope="row">Risco de perda de remanescentes</th><td>ZEE-DF; vetor; data e escala da cópia em conferência.</td><td>Registrar contexto de remanescentes, incluindo ausência de Cerrado nativo.</td><td>Cruzar posteriormente com a classificação, preservando a informação original do ZEE.</td></tr>
+            <tr><th scope="row">Limite da Bacia do Paranoá</th><td>Vetor identificado como IPE-DF 2023.</td><td>Definir a área de estudo.</td><td>Usar como recorte comum após conferir sistemas de referência.</td></tr>
+            <tr><th scope="row">Máscaras de qualidade</th><td>Planet, correspondentes às cenas; não localizadas separadamente.</td><td>Identificar nuvens e sombras.</td><td>Localizar e aplicar quando disponíveis; os relatórios dos mosaicos indicam que UDM2 não foi aplicado.</td></tr>
           </tbody>
         </table>
       </div>
-      <p>A resolução das imagens PlanetScope é de 3 m; a do produto MapBiomas é de 10 m. O ZEE é vetorial e requer informação de escala. Reamostrar uma referência para 3 m não aumenta seu detalhe temático.</p>
+      <p>Os mosaicos PlanetScope usados têm pixels de 3 m; a cópia do MapBiomas é identificada como 10 m. A <a href="https://docs.planet.com/data/imagery/arps/techspec/v1-2-0/">Planet informa</a> que cenas ortorretificadas podem ser reamostradas para pixels de 3 m. Ajustar uma camada de 10 m a uma grade de 3 m não acrescenta, por si só, detalhes de 3 m aos seus limites.</p>
       <h4>Produção do indicador</h4>
       <ol>
         <li><strong>PlanetScope → NDVI:</strong> calcular separadamente o NDVI da chuva e o da seca.</li>
-        <li><strong>MapBiomas + ZEE de cobertura → referências:</strong> identificar a concordância por formação no recorte da bacia.</li>
+        <li><strong>MapBiomas + ZEE-DF → referências de fitofisionomia:</strong> conferir as legendas e identificar a concordância por formação no recorte da bacia.</li>
         <li><strong>Referências + NDVI → análise estatística:</strong> comparar distribuições, dispersão e sobreposição. Média entre datas e diferença sazonal são variáveis internas dessa análise.</li>
-        <li><strong>Imagens + NDVI + regras avaliadas → classificação em 3 m:</strong> etapa ainda em desenvolvimento, sem cortes finais definidos.</li>
+        <li><strong>Imagens + NDVI + referências → fitofisionomias:</strong> avaliar métodos para classificar as formações na grade de 3 m. Para as demais classes, seguir a legenda do MapBiomas; o refinamento com as imagens será desenvolvido e avaliado.</li>
         <li><strong>Classificação + ZEE de remanescentes → contexto da vegetação:</strong> cruzamento posterior, preservando a classe estimada e a informação do ZEE.</li>
       </ol>
       <p>A categoria de ausência de Cerrado nativo no ZEE não comprova, isoladamente, a presença de espécies exóticas na vegetação atual.</p>
       <details class="data-method">
         <summary>Ver procedimento completo</summary>
-        <p>A primeira exploração calcula o NDVI a partir das bandas Red e NIR nos mesmos pontos válidos das duas imagens. A concordância com as referências é consultada nos centros amostrais; uma nova interseção vetorial integral ainda será produzida.</p>
+        <p><strong>Exploração inicial — MapBiomas + ZEE de cobertura:</strong> os resultados abaixo correspondem à análise amostral já realizada. A primeira exploração calcula o NDVI a partir das bandas Red e NIR nos mesmos pontos válidos das duas imagens. A concordância com as referências é consultada nos centros amostrais; uma nova interseção vetorial integral ainda será produzida.</p>
         <p>Foi utilizada amostragem sistemática com espaçamento de 30 m, selecionando pixels originais de 3 m. Esse espaçamento não é a resolução da futura classificação. As referências são cópias locais e ainda não houve validação independente nem controle de nuvens e sombras por UDM2.</p>
         <h5>Resultados exploratórios</h5>
         <p>As distribuições mostram diferenças e sobreposições entre as formações de referência. Médias e desvios descrevem as amostras e não constituem limites definitivos.</p>
@@ -85,7 +81,7 @@
         <p>Para reprodução: <a href="scripts/identificacao/README.md">guia de execução</a>, <a href="scripts/identificacao/analisar_vegetacao.py" download>código de análise</a> e <a href="scripts/identificacao/apresentar_resultados.py" download>código dos gráficos</a>. O processamento é executado no ambiente SIG/Python; esta página apresenta o método e os resultados.</p>
       </details>
       <h4>Áreas por classe na base publicada</h4>
-      <p>A tabela e o mapa abaixo correspondem à base já publicada e não são resultados da nova classificação PlanetScope em desenvolvimento.</p>
+      <p>A tabela abaixo corresponde à base já publicada e não são resultados da nova classificação PlanetScope em desenvolvimento.</p>
       <p>Áreas por classe no recorte da Bacia do Paranoá. A tabela usa os códigos de legenda da base MapBiomas de 10 m.</p>
       <div class="table-scroll" role="region" aria-label="Área por classe de uso e cobertura do solo" tabindex="0">
         <table class="indicator-table summary-table">
