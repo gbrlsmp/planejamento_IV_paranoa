@@ -42,7 +42,7 @@
 
     <section id="uso-solo" class="report-section" aria-labelledby="titulo-uso-solo">
       <h3 id="titulo-uso-solo">Uso e cobertura do solo</h3>
-      <p>A identificação em desenvolvimento usa as imagens PlanetScope, o MapBiomas e a referência de uso e cobertura de 2024 da SEMA-DF. A concordância entre referências apoia a identificação das formações vegetais; as demais classes de uso e cobertura seguirão a legenda do MapBiomas, na grade PlanetScope. A forma de produzir essas classes está em discussão.</p>
+      <p>A identificação em desenvolvimento usa as imagens PlanetScope, o MapBiomas e o ZEE-DF de cobertura vegetal. A concordância entre referências apoia a identificação das formações vegetais; as demais classes de uso e cobertura seguirão a legenda do MapBiomas, na grade PlanetScope. A forma de produzir essas classes está em discussão.</p>
       <h4>Camadas de entrada</h4>
       <div class="table-scroll" role="region" aria-label="Camadas de entrada da identificação" tabindex="0">
         <table class="indicator-table data-table">
@@ -50,7 +50,7 @@
           <tbody>
             <tr><th scope="row">MapBiomas</th><td>Cópia local identificada como 2025; 10 m; coleção a confirmar.</td><td>Legenda das demais classes e referência para formações.</td><td>Recortar à bacia e compatibilizar legenda e grade. Forma de transferência ou refinamento em discussão.</td></tr>
             <tr><th scope="row">PlanetScope — chuva e seca</th><td>Planet; 17/01/2026 e 30/07/2026; mosaicos com pixels de 3 m; oito bandas.</td><td>Fornecer a grade de trabalho e informação espectral para análise da vegetação.</td><td>Calcular NDVI separado por data com vermelho e infravermelho próximo; verificar qualidade e alinhamento.</td></tr>
-            <tr><th scope="row">Uso e cobertura da SEMA-DF</th><td><a href="https://sisdia.df.gov.br/portal/home/item.html?id=1e092003b3264c599e42a780713d4d5b">SISDIA: camada indicada como SEMA-DF 2024</a>; escala, formato e legenda a confirmar.</td><td>Nova referência proposta para as formações vegetais em comparação com o MapBiomas.</td><td>Obter a camada, conferir metadados e classes, harmonizar legendas e identificar concordâncias na bacia. Ainda não executado.</td></tr>
+            <tr><th scope="row">ZEE-DF de cobertura vegetal</th><td>ZEE-DF; vetor local; data e escala a confirmar.</td><td>Referência das formações vegetais em comparação com o MapBiomas.</td><td>Compatibilizar as classes e identificar as concordâncias na bacia.</td></tr>
             <tr><th scope="row">Risco de perda de remanescentes</th><td>ZEE-DF; vetor; data e escala da cópia em conferência.</td><td>Registrar contexto de remanescentes, incluindo ausência de Cerrado nativo.</td><td>Cruzar posteriormente com a classificação, preservando a informação original do ZEE.</td></tr>
             <tr><th scope="row">Limite da Bacia do Paranoá</th><td>Vetor identificado como IPE-DF 2023.</td><td>Definir a área de estudo.</td><td>Usar como recorte comum após conferir sistemas de referência.</td></tr>
             <tr><th scope="row">Máscaras de qualidade</th><td>Planet, correspondentes às cenas; não localizadas separadamente.</td><td>Identificar nuvens e sombras.</td><td>Localizar e aplicar quando disponíveis; os relatórios dos mosaicos indicam que UDM2 não foi aplicado.</td></tr>
@@ -61,15 +61,15 @@
       <h4>Produção do indicador</h4>
       <ol>
         <li><strong>PlanetScope → NDVI:</strong> calcular separadamente o NDVI da chuva e o da seca.</li>
-        <li><strong>MapBiomas + SEMA 2024 → referências de fitofisionomia:</strong> conferir as legendas e identificar a concordância por formação no recorte da bacia. A camada SEMA ainda precisa ser obtida e avaliada.</li>
+        <li><strong>MapBiomas + ZEE-DF → referências de fitofisionomia:</strong> conferir as legendas e identificar a concordância por formação no recorte da bacia.</li>
         <li><strong>Referências + NDVI → análise estatística:</strong> comparar distribuições, dispersão e sobreposição. Média entre datas e diferença sazonal são variáveis internas dessa análise.</li>
-        <li><strong>Imagens + NDVI + referências → fitofisionomias:</strong> avaliar métodos para classificar as formações na grade de 3 m. Para as demais classes, seguir a legenda do MapBiomas; a escolha entre transferência e refinamento com as imagens ainda está em discussão.</li>
+        <li><strong>Imagens + NDVI + referências → fitofisionomias:</strong> avaliar métodos para classificar as formações na grade de 3 m. Para as demais classes, seguir a legenda do MapBiomas; o refinamento com as imagens será desenvolvido e avaliado.</li>
         <li><strong>Classificação + ZEE de remanescentes → contexto da vegetação:</strong> cruzamento posterior, preservando a classe estimada e a informação do ZEE.</li>
       </ol>
       <p>A categoria de ausência de Cerrado nativo no ZEE não comprova, isoladamente, a presença de espécies exóticas na vegetação atual.</p>
       <details class="data-method">
         <summary>Ver procedimento completo</summary>
-        <p><strong>Exploração anterior — MapBiomas + ZEE de cobertura:</strong> os resultados abaixo usam a referência anterior, ainda não a SEMA 2024. A primeira exploração calcula o NDVI a partir das bandas Red e NIR nos mesmos pontos válidos das duas imagens. A concordância com as referências é consultada nos centros amostrais; uma nova interseção vetorial integral ainda será produzida.</p>
+        <p><strong>Exploração inicial — MapBiomas + ZEE de cobertura:</strong> os resultados abaixo correspondem à análise amostral já realizada. A primeira exploração calcula o NDVI a partir das bandas Red e NIR nos mesmos pontos válidos das duas imagens. A concordância com as referências é consultada nos centros amostrais; uma nova interseção vetorial integral ainda será produzida.</p>
         <p>Foi utilizada amostragem sistemática com espaçamento de 30 m, selecionando pixels originais de 3 m. Esse espaçamento não é a resolução da futura classificação. As referências são cópias locais e ainda não houve validação independente nem controle de nuvens e sombras por UDM2.</p>
         <h5>Resultados exploratórios</h5>
         <p>As distribuições mostram diferenças e sobreposições entre as formações de referência. Médias e desvios descrevem as amostras e não constituem limites definitivos.</p>
