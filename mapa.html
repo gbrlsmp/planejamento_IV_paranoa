@@ -12,7 +12,8 @@
   <script defer src="mapa-base.js?v=2"></script>
   <script defer src="mapa-camadas.js"></script>
   <script defer src="mapa-temas.js?v=3"></script>
-  <script defer src="mapa-riscos.js?v=6"></script>
+  <script defer src="mapa-riscos.js?v=7"></script>
+  <script defer src="riscos-por-ra.js?v=3"></script>
 </head>
 <body>
   <header class="masthead">
@@ -81,6 +82,30 @@
       </aside>
     </div>
     <noscript><p>Ative JavaScript no navegador para visualizar o mapa.</p></noscript>
+
+<section id="riscos-por-ra" class="report-section" aria-labelledby="titulo-riscos-ra">
+      <h3 id="titulo-riscos-ra">Riscos por Região Administrativa</h3>
+      <p>A tabela resume os fragmentos no trecho de cada RA que fica dentro da bacia. Escolha um indicador para ver seus valores ou a distribuição das classes.</p>
+      <div class="map-tools">
+        <label for="indicador-ra">Indicador do resumo por RA</label>
+        <select id="indicador-ra" disabled></select>
+      </div>
+      <p id="status-ra" role="status">Carregando os resultados por RA…</p>
+      <div class="table-scroll" id="resultados-ra" role="region" aria-label="Resultados por Região Administrativa" tabindex="0" hidden>
+        <table class="indicator-table">
+          <thead id="colunas-ra"></thead>
+          <tbody id="linhas-ra"></tbody>
+        </table>
+      </div>
+      <noscript><p>Ative JavaScript para escolher um indicador e consultar a tabela.</p></noscript>
+
+      <details class="data-method">
+        <summary>Dados e método do resumo por RA</summary>
+        <p>O cruzamento usa as geometrias completas das RAs, o limite da bacia e o GeoPackage do diagnóstico de Riscos v01. A coluna de inclusão compara a RA completa com a bacia. Cada fragmento contribui com a área que ocupa dentro de cada RA.</p>
+        <p>A média é ponderada por essa área. Mínimo e máximo são valores dos fragmentos com dado válido que interceptam a RA. A cobertura informa quanto da área dos fragmentos tem dado válido, e as classes são distribuídas sobre a área classificada.</p>
+        <p><a href="https://github.com/gbrlsmp/planejamento_IV_paranoa/blob/main/scripts/LEIA_ME_RISCOS_POR_RA.md">Consultar a metodologia e o script de agregação</a>.</p>
+      </details>
+    </section>
 
     <section class="report-section" aria-labelledby="titulo-origem-atlas">
       <h3 id="titulo-origem-atlas">Dados e método</h3>
