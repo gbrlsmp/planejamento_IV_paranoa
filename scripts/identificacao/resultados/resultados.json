@@ -1,0 +1,670 @@
+{
+  "gerado_utc": "2026-11-06T20:25:32.873052+00:00",
+  "estado": "exploracao_preliminar_sem_classificacao_final",
+  "fontes": "copias_locais; nao houve download novo; colecao MapBiomas nao comprovada pelo cabecalho",
+  "datas_planetscope": {
+    "chuva": "2026-01-17",
+    "seca": "2026-07-30"
+  },
+  "amostragem": {
+    "tipo": "sistematica_em_centros_de_pixels_originais",
+    "stride_pixels": 10,
+    "espacamento_m": 30,
+    "resolucao_origem_m": 3,
+    "geotransform_grade_amostral": [
+      166600.5,
+      30,
+      0.0,
+      8276416.5,
+      0.0,
+      -30
+    ],
+    "n_pontos_bacia": 1173675,
+    "n_pares_validos": 1173662,
+    "n_conflitos_classes_zee": 18,
+    "offset_pixels": 5
+  },
+  "metodo": {
+    "ndvi": "(banda8_NIR-banda6_Red)/(banda8_NIR+banda6_Red)",
+    "invalidos": "fora_bacia, nodata_zero_em_qualquer_banda, nao_finito, denominador_zero, NDVI_fora_de_menos1_a1",
+    "comparacoes": "mesmos_pontos_validos_nas_duas_datas",
+    "referencias": "classe_igual_entre_MapBiomas_e_ZEE_e_simplifica_vegetacao_nativa_remanescente",
+    "interseccao": "concordancia_espacial_nos_centros_amostrais; nao_e_vetorizacao_de_interseccao_integral",
+    "risco": "codigo2=ausencia_de_Cerrado_nativo; 0=sem_cobertura; 3/4/5=niveis_de_risco",
+    "sobreposicao": "soma_minima_de_histogramas_normalizados;0=sem_sobreposicao;1=total;descritivo_nao_acuracia"
+  },
+  "limitacoes": [
+    "UDM2 nao aplicado nos mosaicos segundo relatorios; mascaras separadas nao encontradas",
+    "Sem validacao independente nem controle de nuvens/sombras por UDM2",
+    "Pontos vizinhos nao independentes; nao foram calculados p-valores ou intervalos inferenciais",
+    "Referencias historicas e de escalas distintas; grade de saida 3m nao implica acuracia tematica 3m",
+    "NDVI calculado na amostra, nao foram produzidos rasters integrais novos",
+    "Grupo de ausencia no ZEE inclui coberturas diversas e nao equivale a vegetacao nao nativa",
+    "Nenhuma regra de inclusao em infraestrutura verde foi aplicada"
+  ],
+  "grupos": {
+    "campestre": {
+      "n_referencia": 43775,
+      "n_pares_validos": 43775,
+      "n_sem_par_valido": 0,
+      "estatisticas_pareadas": {
+        "seca": {
+          "n": 43775,
+          "media": 0.36226879204582446,
+          "desvio_padrao_populacional": 0.07651227679321522,
+          "minimo": 0.0690721645951271,
+          "p05": 0.20307163149118423,
+          "p25": 0.3209536522626877,
+          "mediana": 0.3801119327545166,
+          "p75": 0.41600996255874634,
+          "p95": 0.45757872760295865,
+          "maximo": 0.9223300814628601
+        },
+        "chuva": {
+          "n": 43775,
+          "media": 0.5508448349564911,
+          "desvio_padrao_populacional": 0.07095997786829585,
+          "minimo": 0.16950596868991852,
+          "p05": 0.4188851296901703,
+          "p25": 0.5129162073135376,
+          "mediana": 0.5576344728469849,
+          "p75": 0.5984655022621155,
+          "p95": 0.6536966919898987,
+          "maximo": 0.8222124576568604
+        },
+        "media_sazonal": {
+          "n": 43775,
+          "media": 0.4565568135266029,
+          "desvio_padrao_populacional": 0.06183678896914147,
+          "minimo": 0.13866320252418518,
+          "p05": 0.34852841794490813,
+          "p25": 0.41016489267349243,
+          "mediana": 0.4665428400039673,
+          "p75": 0.5045686066150665,
+          "p95": 0.5417996287345885,
+          "maximo": 0.7426595687866211
+        },
+        "diferenca_chuva_menos_seca": {
+          "n": 43775,
+          "media": 0.18857604293228217,
+          "desvio_padrao_populacional": 0.08052167461383758,
+          "minimo": -0.4480534791946411,
+          "p05": 0.06986031532287598,
+          "p25": 0.1373254656791687,
+          "mediana": 0.18260127305984497,
+          "p75": 0.23186253011226654,
+          "p95": 0.3492313176393504,
+          "maximo": 0.5046073794364929
+        }
+      },
+      "n_por_situacao_risco": {
+        "0": 0,
+        "2": 5193,
+        "3": 38350,
+        "4": 9,
+        "5": 223
+      }
+    },
+    "savanica": {
+      "n_referencia": 263435,
+      "n_pares_validos": 263430,
+      "n_sem_par_valido": 5,
+      "estatisticas_pareadas": {
+        "seca": {
+          "n": 263430,
+          "media": 0.5632664013101698,
+          "desvio_padrao_populacional": 0.0775761939825043,
+          "minimo": 0.015804817900061607,
+          "p05": 0.4239234298467636,
+          "p25": 0.5119392275810242,
+          "mediana": 0.5761395692825317,
+          "p75": 0.6226415038108826,
+          "p95": 0.6665363758802414,
+          "maximo": 0.9898580312728882
+        },
+        "chuva": {
+          "n": 263430,
+          "media": 0.720351324675182,
+          "desvio_padrao_populacional": 0.05484164376238926,
+          "minimo": 0.04736994951963425,
+          "p05": 0.6281629860401153,
+          "p25": 0.6919093728065491,
+          "mediana": 0.7250881195068359,
+          "p75": 0.7583797425031662,
+          "p95": 0.7952588319778442,
+          "maximo": 0.8835840225219727
+        },
+        "media_sazonal": {
+          "n": 263430,
+          "media": 0.6418088629618369,
+          "desvio_padrao_populacional": 0.05874486383044775,
+          "minimo": 0.0315873846411705,
+          "p05": 0.5390260308980942,
+          "p25": 0.605020672082901,
+          "mediana": 0.6529389023780823,
+          "p75": 0.6842781901359558,
+          "p95": 0.7194640755653381,
+          "maximo": 0.892661452293396
+        },
+        "diferenca_chuva_menos_seca": {
+          "n": 263430,
+          "media": 0.1570849233648638,
+          "desvio_padrao_populacional": 0.06517290423570363,
+          "minimo": -0.4023657441139221,
+          "p05": 0.05533629655838013,
+          "p25": 0.1109180748462677,
+          "mediana": 0.16166484355926514,
+          "p75": 0.19595640897750854,
+          "p95": 0.26278203725814814,
+          "maximo": 0.6101764440536499
+        }
+      },
+      "n_por_situacao_risco": {
+        "0": 0,
+        "2": 412,
+        "3": 243174,
+        "4": 13123,
+        "5": 6721
+      }
+    },
+    "florestal": {
+      "n_referencia": 56405,
+      "n_pares_validos": 56405,
+      "n_sem_par_valido": 0,
+      "estatisticas_pareadas": {
+        "seca": {
+          "n": 56405,
+          "media": 0.7607046160904738,
+          "desvio_padrao_populacional": 0.06430303814184049,
+          "minimo": 0.0765521377325058,
+          "p05": 0.6460983395576477,
+          "p25": 0.7348185181617737,
+          "mediana": 0.7728682160377502,
+          "p75": 0.8022112846374512,
+          "p95": 0.8339616298675537,
+          "maximo": 0.9992977380752563
+        },
+        "chuva": {
+          "n": 56405,
+          "media": 0.8144930982814804,
+          "desvio_padrao_populacional": 0.06179881606215983,
+          "minimo": 0.13875365257263184,
+          "p05": 0.7147887468338012,
+          "p25": 0.7883024215698242,
+          "mediana": 0.8273260593414307,
+          "p75": 0.8553421497344971,
+          "p95": 0.8798308610916138,
+          "maximo": 0.922037661075592
+        },
+        "media_sazonal": {
+          "n": 56405,
+          "media": 0.787598857319521,
+          "desvio_padrao_populacional": 0.05213046243139518,
+          "minimo": 0.1159428060054779,
+          "p05": 0.6990428447723389,
+          "p25": 0.7669011354446411,
+          "mediana": 0.7966243028640747,
+          "p75": 0.8205112218856812,
+          "p95": 0.8491034507751465,
+          "maximo": 0.9336298704147339
+        },
+        "diferenca_chuva_menos_seca": {
+          "n": 56405,
+          "media": 0.05378848219008197,
+          "desvio_padrao_populacional": 0.07097611052748458,
+          "minimo": -0.6600894927978516,
+          "p05": -0.05714472532272339,
+          "p25": 0.019808828830718994,
+          "mediana": 0.056616902351379395,
+          "p75": 0.09001398086547852,
+          "p95": 0.1536251902580261,
+          "maximo": 0.6817217469215393
+        }
+      },
+      "n_por_situacao_risco": {
+        "0": 0,
+        "2": 927,
+        "3": 46339,
+        "4": 3058,
+        "5": 6081
+      }
+    },
+    "pastagem_mapbiomas_comparacao": {
+      "n_referencia": 83892,
+      "n_pares_validos": 83891,
+      "n_sem_par_valido": 1,
+      "estatisticas_pareadas": {
+        "seca": {
+          "n": 83891,
+          "media": 0.39716513146323495,
+          "desvio_padrao_populacional": 0.10103761672879143,
+          "minimo": -0.015253202989697456,
+          "p05": 0.238155759871006,
+          "p25": 0.332124724984169,
+          "mediana": 0.3918980360031128,
+          "p75": 0.45738379657268524,
+          "p95": 0.5729720592498779,
+          "maximo": 0.9763365387916565
+        },
+        "chuva": {
+          "n": 83891,
+          "media": 0.5942274068381562,
+          "desvio_padrao_populacional": 0.11365079786596377,
+          "minimo": 0.019718309864401817,
+          "p05": 0.3904053866863251,
+          "p25": 0.5264913141727448,
+          "mediana": 0.6028563380241394,
+          "p75": 0.6721760034561157,
+          "p95": 0.7688849866390228,
+          "maximo": 0.8949437141418457
+        },
+        "media_sazonal": {
+          "n": 83891,
+          "media": 0.49569626914965204,
+          "desvio_padrao_populacional": 0.09494489530944085,
+          "minimo": 0.024569081142544746,
+          "p05": 0.3374530076980591,
+          "p25": 0.43572427332401276,
+          "mediana": 0.498276948928833,
+          "p75": 0.5579040348529816,
+          "p95": 0.6502798795700073,
+          "maximo": 0.8913788795471191
+        },
+        "diferenca_chuva_menos_seca": {
+          "n": 83891,
+          "media": 0.1970622753838469,
+          "desvio_padrao_populacional": 0.1009558080996478,
+          "minimo": -0.5574371218681335,
+          "p05": 0.031655438244342804,
+          "p25": 0.13778062164783478,
+          "mediana": 0.2001345157623291,
+          "p75": 0.25927460193634033,
+          "p95": 0.35304270684719086,
+          "maximo": 0.7628946304321289
+        }
+      },
+      "n_por_situacao_risco": {
+        "0": 0,
+        "2": 69237,
+        "3": 11571,
+        "4": 1435,
+        "5": 1648
+      }
+    },
+    "ausencia_remanescente_zee_comparacao": {
+      "n_referencia": 565905,
+      "n_pares_validos": 565899,
+      "n_sem_par_valido": 6,
+      "estatisticas_pareadas": {
+        "seca": {
+          "n": 565899,
+          "media": 0.3519932416433029,
+          "desvio_padrao_populacional": 0.17852602753967053,
+          "minimo": -0.7585870623588562,
+          "p05": 0.0975737139582634,
+          "p25": 0.2174130529165268,
+          "mediana": 0.33091285824775696,
+          "p75": 0.4710884392261505,
+          "p95": 0.6833706617355346,
+          "maximo": 0.9992567896842957
+        },
+        "chuva": {
+          "n": 565899,
+          "media": 0.45604921961421435,
+          "desvio_padrao_populacional": 0.21641087753331606,
+          "minimo": -0.8098120093345642,
+          "p05": 0.10254915654659272,
+          "p25": 0.2716934382915497,
+          "mediana": 0.4788494110107422,
+          "p75": 0.6364519000053406,
+          "p95": 0.7753185570240021,
+          "maximo": 0.9243565201759338
+        },
+        "media_sazonal": {
+          "n": 565899,
+          "media": 0.4040212306584646,
+          "desvio_padrao_populacional": 0.18937344030429612,
+          "minimo": -0.36362817883491516,
+          "p05": 0.12055919840931892,
+          "p25": 0.23942477256059647,
+          "mediana": 0.4073273539543152,
+          "p75": 0.5502739548683167,
+          "p95": 0.7160584330558776,
+          "maximo": 0.9162267446517944
+        },
+        "diferenca_chuva_menos_seca": {
+          "n": 565899,
+          "media": 0.10405597797587408,
+          "desvio_padrao_populacional": 0.11815761215937304,
+          "minimo": -1.1305322647094727,
+          "p05": -0.09639810323715209,
+          "p25": 0.03331074118614197,
+          "mediana": 0.10003408789634705,
+          "p75": 0.17760151624679565,
+          "p95": 0.29900183379650114,
+          "maximo": 0.990942120552063
+        }
+      },
+      "n_por_situacao_risco": {
+        "0": 0,
+        "2": 565899,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      }
+    }
+  },
+  "sobreposicoes_descritivas": [
+    {
+      "formacao_a": "campestre",
+      "formacao_b": "savanica",
+      "seca": 0.15872949211748633,
+      "chuva": 0.1462440896079188,
+      "media_sazonal": 0.1012870098600172,
+      "duas_datas_histograma_2d": 0.10233936896228168
+    },
+    {
+      "formacao_a": "campestre",
+      "formacao_b": "florestal",
+      "seca": 0.010612933275910922,
+      "chuva": 0.04006833989173611,
+      "media_sazonal": 0.011273267378560789,
+      "duas_datas_histograma_2d": 0.0064776205737742225
+    },
+    {
+      "formacao_a": "savanica",
+      "formacao_b": "florestal",
+      "seca": 0.11298680617835698,
+      "chuva": 0.3369632547928776,
+      "media_sazonal": 0.12579751802658568,
+      "duas_datas_histograma_2d": 0.10639848960840742
+    }
+  ],
+  "cruzamento_zee_mapbiomas": [
+    {
+      "zee": "campestre",
+      "codigo_mapbiomas": 0,
+      "n_pontos": 28
+    },
+    {
+      "zee": "campestre",
+      "codigo_mapbiomas": 3,
+      "n_pontos": 14165
+    },
+    {
+      "zee": "campestre",
+      "codigo_mapbiomas": 4,
+      "n_pontos": 139103
+    },
+    {
+      "zee": "campestre",
+      "codigo_mapbiomas": 9,
+      "n_pontos": 131
+    },
+    {
+      "zee": "campestre",
+      "codigo_mapbiomas": 11,
+      "n_pontos": 4697
+    },
+    {
+      "zee": "campestre",
+      "codigo_mapbiomas": 12,
+      "n_pontos": 43775
+    },
+    {
+      "zee": "campestre",
+      "codigo_mapbiomas": 15,
+      "n_pontos": 11688
+    },
+    {
+      "zee": "campestre",
+      "codigo_mapbiomas": 19,
+      "n_pontos": 271
+    },
+    {
+      "zee": "campestre",
+      "codigo_mapbiomas": 21,
+      "n_pontos": 2887
+    },
+    {
+      "zee": "campestre",
+      "codigo_mapbiomas": 24,
+      "n_pontos": 7286
+    },
+    {
+      "zee": "campestre",
+      "codigo_mapbiomas": 25,
+      "n_pontos": 1621
+    },
+    {
+      "zee": "campestre",
+      "codigo_mapbiomas": 33,
+      "n_pontos": 153
+    },
+    {
+      "zee": "savanica",
+      "codigo_mapbiomas": 0,
+      "n_pontos": 64
+    },
+    {
+      "zee": "savanica",
+      "codigo_mapbiomas": 3,
+      "n_pontos": 19294
+    },
+    {
+      "zee": "savanica",
+      "codigo_mapbiomas": 4,
+      "n_pontos": 263435
+    },
+    {
+      "zee": "savanica",
+      "codigo_mapbiomas": 9,
+      "n_pontos": 276
+    },
+    {
+      "zee": "savanica",
+      "codigo_mapbiomas": 11,
+      "n_pontos": 2169
+    },
+    {
+      "zee": "savanica",
+      "codigo_mapbiomas": 12,
+      "n_pontos": 4211
+    },
+    {
+      "zee": "savanica",
+      "codigo_mapbiomas": 15,
+      "n_pontos": 7665
+    },
+    {
+      "zee": "savanica",
+      "codigo_mapbiomas": 19,
+      "n_pontos": 188
+    },
+    {
+      "zee": "savanica",
+      "codigo_mapbiomas": 21,
+      "n_pontos": 1745
+    },
+    {
+      "zee": "savanica",
+      "codigo_mapbiomas": 24,
+      "n_pontos": 13486
+    },
+    {
+      "zee": "savanica",
+      "codigo_mapbiomas": 25,
+      "n_pontos": 3262
+    },
+    {
+      "zee": "savanica",
+      "codigo_mapbiomas": 33,
+      "n_pontos": 74
+    },
+    {
+      "zee": "florestal",
+      "codigo_mapbiomas": 0,
+      "n_pontos": 4
+    },
+    {
+      "zee": "florestal",
+      "codigo_mapbiomas": 3,
+      "n_pontos": 56405
+    },
+    {
+      "zee": "florestal",
+      "codigo_mapbiomas": 4,
+      "n_pontos": 4300
+    },
+    {
+      "zee": "florestal",
+      "codigo_mapbiomas": 9,
+      "n_pontos": 210
+    },
+    {
+      "zee": "florestal",
+      "codigo_mapbiomas": 11,
+      "n_pontos": 2573
+    },
+    {
+      "zee": "florestal",
+      "codigo_mapbiomas": 12,
+      "n_pontos": 225
+    },
+    {
+      "zee": "florestal",
+      "codigo_mapbiomas": 15,
+      "n_pontos": 600
+    },
+    {
+      "zee": "florestal",
+      "codigo_mapbiomas": 19,
+      "n_pontos": 2
+    },
+    {
+      "zee": "florestal",
+      "codigo_mapbiomas": 21,
+      "n_pontos": 188
+    },
+    {
+      "zee": "florestal",
+      "codigo_mapbiomas": 24,
+      "n_pontos": 3980
+    },
+    {
+      "zee": "florestal",
+      "codigo_mapbiomas": 25,
+      "n_pontos": 200
+    },
+    {
+      "zee": "florestal",
+      "codigo_mapbiomas": 33,
+      "n_pontos": 25
+    }
+  ],
+  "arquivos_entrada": {
+    "chuva": [
+      {
+        "arquivo": "01_Base/rasters/01_Satélite/mosaico_Bacia_Paranoa_17_jan_26_psscene_analytic_8b_sr_udm2/mosaico_Bacia_Paranoa_17_jan_26_psscene_analytic_8b_sr_udm2.tif",
+        "bytes": 1745533474,
+        "sha256": "268616a81db60ab63dd4cc683c28af54c61b6bfb371f84863e6af8f7ad24de54"
+      }
+    ],
+    "seca": [
+      {
+        "arquivo": "01_Base/rasters/01_Satélite/mosaico_Bacia_Paranoa_30_jul_2026_psscene_analytic_8b_sr_udm2/mosaico_Bacia_Paranoa_30_jul_2026_psscene_analytic_8b_sr_udm2.tif",
+        "bytes": 1796610918,
+        "sha256": "e6af1c37e0edcdb805d2cbc9bc4c2414bbd7885584f0cbbcc1672e5559426bb6"
+      }
+    ],
+    "mapbiomas": [
+      {
+        "arquivo": "01_Base/rasters/03_MapBiomas_10m_2025/uso_e_corbertura_mapbiomas_10m_2025_bacia_paranoa.tif",
+        "bytes": 953016,
+        "sha256": "b8bbbbfefb21da9789af8eff904daa2311f9e7ca4628f252ec4652b3963ccd5e"
+      }
+    ],
+    "zee": [
+      {
+        "arquivo": "02_Análises/03_Ecologia/03_Fitofisionomia/01_vetor/01_ZEE/cobertura_vegetal_zee_Bacia_Paranoa.cpg",
+        "bytes": 5,
+        "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+      },
+      {
+        "arquivo": "02_Análises/03_Ecologia/03_Fitofisionomia/01_vetor/01_ZEE/cobertura_vegetal_zee_Bacia_Paranoa.dbf",
+        "bytes": 22936,
+        "sha256": "427a941e3470245479d23eae701e2933ba5dc855875024c320b491997559933f"
+      },
+      {
+        "arquivo": "02_Análises/03_Ecologia/03_Fitofisionomia/01_vetor/01_ZEE/cobertura_vegetal_zee_Bacia_Paranoa.prj",
+        "bytes": 418,
+        "sha256": "9ecb93a63f0561f69281402099c3d4ef8713de9c48bd4627354724f8a6a6bcee"
+      },
+      {
+        "arquivo": "02_Análises/03_Ecologia/03_Fitofisionomia/01_vetor/01_ZEE/cobertura_vegetal_zee_Bacia_Paranoa.shp",
+        "bytes": 3447820,
+        "sha256": "51635d04db3306093da4304862b1143b5cc65b248683118b4c34364d74cfd608"
+      },
+      {
+        "arquivo": "02_Análises/03_Ecologia/03_Fitofisionomia/01_vetor/01_ZEE/cobertura_vegetal_zee_Bacia_Paranoa.shx",
+        "bytes": 308,
+        "sha256": "0deee6726190d64c68e24b15a498d752e95bd364a6bf6bcb0df07637b95345f2"
+      }
+    ],
+    "risco": [
+      {
+        "arquivo": "02_Análises/03_Ecologia/03_Fitofisionomia/01_vetor/risco_perda_veg_nativa_Bacia_Paranoa.cpg",
+        "bytes": 5,
+        "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+      },
+      {
+        "arquivo": "02_Análises/03_Ecologia/03_Fitofisionomia/01_vetor/risco_perda_veg_nativa_Bacia_Paranoa.dbf",
+        "bytes": 233635,
+        "sha256": "15c16dcbd6a91800301abb3959e62c6706f6a0495bbf925d2a5e131a43ced4f4"
+      },
+      {
+        "arquivo": "02_Análises/03_Ecologia/03_Fitofisionomia/01_vetor/risco_perda_veg_nativa_Bacia_Paranoa.prj",
+        "bytes": 418,
+        "sha256": "9ecb93a63f0561f69281402099c3d4ef8713de9c48bd4627354724f8a6a6bcee"
+      },
+      {
+        "arquivo": "02_Análises/03_Ecologia/03_Fitofisionomia/01_vetor/risco_perda_veg_nativa_Bacia_Paranoa.shp",
+        "bytes": 324700,
+        "sha256": "4670d1ed8a4f5c609c737f41bacb00e7cc3a58e910fb6667e0d8bfff7b79766c"
+      },
+      {
+        "arquivo": "02_Análises/03_Ecologia/03_Fitofisionomia/01_vetor/risco_perda_veg_nativa_Bacia_Paranoa.shx",
+        "bytes": 5244,
+        "sha256": "460364f8bff859bf20c90d2417890554be9d95d486ac762c5ecf5ac5eac095c3"
+      }
+    ],
+    "bacia": [
+      {
+        "arquivo": "01_Base/vetores/01_Limites/Bacia_Paranoa_MERGE_IPE_DF_2023.cpg",
+        "bytes": 5,
+        "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+      },
+      {
+        "arquivo": "01_Base/vetores/01_Limites/Bacia_Paranoa_MERGE_IPE_DF_2023.dbf",
+        "bytes": 2336,
+        "sha256": "5960677693ffcc7faed2d7b74e28f8111f85cc1568c4e67d6f0aa58066dc69d0"
+      },
+      {
+        "arquivo": "01_Base/vetores/01_Limites/Bacia_Paranoa_MERGE_IPE_DF_2023.prj",
+        "bytes": 145,
+        "sha256": "a02a27b1d1982c8516d83398e85a3c8b1aef1713c13ef4d84d7bde17430c07c4"
+      },
+      {
+        "arquivo": "01_Base/vetores/01_Limites/Bacia_Paranoa_MERGE_IPE_DF_2023.shp",
+        "bytes": 7996,
+        "sha256": "ecfeec64eefc7c4d4acb0e391b0241a56e53e850f647a6f38833d4b3e2e244bf"
+      },
+      {
+        "arquivo": "01_Base/vetores/01_Limites/Bacia_Paranoa_MERGE_IPE_DF_2023.shx",
+        "bytes": 108,
+        "sha256": "cac1fad12038766d064f902d92f827128f5a6d1c673e107b2034350deabef374"
+      }
+    ]
+  },
+  "raiz_dos_arquivos": "Caminhos relativos à raiz fornecida por --base; caminhos pessoais removidos para publicação."
+}

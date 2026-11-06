@@ -1,0 +1,295 @@
+{
+  "versao": 1,
+  "etapa": "Identificação → Uso do solo",
+  "situacao": "metodologia_em_desenvolvimento",
+  "decisao_mapbiomas": "Usar a cópia local de 10 m identificada como 2025; download online não obrigatório; coleção ainda não comprovada.",
+  "finalidade": "Identificar e distinguir vegetação na grade PlanetScope; regras de inclusão em infraestrutura verde serão definidas posteriormente.",
+  "raiz_dos_caminhos": "Argumento --base da execução; os caminhos abaixo são relativos à pasta 02 BASE DE DADOS.",
+  "camadas": [
+    {
+      "id": "cenas_chuva",
+      "nome": "Cenas PlanetScope de 17/01/2026",
+      "tipo": "origem_externa",
+      "deriva_de": [],
+      "disponibilidade": "caminhos_registrados_no_relatorio_do_mosaico; arquivos_originais_nao_verificados",
+      "quantidade_conforme_relatorio": 11
+    },
+    {
+      "id": "cenas_seca",
+      "nome": "Cenas PlanetScope de 30/07/2026",
+      "tipo": "origem_externa",
+      "deriva_de": [],
+      "disponibilidade": "caminhos_registrados_no_relatorio_do_mosaico; arquivos_originais_nao_verificados",
+      "quantidade_conforme_relatorio": 7
+    },
+    {
+      "id": "planet_chuva",
+      "nome": "Mosaico PlanetScope da chuva",
+      "tipo": "entrada",
+      "deriva_de": [
+        "cenas_chuva"
+      ],
+      "chave_execucao": "chuva",
+      "caminho_relativo": "01_Base/rasters/01_Satélite/mosaico_Bacia_Paranoa_17_jan_26_psscene_analytic_8b_sr_udm2/mosaico_Bacia_Paranoa_17_jan_26_psscene_analytic_8b_sr_udm2.tif",
+      "disponibilidade": "local_verificado",
+      "data": "2026-01-17",
+      "resolucao_m": 3,
+      "crs": "EPSG:31983",
+      "bandas": {
+        "red": 6,
+        "nir": 8
+      },
+      "udm2_aplicado_conforme_relatorio": false
+    },
+    {
+      "id": "planet_seca",
+      "nome": "Mosaico PlanetScope da seca",
+      "tipo": "entrada",
+      "deriva_de": [
+        "cenas_seca"
+      ],
+      "chave_execucao": "seca",
+      "caminho_relativo": "01_Base/rasters/01_Satélite/mosaico_Bacia_Paranoa_30_jul_2026_psscene_analytic_8b_sr_udm2/mosaico_Bacia_Paranoa_30_jul_2026_psscene_analytic_8b_sr_udm2.tif",
+      "disponibilidade": "local_verificado",
+      "data": "2026-07-30",
+      "resolucao_m": 3,
+      "crs": "EPSG:31983",
+      "bandas": {
+        "red": 6,
+        "nir": 8
+      },
+      "udm2_aplicado_conforme_relatorio": false
+    },
+    {
+      "id": "mapbiomas",
+      "nome": "MapBiomas local 10 m 2025",
+      "tipo": "entrada",
+      "deriva_de": [],
+      "chave_execucao": "mapbiomas",
+      "caminho_relativo": "01_Base/rasters/03_MapBiomas_10m_2025/uso_e_corbertura_mapbiomas_10m_2025_bacia_paranoa.tif",
+      "disponibilidade": "local_verificado",
+      "ano": 2025,
+      "evidencia_ano": "identificacao_do_arquivo_e_confirmacao_da_autora",
+      "resolucao_nominal_m": 10,
+      "crs_arquivo": "EPSG:4326",
+      "colecao": null,
+      "colecao_situacao": "nao_comprovada",
+      "funcao": "referencia_tematica",
+      "download_obrigatorio": false
+    },
+    {
+      "id": "zee_cobertura",
+      "nome": "ZEE-DF de cobertura vegetal",
+      "tipo": "entrada",
+      "deriva_de": [],
+      "chave_execucao": "zee",
+      "caminho_relativo": "02_Análises/03_Ecologia/03_Fitofisionomia/01_vetor/01_ZEE/cobertura_vegetal_zee_Bacia_Paranoa.shp",
+      "disponibilidade": "local_verificado",
+      "formato": "vetor",
+      "escala": null,
+      "data_base": null,
+      "funcao": "referencia_de_formacoes",
+      "campos": [
+        "classe",
+        "agrupado",
+        "simplifica"
+      ]
+    },
+    {
+      "id": "zee_remanescentes",
+      "nome": "ZEE-DF de risco de perda de remanescentes",
+      "tipo": "entrada",
+      "deriva_de": [],
+      "chave_execucao": "risco",
+      "caminho_relativo": "02_Análises/03_Ecologia/03_Fitofisionomia/01_vetor/risco_perda_veg_nativa_Bacia_Paranoa.shp",
+      "disponibilidade": "local_verificado",
+      "formato": "vetor",
+      "escala": null,
+      "data_base": null,
+      "funcao": "contexto_de_remanescentes",
+      "campos": [
+        "risco",
+        "legenda"
+      ],
+      "ausencia_codigo": 2,
+      "nota": "Ausência no mapa não comprova composição por espécies exóticas."
+    },
+    {
+      "id": "bacia",
+      "nome": "Limite da Bacia do Paranoá",
+      "tipo": "entrada",
+      "deriva_de": [],
+      "chave_execucao": "bacia",
+      "caminho_relativo": "01_Base/vetores/01_Limites/Bacia_Paranoa_MERGE_IPE_DF_2023.shp",
+      "disponibilidade": "local_verificado",
+      "formato": "vetor",
+      "referencia_conforme_nome": "IPE-DF 2023",
+      "funcao": "recorte_espacial_comum"
+    },
+    {
+      "id": "qualidade_imagens",
+      "nome": "Máscaras de qualidade correspondentes às imagens",
+      "tipo": "entrada_complementar",
+      "deriva_de": [],
+      "disponibilidade": "nao_localizada",
+      "funcao": "controle_de_nuvens_sombras_e_qualidade",
+      "aplicada_na_exploracao": false
+    }
+  ],
+  "produtos": [
+    {
+      "id": "ndvi_chuva",
+      "nome": "NDVI da chuva",
+      "tipo": "subproduto",
+      "deriva_de": [
+        "planet_chuva",
+        "bacia"
+      ],
+      "estado": "calculado_em_amostra; raster_integral_novo_pendente",
+      "formula": "(NIR-Red)/(NIR+Red)",
+      "qualidade_pendente": "qualidade_imagens"
+    },
+    {
+      "id": "ndvi_seca",
+      "nome": "NDVI da seca",
+      "tipo": "subproduto",
+      "deriva_de": [
+        "planet_seca",
+        "bacia"
+      ],
+      "estado": "calculado_em_amostra; raster_integral_novo_pendente",
+      "formula": "(NIR-Red)/(NIR+Red)",
+      "qualidade_pendente": "qualidade_imagens"
+    },
+    {
+      "id": "referencias_formacoes",
+      "nome": "Concordância temática e espacial por formação",
+      "tipo": "subproduto",
+      "deriva_de": [
+        "mapbiomas",
+        "zee_cobertura",
+        "bacia"
+      ],
+      "estado": "calculado_em_centros_amostrais; interseccao_vetorial_integral_nova_pendente",
+      "regra_atual": "MapBiomas 12/4/3 concordante com classe ZEE Campestre/Savânica/Florestal; ZEE simplifica Vegetação nativa remanescente; conflitos excluídos da referência."
+    },
+    {
+      "id": "amostras_pareadas",
+      "nome": "Amostras com ambas as datas válidas",
+      "tipo": "subproduto",
+      "deriva_de": [
+        "referencias_formacoes",
+        "ndvi_chuva",
+        "ndvi_seca",
+        "mapbiomas",
+        "zee_remanescentes"
+      ],
+      "estado": "gerado",
+      "arquivo": "resultados/amostras.npz",
+      "nota": "Inclui grupos auxiliares de pastagem e ausência de remanescentes apenas para comparação."
+    },
+    {
+      "id": "estatisticas",
+      "nome": "Estatísticas por grupo e distribuições",
+      "tipo": "subproduto",
+      "deriva_de": [
+        "amostras_pareadas"
+      ],
+      "estado": "gerado",
+      "arquivos": [
+        "resultados/estatisticas.csv",
+        "resultados/resultados.json"
+      ],
+      "variaveis_internas": [
+        {
+          "nome": "NDVI da seca",
+          "origem": "ndvi_seca"
+        },
+        {
+          "nome": "NDVI da chuva",
+          "origem": "ndvi_chuva"
+        },
+        {
+          "nome": "Média entre datas",
+          "formula": "(chuva+seca)/2",
+          "situacao": "variavel_exploratoria"
+        },
+        {
+          "nome": "Diferença sazonal",
+          "formula": "chuva-seca",
+          "situacao": "variavel_exploratoria"
+        }
+      ],
+      "nota": "A média entre datas e a diferença sazonal são variáveis internas da análise Referências + NDVI, sem constituir subprodutos independentes no fluxo."
+    },
+    {
+      "id": "graficos",
+      "nome": "Gráficos da comparação sazonal",
+      "tipo": "subproduto",
+      "deriva_de": [
+        "amostras_pareadas",
+        "estatisticas"
+      ],
+      "estado": "gerado",
+      "arquivo": "resultados/comparacao_ndvi.png"
+    },
+    {
+      "id": "regras_classificacao",
+      "nome": "Regras ou modelo avaliados para classificação",
+      "tipo": "decisao_metodologica",
+      "deriva_de": [
+        "estatisticas",
+        "referencias_formacoes",
+        "planet_chuva",
+        "planet_seca"
+      ],
+      "estado": "em_definicao",
+      "pendencia": "Comparação de alternativas e avaliação com referências independentes."
+    },
+    {
+      "id": "classificacao_3m",
+      "nome": "Classificação da vegetação na grade PlanetScope",
+      "tipo": "subproduto_planejado",
+      "deriva_de": [
+        "planet_chuva",
+        "planet_seca",
+        "ndvi_chuva",
+        "ndvi_seca",
+        "regras_classificacao",
+        "bacia"
+      ],
+      "estado": "a_produzir",
+      "resolucao_grade_m": 3
+    },
+    {
+      "id": "vegetacao_contextualizada",
+      "nome": "Vegetação com contexto de remanescentes do ZEE",
+      "tipo": "subproduto_planejado",
+      "deriva_de": [
+        "classificacao_3m",
+        "zee_remanescentes"
+      ],
+      "estado": "a_produzir",
+      "nota": "Preservar classe estimada e condição do ZEE como informações rastreáveis; nomenclatura final em discussão."
+    }
+  ],
+  "apresentacao_site": {
+    "destino": "identificacao.html#uso-solo",
+    "padrao": "Riscos socioambientais",
+    "sequencia": [
+      "Introdução",
+      "Tabela de entradas",
+      "Produção do indicador e fluxo de dependências",
+      "Resultados e interpretação",
+      "Procedimento completo em expansor fechado"
+    ],
+    "publicado": false
+  },
+  "execucao_existente": {
+    "registro": "resultados/resultados.json",
+    "natureza": "amostral",
+    "espacamento_amostral_m": 30,
+    "resolucao_pixels_originais_m": 3,
+    "nova_classificacao_integral": false
+  }
+}
