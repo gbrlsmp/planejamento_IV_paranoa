@@ -287,9 +287,12 @@ async function initializeMap() {
 
   select.addEventListener("change", selectIndicator);
   viewSelect.addEventListener("change", selectIndicator);
+  const initial = new URLSearchParams(location.search);
+  if (indicators.has(initial.get("indicador"))) select.value = initial.get("indicador");
+  if (["fragmentos", "contexto"].includes(initial.get("visualizacao"))) viewSelect.value = initial.get("visualizacao");
   select.disabled = false;
   viewSelect.disabled = false;
-  selectIndicator();
+  select.dispatchEvent(new Event("change"));
 }
 
 initializeMap().catch(error => {

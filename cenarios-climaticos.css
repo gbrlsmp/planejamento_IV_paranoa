@@ -1,4 +1,5 @@
 .climate-explorer { margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+.risk-explorer [hidden] { display: none; }
 .climate-explorer h6 { margin: 1.2rem 0 0.6rem; font-size: 1.05rem; line-height: 1.35; }
 .climate-explorer h6:first-child { margin-top: 0; }
 .climate-comparison { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.65rem; margin: 1rem 0 0.5rem; }

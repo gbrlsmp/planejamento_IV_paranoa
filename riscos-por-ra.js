@@ -80,7 +80,12 @@ async function iniciarRas() {
   document.getElementById("resultados-ra").hidden = false;
 }
 
-iniciarRas().catch(erro => {
-  console.error(erro);
-  statusRa.textContent = "A tabela por RA não pôde ser carregada.";
-});
+const raTheme = new URLSearchParams(location.search).get("tema");
+if (typeof reportMapThemes !== "undefined" && Object.hasOwn(reportMapThemes, raTheme)) {
+  document.getElementById("riscos-por-ra").hidden = true;
+} else {
+  iniciarRas().catch(erro => {
+    console.error(erro);
+    statusRa.textContent = "A tabela por RA não pôde ser carregada.";
+  });
+}

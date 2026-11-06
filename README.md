@@ -2,7 +2,7 @@
 
 Relatório metodológico da Bacia do Paranoá, no Distrito Federal. O projeto busca definir estratégias para qualificar a conectividade ecológica e a prestação de serviços ecossistêmicos de regulação. O site reúne a identificação da Rede de Infraestrutura Verde e o diagnóstico de riscos socioambientais, condicionantes e ecologia.
 
-[Ler o relatório](https://gbrlsmp.github.io/planejamento_IV_paranoa/) · [Abrir o mapa interativo](https://gbrlsmp.github.io/planejamento_IV_paranoa/mapa-riscos.html)
+[Ler o relatório](https://gbrlsmp.github.io/planejamento_IV_paranoa/) · [Abrir o mapa interativo](https://gbrlsmp.github.io/planejamento_IV_paranoa/mapa.html)
 
 ## Como consultar a metodologia
 
@@ -12,11 +12,13 @@ Ao abrir **Ver procedimento completo** nas caixas de Temperatura do ar e Mitiga�
 
 As menções ao [InVEST na metodologia](aplicacao-invest.html) abrem a aplicação local do Urban Cooling, com entradas, tabela biofísica v5, ETo/INMET, parâmetros e dependências de cada indicador. [Registro de conferência](docs/conferencia-invest.md).
 
+Os demais indicadores de Riscos também têm mapas nos procedimentos expansíveis, sem comparativo. É possível consultar a entrada e o resultado por fragmento; variáveis numéricas oferecem degradê e classes. [Origem, representação e exportação](docs/mapas-metodologicos-riscos.md).
+
 ## Como usar o mapa
 
 Nos indicadores de Riscos, use **Visualização** para alternar entre os resultados por fragmento e o contexto da camada de entrada.
 
-A seção [Riscos por RA](mapa-riscos.html#riscos-por-ra), na mesma página do mapa dos indicadores, reúne os indicadores dos fragmentos em cada Região Administrativa que intercepta a bacia.
+A seção [Riscos por RA](mapa.html#riscos-por-ra), no mapa interativo geral, reúne os indicadores dos fragmentos em cada Região Administrativa que intercepta a bacia.
 
 O [mapa interativo geral](https://gbrlsmp.github.io/planejamento_IV_paranoa/mapa.html) permite combinar camadas temáticas, limites das RAs e indicadores de Riscos. Os tópicos do relatório também têm vistas de Metodologia e Mapa. [Dados e exportação das camadas](docs/mapas-tematicos.md).
 
@@ -31,7 +33,7 @@ O mapa abre com o limite da bacia e as massas d’água. Selecione um indicador 
 | [`docs/referencias-parte-iv.md`](docs/referencias-parte-iv.md) | Referências, páginas da tese e relação com o conteúdo da Parte IV. |
 | [`estrategias.html`](estrategias.html) | Matriz de decisão, matriz de resolução de problemas e estratégias. |
 | [`diagnostico.html`](diagnostico.html) | Metodologia e indicadores de riscos socioambientais, com acesso a Condicionantes e Ecologia. |
-| [`mapa-riscos.html`](mapa-riscos.html) | Interface do mapa, com estilos e scripts próprios e Leaflet 1.9.4 em [`vendor/leaflet`](vendor/leaflet). |
+| [`mapa.html`](mapa.html) | Interface do mapa, com estilos e scripts próprios e Leaflet 1.9.4 em [`vendor/leaflet`](vendor/leaflet). |
 | [`mapa-base.json.gz`](mapa-base.json.gz) | Limite da bacia, massas d’água e regiões administrativas a partir da base do IPE-DF (2023), em WGS 84. |
 | [`mapa-dados.json.gz`](mapa-dados.json.gz) | Geometrias e indicadores dos fragmentos da rodada v01, preparados para visualização. |
 | [`scripts/01_Diagnostico_RISCOS.py`](scripts/01_Diagnostico_RISCOS.py) | Cálculo dos indicadores de riscos por fragmento em PyQGIS. |
@@ -48,7 +50,7 @@ cd planejamento_IV_paranoa
 python -m http.server 8000
 ```
 
-Abra o [mapa local](http://localhost:8000/mapa-riscos.html). Os arquivos de dados publicados já permitem explorar o mapa. O GitHub Pages publica os arquivos estáticos na raiz da branch `main`.
+Abra o [mapa local](http://localhost:8000/mapa.html). Os arquivos de dados publicados já permitem explorar o mapa. O GitHub Pages publica os arquivos estáticos na raiz da branch `main`.
 
 ## Como atualizar os indicadores
 

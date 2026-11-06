@@ -1,0 +1,533 @@
+{
+  "resolution_3857": 20,
+  "resampling": "nearest_or_cell_center",
+  "indicators": {
+    "icu": {
+      "title": "Ilha de calor urbano",
+      "unit": "",
+      "colors": [
+        "#c8e4da",
+        "#d34536"
+      ],
+      "counts": {
+        "não": 15185,
+        "sim": 18269
+      },
+      "source": {
+        "title": "Zona de ilha de calor urbano",
+        "note": "Extensão da zona usada para verificar a sobreposição com os fragmentos.",
+        "classes": {
+          "image": "dados-mapas/contexto/icu.png",
+          "bounds": [
+            -5352837.66573442,
+            -1801033.1123777882,
+            -5314937.66573442,
+            -1771333.1123777882
+          ],
+          "entries": [
+            [
+              1,
+              "Zona mapeada",
+              "#d34536"
+            ]
+          ]
+        }
+      },
+      "fragments": {
+        "title": "Ilha de calor urbano",
+        "note": "Classes registradas no diagnóstico publicado por fragmento, rodada v01.",
+        "classes": {
+          "image": "dados-mapas/metodologia-riscos/icu-fragmentos-classes.png",
+          "bounds": [
+            -5355140.990075758,
+            -1802869.282486131,
+            -5310380.990075758,
+            -1755409.282486131
+          ],
+          "entries": [
+            [
+              1,
+              "não",
+              "#c8e4da"
+            ],
+            [
+              2,
+              "sim",
+              "#d34536"
+            ],
+            [
+              255,
+              "Sem dados",
+              "#a9afb4"
+            ]
+          ]
+        }
+      }
+    },
+    "umid_pct": {
+      "title": "Umidade relativa",
+      "unit": "%",
+      "colors": [
+        "#d8eaf7",
+        "#8cc4e5",
+        "#3b8abe",
+        "#155687"
+      ],
+      "counts": {
+        "sem dados": 312,
+        "muito baixo": 1003,
+        "médio baixo": 3575,
+        "médio": 12504,
+        "alto": 16060
+      },
+      "source": {
+        "title": "Umidade relativa",
+        "note": "Umidade relativa no raster que serve de entrada ao diagnóstico.",
+        "classes": {
+          "image": "dados-mapas/contexto/umid_pct.png",
+          "bounds": [
+            -5355589.312995788,
+            -1803311.8541774822,
+            -5309839.312995788,
+            -1755261.8541774822
+          ],
+          "entries": [
+            [
+              1,
+              "Até 40%",
+              "#dceaf6"
+            ],
+            [
+              2,
+              "Acima de 40 até 41%",
+              "#9ac6e2"
+            ],
+            [
+              3,
+              "Acima de 41 até 42%",
+              "#60a0ca"
+            ],
+            [
+              4,
+              "Acima de 42 até 43%",
+              "#2e71a5"
+            ],
+            [
+              5,
+              "Acima de 43%",
+              "#164971"
+            ]
+          ]
+        },
+        "continuous": {
+          "image": "dados-mapas/metodologia-riscos/umid_pct-entrada-continuo.png",
+          "bounds": [
+            -5355589.312995788,
+            -1803301.8541774822,
+            -5309829.312995788,
+            -1755261.8541774822
+          ],
+          "range": [
+            39.12376403808594,
+            44.22080993652344
+          ]
+        }
+      },
+      "fragments": {
+        "title": "Umidade relativa (%)",
+        "note": "Classes registradas no diagnóstico publicado por fragmento, rodada v01.",
+        "classes": {
+          "image": "dados-mapas/metodologia-riscos/umid_pct-fragmentos-classes.png",
+          "bounds": [
+            -5355140.990075758,
+            -1802869.282486131,
+            -5310380.990075758,
+            -1755409.282486131
+          ],
+          "entries": [
+            [
+              1,
+              "muito baixo",
+              "#d8eaf7"
+            ],
+            [
+              2,
+              "médio baixo",
+              "#8cc4e5"
+            ],
+            [
+              3,
+              "médio",
+              "#3b8abe"
+            ],
+            [
+              4,
+              "alto",
+              "#155687"
+            ],
+            [
+              255,
+              "Sem dados",
+              "#a9afb4"
+            ]
+          ]
+        },
+        "continuous": {
+          "image": "dados-mapas/metodologia-riscos/umid_pct-fragmentos-continuo.png",
+          "bounds": [
+            -5355140.990075758,
+            -1802869.282486131,
+            -5310380.990075758,
+            -1755409.282486131
+          ],
+          "range": [
+            39.2576789856,
+            44.2029874166
+          ]
+        }
+      }
+    },
+    "inund_max": {
+      "title": "Profundidade máxima de inundação · TR5",
+      "unit": "m",
+      "colors": [
+        "#d8eaf7",
+        "#8cc4e5",
+        "#3b8abe",
+        "#155687"
+      ],
+      "counts": {
+        "sem dados": 4153,
+        "muito baixa": 29294,
+        "baixa": 5,
+        "média": 1,
+        "alta": 1
+      },
+      "source": {
+        "title": "Profundidade de inundação · TR de 5 anos",
+        "note": "Profundidade no raster de inundação, antes do cálculo do máximo por fragmento.",
+        "classes": {
+          "image": "dados-mapas/contexto/inund_max.png",
+          "bounds": [
+            -5355588.476216868,
+            -1803306.6532468817,
+            -5309838.476216868,
+            -1755256.6532468817
+          ],
+          "entries": [
+            [
+              1,
+              "Zero",
+              "#dceaf6"
+            ],
+            [
+              2,
+              "Acima de 0 até 0,1",
+              "#9ac6e2"
+            ],
+            [
+              3,
+              "Acima de 0,1 até 0,5",
+              "#60a0ca"
+            ],
+            [
+              4,
+              "Acima de 0,5 até 1",
+              "#2e71a5"
+            ],
+            [
+              5,
+              "Acima de 1",
+              "#164971"
+            ]
+          ]
+        },
+        "continuous": {
+          "image": "dados-mapas/metodologia-riscos/inund_max-entrada-continuo.png",
+          "bounds": [
+            -5355588.476216868,
+            -1803316.6532468817,
+            -5309828.476216868,
+            -1755256.6532468817
+          ],
+          "range": [
+            0.0,
+            20.683818817138672
+          ]
+        }
+      },
+      "fragments": {
+        "title": "Profundidade máxima de inundação · TR5 (m)",
+        "note": "Classes registradas no diagnóstico publicado por fragmento, rodada v01.",
+        "classes": {
+          "image": "dados-mapas/metodologia-riscos/inund_max-fragmentos-classes.png",
+          "bounds": [
+            -5355140.990075758,
+            -1802869.282486131,
+            -5310380.990075758,
+            -1755409.282486131
+          ],
+          "entries": [
+            [
+              1,
+              "muito baixa",
+              "#d8eaf7"
+            ],
+            [
+              2,
+              "baixa",
+              "#8cc4e5"
+            ],
+            [
+              3,
+              "média",
+              "#3b8abe"
+            ],
+            [
+              4,
+              "alta",
+              "#155687"
+            ],
+            [
+              255,
+              "Sem dados",
+              "#a9afb4"
+            ]
+          ]
+        },
+        "continuous": {
+          "image": "dados-mapas/metodologia-riscos/inund_max-fragmentos-continuo.png",
+          "bounds": [
+            -5355140.990075758,
+            -1802869.282486131,
+            -5310380.990075758,
+            -1755409.282486131
+          ],
+          "range": [
+            0,
+            20.6838188171
+          ]
+        }
+      }
+    },
+    "edif_pct": {
+      "title": "Pressão de edificações",
+      "unit": "%",
+      "colors": [
+        "#dfe5e1",
+        "#f7d497",
+        "#ed9452",
+        "#aa3e31"
+      ],
+      "counts": {
+        "inexistente": 29008,
+        "baixa": 4352,
+        "média": 52,
+        "alta": 42
+      },
+      "source": {
+        "title": "Edificações mapeadas",
+        "note": "Localização das edificações na camada de entrada. A pressão em porcentagem é calculada na vista por fragmento.",
+        "classes": {
+          "image": "dados-mapas/contexto/edif_pct.png",
+          "bounds": [
+            -5355069.550348343,
+            -1802825.0940895793,
+            -5310789.550348343,
+            -1755445.0940895793
+          ],
+          "entries": [
+            [
+              1,
+              "Edificação mapeada",
+              "#a64b34"
+            ]
+          ]
+        }
+      },
+      "fragments": {
+        "title": "Pressão de edificações (%)",
+        "note": "Classes registradas no diagnóstico publicado por fragmento, rodada v01.",
+        "classes": {
+          "image": "dados-mapas/metodologia-riscos/edif_pct-fragmentos-classes.png",
+          "bounds": [
+            -5355140.990075758,
+            -1802869.282486131,
+            -5310380.990075758,
+            -1755409.282486131
+          ],
+          "entries": [
+            [
+              1,
+              "inexistente",
+              "#dfe5e1"
+            ],
+            [
+              2,
+              "baixa",
+              "#f7d497"
+            ],
+            [
+              3,
+              "média",
+              "#ed9452"
+            ],
+            [
+              4,
+              "alta",
+              "#aa3e31"
+            ],
+            [
+              255,
+              "Sem dados",
+              "#a9afb4"
+            ]
+          ]
+        },
+        "continuous": {
+          "image": "dados-mapas/metodologia-riscos/edif_pct-fragmentos-continuo.png",
+          "bounds": [
+            -5355140.990075758,
+            -1802869.282486131,
+            -5310380.990075758,
+            -1755409.282486131
+          ],
+          "range": [
+            0,
+            100
+          ]
+        }
+      }
+    },
+    "renda_sm": {
+      "title": "Contexto de renda",
+      "unit": "SM",
+      "colors": [
+        "#f1e9f7",
+        "#d4bfe5",
+        "#ae86c7",
+        "#8151a4",
+        "#502b77"
+      ],
+      "counts": {
+        ">3 a 6 SM": 7040,
+        ">1 a 3 SM": 2494,
+        ">6 a 9 SM": 4181,
+        "sem dados": 3000,
+        ">9 SM": 16712,
+        "até 1 SM": 27
+      },
+      "source": {
+        "title": "Renda por setor censitário",
+        "note": "Rendimento médio do responsável no setor, do Censo 2022. As faixas usam o salário mínimo de R$ 1.212 da rodada v01.",
+        "classes": {
+          "image": "dados-mapas/contexto/renda_sm.png",
+          "bounds": [
+            -5355164.584366482,
+            -1802857.5427429543,
+            -5310164.584366482,
+            -1755407.5427429543
+          ],
+          "entries": [
+            [
+              1,
+              "Até 1 SM",
+              "#f1e9f7"
+            ],
+            [
+              2,
+              "Acima de 1 até 3 SM",
+              "#d4bfe5"
+            ],
+            [
+              3,
+              "Acima de 3 até 6 SM",
+              "#ae86c7"
+            ],
+            [
+              4,
+              "Acima de 6 até 9 SM",
+              "#8151a4"
+            ],
+            [
+              5,
+              "Acima de 9 SM",
+              "#502b77"
+            ]
+          ]
+        },
+        "continuous": {
+          "image": "dados-mapas/metodologia-riscos/renda_sm-entrada-continuo.png",
+          "bounds": [
+            -5355164.584366482,
+            -1802867.5427429543,
+            -5310164.584366482,
+            -1755407.5427429543
+          ],
+          "range": [
+            0.74,
+            38.936039603960396
+          ]
+        }
+      },
+      "fragments": {
+        "title": "Contexto de renda (SM)",
+        "note": "Classes registradas no diagnóstico publicado por fragmento, rodada v01.",
+        "classes": {
+          "image": "dados-mapas/metodologia-riscos/renda_sm-fragmentos-classes.png",
+          "bounds": [
+            -5355140.990075758,
+            -1802869.282486131,
+            -5310380.990075758,
+            -1755409.282486131
+          ],
+          "entries": [
+            [
+              1,
+              "até 1 SM",
+              "#f1e9f7"
+            ],
+            [
+              2,
+              ">1 a 3 SM",
+              "#d4bfe5"
+            ],
+            [
+              3,
+              ">3 a 6 SM",
+              "#ae86c7"
+            ],
+            [
+              4,
+              ">6 a 9 SM",
+              "#8151a4"
+            ],
+            [
+              5,
+              ">9 SM",
+              "#502b77"
+            ],
+            [
+              255,
+              "Sem dados",
+              "#a9afb4"
+            ]
+          ]
+        },
+        "continuous": {
+          "image": "dados-mapas/metodologia-riscos/renda_sm-fragmentos-continuo.png",
+          "bounds": [
+            -5355140.990075758,
+            -1802869.282486131,
+            -5310380.990075758,
+            -1755409.282486131
+          ],
+          "range": [
+            0.74,
+            25.7630693069
+          ]
+        }
+      }
+    }
+  }
+}
