@@ -32,6 +32,15 @@
     }
   </script>
   <script defer src="subabas.js"></script>
+  <style>
+    .method-tree { margin: 1.5rem 0; padding: 1rem 1.2rem; background: #f3f7f2; border-radius: .5rem; }
+    .method-tree ul { list-style: none; margin: .5rem 0; padding-left: 1.1rem; border-left: 2px solid #91aa92; }
+    .method-tree > ul { padding-left: 0; border-left: 0; }
+    .method-tree li { margin: .7rem 0; padding-left: .8rem; }
+    .method-tree li p { margin: .4rem 0; }
+    .method-tree em { color: #704b18; }
+    @media (max-width: 600px) { .method-tree { padding: .75rem; } .method-tree ul { padding-left: .5rem; } .method-tree li { padding-left: .45rem; } }
+  </style>
 </head>
 <body>
   <header class="masthead">
@@ -111,6 +120,44 @@
     <section id="metodologia-geral" class="report-section" aria-labelledby="titulo-metodologia">
       <h3 id="titulo-metodologia">Metodologia geral</h3>
       <p>O estudo começa pela <a href="identificacao.html">identificação da Rede de Infraestrutura Verde</a>. Em seguida, o <a href="diagnostico.html">diagnóstico</a> reúne, para cada fragmento de vegetação, informações sobre riscos socioambientais, condicionantes e ecologia.</p>
+      <h4>Árvore de decisão da metodologia</h4>
+      <p>Esta árvore reúne as etapas e escolhas conhecidas até aqui. Ela será atualizada durante a pesquisa; os ramos marcados como <strong>em discussão</strong> ainda não são regras definitivas.</p>
+      <div class="method-tree" aria-label="Árvore de decisão da metodologia">
+        <ul>
+          <li><strong>Área de estudo:</strong> Bacia do Paranoá.
+            <ul>
+              <li><strong>1. Identificar a cobertura vegetal</strong> — <a href="identificacao.html">Uso do solo</a>
+                <ul>
+                  <li><strong>Entradas:</strong> PlanetScope de seca e chuva (3 m), MapBiomas local de 2025 (nominalmente 10 m), mapas de cobertura vegetal e risco de perda de vegetação nativa do ZEE-DF e limite da bacia.</li>
+                  <li><strong>Preparar referências:</strong> comparar as formações do MapBiomas e do ZEE-DF; calcular o NDVI de cada imagem PlanetScope.</li>
+                  <li><strong>Investigar valores:</strong> comparar as distribuições de NDVI por formação e estação, incluindo pastagens como comparação. Média e diferença entre datas são variáveis da análise.</li>
+                  <li><strong>Os valores permitem distinguir as formações?</strong> <em>Em discussão.</em>
+                    <ul>
+                      <li><strong>Se houver separação suficiente:</strong> avaliar regras de classificação e conferir com referências independentes.</li>
+                      <li><strong>Se houver sobreposição:</strong> investigar outras variáveis ou métodos e registrar a incerteza.</li>
+                    </ul>
+                  </li>
+                  <li><strong>A área está na classe “ausência de Cerrado nativo” do ZEE-DF?</strong> <em>Tratamento em discussão.</em>
+                    <ul>
+                      <li><strong>Sim:</strong> registrar a indicação do ZEE-DF separadamente da cobertura observada; avaliar como tratar a vegetação identificada.</li>
+                      <li><strong>Não:</strong> conservar a informação da classe do ZEE-DF junto à classificação observada.</li>
+                    </ul>
+                    <p>O mapa do ZEE-DF tem referência histórica: essa indicação, por si só, não comprova a origem da vegetação atual.</p>
+                  </li>
+                  <li><strong>Quais áreas compõem a rede de infraestrutura verde?</strong> <em>Critérios e delimitação de fragmentos a definir após a identificação.</em></li>
+                </ul>
+              </li>
+              <li><strong>2. Diagnosticar a rede</strong> — <a href="diagnostico.html">Diagnóstico</a>
+                <ul><li>Reunir informações de riscos socioambientais, condicionantes e ecologia para os fragmentos. O diagnóstico apresentado no site usa a base existente; uma nova classificação ainda não foi incorporada.</li></ul>
+              </li>
+              <li><strong>3. Propor estratégias</strong> — <a href="estrategias.html">Estratégias</a>
+                <ul><li>Cruzar os resultados do diagnóstico para orientar estratégias de conectividade e serviços ecossistêmicos. <em>Em elaboração.</em></li></ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <p class="note">A análise de NDVI disponível é exploratória; não estabelece cortes definitivos nem uma nova classificação completa da área.</p>
     </section>
 
     <section id="referencias" class="report-section" aria-labelledby="titulo-referencias">
