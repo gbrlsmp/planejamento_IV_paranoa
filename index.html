@@ -33,6 +33,11 @@
   </script>
   <script defer src="subabas.js"></script>
   <style>
+    .method-diagram { margin: 1.5rem 0; }
+    .method-diagram-scroll { overflow-x: auto; border: 1px solid #dce5dd; border-radius: .5rem; background: #fafcf9; }
+    .method-diagram svg { display: block; width: 100%; min-width: 780px; height: auto; }
+    .method-diagram figcaption { margin-top: .5rem; font-size: .9rem; }
+    .diagram-box rect { stroke-width: 2; }
     .method-tree { margin: 1.5rem 0; padding: 1rem 1.2rem; background: #f3f7f2; border-radius: .5rem; }
     .method-tree ul { list-style: none; margin: .5rem 0; padding-left: 1.1rem; border-left: 2px solid #91aa92; }
     .method-tree > ul { padding-left: 0; border-left: 0; }
@@ -122,6 +127,46 @@
       <p>O estudo começa pela <a href="identificacao.html">identificação da Rede de Infraestrutura Verde</a>. Em seguida, o <a href="diagnostico.html">diagnóstico</a> reúne, para cada fragmento de vegetação, informações sobre riscos socioambientais, condicionantes e ecologia.</p>
       <h4>Árvore de decisão da metodologia</h4>
       <p>Esta árvore reúne as etapas e escolhas conhecidas até aqui. Ela será atualizada durante a pesquisa; os ramos marcados como <strong>em discussão</strong> ainda não são regras definitivas.</p>
+      <figure class="method-diagram">
+        <div class="method-diagram-scroll">
+          <svg viewBox="0 0 1100 700" role="img" aria-labelledby="tree-title tree-desc" xmlns="http://www.w3.org/2000/svg">
+            <title id="tree-title">Árvore esquemática da metodologia</title>
+            <desc id="tree-desc">A estruturação de infraestrutura verde resiliente e íntegra se conecta a quatro temas: elementos da infraestrutura verde, prestação de serviços ecossistêmicos de regulação, conectividade ecológica e riscos à vida humana. Cada tema se desdobra nos elementos detalhados na lista após a figura.</desc>
+            <g fill="none" stroke="#66786b" stroke-width="3" stroke-linejoin="round">
+              <path d="M430 350 H400 V170 H370 M400 350 V530 H370 M670 350 H700 V170 H730 M700 350 V530 H730"/>
+              <path d="M230 170 H215 V100 H200 M215 170 V175 H200 M230 530 H215 V495 H200 M215 495 V565 H200"/>
+              <path d="M870 170 H885 V70 H900 M885 70 V135 H900 M885 135 V205 H900 M885 205 V275 H900 M870 530 H885 V430 H900 M885 430 V495 H900 M885 495 V565 H900 M885 565 V635 H900"/>
+            </g>
+            <g class="diagram-box">
+              <rect x="430" y="302" width="240" height="96" rx="10" fill="#edf1ec" stroke="#526956"/>
+              <rect x="230" y="130" width="140" height="80" rx="9" fill="#d6e9f5" stroke="#6c9bb8"/>
+              <rect x="230" y="490" width="140" height="80" rx="9" fill="#f2d4d3" stroke="#bc8d89"/>
+              <rect x="730" y="130" width="140" height="80" rx="9" fill="#dfebc2" stroke="#96ad68"/>
+              <rect x="730" y="490" width="140" height="80" rx="9" fill="#f9dfc2" stroke="#c79863"/>
+            </g>
+            <g fill="#fff" stroke="#a8b4a9" stroke-width="1.5">
+              <rect x="25" y="75" width="175" height="50" rx="6"/><rect x="25" y="150" width="175" height="50" rx="6"/>
+              <rect x="25" y="470" width="175" height="50" rx="6"/><rect x="25" y="540" width="175" height="50" rx="6"/>
+              <rect x="900" y="45" width="175" height="50" rx="6"/><rect x="900" y="110" width="175" height="50" rx="6"/><rect x="900" y="180" width="175" height="50" rx="6"/><rect x="900" y="250" width="175" height="50" rx="6"/>
+              <rect x="900" y="405" width="175" height="50" rx="6"/><rect x="900" y="470" width="175" height="50" rx="6"/><rect x="900" y="540" width="175" height="50" rx="6"/><rect x="900" y="610" width="175" height="50" rx="6"/>
+            </g>
+            <g text-anchor="middle" fill="#26382c" font-family="system-ui, sans-serif" font-size="15">
+              <text x="550" y="331" font-weight="700"><tspan x="550">Estruturação de IV</tspan><tspan x="550" dy="22">resiliente e íntegra</tspan></text>
+              <text x="300" y="155" font-weight="700"><tspan x="300">Prestação</tspan><tspan x="300" dy="20">de SER</tspan></text>
+              <text x="300" y="515" font-weight="700"><tspan x="300">Elementos</tspan><tspan x="300" dy="20">da IV</tspan></text>
+              <text x="800" y="155" font-weight="700"><tspan x="800">Conectividade</tspan><tspan x="800" dy="20">ecológica</tspan></text>
+              <text x="800" y="515" font-weight="700"><tspan x="800">Riscos à</tspan><tspan x="800" dy="20">vida humana</tspan></text>
+              <text x="112" y="105">Clima</text><text x="112" y="180">Água</text>
+              <text x="112" y="500">Uso do solo</text><text x="112" y="562"><tspan x="112">Tipologia de AVU</tspan><tspan x="112" dy="17">e fitofisionomia</tspan></text>
+              <text x="987" y="75">Influência de vias</text><text x="987" y="131"><tspan x="987">Forma dos</tspan><tspan x="987" dy="17">fragmentos</tspan></text><text x="987" y="210">Conectividade 300 m</text><text x="987" y="280">Conectividade 1.750 m</text>
+              <text x="987" y="435">Inundação</text><text x="987" y="500">Renda</text><text x="987" y="570">Ilhas de calor (ICU)</text><text x="987" y="640">Pessoas atingidas</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption>IV: infraestrutura verde; SER: serviços ecossistêmicos de regulação; AVU: áreas verdes urbanas. Diagrama inicial, sujeito a alterações ao longo da pesquisa.</figcaption>
+      </figure>
+      <p class="note">Os ramos organizam temas e possibilidades de análise. A presença de um item no esquema não significa que ele já tenha sido calculado ou validado. A distância de 1.750 m segue a página de ecologia existente; a anotação do desenho será conferida.</p>
+      <details class="method-details"><summary>Ver etapas e decisões em discussão</summary>
       <div class="method-tree" aria-label="Árvore de decisão da metodologia">
         <ul>
           <li><strong>Área de estudo:</strong> Bacia do Paranoá.
@@ -157,6 +202,7 @@
           </li>
         </ul>
       </div>
+      </details>
       <p class="note">A análise de NDVI disponível é exploratória; não estabelece cortes definitivos nem uma nova classificação completa da área.</p>
     </section>
 
