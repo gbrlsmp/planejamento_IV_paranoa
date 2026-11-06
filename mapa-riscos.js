@@ -10,19 +10,17 @@ const legendItems = document.getElementById("legend-items");
 const missingColor = "#a9afb4";
 const numberFormat = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 3 });
 
-const heatClasses = ["base", "boa", "média", "ruim", "muito ruim"];
-const heatColors = ["#fff1b9", "#fbc87c", "#f58f4c", "#df4a35", "#981e31"];
 const waterColors = ["#d8eaf7", "#8cc4e5", "#3b8abe", "#155687"];
 const incomeClasses = ["até 1 SM", ">1 a 3 SM", ">3 a 6 SM", ">6 a 9 SM", ">9 SM"];
 const mapGroups = [
   ["Clima e calor", [
     { id: "icu", label: "Ilha de calor urbano", classes: ["não", "sim"], colors: ["#c8e4da", "#d34536"] },
-    { id: "temp_dia", label: "Temperatura de dia", value: "temp_dia", category: "td_classe", unit: "°C", classes: heatClasses, colors: heatColors },
-    { id: "temp_noite", label: "Temperatura à noite", value: "temp_noite", category: "tn_classe", unit: "°C", classes: heatClasses, colors: heatColors },
-    { id: "temp_media", label: "Temperatura média", value: "temp_media", category: "tm_classe", unit: "°C", classes: heatClasses, colors: heatColors },
-    { id: "hm_dia", label: "Mitigação térmica de dia", value: "hm_dia", continuous: true },
-    { id: "hm_noite", label: "Mitigação térmica à noite", value: "hm_noite", continuous: true },
-    { id: "hm_media", label: "Mitigação térmica média", value: "hm_media", continuous: true },
+    { id: "temp_dia", label: "Temperatura de dia", value: "temp_dia", category: "td_classe", unit: "°C", climate: true },
+    { id: "temp_noite", label: "Temperatura à noite", value: "temp_noite", category: "tn_classe", unit: "°C", climate: true },
+    { id: "temp_media", label: "Temperatura média", value: "temp_media", category: "tm_classe", unit: "°C", climate: true },
+    { id: "hm_dia", label: "Mitigação térmica de dia", value: "hm_dia", climate: true },
+    { id: "hm_noite", label: "Mitigação térmica à noite", value: "hm_noite", climate: true },
+    { id: "hm_media", label: "Mitigação térmica média", value: "hm_media", climate: true },
     { id: "umid_pct", label: "Umidade relativa", value: "umid_pct", category: "umid_cls", unit: "%", classes: ["muito baixo", "médio baixo", "médio", "alto"], colors: waterColors },
   ]],
   ["Inundação e ocupação", [
@@ -37,6 +35,9 @@ const mapGroups = [
 const indicators = new Map(mapGroups.flatMap(([, list]) => list.map(item => [item.id, item])));
 let active = null;
 let fieldIndex, data, colors;
+let climateCatalog;
+const climateMode = document.getElementById("representacao-clima");
+const continuous = () => active?.climate ? climateMode.value === "continuo" : active?.continuous;
 
 function readField(values, key) {
   return values[fieldIndex[key]] ?? null;
@@ -111,27 +112,27 @@ function showLegend() {
     appendLegendItems([["Limite da bacia", basinColor, true], ["Massa d’água", waterColor]]);
     return;
   }
-  const entries = active.continuous ? [] : legendEntries(active);
-  colors = new Map(entries);
+  const entries = continuous() ? [] : active.climate ? ClimateData.entries(active.climate.config, active.climate.record) : legendEntries(active);
+  colors = new Map(active.climate ? active.climate.config.labels_numeric.map((label, i) => [label, active.climate.config.colors[i]]) : entries);
   legendTitle.textContent = active.label;
-  if (active.continuous) {
-    legendNote.textContent = "Índice médio na faixa externa de cinco metros. A cor representa o valor numérico.";
-    const range = data.ranges[active.value];
+  if (continuous()) {
+    legendNote.textContent = active.climate ? "Escala comum aos três cenários; mesmos dados e cores da metodologia. " + (active.climate.indicator === "hm" ? "Média do HM na faixa externa de 5 m." : "Temperatura média dentro do fragmento.") : "A cor representa o valor numérico.";
+    const range = active.climate?.config.range ?? data.ranges[active.value];
     if (range) {
       const ramp = document.createElement("div");
       ramp.className = "map-ramp";
-      ramp.style.background = "linear-gradient(90deg," + gradient(range[0], range) + "," + gradient(range[1], range) + ")";
+      ramp.style.background = "linear-gradient(90deg," + (active.climate ? active.climate.config.colors.join(",") : gradient(range[0], range) + "," + gradient(range[1], range)) + ")";
       const labels = document.createElement("div");
       labels.className = "map-range";
       for (const value of range) {
         const label = document.createElement("span");
-        label.textContent = formatValue(value);
+        label.textContent = active.climate ? ClimateData.format(value, active.climate.config) : formatValue(value);
         labels.append(label);
       }
       legendItems.append(ramp, labels);
     }
   } else {
-    legendNote.textContent = "Classes registradas no diagnóstico por fragmento.";
+    legendNote.textContent = active.climate ? "Cortes do raster deste cenário, também aplicados à estatística por fragmento. Limites arredondados somente na legenda." : "Classes registradas no diagnóstico por fragmento.";
   }
   appendLegendItems([...entries, ["Sem dados", missingColor]]);
 }
@@ -148,7 +149,7 @@ function popupContent(values) {
     panel.append(paragraph);
   }
   const measure = active.value ? readField(values, active.value) : readField(values, categoryKey(active));
-  add(active.label + " · " + formatValue(measure, active.unit));
+  add(active.label + " · " + (active.climate && measure !== null ? ClimateData.format(measure, active.climate.config) : formatValue(measure, active.unit)));
   if (active.category) add("Classe · " + formatValue(readField(values, active.category)));
   if (active.id === "inund_max") add("Profundidade média · " + formatValue(readField(values, "inund_med")));
   if (active.id === "edif_pct") add("Presença de edificações · " + formatValue(readField(values, "edif")));
@@ -185,7 +186,16 @@ async function initializeMap() {
       return;
     }
   }
+  climateCatalog = await ClimateData.load();
+  for (const item of indicators.values()) {
+    if (!item.climate) continue;
+    item.climate = ClimateData.find(climateCatalog, item.id);
+    item.category = item.climate.record.class_field;
+    item.classes = item.climate.config.labels_numeric;
+    item.colors = item.climate.config.colors;
+  }
   data = await loadData("mapa-dados.json.gz");
+  ClimateData.verify(climateCatalog, data);
   if (data.encoding !== "polyline-xy-5" || !Array.isArray(data.fields) || !Array.isArray(data.rows) || !data.rows.length) {
     throw new Error("Dados do mapa inválidos");
   }
@@ -194,10 +204,10 @@ async function initializeMap() {
   const style = feature => {
     if (!active) return { stroke: false, fill: false };
     const values = feature.properties.values;
-    const color = active.continuous
-      ? gradient(readField(values, active.value), data.ranges[active.value])
+    const color = continuous()
+      ? (active.climate ? ClimateData.color(readField(values, active.value), active.climate.config) : gradient(readField(values, active.value), data.ranges[active.value]))
       : colors.get(readField(values, categoryKey(active))) ?? missingColor;
-    return { stroke: false, fill: true, fillColor: color, fillOpacity: 0.8 };
+    return { stroke: false, fill: true, fillColor: color, fillOpacity: active.climate ? 1 : 0.8 };
   };
   const fragmentPane = map.createPane("fragmentos");
   fragmentPane.hidden = !active;
@@ -244,6 +254,7 @@ async function initializeMap() {
   async function selectIndicator() {
     const current = ++request;
     active = indicators.get(select.value) ?? null;
+    document.getElementById("controle-representacao-clima").hidden = !active?.climate;
     contextImage?.overlay.remove();
     contextImage = null;
     map.closePopup();
@@ -264,12 +275,30 @@ async function initializeMap() {
     try {
       contextCatalog ??= await loadData("dados-mapas/contexto-riscos.json");
       if (request !== current) return;
-      const layer = contextCatalog[active.id];
+      let layer = contextCatalog[active.id];
+      let imagePath = "dados-mapas/contexto/" + active.id + ".png";
+      if (active.climate) {
+        const {config, record} = active.climate;
+        const entries = ClimateData.entries(config, record);
+        layer = {title: active.label, bounds: climateCatalog.bounds_3857,
+          note: "Camada de entrada: mesma imagem, cortes e escala da metodologia. O resultado por fragmento resume estes valores.",
+          classes: entries.map(([label, color], i) => [i + 1, label, color])};
+        imagePath = "dados-mapas/clima/" + (continuous() ? record.continuous : record.classes);
+        if (continuous()) {
+          layer.classes = Array.from({length: 255}, (_, index) => {
+            const value = config.range[0] + index / 254 * (config.range[1] - config.range[0]);
+            return [index + 1, "Aproximadamente " + ClimateData.format(value, config), ClimateData.color(value, config)];
+          });
+        }
+      }
       if (!layer) throw new Error("Camada de contexto indisponível");
       legendTitle.textContent = layer.title;
       legendNote.textContent = layer.note;
-      appendLegendItems(layer.classes.map(([, label, color]) => [label, color]));
-      contextImage = createMapImage("dados-mapas/contexto/" + active.id + ".png", layer, "contexto-riscos", 0.83);
+      if (active.climate) {
+        showLegend();
+        legendNote.textContent = layer.note + (continuous() ? " Escala comum aos três cenários." : " Intervalos iguais de cada cenário.");
+      } else appendLegendItems(layer.classes.map(([, label, color]) => [label, color]));
+      contextImage = createMapImage(imagePath + "?v=" + climateCatalog.revision, layer, "contexto-riscos", 1);
       contextImage.overlay.on("load", () => {
         if (request === current) mapStatus.textContent = "Camada de entrada · contexto geral";
       });
@@ -287,6 +316,7 @@ async function initializeMap() {
 
   select.addEventListener("change", selectIndicator);
   viewSelect.addEventListener("change", selectIndicator);
+  climateMode.addEventListener("change", selectIndicator);
   const initial = new URLSearchParams(location.search);
   if (indicators.has(initial.get("indicador"))) select.value = initial.get("indicador");
   if (["fragmentos", "contexto"].includes(initial.get("visualizacao"))) viewSelect.value = initial.get("visualizacao");

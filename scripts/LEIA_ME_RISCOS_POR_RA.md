@@ -14,10 +14,4 @@ Um fragmento pode interceptar mais de uma RA. Cada interseção contribui com su
 
 ## Atualizar o resultado
 
-Execute com o Python do QGIS e as bibliotecas GDAL e Shapely 2. Mantenha os arquivos auxiliares dos shapefiles na mesma pasta. O comando escreve JSON na saída padrão.
-
-```sh
-python scripts/exportar_riscos_por_ra.py --ras "caminho/regioes_administrativas.shp" --bacia "caminho/Bacia_Paranoa_MERGE_IPE_DF_2023.shp" --fragmentos "caminho/Diagnostico_RISCO_v01.gpkg"
-```
-
-Salve a saída em UTF-8 como `dados-mapas/riscos-por-ra.json` para atualizar a tabela no site.
+A tabela usa a mesma revisão climática do mapa geral e da metodologia. Inclui as cinco classes de HM e as interseções da zona de calor vigente. Para atualizar, siga o [fluxo conjunto](../docs/atualizacao-dados.md); não publique apenas este JSON. O exportador deste diretório é chamado pelo atualizador com o GeoPackage reclassificado, preservando as geometrias completas e a ponderação por área.

@@ -123,7 +123,7 @@ def main():
     dataset = gdal.VectorTranslate("", json.dumps({"type": "FeatureCollection", "features": features}), format="MEM", dstSRS="EPSG:3857")
     layer = dataset.GetLayer(0)
     target = grid(layer, args.resolution)
-    result = {"resolution_3857": args.resolution, "resampling": "nearest_or_cell_center", "indicators": {}}
+    result = {"climate_revision": published.get("climate_revision"), "resolution_3857": args.resolution, "resampling": "nearest_or_cell_center", "indicators": {}}
     for key, (title, field, category, unit, labels, colors) in CONFIG.items():
         config = {"title": title, "unit": unit, "colors": colors, "counts": counts[key]}
         result["indicators"][key] = config

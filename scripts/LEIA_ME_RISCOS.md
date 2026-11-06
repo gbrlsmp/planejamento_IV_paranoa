@@ -12,17 +12,13 @@ import os
 
 os.environ["PARANOA_BASE_DADOS"] = r"C:/caminho/02 BASE DE DADOS"
 script = Path(r"C:/caminho/planejamento_IV_paranoa/scripts/01_Diagnostico_RISCOS.py")
-exec(compile(script.read_bytes(), str(script), "exec"))
+exec(compile(script.read_bytes(), str(script), "exec"), {"__file__": str(script)})
 ```
 
 A configuração padrão grava um GeoPackage e um JSON de parâmetros em `02_Análises/01_Riscos/05_Diagnostico`. Ajuste `PASTA_SAIDA`, `PREFIXO` ou `SUFIXO` se precisar separar novas rodadas. O script interrompe a execução se já houver um resultado com o mesmo nome. A região administrativa de maior sobreposição é gravada como atributo auxiliar. No relatório, as RAs aparecem no mapa de Identificação.
 
 ## Preparar a saída para o site
 
-A configuração versionada gera `Diagnostico_RISCOS_v01_diagnostico.gpkg`, com uma camada de mesmo nome sem a extensão. A entrada histórica padrão do exportador usa o nome de camada `diagnostico_risco_v01`. Para exportar uma nova execução com a configuração versionada, informe a camada explicitamente e disponibilize o `ogr2ogr` do GDAL.
+Use o [atualizador conjunto](../docs/atualizacao-dados.md). Ele substitui os resultados ativos, reclassifica temperatura e HM pelos cortes do catálogo, regenera a zona de calor e o resumo por RA, e verifica a revisão antes da publicação. O JSON de parâmetros do diagnóstico registra os hashes dos seis rasters; forneça-o com `--proveniencia`.
 
-```sh
-python scripts/exportar_mapa.py "caminho/Diagnostico_RISCOS_v01_diagnostico.gpkg" --camada Diagnostico_RISCOS_v01_diagnostico
-```
-
-O exportador prepara as geometrias e os campos usados pelo mapa em `mapa-dados.json.gz`.
+Os scripts individuais de exportação são componentes desse fluxo. Exportar apenas `mapa-dados.json.gz` deixa a revisão incompleta e falha na validação da publicação.

@@ -139,6 +139,10 @@ A saída padrão é `dados-mapas/clima`. Use `--out-dir` para outro diretório e
 
 ## Relação com o diagnóstico publicado
 
-Esta entrega adiciona a exploração das **camadas de entrada** à metodologia. Não recalcula resultados por fragmento, tabela por RA ou polígonos de `Zona_ICU.shp`. As classes de temperatura do diagnóstico publicado foram obtidas a partir dos valores por fragmento, e HM permanece numérico nessa saída. Os cinco intervalos dos rasters aqui apresentados não são silenciosamente aplicados a esses resultados anteriores.
+Existe um único catálogo vigente para os sete produtos climáticos: uma zona de calor, três temperaturas e três HM. Dia, noite e média são cenários distintos. As imagens reduzidas, classes, degradês e estatísticas por fragmento são representações desses mesmos produtos.
 
-A decisão de estudo para a próxima atualização da zona de ilha de calor é reunir as três classes mais quentes da **temperatura média**. Regenerar esse limite e recalcular suas interseções com os fragmentos é uma etapa posterior; a visualização desta entrega não altera aquela camada.
+Temperatura e HM por fragmento preservam as estatísticas zonais de origem; suas classes usam os mesmos cortes integrais do raster de cada cenário. A temperatura é a média no interior do fragmento; HM é a média na faixa externa de 5 m. Por isso, um raster pode mostrar variações internas que a cor única do fragmento não reproduz.
+
+A zona vigente é a união das três classes mais quentes da temperatura média: **valor > 25,78263740539551 °C**. O raster original de 3 m gera `dados-mapas/clima/zona-icu.gpkg`, com **32.170,6413 ha**. O diagnóstico marca `icu = sim` quando a interseção do fragmento com essa zona tem área positiva. A zona, as interseções e os resumos por RA foram atualizados em conjunto.
+
+As seis imagens antigas de contexto e suas faixas fixas foram removidas da versão ativa. Atualizações futuras devem seguir o [fluxo conjunto](atualizacao-dados.md). O histórico fica no Git; as telas oferecem somente a revisão vigente.

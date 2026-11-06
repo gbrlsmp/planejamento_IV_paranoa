@@ -1,4 +1,5 @@
 {
+  "climate_revision": "2425412d1d3ff171",
   "resolution_3857": 20,
   "resampling": "nearest_or_cell_center",
   "indicators": {
@@ -10,19 +11,19 @@
         "#d34536"
       ],
       "counts": {
-        "não": 15185,
-        "sim": 18269
+        "não": 15202,
+        "sim": 18252
       },
       "source": {
         "title": "Zona de ilha de calor urbano",
-        "note": "Extensão da zona usada para verificar a sobreposição com os fragmentos.",
+        "note": "Três classes mais quentes da temperatura média; corte > 25,7826374054 °C. Mesma versão da metodologia e dos fragmentos.",
         "classes": {
           "image": "dados-mapas/contexto/icu.png",
           "bounds": [
-            -5352837.66573442,
-            -1801033.1123777882,
-            -5314937.66573442,
-            -1771333.1123777882
+            -5355586.1499167,
+            -1803305.0294078272,
+            -5309846.1499167,
+            -1755265.0294078272
           ],
           "entries": [
             [
@@ -304,7 +305,7 @@
             -1755409.282486131
           ],
           "range": [
-            0,
+            0.0,
             20.6838188171
           ]
         }
@@ -393,8 +394,8 @@
             -1755409.282486131
           ],
           "range": [
-            0,
-            100
+            0.0,
+            100.0
           ]
         }
       }

@@ -23,7 +23,7 @@ Para reproduzir a modelagem, reunir as entradas originais, a tabela biofísica e
 
 O [script de riscos](../scripts/01_Diagnostico_RISCOS.py) recebe as saídas prontas: temperatura é consultada no interior do fragmento; HM, em faixa externa de 5 m. As camadas médias de temperatura e HM correspondem a `(dia + noite) / 2`, célula a célula. Essa expressão foi conferida nas seis camadas originais, com diferenças residuais compatíveis com ponto flutuante. Não é uma média observada de 24 horas. Os [comparativos e mapas de cenários](cenarios-climaticos.md) distinguem a escala contínua comum das cinco classes de cada raster.
 
-A entrada Zona_ICU.shp é um subproduto da temperatura média do ar do InVEST, conforme origem esclarecida pela autora. O critério do estudo reúne as três classes mais quentes da temperatura média (média, ruim e muito ruim). O diagnóstico recebe o polígono pronto e registra interseção com área positiva. Sua atualização com os novos cortes integrais, e o recálculo das interseções, permanecem uma etapa posterior aos mapas exploratórios desta entrega.
+A zona vigente é `dados-mapas/clima/zona-icu.gpkg`, derivada das três classes mais quentes da temperatura média: valores maiores que 25,78263740539551 °C. O limite usa a grade original de 3 m e soma 32.170,6413 ha. As interseções por fragmento e o resumo por RA foram recalculados com esse limite. A ocorrência exige área de interseção positiva.
 
 ## Água
 
@@ -61,4 +61,4 @@ A aplicação atual recebe PRE_Bacia_Paranoa_MERGE_IPE_DF_2023.shp da SEDUH-DF, 
 
 ## Escopo desta documentação
 
-Os comparativos e as imagens de visualização acrescentam uma exploração das camadas climáticas de entrada, sem alterar rasters originais, scripts de diagnóstico ou os resultados publicados por fragmento. Para reproduzir a produção, ainda é necessário reunir os geradores, as entradas e os registros originais da pesquisa. Para reproduzir o cruzamento com os fragmentos, seguir os guias de Riscos e Condicionantes do repositório.
+Os comparativos e as imagens de visualização acrescentam uma exploração das camadas climáticas de entrada, preservando os rasters originais. As classes e a zona de calor do diagnóstico publicado são atualizadas com o mesmo catálogo das telas. Para reproduzir a produção, ainda é necessário reunir os geradores, as entradas e os registros originais da pesquisa. Para reproduzir o cruzamento com os fragmentos, seguir os guias de Riscos e Condicionantes do repositório.

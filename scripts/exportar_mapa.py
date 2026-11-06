@@ -15,7 +15,7 @@ import tempfile
 CAMPOS = (
     "patch_id", "ra_nome", "icu",
     "temp_dia", "td_classe", "temp_noite", "tn_classe", "temp_media", "tm_classe",
-    "hm_dia", "hm_noite", "hm_media", "umid_pct", "umid_cls",
+    "hm_dia", "hmd_cls", "hm_noite", "hmn_cls", "hm_media", "hmm_cls", "umid_pct", "umid_cls",
     "inund_med", "inund_max", "inund_cls",
     "edif", "edif_pct", "edif_cls", "renda_sm", "renda_cls",
 )
@@ -89,8 +89,6 @@ def preparar_dados(entrada, camada, ogr2ogr):
                 else:
                     minimo, maximo = ranges.get(campo, (valor, valor))
                     ranges[campo] = [min(minimo, valor), max(maximo, valor)]
-                    if campo != "patch_id":
-                        valor = math.floor(valor * 10_000 + 0.5) / 10_000
             elif isinstance(valor, str):
                 classes.setdefault(campo, set()).add(valor)
             valores.append(valor)

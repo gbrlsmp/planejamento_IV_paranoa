@@ -52,9 +52,10 @@ function renderizarRas(dados) {
 }
 
 async function iniciarRas() {
-  const resposta = await fetch("dados-mapas/riscos-por-ra.json");
+  const resposta = await fetch("dados-mapas/riscos-por-ra.json", { cache: "no-cache" });
   if (!resposta.ok) throw new Error("Resumo territorial indisponível.");
   const dados = await resposta.json();
+  ClimateData.verify(await ClimateData.load(), dados);
   dados.regioes.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
   for (const indicador of dados.indicadores) {
     seletorRa.add(new Option(indicador.titulo, indicador.id));

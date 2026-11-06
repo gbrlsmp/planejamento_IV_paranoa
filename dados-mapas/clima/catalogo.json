@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "source_resolution_m": 3,
   "visualization": {
     "crs": "EPSG:3857",
@@ -89,7 +89,10 @@
           "source": "T_air_bacia_paranoa_v6_factors.tif",
           "continuous": "temperatura-dia-continuo.png",
           "classes": "temperatura-dia-classes.png",
-          "preview": "temperatura-dia-previa.png"
+          "preview": "temperatura-dia-previa.png",
+          "source_sha256": "a7f0a43a6083a2ffce763e15cfbcfc18626549e97152283816cf7f7ace0412c1",
+          "field": "temp_dia",
+          "class_field": "td_classe"
         },
         "noite": {
           "minimum": 22.089974679632284,
@@ -129,7 +132,10 @@
           "source": "T_air_bacia_paranoa_v6_intenssity.tif",
           "continuous": "temperatura-noite-continuo.png",
           "classes": "temperatura-noite-classes.png",
-          "preview": "temperatura-noite-previa.png"
+          "preview": "temperatura-noite-previa.png",
+          "source_sha256": "b3f49028489f24a3b3bb2aaca655cb5e2e94f9d19361d1a9883f8ed12eef90b6",
+          "field": "temp_noite",
+          "class_field": "tn_classe"
         },
         "media": {
           "minimum": 23.54193687438965,
@@ -169,9 +175,21 @@
           "source": "v6 - algebra/T_air_bacia_paranoa_v6_media.tif",
           "continuous": "temperatura-media-continuo.png",
           "classes": "temperatura-media-classes.png",
-          "preview": "temperatura-media-previa.png"
+          "preview": "temperatura-media-previa.png",
+          "source_sha256": "f0b2997cf630c96e5b015afc760ce061a552c444083424b3fdbae66be86f9c91",
+          "field": "temp_media",
+          "class_field": "tm_classe"
         }
-      }
+      },
+      "labels_numeric": [
+        "base",
+        "boa",
+        "média",
+        "ruim",
+        "muito ruim"
+      ],
+      "decimals": 1,
+      "unit": "°C"
     },
     "hm": {
       "range": [
@@ -224,7 +242,10 @@
           "source": "hm_bacia_paranoa_v6_factors.tif",
           "continuous": "hm-dia-continuo.png",
           "classes": "hm-dia-classes.png",
-          "preview": "hm-dia-previa.png"
+          "preview": "hm-dia-previa.png",
+          "source_sha256": "97bb0e7c3c716043cf80799df1ee2caec83aa9fa142bf9e5109e448094b2517a",
+          "field": "hm_dia",
+          "class_field": "hmd_cls"
         },
         "noite": {
           "minimum": 0.47280001640319824,
@@ -264,7 +285,10 @@
           "source": "hm_bacia_paranoa_v6_intenssity.tif",
           "continuous": "hm-noite-continuo.png",
           "classes": "hm-noite-classes.png",
-          "preview": "hm-noite-previa.png"
+          "preview": "hm-noite-previa.png",
+          "source_sha256": "f47b9d773f0501a567a4b44e63c8a0cac6ab81ab27c90fec04bae241626936da",
+          "field": "hm_noite",
+          "class_field": "hmn_cls"
         },
         "media": {
           "minimum": 0.2764452397823334,
@@ -304,9 +328,21 @@
           "source": "v6 - algebra/hm_bacia_paranoa_v6_media.tif",
           "continuous": "hm-media-continuo.png",
           "classes": "hm-media-classes.png",
-          "preview": "hm-media-previa.png"
+          "preview": "hm-media-previa.png",
+          "source_sha256": "47520e3630d736d3f1e844393b26ccd48df433e958d07f58f573e46bc648834f",
+          "field": "hm_media",
+          "class_field": "hmm_cls"
         }
-      }
+      },
+      "labels_numeric": [
+        "muito ruim",
+        "ruim",
+        "média",
+        "boa",
+        "base"
+      ],
+      "decimals": 4,
+      "unit": ""
     }
   },
   "bounds_3857": [
@@ -314,5 +350,15 @@
     -1803305.0294078272,
     -5309846.1499167,
     -1755265.0294078272
-  ]
+  ],
+  "zone": {
+    "indicator": "temperatura",
+    "scenario": "media",
+    "warmest_classes": 3,
+    "operator": ">",
+    "threshold": 25.78263740539551,
+    "vector": "zona-icu.gpkg",
+    "rule": "positive_intersection_area"
+  },
+  "revision": "2425412d1d3ff171"
 }

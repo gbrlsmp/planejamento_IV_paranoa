@@ -3,12 +3,11 @@
 (() => {
   const directory = "dados-mapas/clima/";
   const scenarios = { dia: "Dia · factors", noite: "Noite · intensity", media: "Média entre dia e noite" };
-  const labels = ["Base", "Boa", "Média", "Ruim", "Muito ruim"];
   let sharedData;
 
   function data() {
     sharedData ??= Promise.all([
-      loadData(directory + "catalogo.json"), loadData("mapa-base.json.gz"),
+      ClimateData.load(), loadData("mapa-base.json.gz"),
     ]).catch(error => { sharedData = null; throw error; });
     return sharedData;
   }
@@ -54,7 +53,7 @@
         swatch.setAttribute("aria-hidden", "true");
         const text = document.createElement("span");
         const name = document.createElement("strong");
-        name.textContent = labels[display];
+        name.textContent = config.labels_numeric[index];
         const values = document.createElement("span");
         values.textContent = format(record.cuts[index], indicator) + " a " + format(record.cuts[index + 1], indicator) + unit;
         values.title = (index === 0 ? "≥ " : "> ") + format(record.cuts[index], indicator, true) + " e ≤ " + format(record.cuts[index + 1], indicator, true) + unit;
@@ -93,6 +92,24 @@
     try {
       const [catalog, base] = await data();
       const config = catalog.indicators[indicator];
+      // Captions, preview URLs and scales follow the same current catalogue.
+      const figures = root.querySelectorAll(".climate-comparison figure");
+      ["dia", "noite", "media"].map(key => config.scenarios[key]).forEach((record, index) => {
+        const figure = figures[index];
+        if (!figure) return;
+        figure.querySelector("img").src = directory + record.preview + "?v=" + catalog.revision;
+        figure.querySelector("figcaption span:last-child").textContent = "Média espacial: " + ClimateData.format(record.common_mean, config);
+      });
+      root.querySelectorAll(".climate-comparison-scale .climate-range span").forEach((span, index) => {
+        span.textContent = ClimateData.format(config.range[index], config);
+      });
+      root.querySelector(".climate-comparison-scale .climate-ramp").style.background = "linear-gradient(to right," + config.colors.join(",") + ")";
+
+      const difference = catalog.comparison.differences[indicator === "temperatura" ? "temperatura_dia_menos_noite" : "hm_noite_menos_dia"].mean;
+      root.querySelector(".climate-difference").textContent = indicator === "temperatura"
+        ? "No conjunto da área comparável, o cenário de dia é " + ClimateData.format(difference, config) + " mais quente que o de noite, em média."
+        : "No conjunto da área comparável, o HM de noite supera o de dia em " + ClimateData.format(difference, config) + ", em média. Essa diferença é do índice, não uma variação em graus ou uma porcentagem de resfriamento.";
+      root.querySelector(".climate-common-area").textContent = "As médias espaciais são calculadas na mesma área válida dos seis rasters: " + catalog.comparison.common_area_ha.toLocaleString("pt-BR", {maximumFractionDigits: 1}) + " ha. Os mapas representam as camadas de entrada, antes do resumo por fragmento.";
       const [left, bottom, right, top] = catalog.bounds_3857;
       const bounds = L.latLngBounds(
         L.CRS.EPSG3857.unproject(L.point(left, bottom)),
@@ -124,7 +141,7 @@
         const mode = modeSelect.value;
         const record = config.scenarios[scenario];
         const file = mode === "continuo" ? record.continuous : record.classes;
-        const next = L.imageOverlay(directory + file, bounds, {
+        const next = L.imageOverlay(directory + file + "?v=" + catalog.revision, bounds, {
           opacity: 0, className: mode === "classes" ? "climate-pixels" : "",
           alt: (indicator === "temperatura" ? "Temperatura do ar" : "Mitigação térmica HM") + " · " + scenarios[scenario] + " · " + (mode === "classes" ? "cinco classes" : "degradê contínuo"),
         });
