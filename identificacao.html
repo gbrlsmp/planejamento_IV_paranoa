@@ -95,7 +95,7 @@
         </article>
         <article class="method-card" id="etapa-ndvi" aria-labelledby="titulo-etapa-ndvi">
           <h5 id="titulo-etapa-ndvi">2. NDVI da seca e da chuva e análise exploratória</h5>
-          <p>Os NDVIs das duas datas são comparados nas áreas de referência da etapa 1. As distribuições e o gráfico seca × chuva permitem investigar diferenças e sobreposições, sem definir cortes de classificação nesta etapa.</p>
+          <p>Os NDVIs das duas datas são comparados nas áreas de referência da etapa 1. Os histogramas, o diagrama de Sankey e o gráfico seca × chuva permitem investigar diferenças e sobreposições antes de discutir cortes de classificação.</p>
           <details class="method-details"><summary>Ver procedimento completo e gráficos</summary><div class="method-detail-body">
             <span id="etapa-estatisticas"></span>
             <p><strong>Cálculo:</strong> (NIR − vermelho) / (NIR + vermelho), com NIR na banda 8 e vermelho na banda 6 dos mosaicos PlanetScope. Foram gerados dois rasters novos de 3 m, recortados à bacia: chuva, de 17/01/2026, e seca, de 30/07/2026. Consulte o <a href="scripts/identificacao/gerar_ndvi.py">código do cálculo</a> e o <a href="scripts/identificacao/NDVI_GERACAO.md">registro de geração</a>.</p>
@@ -108,6 +108,22 @@
               <div class="ident-distributions">
                 <figure><figcaption>Seca — 30/07/2026</figcaption><canvas data-ndvi-dry role="img" aria-label="Distribuições de NDVI por grupo na seca">Consulte os dados dos gráficos no arquivo JSON vinculado abaixo.</canvas></figure>
                 <figure><figcaption>Chuva — 17/01/2026</figcaption><canvas data-ndvi-rain role="img" aria-label="Distribuições de NDVI por grupo na chuva">Consulte os dados dos gráficos no arquivo JSON vinculado abaixo.</canvas></figure>
+              </div>
+              <h6 id="titulo-sankey-ndvi">Distribuição dos grupos de referência por faixa de NDVI</h6>
+              <p id="descricao-sankey-ndvi">No Sankey, os grupos ficam entre as faixas de NDVI da seca, à esquerda, e da chuva, à direita. As fitas mostram a proporção de pontos do grupo em cada faixa, somando 100% por grupo em cada data. Passe o cursor sobre uma fita ou abra a tabela para consultar seu valor. As faixas são as mesmas nas duas datas e servem à leitura exploratória.</p>
+              <div data-ndvi-sankey hidden>
+                <div class="table-scroll ident-sankey-scroll" role="region" aria-labelledby="titulo-sankey-ndvi" tabindex="0">
+                  <svg role="img" aria-labelledby="titulo-sankey-ndvi" aria-describedby="descricao-sankey-ndvi"></svg>
+                </div>
+                <details class="ident-sankey-values">
+                  <summary>Consultar percentuais e contagens das fitas</summary>
+                  <div class="table-scroll" role="region" aria-label="Valores das fitas por grupo e faixa de NDVI" tabindex="0">
+                    <table class="indicator-table">
+                      <thead><tr><th scope="col">Grupo</th><th scope="col">Faixa de NDVI</th><th scope="col">Seca (%)</th><th scope="col">Seca (pontos)</th><th scope="col">Chuva (%)</th><th scope="col">Chuva (pontos)</th></tr></thead>
+                      <tbody></tbody>
+                    </table>
+                  </div>
+                </details>
               </div>
               <h6>NDVI da seca × NDVI da chuva</h6>
               <p>Cada ponto representa o mesmo local nas duas imagens. Grupos que ocupam regiões diferentes do gráfico podem apresentar respostas complementares entre datas; a sobreposição mostra onde essa distinção é difícil. A linha diagonal indica valores iguais nas duas datas, sem funcionar como limite de classe.</p>
