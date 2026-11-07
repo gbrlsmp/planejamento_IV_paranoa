@@ -6,7 +6,17 @@ A fonte adotada para a próxima etapa é a cópia local do MapBiomas identificad
 
 O objetivo em desenvolvimento é identificar e distinguir a vegetação na grade PlanetScope de 3 m. A definição dos componentes da rede de infraestrutura verde será tratada posteriormente.
 
-## Camadas de entrada
+## Atualização: fluxo vigente
+
+A ordem vigente é **referências MapBiomas–ZEE → NDVI e exploração → classificação/refinamento → contexto de remanescentes**. O procedimento completo atualizado, os produtos locais, a tabela de áreas e as duas referências científicas estão em [REFERENCIAS_E_NDVI.md](REFERENCIAS_E_NDVI.md).
+
+Os dois NDVIs integrais novos já foram gerados. A nova execução usa o **vetor MapBiomas**, cuja classe é `cod_sub`, e produziu interseções integrais para campestre, savânica, florestal e campo alagado/área pantanosa. O último grupo usa uma correspondência operacional confirmada com as áreas úmidas do ZEE; as definições não são idênticas. Pastagem é comparação apenas do MapBiomas, fora da rede de IV.
+
+Os gráficos atuais usam esses novos NDVIs e interseções: distribuições por data e seca × chuva, sem cortes. O inventário JSON foi atualizado para os caminhos atuais, incluindo a nova pasta do raster MapBiomas. Os arquivos de execução histórica abaixo continuam preservados e não são os dados dos gráficos atuais.
+
+**As seções seguintes documentam a primeira exploração amostral e seus estados à época.** Para gerar novamente os produtos vigentes, usar o novo procedimento vinculado acima, não a sequência histórica de reprodução abaixo.
+
+## Camadas de entrada — exploração histórica
 
 | Entrada | Data e resolução ou escala | Função | Situação |
 | --- | --- | --- | --- |

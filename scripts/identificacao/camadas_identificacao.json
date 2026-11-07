@@ -1,5 +1,5 @@
 {
-  "versao": 1,
+  "versao": 2,
   "etapa": "Identificação → Uso do solo",
   "situacao": "metodologia_em_desenvolvimento",
   "decisao_mapbiomas": "Usar a cópia local de 10 m identificada como 2025; download online não obrigatório; coleção ainda não comprovada.",
@@ -66,7 +66,7 @@
       "tipo": "entrada",
       "deriva_de": [],
       "chave_execucao": "mapbiomas",
-      "caminho_relativo": "01_Base/rasters/03_MapBiomas_10m_2025/uso_e_corbertura_mapbiomas_10m_2025_bacia_paranoa.tif",
+      "caminho_relativo": "02_Análises/03_Ecologia/03_Fitofisionomia/03_Raster/01_MapBiomas_10m_2025/uso_e_corbertura_mapbiomas_10m_2025_bacia_paranoa.tif",
       "disponibilidade": "local_verificado",
       "ano": 2025,
       "evidencia_ano": "identificacao_do_arquivo_e_confirmacao_da_autora",
@@ -74,7 +74,7 @@
       "crs_arquivo": "EPSG:4326",
       "colecao": null,
       "colecao_situacao": "nao_comprovada",
-      "funcao": "referencia_tematica",
+      "funcao": "conferencia_de_correspondencia_com_vetor; referencia_da_exploracao_historica",
       "download_obrigatorio": false
     },
     {
@@ -134,6 +134,16 @@
       "disponibilidade": "nao_localizada",
       "funcao": "controle_de_nuvens_sombras_e_qualidade",
       "aplicada_na_exploracao": false
+    },
+    {
+      "id": "mapbiomas_vetor",
+      "nome": "MapBiomas vetorial local 10 m 2025",
+      "tipo": "entrada",
+      "deriva_de": [],
+      "caminho_relativo": "02_Análises/03_Ecologia/03_Fitofisionomia/01_vetor/02_MapBiomas_10m_2025/uso_cobertura_MapBiomas_Bacia_Paranoa.shp",
+      "campo_classes": "cod_sub",
+      "funcao": "entrada_adotada_para_as_novas_intersecoes",
+      "colecao": null
     }
   ],
   "produtos": [
@@ -145,9 +155,10 @@
         "planet_chuva",
         "bacia"
       ],
-      "estado": "calculado_em_amostra; raster_integral_novo_pendente",
+      "estado": "raster_integral_novo_gerado_e_conferido",
       "formula": "(NIR-Red)/(NIR+Red)",
-      "qualidade_pendente": "qualidade_imagens"
+      "qualidade_pendente": "qualidade_imagens",
+      "caminho_relativo": "02_Análises/03_Ecologia/03_Fitofisionomia/03_Raster/02_NDVI/ndvi_chuva_2026-01-17.tif"
     },
     {
       "id": "ndvi_seca",
@@ -157,21 +168,23 @@
         "planet_seca",
         "bacia"
       ],
-      "estado": "calculado_em_amostra; raster_integral_novo_pendente",
+      "estado": "raster_integral_novo_gerado_e_conferido",
       "formula": "(NIR-Red)/(NIR+Red)",
-      "qualidade_pendente": "qualidade_imagens"
+      "qualidade_pendente": "qualidade_imagens",
+      "caminho_relativo": "02_Análises/03_Ecologia/03_Fitofisionomia/03_Raster/02_NDVI/ndvi_seca_2026-07-30.tif"
     },
     {
       "id": "referencias_formacoes",
-      "nome": "Concordância temática e espacial por formação",
+      "nome": "Interseções vetoriais entre classes equivalentes",
       "tipo": "subproduto",
       "deriva_de": [
-        "mapbiomas",
+        "mapbiomas_vetor",
         "zee_cobertura",
         "bacia"
       ],
-      "estado": "calculado_em_centros_amostrais; interseccao_vetorial_integral_nova_pendente",
-      "regra_atual": "MapBiomas 12/4/3 concordante com classe ZEE Campestre/Savânica/Florestal; ZEE simplifica Vegetação nativa remanescente; conflitos excluídos da referência."
+      "estado": "intersecao_vetorial_integral_gerada",
+      "regra_atual": "cod_sub 12/4/3 com classe ZEE Campestre/Savânica/Florestal; cod_sub 11 com áreas úmidas como correspondência operacional confirmada, preservando a diferença das definições; ZEE simplifica Vegetação nativa remanescente.",
+      "arquivo_local": "01_vetor/03_Intersec_ZEE_MapBiomas/referencias_mapbiomas_zee_sistema.gpkg"
     },
     {
       "id": "amostras_pareadas",
@@ -181,24 +194,22 @@
         "referencias_formacoes",
         "ndvi_chuva",
         "ndvi_seca",
-        "mapbiomas",
-        "zee_remanescentes"
+        "mapbiomas_vetor"
       ],
-      "estado": "gerado",
-      "arquivo": "resultados/amostras.npz",
-      "nota": "Inclui grupos auxiliares de pastagem e ausência de remanescentes apenas para comparação."
+      "estado": "gerado_dos_novos_ndvis_e_intersecoes",
+      "arquivo": "02_Tabela/Exploracao_NDVI_sistema/amostras_ndvi_pareadas.npz",
+      "nota": "Pastagem da classe 15 MapBiomas apenas para comparação e fora da rede de IV. Amostras NPZ locais, sem distribuição no Git."
     },
     {
       "id": "estatisticas",
-      "nome": "Estatísticas por grupo e distribuições",
+      "nome": "Distribuições do NDVI por grupo e data",
       "tipo": "subproduto",
       "deriva_de": [
         "amostras_pareadas"
       ],
-      "estado": "gerado",
+      "estado": "gerado_nova_execucao_sem_cortes",
       "arquivos": [
-        "resultados/estatisticas.csv",
-        "resultados/resultados.json"
+        "dados-mapas/identificacao/exploracao.json"
       ],
       "variaveis_internas": [
         {
@@ -208,30 +219,20 @@
         {
           "nome": "NDVI da chuva",
           "origem": "ndvi_chuva"
-        },
-        {
-          "nome": "Média entre datas",
-          "formula": "(chuva+seca)/2",
-          "situacao": "variavel_exploratoria"
-        },
-        {
-          "nome": "Diferença sazonal",
-          "formula": "chuva-seca",
-          "situacao": "variavel_exploratoria"
         }
       ],
-      "nota": "A média entre datas e a diferença sazonal são variáveis internas da análise Referências + NDVI, sem constituir subprodutos independentes no fluxo."
+      "nota": "Apresentação restrita às distribuições por data e ao gráfico seca × chuva. Médias/diferenças entre datas da exploração histórica não são usadas nesta execução."
     },
     {
       "id": "graficos",
-      "nome": "Gráficos da comparação sazonal",
+      "nome": "Distribuições por data e NDVI seca × chuva",
       "tipo": "subproduto",
       "deriva_de": [
         "amostras_pareadas",
         "estatisticas"
       ],
-      "estado": "gerado",
-      "arquivo": "resultados/comparacao_ndvi.png"
+      "estado": "gerados_no_navegador_a_partir_da_nova_execucao",
+      "arquivo": "dados-mapas/identificacao/exploracao.json"
     },
     {
       "id": "regras_classificacao",
@@ -283,11 +284,19 @@
       "Resultados e interpretação",
       "Procedimento completo em expansor fechado"
     ],
-    "publicado": false
+    "publicado": false,
+    "etapas": [
+      "1. Referências MapBiomas e ZEE-DF",
+      "2. NDVI da seca e da chuva e análise exploratória",
+      "3. Classificação e refinamento em 3 m",
+      "4. Contexto dos remanescentes do ZEE-DF"
+    ],
+    "nota_publicacao": "Preparado em branch; merge e Pages são verificados separadamente."
   },
   "execucao_existente": {
-    "registro": "resultados/resultados.json",
-    "natureza": "amostral",
+    "registro": "dados-mapas/identificacao/exploracao.json",
+    "registro_historico": "scripts/identificacao/resultados/resultados.json",
+    "natureza": "intersecao_vetorial_integral_e_ndvi_amostral_pareado",
     "espacamento_amostral_m": 30,
     "resolucao_pixels_originais_m": 3,
     "nova_classificacao_integral": false

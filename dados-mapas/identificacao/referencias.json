@@ -1,0 +1,255 @@
+{
+  "bounds_3857": [
+    -5355180,
+    -1802860,
+    -5310160,
+    -1755400
+  ],
+  "passo_web_m": 20,
+  "dimensoes": [
+    2251,
+    2373
+  ],
+  "camadas": {
+    "mapbiomas": {
+      "imagem": "dados-mapas/identificacao/mapbiomas.png",
+      "legenda": [
+        {
+          "codigo": 3,
+          "nome": "Formação florestal",
+          "cor": "#28634c"
+        },
+        {
+          "codigo": 4,
+          "nome": "Formação savânica",
+          "cor": "#729c36"
+        },
+        {
+          "codigo": 9,
+          "nome": "Silvicultura",
+          "cor": "#965b7a"
+        },
+        {
+          "codigo": 11,
+          "nome": "Campo alagado e área pantanosa",
+          "cor": "#3798ad"
+        },
+        {
+          "codigo": 12,
+          "nome": "Formação campestre",
+          "cor": "#d89e35"
+        },
+        {
+          "codigo": 15,
+          "nome": "Pastagem",
+          "cor": "#b35e47"
+        },
+        {
+          "codigo": 19,
+          "nome": "Lavoura temporária",
+          "cor": "#d6a0c0"
+        },
+        {
+          "codigo": 21,
+          "nome": "Mosaico de usos",
+          "cor": "#e4ca99"
+        },
+        {
+          "codigo": 24,
+          "nome": "Área urbanizada",
+          "cor": "#c54c4c"
+        },
+        {
+          "codigo": 25,
+          "nome": "Outras áreas não vegetadas",
+          "cor": "#a1a1a1"
+        },
+        {
+          "codigo": 33,
+          "nome": "Rio, lago e oceano",
+          "cor": "#457dc4"
+        },
+        {
+          "codigo": 36,
+          "nome": "Lavoura perene",
+          "cor": "#bd7ebe"
+        }
+      ]
+    },
+    "zee": {
+      "imagem": "dados-mapas/identificacao/zee.png",
+      "legenda": [
+        {
+          "codigo": 1,
+          "nome": "Agricultura Intensiva",
+          "cor": "#ac7772"
+        },
+        {
+          "codigo": 2,
+          "nome": "Agricultura intensiva - Pivo-de-irrigação",
+          "cor": "#687989"
+        },
+        {
+          "codigo": 3,
+          "nome": "Estradas Não-Pavimentadas",
+          "cor": "#c0997d"
+        },
+        {
+          "codigo": 4,
+          "nome": "Estradas Pavimentadas",
+          "cor": "#8d7ab2"
+        },
+        {
+          "codigo": 5,
+          "nome": "Ferrovia e Metrô",
+          "cor": "#adad70"
+        },
+        {
+          "codigo": 6,
+          "nome": "Formação Campestre",
+          "cor": "#d89e35"
+        },
+        {
+          "codigo": 7,
+          "nome": "Formação Florestal",
+          "cor": "#28634c"
+        },
+        {
+          "codigo": 8,
+          "nome": "Formação Savânica",
+          "cor": "#729c36"
+        },
+        {
+          "codigo": 9,
+          "nome": "Hortifruticultura",
+          "cor": "#8b715b"
+        },
+        {
+          "codigo": 10,
+          "nome": "Lagoas de Estabilização",
+          "cor": "#ad9cad"
+        },
+        {
+          "codigo": 11,
+          "nome": "Pecuária",
+          "cor": "#6e8189"
+        },
+        {
+          "codigo": 12,
+          "nome": "Reflorestamento",
+          "cor": "#b58b4f"
+        },
+        {
+          "codigo": 13,
+          "nome": "Represas, Lagos, Lagoas e Rios",
+          "cor": "#8d8f96"
+        },
+        {
+          "codigo": 14,
+          "nome": "Uso Rural Diversificado",
+          "cor": "#bdb5a1"
+        },
+        {
+          "codigo": 15,
+          "nome": "Área Degradada",
+          "cor": "#c48e73"
+        },
+        {
+          "codigo": 16,
+          "nome": "Área Urbana com Infraestrutura",
+          "cor": "#7f9b97"
+        },
+        {
+          "codigo": 17,
+          "nome": "Área Urbana sem Infraestrutura",
+          "cor": "#bca1b7"
+        },
+        {
+          "codigo": 18,
+          "nome": "Área Verde Intra Urbana",
+          "cor": "#9d897b"
+        },
+        {
+          "codigo": 19,
+          "nome": "Área em Processo de Parcelamento Urbano",
+          "cor": "#a6b09c"
+        },
+        {
+          "codigo": 20,
+          "nome": "Áreas úmidas: Parque Cerrado (ou Murundum), Palmeirais e Veredas",
+          "cor": "#3798ad"
+        }
+      ]
+    },
+    "intersecao": {
+      "imagem": "dados-mapas/identificacao/intersecao.png",
+      "legenda": [
+        {
+          "codigo": 1,
+          "nome": "Formação campestre",
+          "cor": "#d89e35"
+        },
+        {
+          "codigo": 2,
+          "nome": "Formação savânica",
+          "cor": "#729c36"
+        },
+        {
+          "codigo": 3,
+          "nome": "Formação florestal",
+          "cor": "#28634c"
+        },
+        {
+          "codigo": 4,
+          "nome": "Campo alagado e área pantanosa",
+          "cor": "#3798ad"
+        }
+      ]
+    }
+  },
+  "revisao": "998dd55a72b7567e",
+  "areas": [
+    {
+      "grupo": "campestre",
+      "nome": "Formação campestre",
+      "mapbiomas_codigo": 12,
+      "zee_classe": "Formação Campestre",
+      "mapbiomas_ha": 5436.740807417458,
+      "zee_ha": 20316.699899493957,
+      "intersecao_ha": 3936.282245227174,
+      "correspondencia": "classes_equivalentes"
+    },
+    {
+      "grupo": "savanica",
+      "nome": "Formação savânica",
+      "mapbiomas_codigo": 4,
+      "zee_classe": "Formação Savânica",
+      "mapbiomas_ha": 38846.224861932504,
+      "zee_ha": 28437.794608127086,
+      "intersecao_ha": 23707.03085569985,
+      "correspondencia": "classes_equivalentes"
+    },
+    {
+      "grupo": "florestal",
+      "nome": "Formação florestal",
+      "mapbiomas_codigo": 3,
+      "zee_classe": "Formação Florestal",
+      "mapbiomas_ha": 10867.980908110469,
+      "zee_ha": 6184.5613761830755,
+      "intersecao_ha": 5063.394100631733,
+      "correspondencia": "classes_equivalentes"
+    },
+    {
+      "grupo": "campo_alagado",
+      "nome": "Campo alagado e área pantanosa",
+      "mapbiomas_codigo": 11,
+      "zee_classe": "Áreas úmidas: Parque Cerrado (ou Murundum), Palmeirais e Veredas",
+      "mapbiomas_ha": 1574.1510738546185,
+      "zee_ha": 1454.8102767679895,
+      "intersecao_ha": 246.40124410156454,
+      "correspondencia": "operacional_definicoes_distintas"
+    }
+  ],
+  "inclui_areas_umidas": true,
+  "nota_areas_umidas": "Correspondência operacional: classe 11 do MapBiomas ∩ áreas úmidas do ZEE; as definições não são idênticas."
+}
