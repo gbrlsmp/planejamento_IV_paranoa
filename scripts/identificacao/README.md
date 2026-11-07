@@ -1,6 +1,6 @@
 # Identificação da vegetação na Bacia do Paranoá
 
-Esta pasta contém a exploração inicial da identificação da vegetação com PlanetScope, MapBiomas e ZEE-DF. A metodologia está em desenvolvimento e os cortes da classificação final ainda não foram definidos.
+Esta pasta contém os procedimentos de identificação da vegetação com PlanetScope, MapBiomas e ZEE-DF e o registro da exploração inicial. A metodologia está em desenvolvimento e os cortes da classificação final ainda não foram definidos.
 
 ## Entradas e subprodutos
 
@@ -8,7 +8,13 @@ Consultar [Camadas de entrada e origem dos subprodutos](CAMADAS_E_SUBPRODUTOS.md
 
 O código lê os caminhos de entrada declarados em [camadas_identificacao.json](camadas_identificacao.json). A entrada adotada é o MapBiomas local de 10 m identificado como 2025. O download online não é necessário para essa execução.
 
-## Primeira exploração
+## Execução atual: referências e dois gráficos
+
+Consultar [Referências e NDVI — método, produtos e reprodução](REFERENCIAS_E_NDVI.md). O programa `preparar_referencias_ndvi.py` produz interseções vetoriais entre quatro pares de classes correspondentes, lê os dois novos NDVIs integrais e prepara distribuições por data e o gráfico seca × chuva. Pastagem participa somente como comparação. A correspondência de áreas úmidas é operacional, com definições distintas explicitadas.
+
+As versões leves são guardadas em `04_figuras`, destino confirmado pela pesquisadora, e copiadas para `dados-mapas/identificacao/` para o site. O GeoPackage e as amostras completas permanecem locais. O novo fluxo não define cortes e não reutiliza as interseções ou os NDVIs antigos.
+
+## Primeira exploração — registro histórico
 
 - [Método e resultados descritivos](resultados/LEITURA.md)
 - [Gráficos sazonais](resultados/comparacao_ndvi.png)
@@ -16,12 +22,12 @@ O código lê os caminhos de entrada declarados em [camadas_identificacao.json](
 - [Código de análise](analisar_vegetacao.py)
 - [Código dos gráficos](apresentar_resultados.py)
 
-Na última alteração, foram conferidos os seis caminhos de entrada contra os arquivos utilizados na primeira execução, as referências do inventário e a ausência de ciclos nas dependências. As estatísticas dessa primeira execução não foram recalculadas.
+O inventário descreve agora os caminhos atuais. O JSON da primeira execução preserva os caminhos e resultados históricos; suas estatísticas não foram reescritas como se pertencessem à nova execução.
 
-A apresentação futura pertence a Identificação → Uso do solo e seguirá a organização de Riscos socioambientais. A documentação acompanha a proposta de atualização da página Uso do solo.
+A apresentação pertence a Identificação → Uso do solo, com referências na etapa 1 e NDVI/análise exploratória na etapa 2. A documentação acompanha a proposta de atualização da página Uso do solo.
 
 ## Ambiente de execução
 
-Usar Python com GDAL/OGR e NumPy para a análise; Matplotlib para os gráficos. No Windows, executar no ambiente Python do QGIS ou definir `QGIS_BIN` com a pasta de DLLs da instalação. O inventário JSON deve acompanhar os scripts.
+Usar Python com GDAL/OGR, NumPy, Shapely 2 e Pillow no novo processamento. Os dois gráficos atuais são desenhados pelo navegador a partir do JSON. Matplotlib é usado somente pelo apresentador da exploração histórica. No Windows, executar no ambiente Python do QGIS ou definir `QGIS_BIN` com a pasta de DLLs da instalação. O inventário JSON deve acompanhar os scripts.
 
 Os rasters científicos e as amostras NPZ não são distribuídos neste repositório. As amostras são regeneradas pelo script antes de executar a apresentação. Usar uma pasta de saída nova para preservar a execução anterior.

@@ -13,7 +13,12 @@
     const removedTopics = { "#regioes-administrativas": "ras", "#leitura-da-rede": "rede" };
     if (removedTopics[location.hash]) location.replace("mapa.html?tema=" + removedTopics[location.hash]);
   </script>
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="identificacao-exploracao.css">
   <script defer src="subabas.js"></script>
+  <script defer src="vendor/leaflet/leaflet.js"></script>
+  <script defer src="mapa-base.js"></script>
+  <script defer src="identificacao-exploracao.js"></script>
 
 </head>
 <body>
@@ -60,36 +65,72 @@
       <p>Os mosaicos PlanetScope usados têm pixels de 3 m; a cópia do MapBiomas é identificada como 10 m. A <a href="https://docs.planet.com/data/imagery/arps/techspec/v1-2-0/">Planet informa</a> que cenas ortorretificadas podem ser reamostradas para pixels de 3 m. Ajustar uma camada de 10 m a uma grade de 3 m não acrescenta, por si só, detalhes de 3 m aos seus limites.</p>
       <section class="method-stage" aria-labelledby="producao-uso-titulo">
         <h4 id="producao-uso-titulo">Produção do indicador</h4>
-        <p>Cada caixa apresenta uma etapa do processo. Os mapas serão disponibilizados à medida que as representações dos produtos gerados pelo novo sistema forem preparadas.</p>
-        <article class="method-card" id="etapa-ndvi" aria-labelledby="titulo-etapa-ndvi">
-          <h5 id="titulo-etapa-ndvi">1. NDVI da seca e da chuva</h5>
-          <p>O sistema calcula o NDVI separadamente para cada imagem PlanetScope a partir das bandas do vermelho e infravermelho próximo. As duas datas são mantidas para a comparação sazonal.</p>
-          <details class="method-details"><summary>Ver procedimento completo</summary><div class="method-detail-body"><p>Entradas: mosaicos de 17/01/2026 e 30/07/2026. O cálculo utiliza (NIR − vermelho) / (NIR + vermelho), preservando pixels sem dados e registrando a qualidade das imagens.</p><p><strong>Produto gerado:</strong> dois rasters de NDVI de 3 m, um por data, recortados à bacia e guardados no computador. Eles foram produzidos pelo <a href="scripts/identificacao/gerar_ndvi.py">código desta etapa</a>; consulte a <a href="scripts/identificacao/NDVI_GERACAO.md">execução, as estatísticas e instruções de reprodução</a>.</p><div class="table-scroll" role="region" aria-label="Resumo dos rasters de NDVI" tabindex="0"><table class="indicator-table data-table"><thead><tr><th scope="col">Período</th><th scope="col">Data</th><th scope="col">Pixels válidos</th><th scope="col">NDVI médio</th></tr></thead><tbody><tr><th scope="row">Chuva</th><td>17/01/2026</td><td>117.363.808</td><td>0,576</td></tr><tr><th scope="row">Seca</th><td>30/07/2026</td><td>117.365.300</td><td>0,453</td></tr></tbody></table></div><p>Médias sobre todos os pixels válidos da imagem na bacia; não são médias por formação. As áreas cobertas pelos dois mosaicos e os pixels válidos não são idênticos.</p><p><strong>Mapa interativo:</strong> pendente da preparação e publicação de uma representação dos novos rasters.</p></div></details>
-        </article>
+        <p>Primeiro são delimitadas as referências entre classes equivalentes. Depois, os NDVIs da seca e da chuva ajudam a investigar diferenças e sobreposições entre os grupos, antes de propor regras de classificação.</p>
         <article class="method-card" id="etapa-referencias" aria-labelledby="titulo-etapa-referencias">
-          <h5 id="titulo-etapa-referencias">2. Referências para as formações</h5>
-          <p>O MapBiomas e o ZEE-DF de cobertura vegetal são comparados para identificar áreas de concordância entre as formações campestre, savânica e florestal.</p>
-          <details class="method-details"><summary>Ver procedimento completo</summary><div class="method-detail-body"><p>A exploração anterior consultou a concordância nos centros amostrais usando o raster MapBiomas e o vetor do ZEE. O shapefile do MapBiomas indicado para o novo fluxo ainda precisa ser comparado àquela cópia raster.</p><p><strong>Produto previsto:</strong> áreas de concordância geradas para a nova execução; os desacordos também devem ser registrados.</p><p><strong>Mapa interativo:</strong> pendente da geração das referências espaciais do novo sistema.</p></div></details>
+          <h5 id="titulo-etapa-referencias">1. Referências MapBiomas e ZEE-DF</h5>
+          <p>As referências resultam da interseção entre classes equivalentes das duas bases: formação campestre, formação savânica, formação florestal e campo alagado e área pantanosa. Elas orientam a exploração do NDVI; não constituem validação independente da vegetação atual.</p>
+          <details class="method-details"><summary>Ver procedimento completo</summary><div class="method-detail-body">
+            <p>O vetor MapBiomas de 2025 é recortado ao limite da bacia e cruzado com o ZEE de cobertura vegetal em SIRGAS 2000 / UTM 23S. O campo <code>cod_sub</code> identifica as classes 12 (campestre), 4 (savânica), 3 (florestal) e 11 (campo alagado e área pantanosa). No ZEE, são usados <code>classe</code> e <code>simplifica</code>, mantendo as categorias originais. Apenas interseções de classes correspondentes entram nas referências.</p>
+            <p><strong>Áreas úmidas:</strong> a classe 11 do MapBiomas é cruzada com “Áreas úmidas: Parque Cerrado (ou Murundum), Palmeirais e Veredas” do ZEE. Essa correspondência operacional foi adotada pela pesquisa; as definições das duas bases não são idênticas.</p>
+            <p>As categorias degradadas e “Campo de origem antrópica” permanecem nos agrupamentos originais do ZEE. A concordância cartográfica não garante a composição florística, a condição de conservação ou a permanência da cobertura entre as datas das fontes.</p>
+            <div data-reference-results>
+              <p class="ident-status" role="status">Abra esta etapa para carregar as áreas e o mapa.</p>
+              <div class="table-scroll" role="region" aria-label="Áreas das classes e de suas interseções" tabindex="0">
+                <table class="indicator-table data-table"><thead><tr><th scope="col">Grupo de referência</th><th scope="col">MapBiomas (ha)</th><th scope="col">ZEE (ha)</th><th scope="col">Interseção (ha)</th></tr></thead><tbody data-reference-areas></tbody></table>
+              </div>
+              <p>Áreas calculadas nas geometrias vetoriais integrais, dentro da bacia. A interseção reúne somente classes correspondentes; seu tamanho não é uma medida de acurácia.</p>
+              <div class="ident-controls">
+                <label>Camada <select data-reference-layer><option value="mapbiomas">MapBiomas — uso e cobertura</option><option value="zee">ZEE — cobertura vegetal</option><option value="intersecao" selected>Interseções entre classes equivalentes</option></select></label>
+                <label>Opacidade <input type="range" data-reference-opacity min="0.2" max="1" step="0.1" value="1"></label>
+                <button type="button" data-reference-fit>Enquadrar a bacia</button>
+              </div>
+              <div class="ident-map" data-reference-map role="region" aria-label="Mapa interativo de MapBiomas, ZEE e interseções"></div>
+              <p class="ident-map-note">Alterne as camadas para comparar sua distribuição; o enquadramento é mantido. Clique no mapa para consultar a classe representada.</p>
+              <ul class="ident-legend" data-reference-legend aria-label="Legenda da camada selecionada"></ul>
+              <p>Representação cartográfica reduzida para passo de 20 m em EPSG:3857, por centro de pixel. Feições estreitas podem não aparecer; a redução não altera as áreas calculadas nos vetores nem a amostragem do NDVI.</p>
+              <button type="button" data-reference-retry hidden>Tentar carregar novamente</button>
+            </div>
+            <p><a href="scripts/identificacao/REFERENCIAS_E_NDVI.md">Consultar método, proveniência e reprodução</a>.</p>
+          </div></details>
         </article>
-        <article class="method-card" id="etapa-estatisticas" aria-labelledby="titulo-etapa-estatisticas">
-          <h5 id="titulo-etapa-estatisticas">3. Análise estatística dos NDVIs</h5>
-          <p>Comparamos a distribuição dos NDVIs de seca e chuva nas áreas de referência, suas dispersões e sobreposições. A média e a diferença entre as datas são variáveis da própria análise.</p>
-          <details class="method-details"><summary>Ver procedimento completo e estatísticas</summary><div class="method-detail-body"><p><strong>Exploração inicial:</strong> os resultados abaixo são de amostras em que o raster MapBiomas e o ZEE concordaram. Foram usados centros de pixels de 3 m com espaçamento de 30 m, apenas onde havia dados válidos nas duas datas.</p>
-            <div class="table-scroll" role="region" aria-label="Resumo exploratório de NDVI por formação" tabindex="0"><table class="indicator-table data-table"><thead><tr><th scope="col">Formação</th><th scope="col">Pares válidos</th><th scope="col">Média na seca</th><th scope="col">Média na chuva</th></tr></thead><tbody><tr><th scope="row">Campestre</th><td>43.775</td><td>0,362</td><td>0,551</td></tr><tr><th scope="row">Savânica</th><td>263.430</td><td>0,563</td><td>0,720</td></tr><tr><th scope="row">Florestal</th><td>56.405</td><td>0,761</td><td>0,814</td></tr></tbody></table></div>
-            <p>Essas médias descrevem as amostras e não são cortes definitivos. Os relatórios dos mosaicos indicam que UDM2 não foi aplicado; ainda não houve validação independente.</p><figure><img src="scripts/identificacao/resultados/comparacao_ndvi.png" alt="Distribuições do NDVI de campestre, savânica e florestal na seca e na chuva, e comparação entre as datas." loading="lazy" decoding="async" width="2340" height="1980" style="max-width:100%;height:auto"><figcaption>Comparação exploratória de NDVI nas referências MapBiomas raster e ZEE.</figcaption></figure>
-            <p><a href="scripts/identificacao/resultados/estatisticas.csv" download>Baixar estatísticas exploratórias</a> · <a href="scripts/identificacao/resultados/LEITURA.md">Consultar a leitura e as limitações</a></p><p><strong>Mapa interativo:</strong> os pontos e as referências da nova execução ainda não foram disponibilizados como camada de mapa.</p></div></details>
+        <article class="method-card" id="etapa-ndvi" aria-labelledby="titulo-etapa-ndvi">
+          <h5 id="titulo-etapa-ndvi">2. NDVI da seca e da chuva e análise exploratória</h5>
+          <p>Os NDVIs das duas datas são comparados nas áreas de referência da etapa 1. As distribuições e o gráfico seca × chuva permitem investigar diferenças e sobreposições, sem definir cortes de classificação nesta etapa.</p>
+          <details class="method-details"><summary>Ver procedimento completo e gráficos</summary><div class="method-detail-body">
+            <span id="etapa-estatisticas"></span>
+            <p><strong>Cálculo:</strong> (NIR − vermelho) / (NIR + vermelho), com NIR na banda 8 e vermelho na banda 6 dos mosaicos PlanetScope. Foram gerados dois rasters novos de 3 m, recortados à bacia: chuva, de 17/01/2026, e seca, de 30/07/2026. Consulte o <a href="scripts/identificacao/gerar_ndvi.py">código do cálculo</a> e o <a href="scripts/identificacao/NDVI_GERACAO.md">registro de geração</a>.</p>
+            <p><strong>Comparação:</strong> os gráficos leem esses dois rasters novos nos mesmos locais, com espaçamento sistemático de 30 m entre centros de pixels originais de 3 m. Entram apenas pares válidos nas duas datas, dentro das novas referências vetoriais. A pastagem do MapBiomas participa como comparação, especialmente com campestre, e fica fora da rede de IV.</p>
+            <div data-ndvi-results>
+              <p class="ident-status" role="status">Abra esta etapa para carregar os gráficos.</p>
+              <fieldset class="ident-groups"><legend>Grupos nos gráficos</legend><div data-ndvi-groups></div></fieldset>
+              <h6>Distribuições do NDVI por grupo</h6>
+              <p>O eixo horizontal mostra o NDVI; o vertical, a porcentagem de pares do grupo em cada intervalo. Cada grupo soma 100% em cada data, permitindo comparar o formato das distribuições mesmo com áreas de tamanhos diferentes. Curvas que ocupam os mesmos valores indicam sobreposição.</p>
+              <div class="ident-distributions">
+                <figure><figcaption>Seca — 30/07/2026</figcaption><canvas data-ndvi-dry role="img" aria-label="Distribuições de NDVI por grupo na seca">Consulte os dados dos gráficos no arquivo JSON vinculado abaixo.</canvas></figure>
+                <figure><figcaption>Chuva — 17/01/2026</figcaption><canvas data-ndvi-rain role="img" aria-label="Distribuições de NDVI por grupo na chuva">Consulte os dados dos gráficos no arquivo JSON vinculado abaixo.</canvas></figure>
+              </div>
+              <h6>NDVI da seca × NDVI da chuva</h6>
+              <p>Cada ponto representa o mesmo local nas duas imagens. Grupos que ocupam regiões diferentes do gráfico podem apresentar respostas complementares entre datas; a sobreposição mostra onde essa distinção é difícil. A linha diagonal indica valores iguais nas duas datas, sem funcionar como limite de classe.</p>
+              <figure class="ident-scatter"><canvas data-ndvi-scatter role="img" aria-label="NDVI da seca no eixo horizontal e da chuva no vertical, por grupo">Consulte os pares exibidos no arquivo JSON vinculado abaixo.</canvas></figure>
+              <p class="ident-chart-note">As distribuições usam todos os pares da amostra sistemática. Para manter a leitura, o gráfico seca × chuva exibe até 2.500 pares sorteados por grupo, com semente fixa; a quantidade de pontos desenhados não representa a proporção de área de cada grupo.</p>
+              <button type="button" data-ndvi-retry hidden>Tentar carregar novamente</button>
+            </div>
+            <p><strong>Limitações:</strong> os relatórios dos mosaicos indicam que UDM2 não foi aplicada; nuvens e sombras podem afetar os valores. Pontos próximos podem ser dependentes. As referências históricas não substituem conferência independente. Duas datas permitem comparar as imagens, sem caracterizar um ciclo fenológico completo.</p>
+            <p>Esta etapa não calcula médias ou diferenças entre datas como novos produtos, não apresenta testes de significância e não estabelece limiares. A escolha e a avaliação de possíveis cortes ou modelos ocorrerão posteriormente.</p>
+            <p><a href="dados-mapas/identificacao/exploracao.json" download>Baixar dados dos gráficos e proveniência</a> · <a href="scripts/identificacao/REFERENCIAS_E_NDVI.md">Consultar o procedimento e as referências científicas</a>.</p>
+          </div></details>
         </article>
         <article class="method-card" id="etapa-classificacao" aria-labelledby="titulo-etapa-classificacao">
-          <h5 id="titulo-etapa-classificacao">4. Classificação e refinamento em 3 m</h5>
+          <h5 id="titulo-etapa-classificacao">3. Classificação e refinamento em 3 m</h5>
           <p>A pesquisa vai testar a identificação das formações com as referências e as imagens. Para as demais classes, a legenda do MapBiomas orienta o refinamento com PlanetScope; resultados precisam ser avaliados com referências independentes.</p>
           <details class="method-details"><summary>Ver procedimento completo</summary><div class="method-detail-body"><p><strong>Produto previsto:</strong> classificação de uso e cobertura gerada pelo novo sistema na grade PlanetScope. O método, as amostras conferidas e sua avaliação ainda serão desenvolvidos; nenhuma nova classificação integral foi produzida.</p><p><strong>Estatísticas e comparações:</strong> serão apresentadas após os testes e a validação.</p><p><strong>Mapa interativo:</strong> pendente de geração e disponibilização da nova classificação.</p></div></details>
         </article>
         <article class="method-card" id="etapa-remanescentes" aria-labelledby="titulo-etapa-remanescentes">
-          <h5 id="titulo-etapa-remanescentes">5. Contexto dos remanescentes do ZEE-DF</h5>
+          <h5 id="titulo-etapa-remanescentes">4. Contexto dos remanescentes do ZEE-DF</h5>
           <p>Após a classificação, o sistema cruzará o resultado com a camada de risco de perda de vegetação nativa do ZEE, mantendo as informações de origem separadas.</p>
           <details class="method-details"><summary>Ver procedimento completo</summary><div class="method-detail-body"><p>A categoria de ausência de Cerrado nativo no ZEE não comprova, por si só, a presença de espécies exóticas na vegetação atual. O tratamento e a nomenclatura das áreas serão discutidos.</p><p><strong>Produto e mapa interativo:</strong> pendentes da classificação e do cruzamento gerados pelo novo sistema.</p></div></details>
         </article>
-        <p>Consulte as <a href="scripts/identificacao/CAMADAS_E_SUBPRODUTOS.md">camadas e dependências da exploração inicial</a>, o <a href="scripts/identificacao/camadas_identificacao.json">inventário</a> e o <a href="scripts/identificacao/README.md">guia de execução</a>. Os novos produtos serão gerados pelo sistema e seus destinos locais serão confirmados antes de serem salvos.</p>
+        <p>Consulte o <a href="scripts/identificacao/REFERENCIAS_E_NDVI.md">procedimento desta execução</a>, o <a href="scripts/identificacao/camadas_identificacao.json">inventário atualizado</a> e o <a href="scripts/identificacao/README.md">guia de execução</a>. As estatísticas da exploração anterior permanecem como registro histórico no repositório; os gráficos acima usam os produtos desta execução.</p>
       </section>
       <h4>Áreas por classe na base publicada</h4>
       <p>A tabela abaixo corresponde à base já publicada e não são resultados da nova classificação PlanetScope em desenvolvimento.</p>
