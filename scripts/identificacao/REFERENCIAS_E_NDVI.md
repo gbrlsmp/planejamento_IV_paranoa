@@ -48,6 +48,7 @@ Geometrias inválidas são reparadas com `make_valid`, retendo componentes polig
 4. Calcular histogramas com **80 intervalos iguais entre -1 e 1**, largura 0,025. Cada distribuição é normalizada pelo total de pares do próprio grupo, somando 100%. Essa largura é um parâmetro gráfico, não corte de classe. Os dois gráficos de distribuição compartilham os eixos e a escala vertical.
 5. No gráfico seca × chuva, mostrar até 2.500 pares sorteados sem reposição por grupo, semente 20261106. As coordenadas de NDVI são arredondadas a cinco casas somente na representação pública. A quantidade desenhada não indica área relativa. O NPZ local preserva todos os valores amostrados e suas coordenadas espaciais.
 6. Oferecer seleção dos grupos nos gráficos. A diagonal indica igualdade entre datas; não define classes. Não há inferência, testes de significância, intervalos de confiança ou estimativa de acurácia.
+7. No diagrama de Sankey, somar os intervalos dos histogramas publicados em sete faixas, com limites −1, 0,20, 0,35, 0,45, 0,55, 0,65, 0,75 e 1. Cada faixa inclui o limite inferior e a última inclui também o limite superior. As duas datas usam as mesmas faixas, com intervalos mais estreitos onde se concentram os valores amostrados. As fitas mostram a porcentagem de cada grupo em cada faixa, com 100% por grupo e por data. A tabela do diagrama apresenta os percentuais e as contagens originais de pontos. O diagrama descreve as distribuições por data. O pareamento entre pontos é mostrado no gráfico seca × chuva.
 
 ### Mapa no site
 
