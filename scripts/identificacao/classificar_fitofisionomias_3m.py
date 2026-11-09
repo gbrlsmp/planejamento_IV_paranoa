@@ -22,6 +22,8 @@ ogr.UseExceptions()
 
 TILE = 512
 NODATA = 255
+RESIDUAL_COLOR = (232, 232, 232, 255)
+PROTECTED_FILTER = "AVUs = 'UC' AND Grupo = 'UC - Proteção Integral'"
 COLORS = {
     3: (75, 106, 64, 255), 4: (134, 165, 143, 255),
     11: (62, 89, 114, 255), 12: (208, 165, 95, 255),
@@ -40,6 +42,7 @@ def paths(base: Path) -> dict[str, Path]:
         "roads": base / "01_Base/vetores/Vias_OSM_Bacia_Paranoa.shp",
         "water": base / "01_Base/vetores/02_Água/Massa_Dagua_Bacia_Paranoa_MERGE_IPE_DF_2023.shp",
         "buildings": base / "02_Análises/01_Riscos/04_Pressão Urbana/Construções Bacia do Paranoá.shp",
+        "protected": base / "01_Base/vetores/05_AVUs/AVUs_Bacia do Paranoá_Final.shp",
         "risk": base / "02_Análises/03_Ecologia/03_Fitofisionomia/01_vetor/risco_perda_veg_nativa_Bacia_Paranoa.shp",
     }
 
@@ -70,7 +73,7 @@ def check_inputs(inputs: dict[str, Path]):
             or sx + dry.RasterXSize > wet.RasterXSize
             or sy + dry.RasterYSize > wet.RasterYSize):
         raise ValueError("NDVIs não compartilham a grade de 3 m")
-    for key in ("roads", "water", "buildings", "risk"):
+    for key in ("roads", "water", "buildings", "risk", "protected"):
         ds = ogr.Open(str(inputs[key]))
         expected = "4326" if key == "buildings" else "31983"
         if ds is None or ds.GetLayer(0).GetSpatialRef().GetAuthorityCode(None) != expected:
@@ -85,11 +88,16 @@ def check_inputs(inputs: dict[str, Path]):
                     count += 1
             if not count:
                 raise ValueError("Nenhum polígono risco=2")
+        if key == "protected":
+            layer = ds.GetLayer(0)
+            layer.SetAttributeFilter(PROTECTED_FILTER)
+            if layer.GetFeatureCount() == 0:
+                raise ValueError("Nenhuma UC de proteção integral")
         ds = None
     return dry, wet, mapbiomas, sx, sy
 
 
-def create_raster(path: Path, template, description: str):
+def create_raster(path: Path, template, description: str, *, residual=False):
     ds = gdal.GetDriverByName("GTiff").Create(
         str(path), template.RasterXSize, template.RasterYSize, 1,
         gdal.GDT_Byte, options=["TILED=YES", "BLOCKXSIZE=512",
@@ -102,7 +110,7 @@ def create_raster(path: Path, template, description: str):
     band.SetDescription(description)
     table = gdal.ColorTable()
     for code, rgba in COLORS.items():
-        table.SetColorEntry(code, rgba)
+        table.SetColorEntry(code, RESIDUAL_COLOR if residual and code == 100 else rgba)
     band.SetRasterColorTable(table)
     band.SetRasterColorInterpretation(gdal.GCI_PaletteIndex)
     return ds
@@ -172,9 +180,10 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     urban_path = output.with_name("urbano.incompleto.tif")
     overlay_path = output.with_name("sobreposicoes.incompleto.tif")
     risk_path = output.with_name("ausencia_cerrado.incompleto.tif")
+    protected_path = output.with_name("protecao_integral.incompleto.tif")
     projected_path = output.with_name("edificacoes.incompleto.gpkg")
     if any(p.exists() for p in (temp, urban_path, overlay_path, risk_path,
-                                projected_path)):
+                                protected_path, projected_path)):
         raise FileExistsError("Arquivo temporário anterior ainda presente")
 
     projected = gdal.VectorTranslate(
@@ -196,6 +205,9 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     risk = create_mask(risk_path, dry)
     burn(risk, inputs["risk"], 1, where="risco = 2")
     risk.FlushCache()
+    protected = create_mask(protected_path, dry)
+    burn(protected, inputs["protected"], 1, where=PROTECTED_FILTER)
+    protected.FlushCache()
 
     gt = dry.GetGeoTransform()
     map_band = gdal.Translate("", mapbiomas, format="VRT", bandList=[1])
@@ -210,7 +222,7 @@ def run(base: Path, output: Path, stages_dir: Path | None):
         raise ValueError("MapBiomas não alinhou à grade")
 
     final = create_raster(temp, dry, "Proxy NDVI de fitofisionomias, etapa 04")
-    stages = {i: create_raster(path, dry, f"Proxy NDVI, etapa 0{i}")
+    stages = {i: create_raster(path, dry, f"Proxy NDVI, etapa 0{i}", residual=i == 1)
               for i, path in stage_paths.items()}
     metadata = {
         "method": "NDVI seca+chuva; quatro etapas adotadas em uma passagem de 512 px",
@@ -219,7 +231,8 @@ def run(base: Path, output: Path, stages_dir: Path | None):
         "etapa_01": "florestal seca>=.70; sav .48<=seca<.70 e media>=.58; camp .20<=seca<.46 e .38<=chuva<.62; vias/edificações limpam campestre",
         "single_date": "seca: mesmos intervalos secos; chuva: 3>=.79, 4 [.65,.79), 12 [.38,.62); outros=100",
         "etapa_02": "100 vira 101 se |chuva-seca|/2>=.09, senão 102; seca isolada .34, chuva isolada .50",
-        "etapa_03": "vias só limpam 101->102; depois MapBiomas original banda 1 classe 11; água vetorial 33; edificações 103",
+        "etapa_03": "vias só limpam 101->102; depois MapBiomas original banda 1 classe 11; água vetorial 33; edificações 103; por fim, nas UCs de proteção integral, 101->4 e 102->12",
+        "uc_filter": PROTECTED_FILTER,
         "etapa_04": "risco=2/ausência de Cerrado nativo: 3/4->100, 12->101",
         "limitations": ["proxy, não validação de campo", "duas datas não descrevem ciclo fenológico",
                         "campestre e pastagem se confundem", "101/102 não comprovam permeabilidade",
@@ -230,6 +243,7 @@ def run(base: Path, output: Path, stages_dir: Path | None):
                                                     separators=(",", ":")))
     counts = {i: np.zeros(256, dtype=np.int64) for i in range(1, 5)}
     transitions = {"etapa_01_camp_to_100": 0, "etapa_03_road_101_to_102": 0,
+                   "etapa_03_uc_101_to_4": 0, "etapa_03_uc_102_to_12": 0,
                    "etapa_04_forest_to_100": 0, "etapa_04_savanna_to_100": 0,
                    "etapa_04_camp_to_101": 0}
     for y in range(0, dry.RasterYSize, TILE):
@@ -268,6 +282,13 @@ def run(base: Path, output: Path, stages_dir: Path | None):
             third[alive & wetland] = 11
             third[alive & (overlay_tile == 2)] = 33
             third[alive & (overlay_tile == 3)] = 103
+            within_uc = protected.GetRasterBand(1).ReadAsArray(x, y, width, height) != 0
+            uc_savanna = within_uc & (third == 101)
+            uc_grassland = within_uc & (third == 102)
+            transitions["etapa_03_uc_101_to_4"] += int(uc_savanna.sum())
+            transitions["etapa_03_uc_102_to_12"] += int(uc_grassland.sum())
+            third[uc_savanna] = 4
+            third[uc_grassland] = 12
 
             fourth = third.copy()
             absence = risk.GetRasterBand(1).ReadAsArray(x, y, width, height) != 0
@@ -318,8 +339,8 @@ def run(base: Path, output: Path, stages_dir: Path | None):
                    for i, values in counts.items()},
         "transitions": transitions,
     }, ensure_ascii=False, indent=2), encoding="utf-8")
-    urban = overlay = risk = map_grid = None
-    for path in (urban_path, overlay_path, risk_path, projected_path):
+    urban = overlay = risk = protected = map_grid = None
+    for path in (urban_path, overlay_path, risk_path, protected_path, projected_path):
         path.unlink()
     print(json.dumps({"output": str(output), "counts_final":
                       {str(code): int(counts[4][code])
