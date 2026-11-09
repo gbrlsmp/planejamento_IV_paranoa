@@ -266,10 +266,50 @@
         <a href="identificacao.html#tipologias" aria-current="page">Metodologia</a>
         <a href="mapa.html?tema=tipologias">Mapa</a>
       </nav>
-      <p>Esta seção reúne os tipos de áreas verdes urbanas (AVU) e de infraestrutura verde (IV). A classificação consolidada está pendente de inclusão.</p>
+      <p>A tipologia parte dos fragmentos de vegetação identificados no raster 04 de uso do solo. Cada fragmento recebe uma classe de áreas verdes urbanas (AVU) e uma categoria na rede de infraestrutura verde (IV).</p>
+
+      <h4>Delimitação dos fragmentos</h4>
+      <p>Foram reunidos os pixels de formação florestal (3), formação savânica (4), campo alagado e área pantanosa (11), formação campestre (12) e vegetação intraurbana (100). Pixels válidos que compartilham lado ou vértice integram o mesmo fragmento pela regra de vizinhança de 8, mesmo quando pertencem a classes diferentes. Os fragmentos conectados só pela diagonal mantêm um único ID e podem ser representados por uma geometria multiparte.</p>
+      <p>Os cinco percentuais foram calculados pela contagem de pixels de cada classe em relação ao total do fragmento. A classe de maior porcentagem é a predominante. Se duas ou mais classes dividem a maior porcentagem, o registro recebe <em>Empate</em>.</p>
+
+      <h4>Classificação em relação às AVUs</h4>
+      <ol>
+        <li>O fragmento inteiro deve estar contido em um lote para ser classificado como unidade de conservação (UC) ou parque urbano. A categoria do lote vem do campo <code>AVUs</code> do vetor local.</li>
+        <li>Entre os demais fragmentos, o contato com uma APP de nascente ou do entorno da hidrografia, inclusive pela borda, classifica o fragmento inteiro como APP.</li>
+        <li>Os fragmentos restantes recebem a classe <em>Sem AVU</em>.</li>
+      </ol>
+
+      <h4>Classificação em relação às categorias de IV</h4>
+      <figure class="tipologias-figura" id="figura-41">
+        <img src="dados-mapas/identificacao/figura-41-hubs-links-sites.png" width="886" height="497" loading="lazy" alt="Esquema da rede de infraestrutura verde, com hubs como núcleos, links como conexões e sites como áreas verdes distribuídas na paisagem.">
+        <figcaption><strong>Figura 41.</strong> A rede de infraestrutura verde que conecta ecossistemas e paisagens em um sistema de <em>hubs</em>, <em>links</em> e <em>sites</em>.<br>Fonte — Benedict &amp; McMahon (2002), Sant’Anna (2020), adaptado pela autora.</figcaption>
+      </figure>
+      <p>Na bacia, as UCs correspondem a <strong>Hub 1</strong>, os parques urbanos a <strong>Hub 2</strong>, as APPs a <strong>Link</strong> e os demais fragmentos a <strong>Site</strong>. Essa correspondência classifica os fragmentos pelo seu vínculo espacial com as AVUs.</p>
+
+      <h4>Resultados por categoria</h4>
+      <p>A classificação reuniu <strong>85.089 fragmentos</strong> de vegetação válida, com área total de <strong>59.527,95 ha</strong>.</p>
+      <div class="table-scroll" role="region" aria-label="Fragmentos e área por categoria de IV" tabindex="0">
+        <table class="indicator-table summary-table">
+          <thead><tr><th scope="col">Categoria de IV</th><th scope="col">Classe de AVU</th><th scope="col">Fragmentos</th><th scope="col">Área (ha)</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Hub 1</th><td>UC</td><td>5.893</td><td>621,79</td></tr>
+            <tr><th scope="row">Hub 2</th><td>Parque urbano</td><td>1.246</td><td>76,47</td></tr>
+            <tr><th scope="row">Link</th><td>APP</td><td>2.847</td><td>49.545,73</td></tr>
+            <tr><th scope="row">Site</th><td>Sem AVU</td><td>75.103</td><td>9.283,96</td></tr>
+          </tbody>
+          <tfoot><tr><th scope="row" colspan="2">Total</th><td>85.089</td><td>59.527,95</td></tr></tfoot>
+        </table>
+      </div>
+      <p>A área de <em>Link</em> soma a extensão inteira dos fragmentos que tocam uma APP, incluindo as porções que se estendem além do limite da APP.</p>
       <details class="data-method">
         <summary>Dados e método</summary>
-        <p>As camadas e o tratamento da classificação serão documentados junto com os resultados. Unidades de conservação e parques urbanos são classificados como âncoras da infraestrutura verde, conforme Sant’Anna (2020, pp. 124–127 e 134–144).</p>
+        <ul>
+          <li>Vegetação da bacia — raster 04 de uso do solo, proxy PlanetScope em células de 3 × 3 m, em SIRGAS 2000 / UTM 23S (EPSG:31983).</li>
+          <li>UCs e parques urbanos — <code>AVUs_Bacia do Paranoá_Final.shp</code>.</li>
+          <li>APPs — <code>APP_Nascente_Bacia Paranoa.shp</code> e <code>APP_Buffer_hid_Bacia_Paranoa.shp</code>. A camada de nascentes foi reprojetada para EPSG:31983 para o cruzamento espacial.</li>
+          <li>Saída local — <code>fragmentos_vegetacao_avu_iv.shp</code>, com ID numérico, classe de AVU, categoria de IV, classe predominante e cinco percentuais por fragmento.</li>
+        </ul>
+        <p>As áreas da tabela usam 9 m² por pixel válido na grade nativa. O mapa apresenta uma vista reamostrada para cerca de 20 m. <a href="scripts/identificacao/classificar_tipologias_avu_iv.py">Consultar o script de classificação</a>.</p>
       </details>
     </section>
 
