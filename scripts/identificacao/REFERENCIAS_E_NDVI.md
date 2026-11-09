@@ -95,7 +95,7 @@ Revisão `998dd55a72b7567e`. A conferência vetor/raster comparou **11.021.899 c
 | Campo alagado e área pantanosa | 1.574,15 | 1.454,81 | 246,40 | 2.741 |
 | Pastagem, comparação | — | — | — | 83.909 |
 
-As contagens são informação técnica, não a síntese exibida nas tabelas principais do site. As pequenas diferenças frente à exploração anterior decorrem da nova seleção espacial por vetor/interseção e da leitura dos novos NDVIs. A tabela antiga “Áreas por classe na base publicada” continua identificada como base anterior e não foi substituída por uma nova classificação.
+As contagens são informação técnica, não a síntese exibida nas tabelas principais do site. As pequenas diferenças frente à exploração anterior decorrem da nova seleção espacial por vetor/interseção e da leitura dos novos NDVIs. A tabela “Áreas da classificação final” do site usa a contagem de pixels do raster 04 da [proxy em 3 m](FITOFISIONOMIA_3M.md).
 
 ## Limitações e referências científicas
 

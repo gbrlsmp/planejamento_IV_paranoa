@@ -20,16 +20,16 @@ from paletas_identificacao import RISK_COLORS, qml_colors
 gdal.UseExceptions()
 
 STAGES = {
-    1: ("Cortes NDVI e limpeza campestre", "fitofisionomias_proxy_ndvi_3m_v02.tif"),
-    2: ("Diferença sazonal: classes 101 e 102", "fitofisionomias_proxy_ndvi_3m_v03.tif"),
-    3: ("Vias, área úmida, água e edificações", "fitofisionomias_proxy_ndvi_3m_v04.tif"),
-    4: ("Contexto ZEE-DF e resultado final", "fitofisionomias_proxy_ndvi_3m_v05.tif"),
+    1: "Cortes NDVI e limpeza campestre",
+    2: "Diferença sazonal: classes 101 e 102",
+    3: "Sobreposições e UCs de proteção integral",
+    4: "Contexto ZEE-DF e resultado final",
 }
 LABELS = {
-    3: "Formação Florestal", 4: "Formação Savânica",
-    11: "Área úmida", 12: "Formação Campestre", 33: "Água",
+    3: "Formação florestal", 4: "Formação savânica",
+    11: "Campo alagado e área pantanosa", 12: "Formação campestre", 33: "Água",
     100: "Vegetação intraurbana", 101: "Forração vegetal",
-    102: "Impermeável ou solo exposto (proxy)", 103: "Edificação",
+    102: "Impermeável ou solo exposto", 103: "Edificações",
 }
 RISK = RISK_COLORS
 CHUNK = 2048
@@ -118,7 +118,7 @@ def stats(samples: Path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--raster-dir", type=Path,
-                        help="Pasta dos quatro rasters já produzidos, antigos v02-v05")
+                        help="Pasta dos quatro rasters nomeados etapa_01 a etapa_04")
     parser.add_argument("--stages-dir", type=Path,
                         help="Rasters das etapas 01-03 criados pelo script consolidado")
     parser.add_argument("--final-raster", type=Path,
@@ -131,7 +131,8 @@ def main():
     output = args.output_dir.resolve()
     if args.raster_dir and not (args.stages_dir or args.final_raster):
         directory = args.raster_dir.resolve()
-        sources = {i: directory / filename for i, (_, filename) in STAGES.items()}
+        sources = {i: directory / f"fitofisionomias_proxy_ndvi_3m_etapa_0{i}.tif"
+                   for i in STAGES}
     elif args.stages_dir and args.final_raster and not args.raster_dir:
         directory = args.stages_dir.resolve()
         sources = {i: directory / f"fitofisionomias_proxy_ndvi_3m_etapa_0{i}.tif"
@@ -153,12 +154,27 @@ def main():
     high_bounds = grid_bounds(detailed)
     cols = math.ceil((high_bounds[2]-high_bounds[0])/20)
     rows = math.ceil((high_bounds[3]-high_bounds[1])/20)
+    with gdal.Open(str(sources[1])) as first:
+        residual_rgba = first.GetRasterBand(1).GetRasterColorTable().GetColorEntry(100)
+    first_lut = lut.copy()
+    first_lut[100] = residual_rgba
+    residual_color = "#" + bytes(residual_rgba[:3]).hex()
     overview_images = []
+    stages = []
     overview_bounds = high_bounds
-    for version, (name, _) in STAGES.items():
+    for version, name in STAGES.items():
         vrt = warp_vrt(sources[version], overview_bounds, cols, rows)
-        overview_images.append(save_png(vrt.ReadAsArray().astype("u1"), lut,
-                                        output / f"etapa_0{version}.png"))
+        values = vrt.ReadAsArray().astype("u1")
+        filename = f"etapa_0{version}.png"
+        stage_lut = first_lut if version == 1 else lut
+        overview_images.append(save_png(values, stage_lut, output / filename))
+        legend = [{"code": code, "name": label, "color": colors[code]}
+                  for code, label in LABELS.items() if code in values]
+        if version == 1:
+            for entry in legend:
+                if entry["code"] == 100:
+                    entry.update(name="Classe residual", color=residual_color)
+        stages.append({"version": version, "name": name, "image": filename, "legend": legend})
         vrt = None
 
     risk_projected = output / "risco_reprojetado.incompleto.gpkg"
@@ -192,7 +208,7 @@ def main():
         canvas = Image.new("RGBA", (frame.width, frame.height + 44), "#ffffff")
         canvas.alpha_composite(frame, (0, 44))
         ImageDraw.Draw(canvas).text((14, 12),
-                                    f"{version}. {STAGES[version][0]}",
+                                    f"{version}. {STAGES[version]}",
                                     fill="#24382d", font=ImageFont.load_default())
         frames.append(canvas.convert("P", palette=Image.Palette.ADAPTIVE,
                                      colors=64))
@@ -223,8 +239,7 @@ def main():
         "detail_resolution_mercator_m": 3,
         "detail_native_grid_m": 3,
         "detail_min_zoom": 14,
-        "stages": [{"version": i, "name": name, "image": f"etapa_0{i}.png"}
-                   for i, (name, _) in STAGES.items()],
+        "stages": stages,
         "blocks": blocks,
         "context": {"image": "contexto_zee.png",
                     "legend": [{"code": k, "name": n, "color": c}

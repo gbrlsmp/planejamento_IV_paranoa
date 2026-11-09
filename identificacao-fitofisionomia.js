@@ -83,11 +83,13 @@
       const stage = makeMap(root.querySelector("[data-stage-map]"), config.overview_bounds);
       stage.map.attributionControl.addAttribution("PlanetScope 2026 · classificação proxy");
       const select = root.querySelector("[data-stage-select]");
+      const stageLegend = root.querySelector("[data-stage-legend]");
       let stageImage;
       function updateStage() {
         stageImage?.remove();
         const item = config.stages.find(entry => String(entry.version) === select.value);
         stageImage = image(item.image, config.overview_bounds, 1, item.name).addTo(stage.map);
+        legend(stageLegend, item.legend ?? config.classes);
       }
       select.addEventListener("change", updateStage);
       root.querySelector("[data-stage-fit]").addEventListener("click", () => stage.map.fitBounds(stage.view));
