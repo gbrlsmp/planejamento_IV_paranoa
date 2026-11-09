@@ -1,0 +1,12 @@
+.fit-final-map { height: 560px; }
+.fit-gif { margin: 1rem 0; }
+.fit-gif img { display: block; max-width: 100%; width: 760px; height: auto; border: 1px solid var(--line); }
+.fit-gif figcaption { margin-top: .4rem; font-size: .9rem; }
+.fit-hide-overview { opacity: 0 !important; }
+.fit-steps { line-height: 1.6; }
+.fit-steps li { margin-bottom: .35rem; }
+[data-fit-legend], [data-context-legend] { display: flex; flex-wrap: wrap; gap: .5rem 1rem; }
+[data-fit-legend] li, [data-context-legend] li { display: flex; align-items: center; gap: .4rem; }
+.fit-swatch { display: inline-block; width: 1rem; height: 1rem; border: 1px solid #536052; flex: none; }
+[data-final-opacity], [data-context-opacity] { width: 12rem; }
+@media (max-width: 700px) { .fit-final-map { height: 430px; } }
