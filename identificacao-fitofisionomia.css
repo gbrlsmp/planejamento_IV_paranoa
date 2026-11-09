@@ -13,3 +13,7 @@
 .fit-swatch { display: inline-block; width: 1rem; height: 1rem; border: 1px solid #536052; flex: none; }
 [data-final-opacity], [data-context-opacity] { width: 12rem; }
 @media (max-width: 700px) { .fit-final-map { height: 430px; } }
+
+.tipologias-figura { margin: 1rem 0; }
+.tipologias-figura img { display: block; max-width: 100%; height: auto; }
+.tipologias-figura figcaption { margin-top: .5rem; font-size: .9rem; }

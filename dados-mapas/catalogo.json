@@ -70,6 +70,37 @@
       -1755265.3046882006
     ]
   },
+  "tipologias": {
+    "title": "Categorias de infraestrutura verde",
+    "classes": [
+      [
+        1,
+        "Hub 1 — UC",
+        "#23734d"
+      ],
+      [
+        2,
+        "Hub 2 — Parque urbano",
+        "#78ad69"
+      ],
+      [
+        3,
+        "Link — APP",
+        "#c4b53d"
+      ],
+      [
+        4,
+        "Site — Sem AVU",
+        "#6b7270"
+      ]
+    ],
+    "bounds": [
+      -5356092.147243301,
+      -1803590.6899615955,
+      -5309832.147243301,
+      -1754750.6899615955
+    ]
+  },
   "metricas": {
     "title": "Área dos fragmentos",
     "classes": [
