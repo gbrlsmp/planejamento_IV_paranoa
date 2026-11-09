@@ -16,7 +16,7 @@ As versões leves são guardadas em `04_figuras`, destino confirmado pela pesqui
 
 ## Classificação proxy e publicação
 
-`classificar_fitofisionomias_3m.py` aplica as regras v01–v05 em uma passagem pelos rasters, sem ler classificações anteriores. `exportar_fitofisionomias_web.py` prepara as vistas leves, o GIF, o mapa do ZEE-DF, os blocos detalhados e as tabelas adicionais da etapa exploratória. Entradas locais e GeoTIFFs integrais ficam fora do repositório; a página publica apenas arquivos de consulta. Consulte [o método e a reprodução](FITOFISIONOMIA_3M.md).
+`classificar_fitofisionomias_3m.py` aplica as quatro etapas adotadas em uma passagem pelos NDVIs, sem ler classificações anteriores. `exportar_fitofisionomias_web.py` prepara quatro vistas leves, o GIF, o mapa de risco do ZEE-DF, os blocos detalhados e as tabelas adicionais. `atualizar_paletas_referencias.py` aplica os QML às imagens de referência já calculadas. Entradas locais e GeoTIFFs integrais ficam fora do repositório; a página publica apenas arquivos de consulta. Consulte [o método e a reprodução](FITOFISIONOMIA_3M.md).
 
 ## Primeira exploração — registro histórico
 

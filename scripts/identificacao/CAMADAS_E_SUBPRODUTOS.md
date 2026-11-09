@@ -8,7 +8,7 @@ O objetivo em desenvolvimento é identificar e distinguir a vegetação na grade
 
 ## Atualização: fluxo vigente
 
-A ordem vigente é **referências MapBiomas–ZEE → NDVI e exploração → classificação/refinamento → contexto de remanescentes**. O procedimento completo atualizado, os produtos locais, a tabela de áreas e as duas referências científicas estão em [REFERENCIAS_E_NDVI.md](REFERENCIAS_E_NDVI.md).
+A ordem adotada é **referências MapBiomas–ZEE → NDVI e exploração → quatro etapas de classificação/refinamento**, com o contexto dos remanescentes do ZEE-DF na etapa 4. Os cortes e o raster final estão em [FITOFISIONOMIA_3M.md](FITOFISIONOMIA_3M.md); o procedimento das referências está em [REFERENCIAS_E_NDVI.md](REFERENCIAS_E_NDVI.md). As tabelas de estados futuros abaixo registram o planejamento anterior e não descrevem o produto já publicado.
 
 Os dois NDVIs integrais novos já foram gerados. A nova execução usa o **vetor MapBiomas**, cuja classe é `cod_sub`, e produziu interseções integrais para campestre, savânica, florestal e campo alagado/área pantanosa. O último grupo usa uma correspondência operacional confirmada com as áreas úmidas do ZEE; as definições não são idênticas. Pastagem é comparação apenas do MapBiomas, fora da rede de IV.
 

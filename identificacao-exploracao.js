@@ -34,7 +34,7 @@
         const row = document.createElement("tr");
         const title = document.createElement("th");
         title.scope = "row";
-        title.textContent = area.nome;
+        title.textContent = `${area.nome} (${area.mapbiomas_codigo})`;
         row.append(title);
         for (const key of ["mapbiomas_ha", "zee_ha", "intersecao_ha"]) {
           const cell = document.createElement("td");
@@ -85,7 +85,10 @@
             swatch.className = "ident-swatch";
             swatch.style.backgroundColor = entry.cor;
             swatch.setAttribute("aria-hidden", "true");
-            row.append(swatch, document.createTextNode(entry.nome));
+            const code = key === "mapbiomas" ? entry.codigo
+              : key === "intersecao" ? config.areas.find(area => area.nome === entry.nome)?.mapbiomas_codigo
+              : null;
+            row.append(swatch, document.createTextNode(entry.nome + (code == null ? "" : ` (${code})`)));
             legend.append(row);
           }
           status.textContent = titles[key] + " · representação de 20 m. Clique para consultar.";
@@ -311,6 +314,11 @@
     status.textContent = "Carregando os gráficos…";
     try {
       const { exploration: report } = await data();
+      const codes = { campestre: 12, savanica: 4, florestal: 3, campo_alagado: 11, pastagem: 15 };
+      for (const [key, group] of Object.entries(report.grupos)) {
+        if (key === "pastagem") group.nome = `Pastagem (${codes[key]}) — comparação`;
+        else if (!group.nome.endsWith(`(${codes[key]})`)) group.nome += ` (${codes[key]})`;
+      }
       const groups = Object.entries(report.grupos);
       const controls = root.querySelector("[data-ndvi-groups]");
       controls.replaceChildren();

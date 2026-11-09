@@ -1,7 +1,7 @@
-"""Reproduz a proxy de fitofisionomias v01-v05 em uma passagem pela grade de 3 m.
+"""Reproduz as quatro etapas adotadas da proxy em uma passagem pela grade de 3 m.
 
 Entradas locais não são versionadas. Use --base para a pasta "02 BASE DE DADOS"
-e --output para um GeoTIFF novo. --stages-dir grava também v01-v04 para auditoria.
+e --output para um GeoTIFF novo. --stages-dir grava também etapas 01-03.
 Nenhuma classificação anterior é lida: as máscaras vetoriais só entram nas
 etapas explicitadas abaixo; o NDVI é a única variável espectral usada.
 """
@@ -131,15 +131,15 @@ def valid(values, nodata):
     return result
 
 
-def spectral(d, w, vd, vw, version: int):
+def spectral(d, w, vd, vw):
     result = np.full(d.shape, NODATA, dtype=np.uint8)
     both = vd & vw
     only_d = vd & ~vw
     only_w = vw & ~vd
     result[vd | vw] = 100
-    camp_max = 0.45 if version == 1 else 0.46
-    sav_min = 0.45 if version == 1 else 0.48
-    sav_avg = 0.55 if version == 1 else 0.58
+    camp_max = 0.46
+    sav_min = 0.48
+    sav_avg = 0.58
     result[both & (d >= 0.20) & (d < camp_max)
            & (w >= 0.38) & (w < 0.62)] = 12
     result[both & (d >= sav_min) & (d < 0.70)
@@ -159,8 +159,8 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     dry, wet, mapbiomas, sx, sy = check_inputs(inputs)
     output = output.resolve()
     report = output.with_suffix(".json")
-    stage_paths = {i: stages_dir / f"fitofisionomias_proxy_ndvi_3m_v0{i}.tif"
-                   for i in range(1, 5)} if stages_dir else {}
+    stage_paths = {i: stages_dir / f"fitofisionomias_proxy_ndvi_3m_etapa_0{i}.tif"
+                   for i in range(1, 4)} if stages_dir else {}
     if output.suffix.lower() not in (".tif", ".tiff"):
         raise ValueError("--output precisa terminar em .tif ou .tiff")
     if any(p.exists() for p in (output, report, *stage_paths.values())):
@@ -209,20 +209,18 @@ def run(base: Path, output: Path, stages_dir: Path | None):
                                zip(map_grid.GetGeoTransform(), gt)):
         raise ValueError("MapBiomas não alinhou à grade")
 
-    final = create_raster(temp, dry, "Proxy NDVI de fitofisionomias v05")
-    stages = {i: create_raster(path, dry, f"Proxy NDVI v0{i}")
+    final = create_raster(temp, dry, "Proxy NDVI de fitofisionomias, etapa 04")
+    stages = {i: create_raster(path, dry, f"Proxy NDVI, etapa 0{i}")
               for i, path in stage_paths.items()}
     metadata = {
-        "method": "NDVI seca+chuva; regras v01-v05 em uma passagem de 512 px",
+        "method": "NDVI seca+chuva; quatro etapas adotadas em uma passagem de 512 px",
         "grid": {"size_m": 3, "crs": "EPSG:31983", "source": "NDVI da seca"},
         "inputs": {key: str(value) for key, value in inputs.items()},
-        "spectral_v01": "florestal seca>=.70; sav .45<=seca<.70 e media>=.55; camp .20<=seca<.45 e .38<=chuva<.62",
-        "spectral_v02": "florestal seca>=.70; sav .48<=seca<.70 e media>=.58; camp .20<=seca<.46 e .38<=chuva<.62",
+        "etapa_01": "florestal seca>=.70; sav .48<=seca<.70 e media>=.58; camp .20<=seca<.46 e .38<=chuva<.62; vias/edificações limpam campestre",
         "single_date": "seca: mesmos intervalos secos; chuva: 3>=.79, 4 [.65,.79), 12 [.38,.62); outros=100",
-        "v02": "12 sobre vias ou edificações vira 100; vetores ALL_TOUCHED",
-        "v03": "100 vira 101 se |chuva-seca|/2>=.09, senão 102; seca isolada .34, chuva isolada .50",
-        "v04": "vias só limpam 101->102; depois MapBiomas original banda 1 classe 11; água vetorial 33; edificações 103",
-        "v05": "risco=2/ausência de Cerrado nativo: 3/4->100, 12->101",
+        "etapa_02": "100 vira 101 se |chuva-seca|/2>=.09, senão 102; seca isolada .34, chuva isolada .50",
+        "etapa_03": "vias só limpam 101->102; depois MapBiomas original banda 1 classe 11; água vetorial 33; edificações 103",
+        "etapa_04": "risco=2/ausência de Cerrado nativo: 3/4->100, 12->101",
         "limitations": ["proxy, não validação de campo", "duas datas não descrevem ciclo fenológico",
                         "campestre e pastagem se confundem", "101/102 não comprovam permeabilidade",
                         "área úmida mantém a resolução temática de 10 m do MapBiomas",
@@ -230,10 +228,10 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     }
     final.SetMetadataItem("METHOD_JSON", json.dumps(metadata, ensure_ascii=False,
                                                     separators=(",", ":")))
-    counts = {i: np.zeros(256, dtype=np.int64) for i in range(1, 6)}
-    transitions = {"v02_camp_to_100": 0, "v04_road_101_to_102": 0,
-                   "v05_forest_to_100": 0, "v05_savanna_to_100": 0,
-                   "v05_camp_to_101": 0}
+    counts = {i: np.zeros(256, dtype=np.int64) for i in range(1, 5)}
+    transitions = {"etapa_01_camp_to_100": 0, "etapa_03_road_101_to_102": 0,
+                   "etapa_04_forest_to_100": 0, "etapa_04_savanna_to_100": 0,
+                   "etapa_04_camp_to_101": 0}
     for y in range(0, dry.RasterYSize, TILE):
         for x in range(0, dry.RasterXSize, TILE):
             width = min(TILE, dry.RasterXSize - x)
@@ -242,50 +240,49 @@ def run(base: Path, output: Path, stages_dir: Path | None):
             w = wet.GetRasterBand(1).ReadAsArray(x+sx, y+sy, width, height)
             vd = valid(d, dry.GetRasterBand(1).GetNoDataValue())
             vw = valid(w, wet.GetRasterBand(1).GetNoDataValue())
-            first = spectral(d, w, vd, vw, 1)
-            second = spectral(d, w, vd, vw, 2)
+            first = spectral(d, w, vd, vw)
             urban_tile = urban.GetRasterBand(1).ReadAsArray(x, y, width, height) != 0
-            camp = (second == 12) & urban_tile
-            transitions["v02_camp_to_100"] += int(camp.sum())
-            second[camp] = 100
+            camp = (first == 12) & urban_tile
+            transitions["etapa_01_camp_to_100"] += int(camp.sum())
+            first[camp] = 100
 
-            third = second.copy()
-            target = third == 100
+            second = first.copy()
+            target = second == 100
             both = target & vd & vw
             only_d = target & vd & ~vw
             only_w = target & vw & ~vd
             if np.any(target & ~(vd | vw)):
                 raise ValueError("Classe 100 sem NDVI válido")
-            third[target] = 102
-            third[both & (np.abs(w-d)/2 >= .09)] = 101
-            third[only_d & (d >= .34)] = 101
-            third[only_w & (w >= .50)] = 101
+            second[target] = 102
+            second[both & (np.abs(w-d)/2 >= .09)] = 101
+            second[only_d & (d >= .34)] = 101
+            second[only_w & (w >= .50)] = 101
+
+            third = second.copy()
+            overlay_tile = overlay.GetRasterBand(1).ReadAsArray(x, y, width, height)
+            alive = third != NODATA
+            road = alive & (overlay_tile == 1) & (third == 101)
+            transitions["etapa_03_road_101_to_102"] += int(road.sum())
+            third[road] = 102
+            wetland = map_grid.GetRasterBand(1).ReadAsArray(x, y, width, height) == 11
+            third[alive & wetland] = 11
+            third[alive & (overlay_tile == 2)] = 33
+            third[alive & (overlay_tile == 3)] = 103
 
             fourth = third.copy()
-            overlay_tile = overlay.GetRasterBand(1).ReadAsArray(x, y, width, height)
-            alive = fourth != NODATA
-            road = alive & (overlay_tile == 1) & (fourth == 101)
-            transitions["v04_road_101_to_102"] += int(road.sum())
-            fourth[road] = 102
-            wetland = map_grid.GetRasterBand(1).ReadAsArray(x, y, width, height) == 11
-            fourth[alive & wetland] = 11
-            fourth[alive & (overlay_tile == 2)] = 33
-            fourth[alive & (overlay_tile == 3)] = 103
-
-            fifth = fourth.copy()
             absence = risk.GetRasterBand(1).ReadAsArray(x, y, width, height) != 0
-            forest = absence & (fifth == 3)
-            savanna = absence & (fifth == 4)
-            grassland = absence & (fifth == 12)
-            transitions["v05_forest_to_100"] += int(forest.sum())
-            transitions["v05_savanna_to_100"] += int(savanna.sum())
-            transitions["v05_camp_to_101"] += int(grassland.sum())
-            fifth[forest | savanna] = 100
-            fifth[grassland] = 101
+            forest = absence & (fourth == 3)
+            savanna = absence & (fourth == 4)
+            grassland = absence & (fourth == 12)
+            transitions["etapa_04_forest_to_100"] += int(forest.sum())
+            transitions["etapa_04_savanna_to_100"] += int(savanna.sum())
+            transitions["etapa_04_camp_to_101"] += int(grassland.sum())
+            fourth[forest | savanna] = 100
+            fourth[grassland] = 101
 
-            for version, values in enumerate((first, second, third, fourth, fifth), 1):
+            for version, values in enumerate((first, second, third, fourth), 1):
                 counts[version] += np.bincount(values.ravel(), minlength=256)
-                ds = final if version == 5 else stages.get(version)
+                ds = final if version == 4 else stages.get(version)
                 if ds is not None:
                     ds.GetRasterBand(1).WriteArray(values, x, y)
 
@@ -298,8 +295,8 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     if (check.RasterXSize != dry.RasterXSize
             or check.RasterYSize != dry.RasterYSize
             or check.GetGeoTransform() != dry.GetGeoTransform()
-            or counts[5].sum() != dry.RasterXSize * dry.RasterYSize
-            or set(np.flatnonzero(counts[5])) - set(COLORS)
+            or counts[4].sum() != dry.RasterXSize * dry.RasterYSize
+            or set(np.flatnonzero(counts[4])) - set(COLORS)
             or any(value == 0 for value in transitions.values())):
         raise ValueError("Validação final falhou")
     check = None
@@ -316,7 +313,7 @@ def run(base: Path, output: Path, stages_dir: Path | None):
             time.sleep(.3)
     report.write_text(json.dumps({
         "metadata": metadata,
-        "counts": {f"v0{i}": {str(code): int(values[code])
+        "counts": {f"etapa_0{i}": {str(code): int(values[code])
                              for code in np.flatnonzero(values)}
                    for i, values in counts.items()},
         "transitions": transitions,
@@ -324,9 +321,9 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     urban = overlay = risk = map_grid = None
     for path in (urban_path, overlay_path, risk_path, projected_path):
         path.unlink()
-    print(json.dumps({"output": str(output), "counts_v05":
-                      {str(code): int(counts[5][code])
-                       for code in np.flatnonzero(counts[5])},
+    print(json.dumps({"output": str(output), "counts_final":
+                      {str(code): int(counts[4][code])
+                       for code in np.flatnonzero(counts[4])},
                       "transitions": transitions}, ensure_ascii=False), flush=True)
 
 
@@ -335,9 +332,9 @@ def main():
     parser.add_argument("--base", type=Path, required=True,
                         help="Pasta 02 BASE DE DADOS")
     parser.add_argument("--output", type=Path, required=True,
-                        help="Novo GeoTIFF da v05")
+                        help="Novo GeoTIFF da etapa 04 final")
     parser.add_argument("--stages-dir", type=Path,
-                        help="Opcional: GeoTIFFs v01-v04")
+                        help="Opcional: GeoTIFFs das etapas 01-03")
     args = parser.parse_args()
     run(args.base.resolve(), args.output, args.stages_dir)
 
