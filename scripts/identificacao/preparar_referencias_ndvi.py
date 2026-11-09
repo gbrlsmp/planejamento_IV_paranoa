@@ -17,6 +17,7 @@ import numpy as np
 import shapely
 from PIL import Image
 from osgeo import gdal, ogr, osr
+from paletas_identificacao import ZEE_COLORS, qml_colors
 
 gdal.UseExceptions()
 ogr.UseExceptions()
@@ -24,22 +25,19 @@ gdal.SetCacheMax(256 * 1024 * 1024)
 
 WETLAND = 'Áreas úmidas: Parque Cerrado (ou Murundum), Palmeirais e Veredas'
 GROUPS = [
-    ('campestre', 'Formação campestre', 12, 'Formação Campestre', '#d89e35'),
-    ('savanica', 'Formação savânica', 4, 'Formação Savânica', '#729c36'),
-    ('florestal', 'Formação florestal', 3, 'Formação Florestal', '#28634c'),
-    ('campo_alagado', 'Campo alagado e área pantanosa', 11, WETLAND, '#3798ad'),
+    ('campestre', 'Formação campestre', 12, 'Formação Campestre', '#d0a55f'),
+    ('savanica', 'Formação savânica', 4, 'Formação Savânica', '#86a58f'),
+    ('florestal', 'Formação florestal', 3, 'Formação Florestal', '#4b6a40'),
+    ('campo_alagado', 'Campo alagado e área pantanosa', 11, WETLAND, '#496a6e'),
 ]
 MB = {
-    3: ('Formação florestal', '#28634c'), 4: ('Formação savânica', '#729c36'),
-    9: ('Silvicultura', '#965b7a'), 11: ('Campo alagado e área pantanosa', '#3798ad'),
-    12: ('Formação campestre', '#d89e35'), 15: ('Pastagem', '#b35e47'),
-    19: ('Lavoura temporária', '#d6a0c0'), 21: ('Mosaico de usos', '#e4ca99'),
-    24: ('Área urbanizada', '#c54c4c'), 25: ('Outras áreas não vegetadas', '#a1a1a1'),
-    33: ('Rio, lago e oceano', '#457dc4'), 36: ('Lavoura perene', '#bd7ebe'),
+    3: ('Formação florestal', '#4b6a40'), 4: ('Formação savânica', '#86a58f'),
+    9: ('Silvicultura', '#d5d69e'), 11: ('Campo alagado e área pantanosa', '#496a6e'),
+    12: ('Formação campestre', '#d0a55f'), 15: ('Pastagem', '#a08d8e'),
+    19: ('Lavoura temporária', '#64ef74'), 21: ('Mosaico de usos', '#b6b787'),
+    24: ('Área urbanizada', '#e2e2e2'), 25: ('Outras áreas não vegetadas', '#eeeeee'),
+    33: ('Rio, lago e oceano', '#acc6cb'), 36: ('Lavoura perene', '#c0a77a'),
 }
-OTHER_COLORS = ['#ac7772', '#687989', '#c0997d', '#8d7ab2', '#adad70', '#7e989d',
-                '#b5688c', '#c1b18e', '#8b715b', '#ad9cad', '#6e8189', '#b58b4f',
-                '#8d8f96', '#bdb5a1', '#c48e73', '#7f9b97', '#bca1b7', '#9d897b', '#a6b09c']
 
 
 def fingerprint(path):
@@ -212,7 +210,7 @@ def sample_ndvi(rain_path, dry_path, ref_path, pasture, basin, srs, spacing):
                              'semente_grafico': 20261106, 'maximo_pontos_grafico_por_grupo': 2500}
 
 
-def map_images(out, basin, mb_records, zee_records, refs, srs, step):
+def map_images(out, basin, mb_records, zee_records, refs, srs, step, final_colors):
     web = spatial_ref(3857)
     transform = osr.CoordinateTransformation(srs, web)
 
@@ -228,15 +226,17 @@ def map_images(out, basin, mb_records, zee_records, refs, srs, step):
     gt = (left, step, 0, top, 0, -step)
     zee_labels = sorted({r['classe'] for r in zee_records})
     zee_ids = {label: i + 1 for i, label in enumerate(zee_labels)}
-    colors = {g[3]: g[4] for g in GROUPS}
+    if set(zee_labels) - set(ZEE_COLORS):
+        raise ValueError('Categoria ZEE sem cor definida: ' + str(set(zee_labels) - set(ZEE_COLORS)))
     zee_legend = [{'codigo': zee_ids[label], 'nome': label,
-                   'cor': colors.get(label, OTHER_COLORS[i % len(OTHER_COLORS)])} for i, label in enumerate(zee_labels)]
+                   'cor': ZEE_COLORS[label]} for label in zee_labels]
     definitions = {
         'mapbiomas': ([(int(r['cod_sub']), r['geometry']) for r in mb_records],
                       [{'codigo': code, 'nome': label, 'cor': color} for code, (label, color) in MB.items()]),
         'zee': ([(zee_ids[r['classe']], r['geometry']) for r in zee_records], zee_legend),
         'intersecao': ([(i + 1, ref[-1]) for i, ref in enumerate(refs)],
-                       [{'codigo': i + 1, 'nome': ref[1], 'cor': ref[4]} for i, ref in enumerate(refs)]),
+                       [{'codigo': i + 1, 'nome': ref[1], 'cor': final_colors[ref[2]]}
+                        for i, ref in enumerate(refs)]),
     }
     result = {}
     for name, (records, legend) in definitions.items():
@@ -272,6 +272,13 @@ def main():
     if any(p.exists() for p in targets):
         raise FileExistsError('Recusa sobrescrever saídas: ' + str([str(p) for p in targets if p.exists()]))
     fit = args.base / '02_Análises/03_Ecologia/03_Fitofisionomia'
+    styles = fit / '03_Raster/03_fitofisionomia'
+    mb_qml = qml_colors(styles / 'uso do solo mapbiomas.qml')
+    final_qml = qml_colors(styles / 'uso do solo.qml')
+    if any(mb_qml.get(code) != color for code, (_, color) in MB.items() if code != 36):
+        raise ValueError('Cores MapBiomas no código divergem do QML indicado')
+    if set(code for _, _, code, _, _ in GROUPS) - set(final_qml):
+        raise ValueError('QML final sem cor de alguma referência')
     paths = {
         'mapbiomas_vetor': fit / '01_vetor/02_MapBiomas_10m_2025/uso_cobertura_MapBiomas_Bacia_Paranoa.shp',
         'mapbiomas_raster_conferencia': fit / '03_Raster/01_MapBiomas_10m_2025/uso_e_corbertura_mapbiomas_10m_2025_bacia_paranoa.tif',
@@ -328,7 +335,8 @@ def main():
         writer.writeheader()
         writer.writerows(areas)
     print('Preparando mapas leves', flush=True)
-    maps = map_images(args.web, basin, mb_records, zee_records, refs, srs, args.passo_web)
+    maps = map_images(args.web, basin, mb_records, zee_records, refs, srs,
+                      args.passo_web, final_qml)
     labels = {r[0]: {'nome': r[1], 'cor': r[4], 'referencia': 'intersecao_equivalente'} for r in definitions}
     labels['pastagem'] = {'nome': 'Pastagem (comparação)', 'cor': MB[15][1], 'referencia': 'somente_MapBiomas_fora_da_rede_IV'}
     print('Registrando proveniência', flush=True)

@@ -2,44 +2,53 @@
 
 ## Resultado e alcance
 
-`classificar_fitofisionomias_3m.py` reproduz em **uma passagem** as cinco versões do raster até a v05. A grade é a do NDVI PlanetScope da seca, em EPSG:31983 e células de 3 × 3 m. Todos os pixels com pelo menos uma data de NDVI válida são classificados; os sem observação válida permanecem NoData 255. A posição urbana não exclui o pixel da classificação espectral.
+`classificar_fitofisionomias_3m.py` produz **quatro etapas adotadas em uma passagem** pela grade do NDVI PlanetScope da seca (EPSG:31983, células de 3 × 3 m). Todos os pixels com pelo menos uma data válida são classificados; sem observação válida, permanecem NoData 255. A localização urbana não exclui um pixel da análise espectral. O produto local já calculado da etapa 04 conserva, por compatibilidade com projetos QGIS, o nome `fitofisionomias_proxy_ndvi_3m_v05.tif`; os nomes das quatro etapas no método e no site não incluem os testes descartados.
 
-Os rótulos 3 (florestal), 4 (savânica) e 12 (campestre) são **proxies espectrais**, não identificação botânica ou comprovação de vegetação nativa. As referências para explorar cortes vêm da interseção cartográfica MapBiomas × ZEE-DF; pastagem do MapBiomas é grupo de comparação. A escolha dos limites é exploratória, e a checagem por blocos espaciais usa as mesmas bases históricas, sem validação de campo independente.
+Formação florestal (3), formação savânica (4) e formação campestre (12) são **proxies espectrais**, sem comprovação botânica ou de origem nativa. As referências para explorar os cortes vêm da interseção MapBiomas × ZEE-DF; pastagem (15) é grupo de comparação. A checagem por blocos espaciais usa rótulos dessas bases históricas, sem validação de campo independente.
 
-## Regras, na ordem aplicada
+## Etapas adotadas
 
-| Versão | Operação |
+| Etapa e raster | Operação |
 | --- | --- |
-| v01 | Florestal 3: seca ≥ 0,70. Savânica 4: 0,45 ≤ seca < 0,70 e média das datas ≥ 0,55. Campestre 12: 0,20 ≤ seca < 0,45 e 0,38 ≤ chuva < 0,62. Demais pares válidos: 100. |
-| v02 | Savânica: seca ≥ 0,48 e média ≥ 0,58. Campestre: seca < 0,46. Campestre sobre vias ou edificações passa a 100. |
-| v03 | O residual 100 passa a 101 quando `abs(chuva-seca)/2 ≥ 0,09`; caso contrário passa a 102. Para pixel válido apenas na seca, usar seca ≥ 0,34 para 101; apenas na chuva, chuva ≥ 0,50. |
-| v04 | 101 sobre vias passa a 102. Depois sobrepor a classe 11 da banda original do MapBiomas, água vetorial 33 e edificações 103. Edificações têm prioridade sobre todas as classes. Vias servem apenas à limpeza. |
-| v05 | Na categoria `risco=2`, “Ausência de Cerrado Nativo” do vetor ZEE-DF, 3 e 4 passam a vegetação intraurbana 100 e 12 passa a 101. |
+| 1 · raster 01 | Formação florestal (3): NDVI seca ≥ 0,70. Formação savânica (4): 0,48 ≤ seca < 0,70 e média das duas datas ≥ 0,58. Formação campestre (12): 0,20 ≤ seca < 0,46 e 0,38 ≤ chuva < 0,62. Demais pixels válidos: classe residual (100). Formação campestre (12) sobre vias OSM ou edificações Open Buildings passa a classe residual (100). |
+| 2 · raster 02 | Na classe residual (100), `abs(chuva-seca)/2 ≥ 0,09` produz forração vegetal (101); abaixo desse limite, impermeável ou solo exposto (102). Se apenas a seca for válida, seca ≥ 0,34 produz forração vegetal (101); se apenas a chuva for válida, chuva ≥ 0,50. Os demais casos ficam em impermeável ou solo exposto (102). |
+| 3 · raster 03 | Forração vegetal (101) sobre vias passa a impermeável ou solo exposto (102). Sobrepor, nessa ordem, campo alagado e área pantanosa (11) da banda original do MapBiomas, água (33) do vetor SEDUH/Geoportal e edificações (103) do Google Open Buildings. As edificações têm a última prioridade em todos os pixels classificados. Vias não se tornam classe. |
+| 4 · raster 04, final | Na categoria `risco=2`, “Ausência de Cerrado Nativo” do ZEE-DF, formação florestal (3) e formação savânica (4) passam a vegetação intraurbana (100), e formação campestre (12) a forração vegetal (101). As demais classes permanecem. |
 
-O script também admite observação válida em apenas uma data: na seca usa os intervalos secos; apenas na chuva, 12 para 0,38–<0,62, 4 para 0,65–<0,79 e 3 para ≥0,79. Sobreposições vetoriais usam `ALL_TOUCHED=TRUE`; MapBiomas é transferido por vizinho mais próximo. A prioridade completa está expressa na ordem de atribuições do código e no JSON de relatório gerado junto com o raster.
+Na etapa 1, quando só a seca é válida, são usados os mesmos intervalos secos. Se só a chuva é válida: formação campestre (12) em 0,38–<0,62; formação savânica (4) em 0,65–<0,79; formação florestal (3) em ≥ 0,79. A ordem completa de atribuições está no código e no relatório JSON gerado. Vetores são rasterizados com `ALL_TOUCHED=TRUE`; a classe do MapBiomas é transferida por vizinho mais próximo.
+
+## Entradas e proveniência das cores
+
+- NDVI PlanetScope de chuva (17/01/2026) e seca (30/07/2026): variáveis espectrais e grade de 3 m.
+- MapBiomas local identificado como 2025, 10 m: referências cartográficas e campo alagado e área pantanosa (11).
+- ZEE-DF: cobertura vegetal para referências e risco de perda de vegetação nativa para a etapa 4.
+- Google [Open Buildings](https://sites.research.google/gr/open-buildings/): edificações; OpenStreetMap: vias; SEDUH via Geoportal: massas d'água. Os arquivos vetoriais locais estão listados no script.
+- `uso do solo.qml`: cores do raster final e das interseções. `uso do solo mapbiomas.qml`: cores do mapa MapBiomas e dos gráficos NDVI. `paletas_identificacao.py`: paletas derivadas para cobertura vegetal e risco do ZEE-DF. O QML MapBiomas não possui cor para lavoura perene (36); a visualização usa `#c0a77a` como cor complementar documentada.
 
 ## Reproduzir localmente
 
-Requer Python com GDAL/OGR e NumPy, por exemplo o Python do QGIS no Windows. As entradas ficam fora do Git em `02 BASE DE DADOS`. O script verifica arquivos, CRS, resolução e alinhamento antes de começar; recusa sobrescrever saída existente.
+Requer Python com GDAL/OGR, NumPy e Pillow, como o ambiente Python do QGIS. As entradas ficam fora do Git em `02 BASE DE DADOS`. O script verifica arquivos, CRS, resolução e alinhamento e recusa sobrescrever uma saída existente.
 
 ```powershell
 python scripts/identificacao/classificar_fitofisionomias_3m.py `
   --base "C:\Users\sampa\OneDrive - unb.br\02 BASE DE DADOS" `
-  --output "C:\Users\sampa\OneDrive - unb.br\02 BASE DE DADOS\02_Análises\03_Ecologia\03_Fitofisionomia\03_Raster\03_fitofisionomia\reproducao_v05.tif" `
+  --output "C:\Users\sampa\OneDrive - unb.br\02 BASE DE DADOS\02_Análises\03_Ecologia\03_Fitofisionomia\03_Raster\03_fitofisionomia\reproducao_etapa_04.tif" `
   --stages-dir "C:\Users\sampa\OneDrive - unb.br\02 BASE DE DADOS\02_Análises\03_Ecologia\03_Fitofisionomia\03_Raster\03_fitofisionomia\etapas_reproduzidas"
 ```
 
-`--stages-dir` é opcional; sem ele, o processamento grava só v05 e seu relatório JSON. A saída nova não depende dos rasters classificados anteriores. Para republicar as visualizações da página, executar `exportar_fitofisionomias_web.py` com `--stages-dir` e `--final-raster` da reprodução acima, `--risk` apontando ao vetor ZEE-DF, `--samples` ao NPZ de amostras pareadas, `--qml` à simbologia `uso do solo.qml` e `--output-dir` a uma pasta vazia. Como alternativa, `--raster-dir` aceita a pasta que contém os cinco GeoTIFFs históricos. O exportador prepara cinco vistas de cerca de 20 m, um GIF, um mapa de contexto e blocos PNG de 3 m em EPSG:3857 para consulta por zoom. Os GeoTIFFs grandes não são publicados no Git.
+`--stages-dir` é opcional; com ele, também são gravadas as etapas 01–03. O script nunca lê classificações anteriores. Para republicar o site, `exportar_fitofisionomias_web.py` aceita `--stages-dir` e `--final-raster` da reprodução ou `--raster-dir` com os quatro arquivos locais anteriormente chamados v02–v05. Também recebe `--risk`, `--samples`, `--qml` e `--output-dir` vazio. `atualizar_paletas_referencias.py` recolore os PNG paletizados de MapBiomas, ZEE-DF e interseções sem recalcular amostras ou geometrias.
 
-## Conferência da reprodução
+O exportador cria quatro vistas gerais de aproximadamente 20 m, um GIF de quatro quadros, o mapa de risco do ZEE-DF e blocos PNG de 3 m em EPSG:3857 que o navegador carrega apenas em zoom próximo. Os GeoTIFFs integrais não são distribuídos pelo Git.
 
-Em 08/11/2026, os cinco GeoTIFFs gerados pelo script consolidado foram comparados, pixel por pixel, aos arquivos locais v01–v05: **zero pixels diferentes em cada versão**. A v05 tem 117.365.300 pixels classificados e 107.932.640 NoData. Contagens de classes: 3 = 7.032.809; 4 = 30.787.965; 11 = 1.701.771; 12 = 7.185.341; 33 = 5.255.694; 100 = 10.060.941; 101 = 25.367.542; 102 = 20.869.555; 103 = 9.103.682. Os dois rasters de entrada têm células de 3 m, e a saída preserva esse tamanho e alinhamento. A visão geral do site reduz a resolução somente para visualização.
+## Conferência
+
+As quatro saídas adotadas devem ser comparadas pixel a pixel, respectivamente, aos arquivos locais anteriormente chamados v02, v03, v04 e v05. A etapa final tem 117.365.300 pixels classificados e 107.932.640 NoData. Contagens: formação florestal (3) = 7.032.809; formação savânica (4) = 30.787.965; campo alagado e área pantanosa (11) = 1.701.771; formação campestre (12) = 7.185.341; água (33) = 5.255.694; vegetação intraurbana (100) = 10.060.941; forração vegetal (101) = 25.367.542; impermeável ou solo exposto (102) = 20.869.555; edificações (103) = 9.103.682. A visão geral do site é reduzida somente para visualização.
 
 ## Limitações
 
-- Campestre e pastagem se misturam em NDVI. O corte não estabelece naturalidade nem composição florística.
+- Formação campestre (12) e pastagem (15) se misturam em NDVI. O corte não estabelece origem nativa nem composição florística.
 - Duas datas não descrevem o ciclo fenológico completo. UDM2 não foi aplicada aos mosaicos; nuvens e sombras podem afetar pixels.
-- O tamanho de célula de 3 m não equivale a acurácia temática de 3 m. A classe 11 herda limites da fonte MapBiomas de 10 m.
-- 101 e 102 descrevem uma separação exploratória por NDVI, sem comprovar permeabilidade ou material de superfície.
-- Vias são geometrias lineares sem largura uniforme. Edificações, água e contexto ZEE-DF têm incertezas próprias de data e posição.
-- O mapa de satélite opcional do site usa Sentinel-2 cloudless 2025 de 10 m para orientação visual; não é a imagem PlanetScope classificada.
+- Células de 3 m não equivalem a acurácia temática de 3 m. Campo alagado e área pantanosa (11) herda limites da fonte MapBiomas de 10 m.
+- Forração vegetal (101) e impermeável ou solo exposto (102) são inferências exploratórias; o NDVI não comprova permeabilidade nem material de superfície.
+- Vias são linhas sem largura uniforme. Os vetores de edificações e água e o ZEE-DF têm incertezas próprias de data e posição.
+- A imagem de satélite opcional do site é Sentinel-2 cloudless 2025 de 10 m, usada apenas para orientação visual; não é a imagem PlanetScope classificada.

@@ -35,7 +35,7 @@
       const swatch = document.createElement("span");
       swatch.className = "fit-swatch";
       swatch.style.backgroundColor = item.color;
-      li.append(swatch, document.createTextNode(`${item.code} · ${item.name}`));
+      li.append(swatch, document.createTextNode(`${item.name} (${item.code})`));
       container.append(li);
     }
   }
@@ -49,17 +49,18 @@
 
   async function extraExploration(root) {
     const info = await stats();
+    const codes = { florestal: 3, savanica: 4, campestre: 12, pastagem: 15, campo_alagado: 11 };
     const groups = root.querySelector("[data-extra-summary]");
     const comparison = root.querySelector("[data-extra-camp-past]");
     const check = root.querySelector("[data-extra-check]");
     for (const group of info.grupos) {
       const tr = document.createElement("tr");
-      cell(tr, group.nome, true); cell(tr, number.format(group.n));
+      cell(tr, `${group.nome} (${codes[group.id]})`, true); cell(tr, number.format(group.n));
       for (const key of ["seca", "chuva", "delta"]) cell(tr, quartiles(group[key]));
       groups.append(tr);
     }
     for (const slice of info.campestre_pastagem) {
-      for (const [key, name] of [["campestre", "Campestre"], ["pastagem", "Pastagem"]]) {
+      for (const [key, name] of [["campestre", "Formação campestre (12)"], ["pastagem", "Pastagem (15)"]]) {
         const tr = document.createElement("tr");
         cell(tr, `${slice.seca[0].toFixed(2)}–${slice.seca[1].toFixed(2)}`.replaceAll(".", ","), true);
         cell(tr, name); cell(tr, number.format(slice.classes[key].n));
@@ -69,7 +70,7 @@
     }
     for (const group of info.checagem) {
       const tr = document.createElement("tr");
-      cell(tr, group.nome, true); cell(tr, number.format(group.n));
+      cell(tr, `${group.nome} (${codes[group.id]})`, true); cell(tr, number.format(group.n));
       for (const key of ["3", "4", "12", "100"]) cell(tr, number.format(group.contagens[key]));
       check.append(tr);
     }
@@ -91,14 +92,21 @@
       select.addEventListener("change", updateStage);
       root.querySelector("[data-stage-fit]").addEventListener("click", () => stage.map.fitBounds(stage.view));
       updateStage();
+      status.textContent = "Mapa das quatro etapas carregado.";
+    } catch (error) { status.textContent = "Falha ao carregar as etapas: " + error.message; }
+  }
 
+  async function finalMap(root) {
+    const status = root.querySelector("[data-final-status]");
+    try {
+      const config = await manifest();
       const final = makeMap(root.querySelector("[data-final-map]"), config.overview_bounds);
       final.map.attributionControl.addAttribution("PlanetScope 2026 · proxy 3 m · ZEE-DF · MapBiomas");
       addSatellite(final.map);
       const slider = root.querySelector("[data-final-opacity]");
       const output = root.querySelector("[data-final-opacity-value]");
       const overview = image(config.stages.at(-1).image, config.overview_bounds, .85,
-                             "Classificação proxy v05").addTo(final.map);
+                             "Classificação proxy final, raster 04").addTo(final.map);
       const active = new Map();
       function refresh() {
         const opacity = 1 - Number(slider.value) / 100;
@@ -130,8 +138,8 @@
       root.querySelector("[data-final-fit]").addEventListener("click", () => final.map.fitBounds(final.view));
       legend(root.querySelector("[data-fit-legend]"), config.classes);
       refresh();
-      status.textContent = "Mapas carregados. Aproxime o mapa final para ver os blocos de 3 m.";
-    } catch (error) { status.textContent = "Falha ao carregar os mapas: " + error.message; }
+      status.textContent = "Mapa final carregado. Aproxime para ver os blocos de 3 m.";
+    } catch (error) { status.textContent = "Falha ao carregar o mapa final: " + error.message; }
   }
 
   async function context(root) {
@@ -142,7 +150,7 @@
       map.attributionControl.addAttribution("ZEE-DF · PlanetScope 2026");
       const z = image(config.context.image, config.overview_bounds, .8, "Contexto ZEE-DF").addTo(map);
       const final = image(config.stages.at(-1).image, config.overview_bounds, 1,
-                          "Classificação proxy v05");
+                          "Classificação proxy final, raster 04");
       final.addTo(map); final.bringToBack(); final.remove();
       const check = root.querySelector("[data-context-final]");
       check.addEventListener("change", () => {
@@ -169,8 +177,17 @@
     if (!root) continue;
     const details = root.closest("details");
     let started = false;
+    if (!details) { handler(root).catch(console.error); continue; }
     details.addEventListener("toggle", () => {
       if (details.open && !started) { started = true; handler(root).catch(console.error); }
     });
+  }
+  const finalRoot = document.querySelector("[data-final-result]");
+  if (finalRoot) {
+    const start = () => finalMap(finalRoot).catch(console.error);
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) { observer.disconnect(); start(); }
+    }, { rootMargin: "500px" });
+    observer.observe(finalRoot);
   }
 })();

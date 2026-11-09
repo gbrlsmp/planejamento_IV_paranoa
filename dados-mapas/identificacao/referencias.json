@@ -17,62 +17,62 @@
         {
           "codigo": 3,
           "nome": "Formação florestal",
-          "cor": "#28634c"
+          "cor": "#4b6a40"
         },
         {
           "codigo": 4,
           "nome": "Formação savânica",
-          "cor": "#729c36"
+          "cor": "#86a58f"
         },
         {
           "codigo": 9,
           "nome": "Silvicultura",
-          "cor": "#965b7a"
+          "cor": "#d5d69e"
         },
         {
           "codigo": 11,
           "nome": "Campo alagado e área pantanosa",
-          "cor": "#3798ad"
+          "cor": "#496a6e"
         },
         {
           "codigo": 12,
           "nome": "Formação campestre",
-          "cor": "#d89e35"
+          "cor": "#d0a55f"
         },
         {
           "codigo": 15,
           "nome": "Pastagem",
-          "cor": "#b35e47"
+          "cor": "#a08d8e"
         },
         {
           "codigo": 19,
           "nome": "Lavoura temporária",
-          "cor": "#d6a0c0"
+          "cor": "#64ef74"
         },
         {
           "codigo": 21,
           "nome": "Mosaico de usos",
-          "cor": "#e4ca99"
+          "cor": "#b6b787"
         },
         {
           "codigo": 24,
           "nome": "Área urbanizada",
-          "cor": "#c54c4c"
+          "cor": "#e2e2e2"
         },
         {
           "codigo": 25,
           "nome": "Outras áreas não vegetadas",
-          "cor": "#a1a1a1"
+          "cor": "#eeeeee"
         },
         {
           "codigo": 33,
           "nome": "Rio, lago e oceano",
-          "cor": "#457dc4"
+          "cor": "#acc6cb"
         },
         {
           "codigo": 36,
           "nome": "Lavoura perene",
-          "cor": "#bd7ebe"
+          "cor": "#c0a77a"
         }
       ]
     },
@@ -82,102 +82,102 @@
         {
           "codigo": 1,
           "nome": "Agricultura Intensiva",
-          "cor": "#ac7772"
+          "cor": "#78b679"
         },
         {
           "codigo": 2,
           "nome": "Agricultura intensiva - Pivo-de-irrigação",
-          "cor": "#687989"
+          "cor": "#a3cc8c"
         },
         {
           "codigo": 3,
           "nome": "Estradas Não-Pavimentadas",
-          "cor": "#c0997d"
+          "cor": "#baa38d"
         },
         {
           "codigo": 4,
           "nome": "Estradas Pavimentadas",
-          "cor": "#8d7ab2"
+          "cor": "#888888"
         },
         {
           "codigo": 5,
           "nome": "Ferrovia e Metrô",
-          "cor": "#adad70"
+          "cor": "#5f6662"
         },
         {
           "codigo": 6,
           "nome": "Formação Campestre",
-          "cor": "#d89e35"
+          "cor": "#d0a55f"
         },
         {
           "codigo": 7,
           "nome": "Formação Florestal",
-          "cor": "#28634c"
+          "cor": "#4b6a40"
         },
         {
           "codigo": 8,
           "nome": "Formação Savânica",
-          "cor": "#729c36"
+          "cor": "#86a58f"
         },
         {
           "codigo": 9,
           "nome": "Hortifruticultura",
-          "cor": "#8b715b"
+          "cor": "#a7d18b"
         },
         {
           "codigo": 10,
           "nome": "Lagoas de Estabilização",
-          "cor": "#ad9cad"
+          "cor": "#80b0b8"
         },
         {
           "codigo": 11,
           "nome": "Pecuária",
-          "cor": "#6e8189"
+          "cor": "#a08d8e"
         },
         {
           "codigo": 12,
           "nome": "Reflorestamento",
-          "cor": "#b58b4f"
+          "cor": "#d5d69e"
         },
         {
           "codigo": 13,
           "nome": "Represas, Lagos, Lagoas e Rios",
-          "cor": "#8d8f96"
+          "cor": "#acc6cb"
         },
         {
           "codigo": 14,
           "nome": "Uso Rural Diversificado",
-          "cor": "#bdb5a1"
+          "cor": "#b6b787"
         },
         {
           "codigo": 15,
           "nome": "Área Degradada",
-          "cor": "#c48e73"
+          "cor": "#c9ae94"
         },
         {
           "codigo": 16,
           "nome": "Área Urbana com Infraestrutura",
-          "cor": "#7f9b97"
+          "cor": "#b4b4b4"
         },
         {
           "codigo": 17,
           "nome": "Área Urbana sem Infraestrutura",
-          "cor": "#bca1b7"
+          "cor": "#e2e2e2"
         },
         {
           "codigo": 18,
           "nome": "Área Verde Intra Urbana",
-          "cor": "#9d897b"
+          "cor": "#658966"
         },
         {
           "codigo": 19,
           "nome": "Área em Processo de Parcelamento Urbano",
-          "cor": "#a6b09c"
+          "cor": "#d3c8bc"
         },
         {
           "codigo": 20,
           "nome": "Áreas úmidas: Parque Cerrado (ou Murundum), Palmeirais e Veredas",
-          "cor": "#3798ad"
+          "cor": "#496a6e"
         }
       ]
     },
@@ -187,27 +187,27 @@
         {
           "codigo": 1,
           "nome": "Formação campestre",
-          "cor": "#d89e35"
+          "cor": "#d0a55f"
         },
         {
           "codigo": 2,
           "nome": "Formação savânica",
-          "cor": "#729c36"
+          "cor": "#86a58f"
         },
         {
           "codigo": 3,
           "nome": "Formação florestal",
-          "cor": "#28634c"
+          "cor": "#4b6a40"
         },
         {
           "codigo": 4,
           "nome": "Campo alagado e área pantanosa",
-          "cor": "#3798ad"
+          "cor": "#3e5972"
         }
       ]
     }
   },
-  "revisao": "998dd55a72b7567e",
+  "revisao": "ef9f0896e8d42702",
   "areas": [
     {
       "grupo": "campestre",
@@ -251,5 +251,11 @@
     }
   ],
   "inclui_areas_umidas": true,
-  "nota_areas_umidas": "Correspondência operacional: classe 11 do MapBiomas ∩ áreas úmidas do ZEE; as definições não são idênticas."
+  "nota_areas_umidas": "Correspondência operacional: classe 11 do MapBiomas ∩ áreas úmidas do ZEE; as definições não são idênticas.",
+  "apresentacao_cores": {
+    "mapbiomas": "uso do solo mapbiomas.qml",
+    "intersecao": "uso do solo.qml",
+    "zee": "paletas_identificacao.py, inspirada no QML MapBiomas",
+    "nota": "O QML MapBiomas não inclui o código 36; lavoura perene usa #c0a77a."
+  }
 }

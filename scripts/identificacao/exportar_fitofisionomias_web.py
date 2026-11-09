@@ -1,4 +1,4 @@
-"""Exporta mapas leves e zoom detalhado da proxy v05 para o site estático.
+"""Exporta quatro etapas adotadas e zoom detalhado da proxy final para o site.
 
 As cores vêm do QML informado pela pesquisadora. O mapa detalhado usa blocos
 PNG reprojetados para EPSG:3857 com amostragem pelo vizinho mais próximo;
@@ -10,21 +10,20 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import numpy as np
 from osgeo import gdal
 from PIL import Image, ImageDraw, ImageFont
+from paletas_identificacao import RISK_COLORS, qml_colors
 
 gdal.UseExceptions()
 
 STAGES = {
-    1: ("NDVI inicial", "fitofisionomias_proxy_ndvi_3m.tif"),
-    2: ("Cortes e limpeza de campestre", "fitofisionomias_proxy_ndvi_3m_v02.tif"),
-    3: ("Separação de 101 e 102", "fitofisionomias_proxy_ndvi_3m_v03.tif"),
-    4: ("Água, áreas úmidas e edificações", "fitofisionomias_proxy_ndvi_3m_v04.tif"),
-    5: ("Contexto ZEE-DF e resultado", "fitofisionomias_proxy_ndvi_3m_v05.tif"),
+    1: ("Cortes NDVI e limpeza campestre", "fitofisionomias_proxy_ndvi_3m_v02.tif"),
+    2: ("Diferença sazonal: classes 101 e 102", "fitofisionomias_proxy_ndvi_3m_v03.tif"),
+    3: ("Vias, área úmida, água e edificações", "fitofisionomias_proxy_ndvi_3m_v04.tif"),
+    4: ("Contexto ZEE-DF e resultado final", "fitofisionomias_proxy_ndvi_3m_v05.tif"),
 }
 LABELS = {
     3: "Formação Florestal", 4: "Formação Savânica",
@@ -32,20 +31,12 @@ LABELS = {
     100: "Vegetação intraurbana", 101: "Forração vegetal",
     102: "Impermeável ou solo exposto (proxy)", 103: "Edificação",
 }
-RISK = {
-    2: ("Ausência de Cerrado nativo", "#b46b5b"),
-    3: ("Médio", "#d5ca87"),
-    4: ("Alto", "#e9a85d"),
-    5: ("Muito alto", "#9b4939"),
-}
+RISK = RISK_COLORS
 CHUNK = 2048
 
 
 def palette(qml: Path):
-    root = ET.parse(qml).getroot()
-    entries = root.findall(".//rasterrenderer/colorPalette/paletteEntry")
-    colors = {int(item.attrib["value"]): item.attrib["color"]
-              for item in entries}
+    colors = qml_colors(qml)
     if set(LABELS) - set(colors):
         raise ValueError("QML sem todas as nove cores esperadas")
     lut = np.zeros((256, 4), dtype=np.uint8)
@@ -127,11 +118,11 @@ def stats(samples: Path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--raster-dir", type=Path,
-                        help="Pasta dos cinco rasters históricos v01-v05")
+                        help="Pasta dos quatro rasters já produzidos, antigos v02-v05")
     parser.add_argument("--stages-dir", type=Path,
-                        help="Rasters v01-v04 criados pelo script consolidado")
+                        help="Rasters das etapas 01-03 criados pelo script consolidado")
     parser.add_argument("--final-raster", type=Path,
-                        help="GeoTIFF v05 criado pelo script consolidado")
+                        help="GeoTIFF final da etapa 04 criado pelo script consolidado")
     parser.add_argument("--risk", type=Path, required=True)
     parser.add_argument("--samples", type=Path, required=True)
     parser.add_argument("--qml", type=Path, required=True)
@@ -143,9 +134,9 @@ def main():
         sources = {i: directory / filename for i, (_, filename) in STAGES.items()}
     elif args.stages_dir and args.final_raster and not args.raster_dir:
         directory = args.stages_dir.resolve()
-        sources = {i: directory / f"fitofisionomias_proxy_ndvi_3m_v0{i}.tif"
-                   for i in range(1, 5)}
-        sources[5] = args.final_raster.resolve()
+        sources = {i: directory / f"fitofisionomias_proxy_ndvi_3m_etapa_0{i}.tif"
+                   for i in range(1, 4)}
+        sources[4] = args.final_raster.resolve()
     else:
         parser.error("Informe --raster-dir ou --stages-dir com --final-raster")
     if output.exists() and any(output.iterdir()):
@@ -158,7 +149,7 @@ def main():
         if not path.is_file():
             raise FileNotFoundError(path)
 
-    detailed = warp_vrt(sources[5], xres=3)
+    detailed = warp_vrt(sources[4], xres=3)
     high_bounds = grid_bounds(detailed)
     cols = math.ceil((high_bounds[2]-high_bounds[0])/20)
     rows = math.ceil((high_bounds[3]-high_bounds[1])/20)
@@ -167,7 +158,7 @@ def main():
     for version, (name, _) in STAGES.items():
         vrt = warp_vrt(sources[version], overview_bounds, cols, rows)
         overview_images.append(save_png(vrt.ReadAsArray().astype("u1"), lut,
-                                        output / f"etapa_v0{version}.png"))
+                                        output / f"etapa_0{version}.png"))
         vrt = None
 
     risk_projected = output / "risco_reprojetado.incompleto.gpkg"
@@ -186,7 +177,7 @@ def main():
     risk_lut = np.zeros((256, 4), dtype="u1")
     for code, (_, color) in RISK.items():
         risk_lut[code, :3] = tuple(bytes.fromhex(color[1:]))
-        risk_lut[code, 3] = 190
+        risk_lut[code, 3] = 230
     save_png(risk_raster.ReadAsArray().astype("u1"), risk_lut,
              output / "contexto_zee.png")
     risk_raster = None
@@ -198,7 +189,7 @@ def main():
     for version, image in enumerate(overview_images, 1):
         frame = image.copy()
         frame.thumbnail((760, 760), Image.Resampling.NEAREST)
-        canvas = Image.new("RGBA", (frame.width, frame.height + 44), "#fffef9")
+        canvas = Image.new("RGBA", (frame.width, frame.height + 44), "#ffffff")
         canvas.alpha_composite(frame, (0, 44))
         ImageDraw.Draw(canvas).text((14, 12),
                                     f"{version}. {STAGES[version][0]}",
@@ -232,7 +223,7 @@ def main():
         "detail_resolution_mercator_m": 3,
         "detail_native_grid_m": 3,
         "detail_min_zoom": 14,
-        "stages": [{"version": i, "name": name, "image": f"etapa_v0{i}.png"}
+        "stages": [{"version": i, "name": name, "image": f"etapa_0{i}.png"}
                    for i, (name, _) in STAGES.items()],
         "blocks": blocks,
         "context": {"image": "contexto_zee.png",

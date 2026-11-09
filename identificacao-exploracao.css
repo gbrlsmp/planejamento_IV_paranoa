@@ -2,7 +2,7 @@
 .ident-controls label { display: grid; gap: .35rem; font-weight: 600; max-width: 100%; }
 .ident-controls select, .ident-controls button, [data-reference-retry], [data-ndvi-retry] { font: inherit; padding: .45rem .65rem; border: 1px solid var(--line); border-radius: .3rem; background: var(--surface); color: var(--text); max-width: 100%; }
 .ident-controls button { cursor: pointer; }
-.ident-map { height: 440px; background: #edf0e8; border: 1px solid var(--line); border-radius: .35rem; isolation: isolate; }
+.ident-map { height: 440px; background: #fff; border: 1px solid var(--line); border-radius: .35rem; isolation: isolate; }
 .ident-map .leaflet-image-layer { image-rendering: pixelated; }
 .ident-map .leaflet-popup-content { max-width: 260px; line-height: 1.5; }
 .ident-map .leaflet-popup-content p { margin: .35rem 0; }

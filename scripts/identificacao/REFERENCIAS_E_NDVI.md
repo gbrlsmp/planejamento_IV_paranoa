@@ -1,13 +1,14 @@
 # Referências MapBiomas–ZEE e exploração dos dois NDVIs
 
+Este documento registra a etapa de referências e exploração. A classificação proxy adotada depois dessa exploração, com quatro rasters sucessivos, está em [FITOFISIONOMIA_3M.md](FITOFISIONOMIA_3M.md).
+
 ## Escopo e ordem das etapas
 
 1. Referências: interseções vetoriais entre classes equivalentes do MapBiomas e do ZEE de cobertura vegetal.
 2. NDVI e exploração: distribuições por grupo, separadas para seca e chuva, e gráfico NDVI seca × chuva.
-3. Classificação e refinamento: etapa posterior, ainda sem regras finais ou avaliação independente.
-4. Contexto dos remanescentes: cruzamento posterior com o outro produto do ZEE, de risco de perda de vegetação nativa.
+3. Classificação e refinamento: quatro etapas adotadas, incluindo o contexto de remanescentes do ZEE-DF na quarta etapa.
 
-Não foram definidos cortes de NDVI, modelos de classificação ou regras finais da rede. A pastagem participa somente como comparação e fica fora da rede de IV. Não se calculam médias ou diferenças entre datas como produtos desta exploração.
+Esta exploração inicial não definiu cortes; eles foram adotados posteriormente para a proxy documentada no guia acima. A pastagem (15) participa somente como comparação. Médias e diferenças não são produtos independentes desta exploração.
 
 ## Entradas e correspondência das legendas
 
@@ -98,7 +99,7 @@ As contagens são informação técnica, não a síntese exibida nas tabelas pri
 
 ## Limitações e referências científicas
 
-UDM2 não foi aplicada aos mosaicos, conforme seus relatórios; nuvens/sombras podem afetar os resultados. Data e escala do ZEE e coleção do MapBiomas ainda precisam de comprovação. As referências vêm de mapas históricos de escalas e definições distintas. Duas datas não caracterizam um ciclo fenológico. Pontos próximos podem ser dependentes e não constituem observações independentes para inferência. A exploração informa uma futura discussão de cortes; não garante que limiares simples de NDVI sejam suficientes.
+UDM2 não foi aplicada aos mosaicos, conforme seus relatórios; nuvens/sombras podem afetar os resultados. Data e escala do ZEE e coleção do MapBiomas ainda precisam de comprovação. As referências vêm de mapas históricos de escalas e definições distintas. Duas datas não caracterizam um ciclo fenológico. Pontos próximos podem ser dependentes e não constituem observações independentes para inferência. Os cortes da proxy posterior não eliminam essas limitações.
 
 1. **Liesenberg, V.; Ponzoni, F. J.; Galvão, L. S. (2007).** Análise da dinâmica sazonal e separabilidade espectral de algumas fitofisionomias do cerrado com índices de vegetação dos sensores MODIS/TERRA e AQUA. Revista Árvore, 31(2). [DOI](https://doi.org/10.1590/S0100-67622007000200012). O estudo encontrou discriminação dependente da estação, com melhor separabilidade na seca naquele contexto. Apoia comparar datas; seus resultados MODIS não fornecem cortes diretamente aplicáveis ao PlanetScope. Página com texto integral consultada na discussão, sem reprodução da análise.
 2. **Haddad, I. et al. (2022).** On the combined use of phenological metrics derived from different PlanetScope vegetation indices for classifying savannas in Brazil. Remote Sensing Applications: Society and Environment, 26, 100764. [DOI](https://doi.org/10.1016/j.rsase.2022.100764). Avaliou 70 imagens PlanetScope e métricas temporais em Águas Emendadas. Motiva investigar informação complementar entre datas, mas não autoriza reproduzir métricas de ciclo completo com duas imagens. Resumo e metadados consultados; não foi feita leitura integral do artigo.
