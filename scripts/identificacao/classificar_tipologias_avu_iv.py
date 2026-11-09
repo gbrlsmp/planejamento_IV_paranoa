@@ -154,15 +154,18 @@ def raster_summary(raster, labels, fragment_count):
             counts[index] += np.bincount(core[values == code], minlength=fragment_count + 1)
     return counts
 
-def classify(geometry, avu_index, avu_types, app_index):
-    covered = {avu_types[int(i)] for i in avu_index.query(geometry, predicate='covered_by')}
-    if len(covered) > 1:
-        raise ValueError('Um fragmento inteiro é coberto por lotes de UC e parque urbano')
-    if covered:
-        return covered.pop()
-    if app_index.query(geometry, predicate='intersects').size:
-        return 'APP'
+def classify(geometry, uc_index, park_index, app_index):
+    if uc_index.query(geometry, predicate='covered_by').size:
+        return 'UC'
+    if park_index.query(geometry, predicate='covered_by').size:
+        return 'Parque urbano'
+    for index in app_index.query(geometry):
+        app = app_index.geometries[index]
+        # Dimensão 2 na interseção dos interiores exige sobreposição de área.
+        if shapely.relate_pattern(geometry, app, '2********'):
+            return 'APP'
     return 'Sem AVU'
+
 
 MAP_CLASSES = {
     'UC': (1, '#23734d'),
@@ -282,7 +285,8 @@ def run(base, destination, map_output, replace):
         avu_shapes, avu_types = reference_shapes(source_dir, 'AVUs_Bacia do Paranoá_Final.shp', raster_crs, True)
         nascentes, _ = reference_shapes(source_dir, 'APP_Nascente_Bacia Paranoa.shp', raster_crs)
         hidro, _ = reference_shapes(source_dir, 'APP_Buffer_hid_Bacia_Paranoa.shp', raster_crs)
-        avu_index = STRtree(avu_shapes)
+        uc_index = STRtree([shape for shape, kind in zip(avu_shapes, avu_types) if kind == 'UC'])
+        park_index = STRtree([shape for shape, kind in zip(avu_shapes, avu_types) if kind == 'Parque urbano'])
         app_index = STRtree(nascentes + hidro)
         print(f'Limites lidos: {dict(Counter(avu_types))}; APP nascentes={len(nascentes)}, APP hidrografia={len(hidro)}', flush=True)
 
@@ -317,10 +321,7 @@ def run(base, destination, map_output, replace):
             polygon = valid_fragment(raw_feature.GetGeometryRef())
             areas[identifier] = polygon.area
             fill_pixels(polygon, identifier, id_grid, gt)
-            try:
-                avu = classify(polygon, avu_index, avu_types, app_index)
-            except ValueError as error:
-                raise ValueError(f'Fragmento {identifier}: {error}') from error
+            avu = classify(polygon, uc_index, park_index, app_index)
             feature = ogr.Feature(shape_layer.GetLayerDefn())
             feature.SetField('id_frag', identifier)
             feature.SetField('classe_avu', avu)
