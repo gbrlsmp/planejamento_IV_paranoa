@@ -15,10 +15,13 @@
   </script>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="identificacao-exploracao.css">
+  <link rel="stylesheet" href="identificacao-fitofisionomia.css">
   <script defer src="subabas.js"></script>
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-base.js"></script>
   <script defer src="identificacao-exploracao.js"></script>
+  <script defer src="mapa-satelite.js"></script>
+  <script defer src="identificacao-fitofisionomia.js"></script>
 
 </head>
 <body>
@@ -47,16 +50,17 @@
 
     <section id="uso-solo" class="report-section" aria-labelledby="titulo-uso-solo">
       <h3 id="titulo-uso-solo">Uso e cobertura do solo</h3>
-      <p>A identificação em desenvolvimento usa as imagens PlanetScope, o MapBiomas e o ZEE-DF de cobertura vegetal. A concordância entre referências apoia a identificação das formações vegetais; as demais classes de uso e cobertura seguirão a legenda do MapBiomas, na grade PlanetScope. A forma de produzir essas classes está em discussão.</p>
+      <p>Esta classificação proxy combina NDVI PlanetScope da seca e da chuva em pixels de 3 m. As concordâncias MapBiomas × ZEE-DF orientaram os cortes exploratórios; a classificação cobre todos os pixels válidos das imagens, inclusive fragmentos urbanos. Máscaras vetoriais e o contexto de remanescentes refinam o resultado.</p>
       <h4>Camadas de entrada</h4>
       <div class="table-scroll" role="region" aria-label="Camadas de entrada da identificação" tabindex="0">
         <table class="indicator-table data-table">
           <thead><tr><th scope="col">Camada de entrada</th><th scope="col">Fonte, data e resolução, se disponível</th><th scope="col">Função</th><th scope="col">Tratamento</th></tr></thead>
           <tbody>
-            <tr><th scope="row">MapBiomas</th><td>Cópia local identificada como 2025; 10 m; coleção a confirmar.</td><td>Legenda das demais classes e referência para formações.</td><td>Recortar à bacia e compatibilizar legenda e grade. Forma de transferência ou refinamento em discussão.</td></tr>
+            <tr><th scope="row">MapBiomas</th><td>Cópia local identificada como 2025; 10 m; coleção a confirmar.</td><td>Referência exploratória; classe 11 de área úmida.</td><td>Interseção com ZEE-DF para as amostras; sobreposição temática da classe 11 no raster final.</td></tr>
             <tr><th scope="row">PlanetScope — chuva e seca</th><td>Planet; 17/01/2026 e 30/07/2026; mosaicos com pixels de 3 m; oito bandas.</td><td>Fornecer a grade de trabalho e informação espectral para análise da vegetação.</td><td>Calcular NDVI separado por data com vermelho e infravermelho próximo; verificar qualidade e alinhamento.</td></tr>
             <tr><th scope="row">ZEE-DF de cobertura vegetal</th><td>ZEE-DF; vetor local; data e escala a confirmar.</td><td>Referência das formações vegetais em comparação com o MapBiomas.</td><td>Compatibilizar as classes e identificar as concordâncias na bacia.</td></tr>
-            <tr><th scope="row">Risco de perda de remanescentes</th><td>ZEE-DF; vetor; data e escala da cópia em conferência.</td><td>Registrar contexto de remanescentes, incluindo ausência de Cerrado nativo.</td><td>Cruzar posteriormente com a classificação, preservando a informação original do ZEE.</td></tr>
+            <tr><th scope="row">Risco de perda de remanescentes</th><td>ZEE-DF; vetor; data e escala da cópia em conferência.</td><td>Contextualizar a interpretação de vegetação nativa.</td><td>Na categoria “Ausência de Cerrado Nativo”, converter 3 e 4 em 100 e 12 em 101.</td></tr>
+            <tr><th scope="row">Edificações, vias e água</th><td>Vetores locais; construções da bacia, vias OSM e massas d'água.</td><td>Limpar classes vegetadas e identificar edificações e água.</td><td>Vias limpam 12 e 101; água vira 33 e edificações viram 103, sobrepondo qualquer classe.</td></tr>
             <tr><th scope="row">Limite da Bacia do Paranoá</th><td>Vetor identificado como IPE-DF 2023.</td><td>Definir a área de estudo.</td><td>Usar como recorte comum após conferir sistemas de referência.</td></tr>
             <tr><th scope="row">Máscaras de qualidade</th><td>Planet, correspondentes às cenas; não localizadas separadamente.</td><td>Identificar nuvens e sombras.</td><td>Localizar e aplicar quando disponíveis; os relatórios dos mosaicos indicam que UDM2 não foi aplicado.</td></tr>
           </tbody>
@@ -65,7 +69,7 @@
       <p>Os mosaicos PlanetScope usados têm pixels de 3 m; a cópia do MapBiomas é identificada como 10 m. A <a href="https://docs.planet.com/data/imagery/arps/techspec/v1-2-0/">Planet informa</a> que cenas ortorretificadas podem ser reamostradas para pixels de 3 m. Ajustar uma camada de 10 m a uma grade de 3 m não acrescenta, por si só, detalhes de 3 m aos seus limites.</p>
       <section class="method-stage" aria-labelledby="producao-uso-titulo">
         <h4 id="producao-uso-titulo">Produção do indicador</h4>
-        <p>Primeiro são delimitadas as referências entre classes equivalentes. Depois, os NDVIs da seca e da chuva ajudam a investigar diferenças e sobreposições entre os grupos, antes de propor regras de classificação.</p>
+        <p>Primeiro são delimitadas referências entre classes equivalentes. Os NDVIs da seca e da chuva orientam os cortes; depois, o raster integral é classificado e refinado por sobreposições documentadas.</p>
         <article class="method-card" id="etapa-referencias" aria-labelledby="titulo-etapa-referencias">
           <h5 id="titulo-etapa-referencias">1. Referências MapBiomas e ZEE-DF</h5>
           <p>As referências resultam da interseção entre classes equivalentes das duas bases: formação campestre, formação savânica, formação florestal e campo alagado e área pantanosa. Elas orientam a exploração do NDVI; não constituem validação independente da vegetação atual.</p>
@@ -129,27 +133,71 @@
               <p>Cada ponto representa o mesmo local nas duas imagens. Grupos que ocupam regiões diferentes do gráfico podem apresentar respostas complementares entre datas; a sobreposição mostra onde essa distinção é difícil. A linha diagonal indica valores iguais nas duas datas, sem funcionar como limite de classe.</p>
               <figure class="ident-scatter"><canvas data-ndvi-scatter role="img" aria-label="NDVI da seca no eixo horizontal e da chuva no vertical, por grupo">Consulte os pares exibidos no arquivo JSON vinculado abaixo.</canvas></figure>
               <p class="ident-chart-note">As distribuições usam todos os pares da amostra sistemática. Para manter a leitura, o gráfico seca × chuva exibe até 2.500 pares sorteados por grupo, com semente fixa; a quantidade de pontos desenhados não representa a proporção de área de cada grupo.</p>
+              <section data-extra-ndvi>
+                <h6>Variação entre seca e chuva</h6>
+                <p>Medianas e intervalos entre o primeiro e o terceiro quartis dos mesmos pontos. A diferença é chuva menos seca; valores positivos indicam aumento do NDVI.</p>
+                <div class="table-scroll" role="region" aria-label="Quartis do NDVI por grupo" tabindex="0"><table class="indicator-table data-table"><thead><tr><th>Grupo</th><th>Pontos</th><th>Seca Q1 / mediana / Q3</th><th>Chuva Q1 / mediana / Q3</th><th>Diferença Q1 / mediana / Q3</th></tr></thead><tbody data-extra-summary></tbody></table></div>
+                <h6>Campestre × pastagem na mesma faixa de NDVI seco</h6>
+                <p>Fixando faixas estreitas na seca, a tabela mostra o NDVI na chuva. Ela permite ver se a segunda data ajuda a distinguir locais semelhantes na seca.</p>
+                <div class="table-scroll" role="region" aria-label="Comparação condicional entre campestre e pastagem" tabindex="0"><table class="indicator-table data-table"><thead><tr><th>NDVI seco</th><th>Grupo</th><th>Pontos</th><th>NDVI chuva Q1 / mediana / Q3</th></tr></thead><tbody data-extra-camp-past></tbody></table></div>
+                <h6>Conferência exploratória por blocos espaciais</h6>
+                <p>Um em cada cinco blocos de 4 km foi separado dos demais para contar como os cortes iniciais classificam as referências. Os rótulos vêm dos mapas históricos: esta contagem não mede acurácia de campo.</p>
+                <div class="table-scroll" role="region" aria-label="Contagens da conferência exploratória" tabindex="0"><table class="indicator-table data-table"><thead><tr><th>Referência</th><th>Pontos</th><th>3 florestal</th><th>4 savânica</th><th>12 campestre</th><th>100 demais</th></tr></thead><tbody data-extra-check></tbody></table></div>
+              </section>
               <button type="button" data-ndvi-retry hidden>Tentar carregar novamente</button>
             </div>
             <p><strong>Limitações:</strong> os relatórios dos mosaicos indicam que UDM2 não foi aplicada; nuvens e sombras podem afetar os valores. Pontos próximos podem ser dependentes. As referências históricas não substituem conferência independente. Duas datas permitem comparar as imagens, sem caracterizar um ciclo fenológico completo.</p>
-            <p>Esta etapa não calcula médias ou diferenças entre datas como novos produtos, não apresenta testes de significância e não estabelece limiares. A escolha e a avaliação de possíveis cortes ou modelos ocorrerão posteriormente.</p>
+            <p>As diferenças entre datas são resumos dos pares, não um novo raster. Os limites usados na proxy e suas fragilidades aparecem na etapa 3.</p>
             <p><a href="dados-mapas/identificacao/exploracao.json" download>Baixar dados dos gráficos e proveniência</a> · <a href="scripts/identificacao/REFERENCIAS_E_NDVI.md">Consultar o procedimento e as referências científicas</a>.</p>
           </div></details>
         </article>
         <article class="method-card" id="etapa-classificacao" aria-labelledby="titulo-etapa-classificacao">
           <h5 id="titulo-etapa-classificacao">3. Classificação e refinamento em 3 m</h5>
-          <p>A pesquisa vai testar a identificação das formações com as referências e as imagens. Para as demais classes, a legenda do MapBiomas orienta o refinamento com PlanetScope; resultados precisam ser avaliados com referências independentes.</p>
-          <details class="method-details"><summary>Ver procedimento completo</summary><div class="method-detail-body"><p><strong>Produto previsto:</strong> classificação de uso e cobertura gerada pelo novo sistema na grade PlanetScope. O método, as amostras conferidas e sua avaliação ainda serão desenvolvidos; nenhuma nova classificação integral foi produzida.</p><p><strong>Estatísticas e comparações:</strong> serão apresentadas após os testes e a validação.</p><p><strong>Mapa interativo:</strong> pendente de geração e disponibilização da nova classificação.</p></div></details>
+          <p>A proxy usa apenas o NDVI de duas datas para classificar a grade PlanetScope inteira. As camadas de vias, edificações, água, área úmida e contexto do ZEE-DF refinam as classes em ordem explícita.</p>
+          <details class="method-details"><summary>Ver cortes, refinamentos e mapa</summary><div class="method-detail-body" data-fitofisionomia-results>
+            <h6>Valores de corte</h6>
+            <p>NDVI médio = (NDVI seca + NDVI chuva) / 2. Os intervalos incluem o limite inferior e excluem o superior. A prioridade das regras resolve sobreposições.</p>
+            <div class="table-scroll" role="region" aria-label="Regras da classificação inicial" tabindex="0"><table class="indicator-table data-table"><thead><tr><th>Prioridade</th><th>Classe</th><th>Regra inicial</th></tr></thead><tbody>
+              <tr><td>1</td><th>3 · Formação florestal</th><td>NDVI seca ≥ 0,70</td></tr>
+              <tr><td>2</td><th>4 · Formação savânica</th><td>0,48 ≤ seca &lt; 0,70 e média ≥ 0,58</td></tr>
+              <tr><td>3</td><th>12 · Formação campestre</th><td>0,20 ≤ seca &lt; 0,46 e 0,38 ≤ chuva &lt; 0,62</td></tr>
+              <tr><td>4</td><th>100 · Classe residual</th><td>Demais pares válidos antes do refinamento</td></tr>
+            </tbody></table></div>
+            <p>No residual 100, a diferença |chuva − seca| / 2 ≥ 0,09 indica 101 (forração vegetal); abaixo disso, 102 (impermeável ou solo exposto, como proxy). Pixels válidos em apenas uma data usam seca ≥ 0,34 ou chuva ≥ 0,50 para 101. A interpretação de 101 e 102 é preliminar.</p>
+            <h6>Sequência de refinamento</h6>
+            <ol class="fit-steps"><li>v01: cortes iniciais de NDVI, ainda com limites campestre 0,45 e savânica 0,45 / média 0,55.</li><li>v02: ajustar campestre para 0,46 e savânica para 0,48 / média 0,58; limpar campestre onde há vias ou edificações.</li><li>v03: dividir o residual 100 em 101 e 102 pela diferença sazonal.</li><li>v04: limpar 101 nas vias; sobrepor área úmida 11 do MapBiomas, água 33 do vetor e edificações 103 em qualquer classe.</li><li>v05: na “Ausência de Cerrado Nativo” do ZEE-DF, converter florestal e savânica em vegetação intraurbana 100 e campestre em forração 101.</li></ol>
+            <figure class="fit-gif"><img src="dados-mapas/identificacao/fitofisionomia/refinamento.gif" loading="lazy" alt="Animação das cinco versões da classificação na mesma área"><figcaption>As cinco etapas na mesma extensão. O mapa abaixo permite pausar em cada versão.</figcaption></figure>
+            <div class="ident-controls"><label>Etapa do mapa <select data-stage-select><option value="1">v01 · NDVI inicial</option><option value="2">v02 · cortes e limpeza</option><option value="3">v03 · 101 e 102</option><option value="4">v04 · água, úmido, edificações</option><option value="5" selected>v05 · resultado final</option></select></label><button type="button" data-stage-fit>Enquadrar</button></div>
+            <div class="ident-map" data-stage-map role="region" aria-label="Mapa interativo das etapas da classificação"></div>
+            <p class="ident-map-note">Visão geral reduzida para aproximadamente 20 m para comparação; o raster de trabalho permanece em 3 m.</p>
+            <h6>Raster final em detalhe</h6>
+            <div class="ident-controls"><label><input type="checkbox" id="mostrar-satelite" disabled> Mostrar imagem de satélite</label><label>Transparência do raster <input type="range" data-final-opacity min="0" max="100" value="15" step="5"><output data-final-opacity-value>15%</output></label><button type="button" data-final-fit>Enquadrar</button></div>
+            <p id="satelite-status" class="ident-map-note" role="status"></p>
+            <div class="ident-map fit-final-map" data-final-map role="region" aria-label="Mapa interativo do raster final, com detalhe de 3 m"></div>
+            <p class="ident-map-note">Aproxime o mapa para carregar blocos do raster reprojetado a 3 m; em escalas menores aparece uma visão geral de 20 m. A imagem opcional é Sentinel-2 de 2025 e tem resolução de 10 m, diferente do PlanetScope usado na classificação.</p>
+            <ul class="ident-legend" data-fit-legend aria-label="Legenda da classificação final"></ul>
+            <h6>Fragilidades da proxy</h6>
+            <ul><li>Campestre e pastagem se sobrepõem em NDVI; os cortes não demonstram origem nativa da vegetação.</li><li>Duas datas não representam o ciclo fenológico completo. Nuvens e sombras podem persistir, pois UDM2 não foi aplicada nos mosaicos.</li><li>Um pixel de 3 m permite mapear fragmentos pequenos, mas não garante acurácia temática de 3 m. A área úmida veio de fonte de 10 m.</li><li>Vias são linhas sem largura uniforme e a qualidade dos vetores varia. Os limites de 100, 101 e 102 também dependem das regras e máscaras adotadas.</li><li>Os rótulos de referência vieram de bases cartográficas, sem validação independente em campo.</li></ul>
+            <p>O raster GeoTIFF final está na pasta local <code>03_fitofisionomia/fitofisionomias_proxy_ndvi_3m_v05.tif</code>. O <a href="scripts/identificacao/classificar_fitofisionomias_3m.py">script consolidado</a> e o <a href="scripts/identificacao/FITOFISIONOMIA_3M.md">guia de reprodução</a> documentam a execução.</p>
+            <p class="ident-status" data-fit-status role="status">Abra esta etapa para carregar os mapas.</p>
+          </div></details>
         </article>
         <article class="method-card" id="etapa-remanescentes" aria-labelledby="titulo-etapa-remanescentes">
           <h5 id="titulo-etapa-remanescentes">4. Contexto dos remanescentes do ZEE-DF</h5>
-          <p>Após a classificação, o sistema cruzará o resultado com a camada de risco de perda de vegetação nativa do ZEE, mantendo as informações de origem separadas.</p>
-          <details class="method-details"><summary>Ver procedimento completo</summary><div class="method-detail-body"><p>A categoria de ausência de Cerrado nativo no ZEE não comprova, por si só, a presença de espécies exóticas na vegetação atual. O tratamento e a nomenclatura das áreas serão discutidos.</p><p><strong>Produto e mapa interativo:</strong> pendentes da classificação e do cruzamento gerados pelo novo sistema.</p></div></details>
+          <p>O vetor de risco de perda de vegetação nativa do ZEE-DF contextualiza o resultado. Sua categoria “Ausência de Cerrado Nativo” orienta a última reclassificação, sem identificar espécies ou comprovar sua condição atual.</p>
+          <details class="method-details"><summary>Ver cruzamento e mapa</summary><div class="method-detail-body" data-context-results>
+            <p>Na etapa v05, somente dentro de “Ausência de Cerrado Nativo”: 3 e 4 passam a 100; 12 passa a 101. Água, área úmida e edificações preservam suas classes. O ZEE não foi usado como máscara para excluir pixels urbanos do NDVI.</p>
+            <div class="ident-controls"><label><input type="checkbox" data-context-final> Mostrar classificação final por baixo</label><label>Opacidade do ZEE <input type="range" data-context-opacity min="0" max="100" value="80" step="10"><output data-context-opacity-value>80%</output></label><button type="button" data-context-fit>Enquadrar</button></div>
+            <div class="ident-map" data-context-map role="region" aria-label="Mapa interativo do contexto de remanescentes do ZEE-DF"></div>
+            <ul class="ident-legend" data-context-legend aria-label="Legenda do contexto ZEE-DF"></ul>
+            <p class="ident-map-note">O mapa contextual é uma representação reduzida para aproximadamente 20 m; consulte o vetor de origem para limites precisos. “Ausência” é uma categoria do ZEE-DF, não observação de campo de 2026.</p>
+            <p class="ident-status" data-context-status role="status">Abra esta etapa para carregar o mapa.</p>
+          </div></details>
         </article>
-        <p>Consulte o <a href="scripts/identificacao/REFERENCIAS_E_NDVI.md">procedimento desta execução</a>, o <a href="scripts/identificacao/camadas_identificacao.json">inventário atualizado</a> e o <a href="scripts/identificacao/README.md">guia de execução</a>. As estatísticas da exploração anterior permanecem como registro histórico no repositório; os gráficos acima usam os produtos desta execução.</p>
+        <p>Consulte o <a href="scripts/identificacao/FITOFISIONOMIA_3M.md">método da proxy de 3 m</a>, o <a href="scripts/identificacao/REFERENCIAS_E_NDVI.md">procedimento das referências</a> e o <a href="scripts/identificacao/README.md">guia de execução</a>.</p>
       </section>
       <h4>Áreas por classe na base publicada</h4>
-      <p>A tabela abaixo corresponde à base já publicada e não são resultados da nova classificação PlanetScope em desenvolvimento.</p>
+      <p>A tabela abaixo corresponde à base MapBiomas publicada anteriormente; seus valores não são os resultados da proxy PlanetScope de 3 m apresentada acima.</p>
       <p>Áreas por classe no recorte da Bacia do Paranoá. A tabela usa os códigos de legenda da base MapBiomas de 10 m.</p>
       <div class="table-scroll" role="region" aria-label="Área por classe de uso e cobertura do solo" tabindex="0">
         <table class="indicator-table summary-table">

@@ -1,6 +1,6 @@
 # Identificação da vegetação na Bacia do Paranoá
 
-Esta pasta contém os procedimentos de identificação da vegetação com PlanetScope, MapBiomas e ZEE-DF e o registro da exploração inicial. A metodologia está em desenvolvimento e os cortes da classificação final ainda não foram definidos.
+Esta pasta contém os procedimentos de identificação da vegetação com PlanetScope, MapBiomas e ZEE-DF e o registro da exploração inicial. A proxy de fitofisionomias em 3 m está documentada em [FITOFISIONOMIA_3M.md](FITOFISIONOMIA_3M.md). Ela é um resultado exploratório, sujeito a validação independente.
 
 ## Entradas e subprodutos
 
@@ -8,11 +8,15 @@ Consultar [Camadas de entrada e origem dos subprodutos](CAMADAS_E_SUBPRODUTOS.md
 
 O código lê os caminhos de entrada declarados em [camadas_identificacao.json](camadas_identificacao.json). A entrada adotada é o MapBiomas local de 10 m identificado como 2025. O download online não é necessário para essa execução.
 
-## Execução atual: referências e dois gráficos
+## Referências e análise exploratória
 
 Consultar [Referências e NDVI — método, produtos e reprodução](REFERENCIAS_E_NDVI.md). O programa `preparar_referencias_ndvi.py` produz interseções vetoriais entre quatro pares de classes correspondentes, lê os dois novos NDVIs integrais e prepara distribuições por data e o gráfico seca × chuva. Pastagem participa somente como comparação. A correspondência de áreas úmidas é operacional, com definições distintas explicitadas.
 
-As versões leves são guardadas em `04_figuras`, destino confirmado pela pesquisadora, e copiadas para `dados-mapas/identificacao/` para o site. O GeoPackage e as amostras completas permanecem locais. O novo fluxo não define cortes e não reutiliza as interseções ou os NDVIs antigos.
+As versões leves são guardadas em `04_figuras`, destino confirmado pela pesquisadora, e copiadas para `dados-mapas/identificacao/` para o site. O GeoPackage e as amostras completas permanecem locais. A etapa seguinte usa os dois novos NDVIs para aplicar os cortes documentados em `FITOFISIONOMIA_3M.md`.
+
+## Classificação proxy e publicação
+
+`classificar_fitofisionomias_3m.py` aplica as regras v01–v05 em uma passagem pelos rasters, sem ler classificações anteriores. `exportar_fitofisionomias_web.py` prepara as vistas leves, o GIF, o mapa do ZEE-DF, os blocos detalhados e as tabelas adicionais da etapa exploratória. Entradas locais e GeoTIFFs integrais ficam fora do repositório; a página publica apenas arquivos de consulta. Consulte [o método e a reprodução](FITOFISIONOMIA_3M.md).
 
 ## Primeira exploração — registro histórico
 
