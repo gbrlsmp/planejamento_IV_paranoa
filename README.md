@@ -29,7 +29,7 @@ O mapa abre com o limite da bacia e as massas d’água. Selecione um indicador 
 | Caminho | Conteúdo |
 | --- | --- |
 | [`index.html`](index.html) | Sumário do relatório, objetivo, metodologia geral e referências. |
-| [`identificacao.html`](identificacao.html) | Uso do solo, tipologias de AVU e IV e métricas de forma. |
+| [`identificacao.html`](identificacao.html) | Uso do solo, tipologias de AVU e métricas de forma. |
 | [`docs/referencias-parte-iv.md`](docs/referencias-parte-iv.md) | Referências, páginas da tese e relação com o conteúdo da Parte IV. |
 | [`estrategias.html`](estrategias.html) | Matriz de decisão, matriz de resolução de problemas e estratégias. |
 | [`diagnostico.html`](diagnostico.html) | Metodologia e indicadores de riscos socioambientais, com acesso a Condicionantes e Ecologia. |

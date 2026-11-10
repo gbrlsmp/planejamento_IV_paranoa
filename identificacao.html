@@ -44,7 +44,7 @@
 
     <nav class="risk-tabs" data-report-tabs aria-label="Conteúdo da identificação">
       <a href="#uso-solo">Uso do solo</a>
-      <a href="#tipologias">Tipologias de AVU e de IV</a>
+      <a href="#tipologias">Tipologias de AVU</a>
       <a href="#metricas-forma">Métricas de forma</a>
     </nav>
 
@@ -261,56 +261,51 @@
     </section>
 
     <section id="tipologias" class="report-section" aria-labelledby="titulo-tipologias">
-      <h3 id="titulo-tipologias">Tipologias de AVU e de IV</h3>
-      <nav class="risk-tabs" aria-label="Vistas de Tipologias de AVU e de IV">
+      <h3 id="titulo-tipologias">Tipologias de AVU</h3>
+      <nav class="risk-tabs" aria-label="Vistas de Tipologias de AVU">
         <a href="identificacao.html#tipologias" aria-current="page">Metodologia</a>
         <a href="mapa.html?tema=tipologias">Mapa</a>
       </nav>
-      <p>A tipologia parte dos fragmentos de vegetação identificados no raster 04 de uso do solo. Cada fragmento recebe uma classe de áreas verdes urbanas (AVU) e uma categoria na rede de infraestrutura verde (IV).</p>
+      <p>A tipologia parte dos fragmentos de vegetação identificados no raster 04 de uso do solo. Cada fragmento recebe uma classe segundo sua relação espacial com as áreas verdes urbanas (AVU).</p>
 
       <h4>Delimitação dos fragmentos</h4>
       <p>Foram reunidos os pixels de formação florestal (3), formação savânica (4), campo alagado e área pantanosa (11), formação campestre (12) e vegetação intraurbana (100). Pixels válidos que compartilham lado ou vértice integram o mesmo fragmento pela regra de vizinhança de 8, mesmo quando pertencem a classes diferentes. Os fragmentos conectados só pela diagonal mantêm um único ID e podem ser representados por uma geometria multiparte.</p>
       <p>Os cinco percentuais foram calculados pela contagem de pixels de cada classe em relação ao total do fragmento. A classe de maior porcentagem é a predominante. Se duas ou mais classes dividem a maior porcentagem, o registro recebe <em>Empate</em>.</p>
 
       <h4>Classificação em relação às AVUs</h4>
+      <p>O critério exige sobreposição de área positiva. A classe vale para o fragmento inteiro.</p>
       <ol>
-        <li>Primeiro, recebem a classe <strong>UC</strong> os fragmentos integralmente contidos em um lote identificado como unidade de conservação no campo <code>AVUs</code>.</li>
-        <li>Entre os fragmentos ainda sem classe, recebem a classe <strong>Parque urbano</strong> os que estão integralmente contidos em um lote dessa categoria no mesmo campo.</li>
-        <li>Entre os restantes, recebem a classe <strong>APP</strong> os que têm sobreposição de área com uma APP de nascente ou do entorno da hidrografia. Um contato só pela borda ou por um ponto tem área de interseção igual a zero.</li>
-        <li>Os demais recebem a classe <strong>Sem AVU</strong>.</li>
+        <li><strong>UC.</strong> Fragmento que se sobrepõe a uma unidade de conservação de proteção integral ou de uso sustentável. A categoria do lote vem do campo <code>AVUs</code> do vetor local.</li>
+        <li><strong>Parque + APP.</strong> Entre os demais, fragmento que se sobrepõe a um parque urbano e a uma APP de nascente ou do entorno da hidrografia. As sobreposições podem ocorrer em trechos diferentes do fragmento.</li>
+        <li><strong>Parque urbano</strong> ou <strong>APP.</strong> Fragmento que se sobrepõe somente a uma dessas duas categorias.</li>
+        <li><strong>Sem AVU.</strong> Demais fragmentos.</li>
       </ol>
 
-      <h4>Classificação em relação às categorias de IV</h4>
-      <figure class="tipologias-figura" id="figura-41">
-        <img src="dados-mapas/identificacao/figura-41-hubs-links-sites.png" width="886" height="497" loading="lazy" alt="Esquema da rede de infraestrutura verde, com hubs como núcleos, links como conexões e sites como áreas verdes distribuídas na paisagem.">
-        <figcaption><strong>Figura 41.</strong> A rede de infraestrutura verde que conecta ecossistemas e paisagens em um sistema de <em>hubs</em>, <em>links</em> e <em>sites</em>.<br>Fonte — Benedict &amp; McMahon (2002), Sant’Anna (2020), adaptado pela autora.</figcaption>
-      </figure>
-      <p>Na bacia, as UCs correspondem a <strong>Hub 1</strong>, os parques urbanos a <strong>Hub 2</strong>, as APPs a <strong>Link</strong> e os demais fragmentos a <strong>Site</strong>. As categorias são atribuídas nessa ordem e se aplicam ao fragmento inteiro.</p>
-
-      <h4>Resultados por categoria</h4>
+      <h4>Resultados por classe de AVU</h4>
       <p>A classificação reuniu <strong>85.089 fragmentos</strong> de vegetação válida, com área total de <strong>59.527,95 ha</strong>.</p>
-      <div class="table-scroll" role="region" aria-label="Fragmentos e área por categoria de IV" tabindex="0">
+      <div class="table-scroll" role="region" aria-label="Fragmentos e área por classe de AVU" tabindex="0">
         <table class="indicator-table summary-table">
-          <thead><tr><th scope="col">Categoria de IV</th><th scope="col">Classe de AVU</th><th scope="col">Fragmentos</th><th scope="col">Área (ha)</th></tr></thead>
+          <thead><tr><th scope="col">Classe de AVU</th><th scope="col">Fragmentos</th><th scope="col">Área (ha)</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Hub 1</th><td>UC</td><td>5.893</td><td>621,79</td></tr>
-            <tr><th scope="row">Hub 2</th><td>Parque urbano</td><td>1.246</td><td>76,47</td></tr>
-            <tr><th scope="row">Link</th><td>APP</td><td>2.847</td><td>49.545,73</td></tr>
-            <tr><th scope="row">Site</th><td>Sem AVU</td><td>75.103</td><td>9.283,96</td></tr>
+            <tr><th scope="row">UC</th><td>6.690</td><td>48.333,47</td></tr>
+            <tr><th scope="row">Parque urbano</th><td>1.396</td><td>165,11</td></tr>
+            <tr><th scope="row">Parque + APP</th><td>8</td><td>110,98</td></tr>
+            <tr><th scope="row">APP</th><td>2.776</td><td>2.509,73</td></tr>
+            <tr><th scope="row">Sem AVU</th><td>74.219</td><td>8.408,66</td></tr>
           </tbody>
-          <tfoot><tr><th scope="row" colspan="2">Total</th><td>85.089</td><td>59.527,95</td></tr></tfoot>
+          <tfoot><tr><th scope="row">Total</th><td>85.089</td><td>59.527,95</td></tr></tfoot>
         </table>
       </div>
-      <p>A área de <em>Link</em> soma a extensão inteira dos fragmentos que se sobrepõem a uma APP, incluindo as porções que se estendem além do limite da APP.</p>
+      <p>A área de cada classe soma os fragmentos inteiros atribuídos a ela, incluindo porções que se estendem além dos limites das AVUs.</p>
       <details class="data-method">
         <summary>Dados e método</summary>
         <ul>
           <li>Vegetação da bacia — raster 04 de uso do solo, proxy PlanetScope em células de 3 × 3 m, em SIRGAS 2000 / UTM 23S (EPSG:31983).</li>
           <li>UCs e parques urbanos — <code>AVUs_Bacia do Paranoá_Final.shp</code>.</li>
           <li>APPs — <code>APP_Nascente_Bacia Paranoa.shp</code> e <code>APP_Buffer_hid_Bacia_Paranoa.shp</code>. A camada de nascentes foi reprojetada para EPSG:31983 para o cruzamento espacial.</li>
-          <li>Saída local — <code>fragmentos_vegetacao_avu_iv.shp</code>, com ID numérico, classe de AVU, categoria de IV, classe predominante e cinco percentuais por fragmento.</li>
+          <li>Saída local — camada em GeoPackage com ID numérico, classe de AVU, classe de vegetação predominante e os cinco percentuais por fragmento.</li>
         </ul>
-        <p>As áreas da tabela usam 9 m² por pixel válido na grade nativa. O mapa apresenta uma vista reamostrada para cerca de 20 m. <a href="scripts/identificacao/classificar_tipologias_avu_iv.py">Consultar o script de classificação</a>.</p>
+        <p>As áreas da tabela usam 9 m² por pixel válido na grade nativa. O mapa apresenta uma vista reamostrada para cerca de 20 m. <a href="scripts/identificacao/classificar_tipologias_avu.py">Consultar o script de classificação</a>.</p>
       </details>
     </section>
 
