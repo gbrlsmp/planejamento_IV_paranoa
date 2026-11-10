@@ -313,32 +313,34 @@
       <h3 id="titulo-metricas-forma">Métricas de forma</h3>
       <nav class="risk-tabs" aria-label="Vistas de Métricas de forma">
         <a href="identificacao.html#metricas-forma" aria-current="page">Metodologia</a>
-        <a href="mapa.html?tema=metricas">Mapa</a>
+        <a href="mapa.html?tema=metricas">Mapa da base anterior</a>
       </nav>
-      <p>O levantamento reúne <strong>33.454 fragmentos</strong> de vegetação, com área total de 60.572,18 ha e área média de 1,81 ha. A base registra área, perímetro, área de núcleo, percentual de borda, razão perímetro/área, índice de forma e dimensão fractal por fragmento.</p>
+      <p>A análise atual usa os <strong>85.089 fragmentos</strong> de vegetação da base de AVU, com <strong>59.527,95 ha</strong> no total. Os fragmentos foram delimitados por vizinhança de oito pixels a partir do raster final de uso do solo de 3 m. O link de mapa abre a base anterior de 33.454 fragmentos.</p>
+
+      <h4>Cenários de borda de 45 m e 90 m</h4>
+      <p>Em cada cenário, a função <code>MK_Fragmentation</code>, do Makurhini, recua o contorno de cada fragmento para dentro pela largura de borda escolhida. A área restante é o núcleo. Quando o recuo consome toda a geometria, a área de núcleo é zero.</p>
+      <p>As duas larguras retomam o critério de planejamento de três vezes a altura arbórea. As referências de 15 m para cerradão e 30 m para mata de galeria correspondem a 45 m e 90 m. Aplicar os dois recuos ao mesmo conjunto de fragmentos permite medir quanto núcleo permanece ao ampliar a faixa de borda. <a href="https://www.alice.cnptia.embrapa.br/alice/bitstream/doc/186922/1/CERRADO-Ecologia-e-flora-VOL-1-152-213.pdf">Fitofisionomias do Cerrado, Embrapa</a> · <a href="https://frederickcountymd.gov/ArchiveCenter/ViewFile/Item/16058">Referência de planejamento para a largura de borda</a>.</p>
+
+      <div class="table-scroll" role="region" aria-label="Comparação das áreas de núcleo em 45 e 90 metros" tabindex="0">
+        <table class="indicator-table summary-table">
+          <thead><tr><th scope="col">Largura da borda</th><th scope="col">Área de núcleo (ha)</th><th scope="col">Núcleo (% da vegetação)</th><th scope="col">Fragmentos com núcleo</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">45 m</th><td>39.845,02</td><td>66,93%</td><td>349</td></tr>
+            <tr><th scope="row">90 m</th><td>35.534,33</td><td>59,69%</td><td>102</td></tr>
+          </tbody>
+        </table>
+      </div>
+
       <details class="data-method">
         <summary>Dados e método</summary>
-        <div class="table-scroll" role="region" aria-label="Dados de métricas de forma" tabindex="0">
-          <table class="indicator-table data-table">
-            <thead>
-              <tr><th scope="col">Dado utilizado</th><th scope="col">Fonte</th><th scope="col">Tratamento aplicado</th><th scope="col">O que analisa</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Métricas por fragmento<br><code>MK_Fragmentation_Bacia_Paranoa_45m_PatchMetrics.csv</code></th>
-                <td>Saída da análise de fragmentação a 45 m.</td>
-                <td>Leitura das métricas registradas por fragmento.</td>
-                <td>Área, perímetro, área de núcleo, borda e complexidade da forma.</td>
-              </tr>
-              <tr>
-                <th scope="row">Métricas da paisagem<br><code>MK_Fragmentation_Bacia_Paranoa_45m_LandscapeMetrics.csv</code></th>
-                <td>Saída da análise de fragmentação a 45 m.</td>
-                <td>Leitura das métricas agregadas, com áreas expressas em hectares.</td>
-                <td>Número de fragmentos e suas áreas total e média.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <ul>
+          <li><strong>Fragmentos.</strong> GeoPackage <code>fragmentos_vegetacao_avu.gpkg</code>, em SIRGAS 2000 / UTM 23S (EPSG:31983). Os IDs permitem comparar os dois cenários fragmento a fragmento.</li>
+          <li><strong>Área da paisagem.</strong> O limite da bacia IPE-DF 2023 foi reprojetado para a mesmo sistema de coordenadas. A área de <strong>1.056.287.128,29 m²</strong> foi usada em <code>landscape_area</code>, inclusive como denominador do tamanho efetivo de malha (MESH).</li>
+          <li><strong>Parâmetros.</strong> <code>edge_distance</code> de 45 ou 90 m, <code>area_unit = "m2"</code>, <code>perimeter_unit = "m"</code> e <code>plot = TRUE</code>. O argumento <code>min_node_area</code> ficou no padrão da função, usado no resumo por tamanho de fragmento.</li>
+          <li><strong>Recuo de 90 m.</strong> Os polígonos maiores foram processados em blocos com margem de 96 m em torno de cada bloco. Depois de reter apenas o núcleo no interior de cada bloco, as geometrias foram reunidas por ID para o cálculo no Makurhini. O recuo em blocos foi conferido contra o recuo direto em amostras, e a área de núcleo de 90 m foi comparada com a de 45 m por fragmento.</li>
+          <li><strong>Produtos locais.</strong> GeoPackages de métricas por fragmento, tabelas de fragmentos e da paisagem e gráficos de núcleo e borda. Os dois conjuntos usam os prefixos <code>MK_Fragmentation_Bacia_Paranoa_45m_AVU</code> e <code>MK_Fragmentation_Bacia_Paranoa_90m_AVU</code>.</li>
+        </ul>
+        <p>Além da área de núcleo e do percentual de borda, a função calcula área, perímetro, índice de forma e dimensão fractal por fragmento. <a href="https://github.com/connectscape/Makurhini/blob/0010946ab2eef7f8d2bc4935f369869fc4c58671/R/MK_fragmentation.R">Revisão do código do Makurhini usada no cálculo</a>.</p>
       </details>
     </section>
 
