@@ -12,7 +12,7 @@ Formação florestal (3), formação savânica (4) e formação campestre (12) s
 | --- | --- |
 | 1 · raster 01 | Formação florestal (3): NDVI seca ≥ 0,70. Formação savânica (4): 0,48 ≤ seca < 0,70 e média das duas datas ≥ 0,58. Formação campestre (12): 0,20 ≤ seca < 0,46 e 0,38 ≤ chuva < 0,62. Demais pixels válidos: classe residual (100). Formação campestre (12) sobre vias OSM ou edificações Open Buildings passa a classe residual (100). |
 | 2 · raster 02 | Na classe residual (100), `abs(chuva-seca)/2 ≥ 0,09` produz forração vegetal (101); abaixo desse limite, impermeável ou solo exposto (102). Se apenas a seca for válida, seca ≥ 0,34 produz forração vegetal (101); se apenas a chuva for válida, chuva ≥ 0,50. Os demais casos ficam em impermeável ou solo exposto (102). |
-| 3 · raster 03 | Forração vegetal (101) sobre vias passa a impermeável ou solo exposto (102). Sobrepor, nessa ordem, campo alagado e área pantanosa (11) da banda original do MapBiomas, água (33) do vetor SEDUH/Geoportal e edificações (103) do Google Open Buildings. As edificações têm a última prioridade entre as sobreposições. Ao final, nas UCs de proteção integral, forração vegetal (101) passa a formação savânica (4) e impermeável ou solo exposto (102) passa a formação campestre (12). Vias servem à limpeza. |
+| 3 · raster 03 | Forração vegetal (101) sobre vias passa a impermeável ou solo exposto (102). Sobrepor campo alagado e área pantanosa (11) da banda original do MapBiomas e edificações (103) do Google Open Buildings fora da máscara de água. A água (33) do vetor SEDUH/Geoportal prevalece sobre as demais classes, preservando formação florestal (3) e formação savânica (4). Ao final, nas UCs de proteção integral, forração vegetal (101) passa a formação savânica (4) e impermeável ou solo exposto (102) passa a formação campestre (12). Vias servem à limpeza. |
 | 4 · raster 04, final | Na categoria `risco=2`, “Ausência de Cerrado Nativo” do ZEE-DF, formação florestal (3) e formação savânica (4) passam a vegetação intraurbana (100), e formação campestre (12) a forração vegetal (101). As demais classes permanecem. |
 
 Na etapa 1, quando só a seca é válida, são usados os mesmos intervalos secos. Se só a chuva é válida: formação campestre (12) em 0,38–<0,62; formação savânica (4) em 0,65–<0,79; formação florestal (3) em ≥ 0,79. A ordem completa de atribuições está no código e no relatório JSON gerado. Vetores são rasterizados com `ALL_TOUCHED=TRUE`; a classe do MapBiomas é transferida por vizinho mais próximo.
@@ -49,21 +49,21 @@ O raster 04 tem **117.365.300 pixels classificados** e 107.932.640 NoData. As á
 
 | Classe | Pixels | Área (ha) |
 | --- | ---: | ---: |
-| Formação florestal (3) | 7.032.809 | 6.329,53 |
-| Formação savânica (4) | 36.755.349 | 33.079,81 |
+| Formação florestal (3) | 7.045.900 | 6.341,31 |
+| Formação savânica (4) | 36.758.008 | 33.082,21 |
 | Campo alagado e área pantanosa (11) | 1.701.771 | 1.531,59 |
 | Formação campestre (12) | 10.492.976 | 9.443,68 |
-| Água (33) | 5.255.694 | 4.730,12 |
-| Vegetação intraurbana (100) | 10.159.258 | 9.143,33 |
+| Água (33) | 5.175.668 | 4.658,10 |
+| Vegetação intraurbana (100) | 10.228.112 | 9.205,30 |
 | Forração vegetal (101) | 19.508.338 | 17.557,50 |
 | Impermeável ou solo exposto (102) | 17.355.423 | 15.619,88 |
-| Edificações (103) | 9.103.682 | 8.193,31 |
+| Edificações (103) | 9.099.104 | 8.189,19 |
 
 ## Limitações
 
 - Formação campestre (12) e pastagem (15) se misturam em NDVI. O corte não estabelece origem nativa nem composição florística.
 - Duas datas não descrevem o ciclo fenológico completo. UDM2 não foi aplicada aos mosaicos; nuvens e sombras podem afetar pixels.
 - Células de 3 m não equivalem a acurácia temática de 3 m. Campo alagado e área pantanosa (11) herda limites da fonte MapBiomas de 10 m.
-- Forração vegetal (101) e impermeável ou solo exposto (102) são inferências exploratórias; o NDVI não comprova permeabilidade nem material de superfície.
+- Forração vegetal (101) indica condições mais compatíveis com forração vegetal ou trechos de formações vegetais fora dos limiares de NDVI. Impermeável ou solo exposto (102) indica condições mais compatíveis com superfícies impermeabilizadas ou solo exposto. As duas classes são aproximações e podem divergir da cobertura real do terreno.
 - Vias são linhas sem largura uniforme. Os vetores de edificações e água e o ZEE-DF têm incertezas próprias de data e posição.
 - A imagem de satélite opcional do site é Sentinel-2 cloudless 2025 de 10 m, usada apenas para orientação visual; não é a imagem PlanetScope classificada.

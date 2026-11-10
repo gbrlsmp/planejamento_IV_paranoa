@@ -71,7 +71,7 @@ def reference_shapes(source_dir, filename, raster_crs, use_avus_field=False):
             raise ValueError('Campo AVUs ausente na camada de áreas verdes')
         for feature in layer:
             kind = feature.GetField('AVUs') if use_avus_field else 'APP'
-            if kind not in ('UC', 'Parque urbano', 'APP'):
+            if kind not in ('UC', 'Parque urbano', 'APP', 'Agrossistemas não intensivos'):
                 raise ValueError(f'Categoria AVUs inesperada: {kind!r}')
             ref = feature.GetGeometryRef()
             if ref is None or ref.IsEmpty():

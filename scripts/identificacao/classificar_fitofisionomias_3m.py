@@ -198,8 +198,8 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     burn(urban, projected_path, 1)
     urban.FlushCache()
     overlay = create_mask(overlay_path, dry)
-    for source, code in ((inputs["roads"], 1), (inputs["water"], 2),
-                         (projected_path, 3)):
+    for source, code in ((inputs["roads"], 1), (projected_path, 3),
+                         (inputs["water"], 2)):
         burn(overlay, source, code)
     overlay.FlushCache()
     risk = create_mask(risk_path, dry)
@@ -231,7 +231,7 @@ def run(base: Path, output: Path, stages_dir: Path | None):
         "etapa_01": "florestal seca>=.70; sav .48<=seca<.70 e media>=.58; camp .20<=seca<.46 e .38<=chuva<.62; vias/edificações limpam campestre",
         "single_date": "seca: mesmos intervalos secos; chuva: 3>=.79, 4 [.65,.79), 12 [.38,.62); outros=100",
         "etapa_02": "100 vira 101 se |chuva-seca|/2>=.09, senão 102; seca isolada .34, chuva isolada .50",
-        "etapa_03": "vias só limpam 101->102; depois MapBiomas original banda 1 classe 11; água vetorial 33; edificações 103; por fim, nas UCs de proteção integral, 101->4 e 102->12",
+        "etapa_03": "vias limpam 101->102; sobrepõem-se campo alagado 11 e edificações 103; água 33 prevalece sobre outras classes, exceto 3 e 4; nas UCs de proteção integral, 101->4 e 102->12",
         "uc_filter": PROTECTED_FILTER,
         "etapa_04": "risco=2/ausência de Cerrado nativo: 3/4->100, 12->101",
         "limitations": ["proxy, não validação de campo", "duas datas não descrevem ciclo fenológico",
@@ -280,8 +280,9 @@ def run(base: Path, output: Path, stages_dir: Path | None):
             third[road] = 102
             wetland = map_grid.GetRasterBand(1).ReadAsArray(x, y, width, height) == 11
             third[alive & wetland] = 11
-            third[alive & (overlay_tile == 2)] = 33
             third[alive & (overlay_tile == 3)] = 103
+            water = alive & (overlay_tile == 2) & (third != 3) & (third != 4)
+            third[water] = 33
             within_uc = protected.GetRasterBand(1).ReadAsArray(x, y, width, height) != 0
             uc_savanna = within_uc & (third == 101)
             uc_grassland = within_uc & (third == 102)
