@@ -21,7 +21,7 @@ const reportMapThemes = {
   "tipologias": [
     "identificacao.html",
     "tipologias",
-    "Tipologias de AVU e de IV"
+    "Tipologias de AVU"
   ],
   "metricas": [
     "identificacao.html",

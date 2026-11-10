@@ -1,4 +1,4 @@
-"""Delimita os fragmentos de vegetação e classifica as tipologias de AVU e IV."""
+"""Delimita os fragmentos de vegetação e classifica as tipologias de AVU."""
 
 from collections import Counter
 import argparse
@@ -6,8 +6,7 @@ from io import BytesIO
 import json
 import os
 from pathlib import Path
-import shutil
-import tempfile
+from uuid import uuid4
 
 import numpy as np
 from osgeo import gdal, gdal_array, ogr, osr
@@ -18,8 +17,6 @@ from shapely import MultiPolygon, STRtree
 gdal.UseExceptions()
 ogr.UseExceptions()
 
-EXTENSIONS = ('.dbf', '.shx', '.prj', '.cpg', '.shp')
-
 classes = {
     3: ('pct_flor', 'Formação florestal'),
     4: ('pct_sav', 'Formação savânica'),
@@ -27,7 +24,6 @@ classes = {
     12: ('pct_camp', 'Formação campestre'),
     100: ('pct_urb', 'Vegetação intraurbana'),
 }
-iv_types = {'UC': 'Hub 1', 'Parque urbano': 'Hub 2', 'APP': 'Link', 'Sem AVU': 'Site'}
 
 def field(layer, name, kind, width, precision=0):
     definition = ogr.FieldDefn(name, kind)
@@ -75,7 +71,7 @@ def reference_shapes(source_dir, filename, raster_crs, use_avus_field=False):
             raise ValueError('Campo AVUs ausente na camada de áreas verdes')
         for feature in layer:
             kind = feature.GetField('AVUs') if use_avus_field else 'APP'
-            if kind not in iv_types:
+            if kind not in ('UC', 'Parque urbano', 'APP'):
                 raise ValueError(f'Categoria AVUs inesperada: {kind!r}')
             ref = feature.GetGeometryRef()
             if ref is None or ref.IsEmpty():
@@ -154,26 +150,29 @@ def raster_summary(raster, labels, fragment_count):
             counts[index] += np.bincount(core[values == code], minlength=fragment_count + 1)
     return counts
 
+def overlaps_area(geometry, index):
+    # Dimensão 2 na interseção dos interiores exige sobreposição de área.
+    return any(shapely.relate_pattern(geometry, index.geometries[i], '2********')
+               for i in index.query(geometry))
+
+
 def classify(geometry, uc_index, park_index, app_index):
-    if uc_index.query(geometry, predicate='covered_by').size:
+    if overlaps_area(geometry, uc_index):
         return 'UC'
-    if park_index.query(geometry, predicate='covered_by').size:
-        return 'Parque urbano'
-    for index in app_index.query(geometry):
-        app = app_index.geometries[index]
-        # Dimensão 2 na interseção dos interiores exige sobreposição de área.
-        if shapely.relate_pattern(geometry, app, '2********'):
-            return 'APP'
-    return 'Sem AVU'
+    park = overlaps_area(geometry, park_index)
+    app = overlaps_area(geometry, app_index)
+    if park:
+        return 'Parque + APP' if app else 'Parque urbano'
+    return 'APP' if app else 'Sem AVU'
 
 
 MAP_CLASSES = {
     'UC': (1, '#23734d'),
     'Parque urbano': (2, '#78ad69'),
-    'APP': (3, '#c4b53d'),
-    'Sem AVU': (4, '#6b7270'),
+    'Parque + APP': (3, '#89739c'),
+    'APP': (4, '#c4b53d'),
+    'Sem AVU': (5, '#6b7270'),
 }
-
 
 def export_map(raster, gt, fragment_ids, map_codes):
     thematic = gdal_array.OpenArray(map_codes[fragment_ids])
@@ -194,86 +193,10 @@ def export_map(raster, gt, fragment_ids, map_codes):
     return bounds, buffer
 
 
-def install_shapefile(virtual_shp, destination, replace, fragment_count, crs):
-    paths = [destination.with_suffix(ext) for ext in EXTENSIONS]
-    present = [path for path in paths if path.exists()]
-    if (present and not replace) or (present and len(present) != len(paths)):
-        raise FileExistsError('O conjunto existente precisa estar completo e exige --replace.')
-    unexpected = set(destination.parent.glob(destination.stem + '.*')) - set(paths)
-    if unexpected:
-        raise FileExistsError(f'Arquivos auxiliares exigem revisão: {unexpected}')
-    if not destination.parent.is_dir():
-        raise FileNotFoundError(destination.parent)
-
-    def signature(path):
-        info = path.stat()
-        return info.st_size, info.st_mtime_ns, info.st_ino
-
-    signatures = {path: signature(path) for path in present}
-    # Staging and recovery are temporary. A failed rollback retains the backups.
-    def temporary_component():
-        fd, name = tempfile.mkstemp(prefix='.tipologias-iv-', dir=destination.parent)
-        return fd, Path(name)
-
-    staged = {}
-    backups = {}
-    moved = []
-    keep_backup = False
-    try:
-        for path in paths:
-            contents = gdal.VSIGetMemFileBuffer_unsafe(virtual_shp[:-4] + path.suffix)
-            if contents is None or not len(contents):
-                raise ValueError(f'Componente shapefile vazio: {path.suffix}')
-            fd, staged[path] = temporary_component()
-            with os.fdopen(fd, 'wb') as handle:
-                if handle.write(contents) != len(contents):
-                    raise OSError(f'Gravação incompleta: {path.suffix}')
-            if path in signatures:
-                fd, backups[path] = temporary_component()
-                os.close(fd)
-                shutil.copy2(path, backups[path])
-        if any(signature(path) != fingerprint for path, fingerprint in signatures.items()):
-            raise OSError('O conjunto existente mudou durante a preparação.')
-        if any(path.exists() for path in paths if path not in signatures):
-            raise FileExistsError('Uma nova saída apareceu durante a preparação.')
-        try:
-            for path, prepared in staged.items():
-                os.replace(prepared, path)
-                moved.append(path)
-            with ogr.Open(str(destination)) as dataset:
-                layer = dataset.GetLayer()
-                assert layer.GetFeatureCount() == fragment_count
-                assert layer.GetSpatialRef().IsSame(crs)
-                assert layer.GetFeature(0).GetField('id_frag') == 1
-                assert layer.GetFeature(fragment_count - 1).GetField('id_frag') == fragment_count
-                layer = None
-        except BaseException:
-            keep_backup = True
-            for path in reversed(moved):
-                if path in backups:
-                    os.replace(backups[path], path)
-                else:
-                    path.unlink()
-            keep_backup = False
-            raise
-    finally:
-        if keep_backup:
-            for path, backup in backups.items():
-                if backup.exists():
-                    print(f'Cópia de recuperação para {path}: {backup}', flush=True)
-        else:
-            for path in (*staged.values(), *backups.values()):
-                path.unlink(missing_ok=True)
-
-
-def run(base, destination, map_output, replace):
+def run(base, staged):
     theme = base / '02_Análises/03_Ecologia/03_Fitofisionomia'
     raster_path = theme / '03_Raster/03_fitofisionomia/fitofisionomias_proxy_ndvi_3m_etapa_04.tif'
     source_dir = base / '01_Base/vetores/05_AVUs'
-    target_stem = destination.stem
-    if map_output.exists():
-        raise FileExistsError(map_output)
-    virtual_shp = f'/vsimem/{target_stem}.shp'
     with gdal.Open(str(raster_path)) as raster:
         raster_crs = raster.GetSpatialRef()
         raster_crs.SetAxisMappingStrategy(osr.OAMS_TRADITIONAL_GIS_ORDER)
@@ -342,18 +265,20 @@ def run(base, destination, map_output, replace):
         assert np.all(pixels[1:] > 0)
         assert np.allclose(pixels[1:] * 9, areas[1:], rtol=0, atol=0.0001)
         assert counts.sum(axis=1).tolist() == source_counts
-        print('Grade, vizinhanca e area conferidas. Gravando atributos na camada em memoria...', flush=True)
+        print('Grade, vizinhanca e area conferidas. Gravando atributos no GeoPackage...', flush=True)
 
         bounds, png = export_map(raster, gt, id_grid, map_codes)
         id_grid = None
 
-        with ogr.GetDriverByName('ESRI Shapefile').CreateDataSource(virtual_shp) as virtual:
-            out = virtual.CreateLayer(target_stem, srs=raster_crs, geom_type=ogr.wkbPolygon,
-                                      options=['ENCODING=UTF-8'])
+        with ogr.GetDriverByName('GPKG').CreateDataSource(str(staged)) as dataset:
+            out = dataset.CreateLayer('fragmentos_vegetacao_avu', srs=raster_crs,
+                                      geom_type=ogr.wkbMultiPolygon,
+                                      options=['SPATIAL_INDEX=YES'])
+            if dataset.StartTransaction() != 0:
+                raise RuntimeError('Falha ao iniciar a gravação do GeoPackage')
             field(out, 'id_frag', ogr.OFTInteger, 9)
             field(out, 'classe_avu', ogr.OFTString, 16)
             field(out, 'form_pred', ogr.OFTString, 45)
-            field(out, 'cat_iv', ogr.OFTString, 8)
             for name, _ in classes.values():
                 field(out, name, ogr.OFTReal, 12, 6)
 
@@ -373,25 +298,27 @@ def run(base, destination, map_output, replace):
                 record.SetField('id_frag', identifier)
                 record.SetField('classe_avu', avu)
                 record.SetField('form_pred', formation)
-                record.SetField('cat_iv', iv_types[avu])
                 for (name, _), number in zip(classes.values(), class_counts):
-                    record.SetField(name, 100 * int(number) / int(pixels[identifier]))
-                record.SetGeometry(source_feature.GetGeometryRef())
+                    record.SetField(name, round(100 * int(number) / int(pixels[identifier]), 6))
+                record.SetGeometry(ogr.ForceToMultiPolygon(source_feature.GetGeometryRef().Clone()))
                 if out.CreateFeature(record) != 0:
                     raise RuntimeError(f'Falha ao escrever o fragmento {identifier}')
+            if dataset.CommitTransaction() != 0:
+                raise RuntimeError('Falha ao concluir a gravação do GeoPackage')
             out = None
 
     shape_layer = shapes = None
-    with ogr.Open(virtual_shp) as dataset:
+    with ogr.Open(str(staged)) as dataset:
         layer = dataset.GetLayer()
         assert layer.GetFeatureCount() == fragment_count
         assert layer.GetSpatialRef().IsSame(raster_crs)
         definition = layer.GetLayerDefn()
         field_names = [definition.GetFieldDefn(i).GetName() for i in range(definition.GetFieldCount())]
-        assert field_names == ['id_frag', 'classe_avu', 'form_pred', 'cat_iv', 'pct_flor', 'pct_sav', 'pct_alag', 'pct_camp', 'pct_urb']
+        expected_fields = ['id_frag', 'classe_avu', 'form_pred', *(name for name, _ in classes.values())]
+        assert field_names == expected_fields
         for identifier, feature in enumerate(layer, start=1):
+            assert MAP_CLASSES[feature.GetField('classe_avu')][0] == map_codes[identifier]
             assert feature.GetField('id_frag') == identifier
-            assert feature.GetField('cat_iv') == iv_types[feature.GetField('classe_avu')]
             percentages = [feature.GetField(name) for name, _ in classes.values()]
             assert abs(sum(percentages) - 100) <= 0.0000026
             assert all(abs(observed - 100 * int(expected) / int(pixels[identifier])) <= 0.00000051
@@ -400,40 +327,47 @@ def run(base, destination, map_output, replace):
             expected_predominant = np.flatnonzero(counts[:, identifier] == counts[:, identifier].max())
             assert feature.GetField('form_pred') == (list(classes.values())[int(expected_predominant[0])][1] if expected_predominant.size == 1 else 'Empate')
         layer = None
-    print('Shapefile validado em memória. Gravando na pasta combinada...', flush=True)
-
-    install_shapefile(virtual_shp, destination, replace, fragment_count, raster_crs)
-    with map_output.open('xb') as handle:
-        handle.write(png.getbuffer())
     area_by_avu = {avu: int(pixels[map_codes == spec[0]].sum()) * 9 / 10000
                    for avu, spec in MAP_CLASSES.items()}
 
-    print(json.dumps({
-        'shp': str(destination),
+    return png, {
         'fragments': fragment_count,
         'avus': dict(avu_counts),
-        'iv': {iv_types[avu]: count for avu, count in avu_counts.items()},
-        'area_ha_by_iv': {iv_types[avu]: area for avu, area in area_by_avu.items()},
+        'area_ha_by_avu': area_by_avu,
         'source_pixel_counts': dict(zip(classes, source_counts)),
-        'map': {'title': 'Categorias de infraestrutura verde',
-                'classes': [[code, f'{iv_types[avu]} — {avu}', color]
+        'map': {'title': 'Classes de AVU dos fragmentos',
+                'classes': [[code, avu, color]
                             for avu, (code, color) in MAP_CLASSES.items()],
                 'bounds': bounds},
         'ties': ties,
         'vegetation_pixels': int(pixels.sum()),
         'vegetation_area_ha': float(pixels.sum() * 9 / 10000),
-    }, ensure_ascii=True), flush=True)
+    }
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--base', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--map-output', type=Path, required=True)
-    parser.add_argument('--replace', action='store_true')
     args = parser.parse_args()
-    if args.output.suffix.lower() != '.shp' or args.map_output.suffix.lower() != '.png':
-        parser.error('--output requer .shp e --map-output requer .png')
-    run(args.base.resolve(), args.output.resolve(), args.map_output.resolve(), args.replace)
+    if args.output.suffix.lower() != '.gpkg' or args.map_output.suffix.lower() != '.png':
+        parser.error('--output requer .gpkg e --map-output requer .png')
+    destination = args.output.resolve()
+    map_output = args.map_output.resolve()
+    for path in (destination, map_output):
+        if path.exists():
+            raise FileExistsError(path)
+    staged = destination.with_name(f'.{destination.stem}-{uuid4().hex}.gpkg')
+    try:
+        png, report = run(args.base.resolve(), staged)
+        if destination.exists():
+            raise FileExistsError(destination)
+        os.replace(staged, destination)
+        with map_output.open('xb') as handle:
+            handle.write(png.getbuffer())
+        print(json.dumps(report, ensure_ascii=True), flush=True)
+    finally:
+        staged.unlink(missing_ok=True)
 
 
 if __name__ == '__main__':
