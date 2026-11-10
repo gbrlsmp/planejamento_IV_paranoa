@@ -15,6 +15,7 @@ from pathlib import Path
 import numpy as np
 from osgeo import gdal
 from PIL import Image, ImageDraw, ImageFont
+from classificar_fitofisionomias_3m import spectral
 from paletas_identificacao import RISK_COLORS, qml_colors
 
 gdal.UseExceptions()
@@ -102,16 +103,14 @@ def stats(samples: Path):
             x, y = data[key + "__x"], data[key + "__y"]
             test = ((np.floor(x / 4000).astype("i8") * 73856093
                      + np.floor(y / 4000).astype("i8") * 19349663) % 5) == 0
-            code = np.full(len(d), 100, dtype="u1")
-            code[(d >= .20) & (d < .46) & (w >= .38) & (w < .62)] = 12
-            code[(d >= .48) & (d < .70) & ((d+w)/2 >= .58)] = 4
-            code[d >= .70] = 3
+            valid = np.ones(d.shape, dtype=bool)
+            code = spectral(d, w, valid, valid)
             counts = {str(value): int(np.count_nonzero(code[test] == value))
                       for value in (3, 4, 12, 100)}
             report["checagem"].append({"id": key, "nome": groups[key],
                                        "n": int(test.sum()), "contagens": counts})
     report["nota"] = ("Amostras de mapas históricos, separadas em blocos de 4 km; "
-                     "checagem exploratória, não validação independente de campo.")
+                     "checagem dos cortes de NDVI antes da limpeza por vias e edificações, sem validação de campo.")
     return report
 
 

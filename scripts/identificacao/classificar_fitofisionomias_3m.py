@@ -22,6 +22,7 @@ ogr.UseExceptions()
 
 TILE = 512
 NODATA = 255
+CORTES = {12: 0.5582746239843752, 4: 0.6263072517078357, 3: 0.7354611318541137}
 RESIDUAL_COLOR = (232, 232, 232, 255)
 PROTECTED_FILTER = "AVUs = 'UC' AND Grupo = 'UC - Proteção Integral'"
 COLORS = {
@@ -141,24 +142,13 @@ def valid(values, nodata):
 
 def spectral(d, w, vd, vw):
     result = np.full(d.shape, NODATA, dtype=np.uint8)
+    available = vd | vw
     both = vd & vw
-    only_d = vd & ~vw
-    only_w = vw & ~vd
-    result[vd | vw] = 100
-    camp_max = 0.46
-    sav_min = 0.48
-    sav_avg = 0.58
-    result[both & (d >= 0.20) & (d < camp_max)
-           & (w >= 0.38) & (w < 0.62)] = 12
-    result[both & (d >= sav_min) & (d < 0.70)
-           & ((d + w) / 2 >= sav_avg)] = 4
-    result[both & (d >= 0.70)] = 3
-    result[only_d & (d >= 0.20) & (d < camp_max)] = 12
-    result[only_d & (d >= sav_min) & (d < 0.70)] = 4
-    result[only_d & (d >= 0.70)] = 3
-    result[only_w & (w >= 0.38) & (w < 0.62)] = 12
-    result[only_w & (w >= 0.65) & (w < 0.79)] = 4
-    result[only_w & (w >= 0.79)] = 3
+    ndvi = np.where(vd, d, w).astype(np.float32, copy=False)
+    ndvi[both] = (d[both].astype(np.float32) + w[both].astype(np.float32)) / np.float32(2)
+    result[available] = 100
+    for code, threshold in CORTES.items():
+        result[available & (ndvi >= np.float32(threshold))] = code
     return result
 
 
@@ -225,11 +215,12 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     stages = {i: create_raster(path, dry, f"Proxy NDVI, etapa 0{i}", residual=i == 1)
               for i, path in stage_paths.items()}
     metadata = {
-        "method": "NDVI seca+chuva; quatro etapas adotadas em uma passagem de 512 px",
+        "method": "NDVI seca+chuva; cortes históricos do NDVI médio em float32",
         "grid": {"size_m": 3, "crs": "EPSG:31983", "source": "NDVI da seca"},
         "inputs": {key: str(value) for key, value in inputs.items()},
-        "etapa_01": "florestal seca>=.70; sav .48<=seca<.70 e media>=.58; camp .20<=seca<.46 e .38<=chuva<.62; vias/edificações limpam campestre",
-        "single_date": "seca: mesmos intervalos secos; chuva: 3>=.79, 4 [.65,.79), 12 [.38,.62); outros=100",
+        "etapa_01": "Cortes históricos do NDVI médio; vias e edificações limpam campestre",
+        "limites_inferiores": CORTES,
+        "single_date": "NDVI da data válida comparado aos mesmos limites",
         "etapa_02": "100 vira 101 se |chuva-seca|/2>=.09, senão 102; seca isolada .34, chuva isolada .50",
         "etapa_03": "vias limpam 101->102; sobrepõem-se campo alagado 11 e edificações 103; água 33 prevalece sobre outras classes, exceto 3 e 4; nas UCs de proteção integral, 101->4 e 102->12",
         "uc_filter": PROTECTED_FILTER,
@@ -241,6 +232,8 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     }
     final.SetMetadataItem("METHOD_JSON", json.dumps(metadata, ensure_ascii=False,
                                                     separators=(",", ":")))
+    for ds in stages.values():
+        ds.SetMetadataItem("METHOD_JSON", final.GetMetadataItem("METHOD_JSON"))
     counts = {i: np.zeros(256, dtype=np.int64) for i in range(1, 5)}
     transitions = {"etapa_01_camp_to_100": 0, "etapa_03_road_101_to_102": 0,
                    "etapa_03_uc_101_to_4": 0, "etapa_03_uc_102_to_12": 0,
@@ -312,6 +305,7 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     final = None
     for ds in stages.values():
         ds.FlushCache()
+    ds = None
     stages.clear()
     check = gdal.Open(str(temp), gdal.GA_ReadOnly)
     if (check.RasterXSize != dry.RasterXSize

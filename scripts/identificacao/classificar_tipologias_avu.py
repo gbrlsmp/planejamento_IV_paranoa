@@ -71,7 +71,13 @@ def reference_shapes(source_dir, filename, raster_crs, use_avus_field=False):
             raise ValueError('Campo AVUs ausente na camada de áreas verdes')
         for feature in layer:
             kind = feature.GetField('AVUs') if use_avus_field else 'APP'
-            if kind not in ('UC', 'Parque urbano', 'APP', 'Agrossistemas não intensivos'):
+            if kind == 'UC':
+                group = feature.GetField('Grupo')
+                if group not in ('UC - Proteção Integral', 'UC - Uso Sustentável'):
+                    raise ValueError(f'Grupo de UC inesperado: {group!r}')
+                kind = group
+            if kind not in ('UC - Proteção Integral', 'UC - Uso Sustentável',
+                            'Parque urbano', 'APP', 'Agrossistemas não intensivos'):
                 raise ValueError(f'Categoria AVUs inesperada: {kind!r}')
             ref = feature.GetGeometryRef()
             if ref is None or ref.IsEmpty():
@@ -156,23 +162,37 @@ def overlaps_area(geometry, index):
                for i in index.query(geometry))
 
 
-def classify(geometry, uc_index, park_index, app_index):
-    if overlaps_area(geometry, uc_index):
-        return 'UC'
-    park = overlaps_area(geometry, park_index)
-    app = overlaps_area(geometry, app_index)
-    if park:
-        return 'Parque + APP' if app else 'Parque urbano'
-    return 'APP' if app else 'Sem AVU'
+AVU_FIELDS = {
+    'avu_uc_pi': 'UC - Proteção Integral',
+    'avu_uc_us': 'UC - Uso Sustentável',
+    'avu_agro': 'Agrossistemas não intensivos',
+    'avu_parque': 'Parque urbano',
+    'avu_app': 'APP',
+}
+
+
+def classify(flags):
+    categories = [name for applies, name in (
+        (flags['avu_uc_pi'] or flags['avu_uc_us'], 'UC'),
+        (flags['avu_parque'], 'Parque urbano'),
+        (flags['avu_agro'], 'Agrossistemas não intensivos'),
+    ) if applies]
+    if len(categories) > 1:
+        return 'Aviso'
+    if categories:
+        return categories[0]
+    return 'APP' if flags['avu_app'] else 'Sem AVU'
 
 
 MAP_CLASSES = {
     'UC': (1, '#23734d'),
     'Parque urbano': (2, '#78ad69'),
-    'Parque + APP': (3, '#89739c'),
+    'Agrossistemas não intensivos': (3, '#a66b38'),
     'APP': (4, '#c4b53d'),
     'Sem AVU': (5, '#6b7270'),
+    'Aviso': (6, '#89739c'),
 }
+
 
 def export_map(raster, gt, fragment_ids, map_codes):
     thematic = gdal_array.OpenArray(map_codes[fragment_ids])
@@ -193,9 +213,9 @@ def export_map(raster, gt, fragment_ids, map_codes):
     return bounds, buffer
 
 
-def run(base, staged):
+def run(base, staged, raster_path=None):
     theme = base / '02_Análises/03_Ecologia/03_Fitofisionomia'
-    raster_path = theme / '03_Raster/03_fitofisionomia/fitofisionomias_proxy_ndvi_3m_etapa_04.tif'
+    raster_path = raster_path or theme / '03_Raster/03_fitofisionomia/fitofisionomias_proxy_ndvi_3m_etapa_04.tif'
     source_dir = base / '01_Base/vetores/05_AVUs'
     with gdal.Open(str(raster_path)) as raster:
         raster_crs = raster.GetSpatialRef()
@@ -208,9 +228,11 @@ def run(base, staged):
         avu_shapes, avu_types = reference_shapes(source_dir, 'AVUs_Bacia do Paranoá_Final.shp', raster_crs, True)
         nascentes, _ = reference_shapes(source_dir, 'APP_Nascente_Bacia Paranoa.shp', raster_crs)
         hidro, _ = reference_shapes(source_dir, 'APP_Buffer_hid_Bacia_Paranoa.shp', raster_crs)
-        uc_index = STRtree([shape for shape, kind in zip(avu_shapes, avu_types) if kind == 'UC'])
-        park_index = STRtree([shape for shape, kind in zip(avu_shapes, avu_types) if kind == 'Parque urbano'])
-        app_index = STRtree(nascentes + hidro)
+        indexes = {
+            field_name: STRtree([shape for shape, kind in zip(avu_shapes, avu_types) if kind == category])
+            for field_name, category in AVU_FIELDS.items() if category != 'APP'
+        }
+        indexes['avu_app'] = STRtree(nascentes + hidro)
         print(f'Limites lidos: {dict(Counter(avu_types))}; APP nascentes={len(nascentes)}, APP hidrografia={len(hidro)}', flush=True)
 
         raster_classes = raster.ReadAsArray()
@@ -235,7 +257,9 @@ def run(base, staged):
         shapes = ogr.GetDriverByName('MEM').CreateDataSource('valid')
         shape_layer = shapes.CreateLayer('valid', srs=raster_crs, geom_type=ogr.wkbMultiPolygon)
         field(shape_layer, 'id_frag', ogr.OFTInteger, 9)
-        field(shape_layer, 'classe_avu', ogr.OFTString, 16)
+        field(shape_layer, 'classe_avu', ogr.OFTString, 32)
+        for name in AVU_FIELDS:
+            field(shape_layer, name, ogr.OFTInteger, 1)
         areas = np.zeros(fragment_count + 1, dtype=np.float64)
         id_grid = np.zeros((raster.RasterYSize, raster.RasterXSize), dtype=np.int32)
         avu_counts = Counter()
@@ -244,10 +268,13 @@ def run(base, staged):
             polygon = valid_fragment(raw_feature.GetGeometryRef())
             areas[identifier] = polygon.area
             fill_pixels(polygon, identifier, id_grid, gt)
-            avu = classify(polygon, uc_index, park_index, app_index)
+            flags = {name: overlaps_area(polygon, index) for name, index in indexes.items()}
+            avu = classify(flags)
             feature = ogr.Feature(shape_layer.GetLayerDefn())
             feature.SetField('id_frag', identifier)
             feature.SetField('classe_avu', avu)
+            for name, flag in flags.items():
+                feature.SetField(name, int(flag))
             feature.SetGeometry(ogr.CreateGeometryFromWkb(polygon.wkb))
             if shape_layer.CreateFeature(feature) != 0:
                 raise RuntimeError(f'Falha ao preparar o fragmento {identifier}')
@@ -271,13 +298,15 @@ def run(base, staged):
         id_grid = None
 
         with ogr.GetDriverByName('GPKG').CreateDataSource(str(staged)) as dataset:
-            out = dataset.CreateLayer('fragmentos_vegetacao_avu', srs=raster_crs,
+            out = dataset.CreateLayer('fragmentos_vegetacao', srs=raster_crs,
                                       geom_type=ogr.wkbMultiPolygon,
                                       options=['SPATIAL_INDEX=YES'])
             if dataset.StartTransaction() != 0:
                 raise RuntimeError('Falha ao iniciar a gravação do GeoPackage')
             field(out, 'id_frag', ogr.OFTInteger, 9)
-            field(out, 'classe_avu', ogr.OFTString, 16)
+            field(out, 'classe_avu', ogr.OFTString, 32)
+            for name in AVU_FIELDS:
+                field(out, name, ogr.OFTInteger, 1)
             field(out, 'form_pred', ogr.OFTString, 45)
             for name, _ in classes.values():
                 field(out, name, ogr.OFTReal, 12, 6)
@@ -297,6 +326,8 @@ def run(base, staged):
                 record = ogr.Feature(out.GetLayerDefn())
                 record.SetField('id_frag', identifier)
                 record.SetField('classe_avu', avu)
+                for name in AVU_FIELDS:
+                    record.SetField(name, source_feature.GetField(name))
                 record.SetField('form_pred', formation)
                 for (name, _), number in zip(classes.values(), class_counts):
                     record.SetField(name, round(100 * int(number) / int(pixels[identifier]), 6))
@@ -305,6 +336,9 @@ def run(base, staged):
                     raise RuntimeError(f'Falha ao escrever o fragmento {identifier}')
             if dataset.CommitTransaction() != 0:
                 raise RuntimeError('Falha ao concluir a gravação do GeoPackage')
+            out.SetMetadataItem('RASTER_ORIGEM', raster_path.name)
+            out.SetMetadataItem('VIZINHANCA', '8')
+            out.SetMetadataItem('CLASSES_VEGETACAO', '3,4,11,12,100')
             out = None
 
     shape_layer = shapes = None
@@ -314,9 +348,10 @@ def run(base, staged):
         assert layer.GetSpatialRef().IsSame(raster_crs)
         definition = layer.GetLayerDefn()
         field_names = [definition.GetFieldDefn(i).GetName() for i in range(definition.GetFieldCount())]
-        expected_fields = ['id_frag', 'classe_avu', 'form_pred', *(name for name, _ in classes.values())]
+        expected_fields = ['id_frag', 'classe_avu', *AVU_FIELDS, 'form_pred', *(name for name, _ in classes.values())]
         assert field_names == expected_fields
         for identifier, feature in enumerate(layer, start=1):
+            assert classify({name: feature.GetField(name) for name in AVU_FIELDS}) == feature.GetField('classe_avu')
             assert MAP_CLASSES[feature.GetField('classe_avu')][0] == map_codes[identifier]
             assert feature.GetField('id_frag') == identifier
             percentages = [feature.GetField(name) for name, _ in classes.values()]
@@ -347,6 +382,7 @@ def run(base, staged):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--base', type=Path, required=True)
+    parser.add_argument('--raster', type=Path, help='Raster final da etapa 04')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--map-output', type=Path, required=True)
     args = parser.parse_args()
@@ -359,7 +395,7 @@ def main():
             raise FileExistsError(path)
     staged = destination.with_name(f'.{destination.stem}-{uuid4().hex}.gpkg')
     try:
-        png, report = run(args.base.resolve(), staged)
+        png, report = run(args.base.resolve(), staged, args.raster)
         if destination.exists():
             raise FileExistsError(destination)
         os.replace(staged, destination)
