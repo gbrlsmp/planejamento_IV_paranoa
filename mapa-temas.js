@@ -18,6 +18,7 @@ const reportMapThemes = {
     "uso-solo",
     "Uso e cobertura do solo"
   ],
+  "iv": ["identificacao.html", "elementos-iv", "Elementos da infraestrutura verde"],
   "tipologias": [
     "identificacao.html",
     "tipologias",
@@ -142,7 +143,8 @@ async function addThemeLayers(map, view) {
     legend.append(heading, list);
     legends.append(legend);
 
-    const { overlay, classAt } = createMapImage("dados-mapas/" + id + ".png", layer, "temas", 0.72);
+    const url = "dados-mapas/" + id + ".png" + (layer.revision ? "?v=" + layer.revision : "");
+    const { overlay, classAt } = createMapImage(url, layer, "temas", 0.72);
     layers.push({ layer, input, classAt });
     overlay.on("error", () => {
       input.checked = false;

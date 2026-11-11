@@ -5,7 +5,7 @@ O mapa geral combina as camadas do catálogo com o limite da bacia, as massas d�
 | Tema | Dado de origem | Leitura no mapa |
 | --- | --- | --- |
 | Uso e cobertura do solo | `uso_cobertura_MapBiomas_Bacia_Paranoa.shp`, MapBiomas 10 m | Classes do relatório. Os dois últimos dígitos do campo `classe` identificam o código de uso. |
-| Métricas de forma | `MK_Fragmentation_Bacia_Paranoa_45m_PatchMetrics.shp` | Área do fragmento em faixas cartográficas de 1, 10 e 100 ha, calculadas com o campo `Area` em m². |
+| Métricas de forma | `MK_Fragmentation_Bacia_Paranoa_45m_AVU_PatchMetrics.gpkg` | Área do fragmento em faixas cartográficas de 1, 10 e 100 ha, calculadas com o campo `Area` em m². |
 | Momentos da Água | `momento_dominante.tif`, análise do Paranoá | Fonte, condução e acomodação. |
 | Potencial de recuperação ecológica | `PRE_Bacia_Paranoa_MERGE_IPE_DF_2023.shp`, SEDUH-DF | Classes do campo `cat_pdot20`. |
 

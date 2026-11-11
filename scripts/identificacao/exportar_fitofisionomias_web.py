@@ -8,6 +8,7 @@ cada bloco é carregado pelo navegador somente quando entra na vista.
 from __future__ import annotations
 
 import argparse
+from hashlib import sha256
 import json
 import math
 from pathlib import Path
@@ -15,9 +16,20 @@ from pathlib import Path
 import numpy as np
 from osgeo import gdal
 from PIL import Image, ImageDraw, ImageFont
+from classificar_fitofisionomias_3m import spectral
 from paletas_identificacao import RISK_COLORS, qml_colors
 
 gdal.UseExceptions()
+
+
+def asset_revision(folder):
+    """Identifica o conjunto de imagens para invalidar cópias antigas no navegador."""
+    digest = sha256()
+    for path in sorted(folder.rglob('*')):
+        if path.suffix in ('.png', '.gif'):
+            digest.update(path.relative_to(folder).as_posix().encode('utf-8'))
+            digest.update(path.read_bytes())
+    return digest.hexdigest()[:16]
 
 STAGES = {
     1: "Cortes NDVI e limpeza campestre",
@@ -102,16 +114,14 @@ def stats(samples: Path):
             x, y = data[key + "__x"], data[key + "__y"]
             test = ((np.floor(x / 4000).astype("i8") * 73856093
                      + np.floor(y / 4000).astype("i8") * 19349663) % 5) == 0
-            code = np.full(len(d), 100, dtype="u1")
-            code[(d >= .20) & (d < .46) & (w >= .38) & (w < .62)] = 12
-            code[(d >= .48) & (d < .70) & ((d+w)/2 >= .58)] = 4
-            code[d >= .70] = 3
+            valid = np.ones(d.shape, dtype=bool)
+            code = spectral(d, w, valid, valid)
             counts = {str(value): int(np.count_nonzero(code[test] == value))
                       for value in (3, 4, 12, 100)}
             report["checagem"].append({"id": key, "nome": groups[key],
                                        "n": int(test.sum()), "contagens": counts})
     report["nota"] = ("Amostras de mapas históricos, separadas em blocos de 4 km; "
-                     "checagem exploratória, não validação independente de campo.")
+                     "checagem dos cortes de NDVI antes da limpeza por vias e edificações, sem validação de campo.")
     return report
 
 
@@ -233,6 +243,7 @@ def main():
                                       gt[0]+(x+w)*gt[1],
                                       gt[3]+y*gt[5]]})
     manifest = {
+        "revision": asset_revision(output),
         "format": "EPSG:3857 image overlays",
         "overview_bounds": overview_bounds,
         "overview_resolution_m": [(right-left)/cols, (top-bottom)/rows],
