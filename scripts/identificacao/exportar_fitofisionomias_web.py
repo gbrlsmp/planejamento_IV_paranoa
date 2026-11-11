@@ -8,6 +8,7 @@ cada bloco é carregado pelo navegador somente quando entra na vista.
 from __future__ import annotations
 
 import argparse
+from hashlib import sha256
 import json
 import math
 from pathlib import Path
@@ -19,6 +20,16 @@ from classificar_fitofisionomias_3m import spectral
 from paletas_identificacao import RISK_COLORS, qml_colors
 
 gdal.UseExceptions()
+
+
+def asset_revision(folder):
+    """Identifica o conjunto de imagens para invalidar cópias antigas no navegador."""
+    digest = sha256()
+    for path in sorted(folder.rglob('*')):
+        if path.suffix in ('.png', '.gif'):
+            digest.update(path.relative_to(folder).as_posix().encode('utf-8'))
+            digest.update(path.read_bytes())
+    return digest.hexdigest()[:16]
 
 STAGES = {
     1: "Cortes NDVI e limpeza campestre",
@@ -232,6 +243,7 @@ def main():
                                       gt[0]+(x+w)*gt[1],
                                       gt[3]+y*gt[5]]})
     manifest = {
+        "revision": asset_revision(output),
         "format": "EPSG:3857 image overlays",
         "overview_bounds": overview_bounds,
         "overview_resolution_m": [(right-left)/cols, (top-bottom)/rows],

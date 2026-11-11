@@ -10,7 +10,7 @@
 
 
   <script>
-    const removedTopics = { "#regioes-administrativas": "ras", "#leitura-da-rede": "rede" };
+    const removedTopics = { "#regioes-administrativas": "ras", "#leitura-da-rede": "iv" };
     if (removedTopics[location.hash]) location.replace("mapa.html?tema=" + removedTopics[location.hash]);
   </script>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
@@ -21,7 +21,7 @@
   <script defer src="mapa-base.js"></script>
   <script defer src="identificacao-exploracao.js"></script>
   <script defer src="mapa-satelite.js"></script>
-  <script defer src="identificacao-fitofisionomia.js"></script>
+  <script defer src="identificacao-fitofisionomia.js?v=5"></script>
 
 </head>
 <body>
@@ -46,6 +46,7 @@
       <a href="#uso-solo">Uso do solo</a>
       <a href="#metricas-forma">Métricas de forma</a>
       <a href="#tipologias">Tipologias de AVU</a>
+      <a href="#elementos-iv">Elementos da IV</a>
     </nav>
 
     <section id="uso-solo" class="report-section" aria-labelledby="titulo-uso-solo">
@@ -197,7 +198,7 @@
               <p class="ident-status" data-context-status role="status">Abra esta etapa para carregar o mapa.</p>
             </section>
             <h6>Compare os quatro rasters</h6>
-            <figure class="fit-gif"><img src="dados-mapas/identificacao/fitofisionomia/refinamento.gif" loading="lazy" alt="Animação das quatro etapas adotadas da classificação na mesma área"><figcaption>A mesma área em quatro momentos. O mapa permite pausar e consultar cada raster.</figcaption></figure>
+            <figure class="fit-gif"><img src="dados-mapas/identificacao/fitofisionomia/refinamento.gif?v=b59b5982135a1fc0" loading="lazy" alt="Animação das quatro etapas adotadas da classificação na mesma área"><figcaption>A mesma área em quatro momentos. O mapa permite pausar e consultar cada raster.</figcaption></figure>
             <div class="ident-controls"><label>Etapa do mapa <select data-stage-select><option value="1">Raster 01 · cortes NDVI</option><option value="2">Raster 02 · diferença sazonal</option><option value="3">Raster 03 · sobreposições e UCs</option><option value="4" selected>Raster 04 · contexto ZEE-DF</option></select></label><button type="button" data-stage-fit>Enquadrar</button></div>
             <div class="ident-map" data-stage-map role="region" aria-label="Mapa interativo das quatro etapas da classificação"></div>
             <p class="ident-map-note">Visão geral reduzida para aproximadamente 20 m; cada raster de trabalho conserva pixels de 3 m.</p>
@@ -343,6 +344,43 @@
           <li>Saída local — <code>fragmentos_vegetacao.gpkg</code>, com ID, classe de AVU, indicadores de sobreposição, formação predominante e percentuais das cinco classes de vegetação.</li>
         </ul>
         <p>As áreas da tabela usam 9 m² por pixel válido na grade nativa. O mapa apresenta uma vista reamostrada para cerca de 20 m. <a href="scripts/identificacao/classificar_tipologias_avu.py">Consultar o script de classificação</a>.</p>
+      </details>
+    </section>
+
+    <section id="elementos-iv" class="report-section" aria-labelledby="titulo-elementos-iv">
+      <h3 id="titulo-elementos-iv">Elementos da infraestrutura verde</h3>
+      <nav class="risk-tabs" aria-label="Vistas de Elementos da IV">
+        <a href="identificacao.html#elementos-iv" aria-current="page">Metodologia</a>
+        <a href="mapa.html?tema=iv">Mapa interativo</a>
+      </nav>
+      <p>A classificação funcional usa os mesmos 50.047 fragmentos nos cenários de borda de 45 m e 90 m. Cada fragmento recebe a primeira categoria aplicável na sequência abaixo.</p>
+      <ol>
+        <li><strong>Hub 1.</strong> Exclusivamente os dois maiores fragmentos, pela área total, entre os que se sobrepõem a UCs de proteção integral. Na base atual, são os IDs 17964 e 50034.</li>
+        <li><strong>Hub 2.</strong> Parques urbanos sem sobreposição com APP e, entre os fragmentos que seriam Link, aqueles com <code>ShapeIndex &gt; 25</code>. O valor 25 fica fora desse corte.</li>
+        <li><strong>Link.</strong> Fragmentos com sobreposição com APP ainda sem classe.</li>
+        <li><strong>Site 1.</strong> Agrossistemas não intensivos ainda sem classe.</li>
+        <li><strong>Site 2.</strong> Demais fragmentos.</li>
+      </ol>
+      <p>Para estes elementos da IV, a APP corresponde à camada <code>dissolvido</code> de <code>APP_Buffer_hid_Bacia_Paranoa_disso.gpkg</code>. O cruzamento em EPSG:31983 exige área positiva de sobreposição e a categoria vale para o fragmento inteiro.</p>
+      <div class="table-scroll" role="region" aria-label="Fragmentos e área por elemento da IV" tabindex="0">
+        <table class="indicator-table summary-table">
+          <thead><tr><th scope="col">Elemento da IV</th><th scope="col">Fragmentos</th><th scope="col">Área (ha)</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Hub 1</th><td>2</td><td>39.561,04</td></tr>
+            <tr><th scope="row">Hub 2</th><td>933</td><td>2.550,91</td></tr>
+            <tr><th scope="row">Link</th><td>1.185</td><td>5.381,48</td></tr>
+            <tr><th scope="row">Site 1</th><td>751</td><td>280,41</td></tr>
+            <tr><th scope="row">Site 2</th><td>47.176</td><td>6.878,03</td></tr>
+          </tbody>
+          <tfoot><tr><th scope="row">Total</th><td>50.047</td><td>54.651,86</td></tr></tfoot>
+        </table>
+      </div>
+      <p>O fragmento 27675, com ShapeIndex de 35,4834, recebe Hub 2 pelo critério de forma. As duas larguras de borda têm os mesmos rótulos de IV porque as geometrias e os atributos usados nesta classificação coincidem.</p>
+      <details class="data-method">
+        <summary>Dados, cores e reprodução</summary>
+        <p>As entradas são os GeoPackages <code>MK_Fragmentation_Bacia_Paranoa_45m_AVU_PatchMetrics.gpkg</code> e <code>MK_Fragmentation_Bacia_Paranoa_90m_AVU_PatchMetrics.gpkg</code>, com os campos <code>id_frag</code>, <code>Area</code>, <code>ShapeIndex</code>, <code>avu_uc_pi</code>, <code>avu_parque</code> e <code>avu_agro</code>, além da APP hidrográfica dissolvida.</p>
+        <p>A paleta segue o QML do uso do solo. Hub 1 usa o verde florestal, Hub 2 o verde savânico, Link o azul de campo alagado, Site 1 o tom campestre e Site 2 o tom de forração vegetal. O mapa apresenta uma vista de aproximadamente 20 m, com legenda e consulta da classe ao clicar.</p>
+        <p>O <a href="scripts/identificacao/classificar_elementos_iv.py">script da classificação de IV</a> reproduz os critérios e confere os resultados por ID. O <a href="scripts/identificacao/FITOFISIONOMIA_3M.md">guia metodológico</a> descreve a execução.</p>
       </details>
     </section>
 

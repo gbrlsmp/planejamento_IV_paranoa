@@ -97,4 +97,51 @@ Para a AVU, o cruzamento exige sobreposição de área positiva e vale para o fr
 
 As duas bordas usam os mesmos fragmentos. O recuo usa GEOS 3.14.1, com 30 segmentos por quadrante. Os fragmentos com pelo menos 5.000 coordenadas foram divididos em blocos centrais de 2.000 m com margem de 6 m além da borda solicitada. As métricas por fragmento e por paisagem são calculadas no R 4.5.3 pela função oficial MK_Fragmentation da revisão [0010946](https://github.com/connectscape/Makurhini/blob/0010946ab2eef7f8d2bc4935f369869fc4c58671/R/MK_fragmentation.R). A função recebe as áreas e os perímetros já calculados, em metros quadrados e metros. A área da paisagem vem do limite da bacia reprojetado para EPSG:31983. Os gráficos usam os mesmos núcleos e métricas dos GeoPackages e CSVs.
 
-O script local `calcular_metricas_fragmentacao.py` fica na pasta `01_Fragmentação`, junto dos produtos. Execute com o Python do QGIS com Shapely e Matplotlib e o R com magrittr. Informe o GeoPackage de fragmentos, o limite da bacia, a fonte da revisão citada do Makurhini, o executável Rscript e uma pasta de saída existente sem resultados prévios para a borda escolhida. Execute com `--borda 45` e depois com `--borda 90`. Use `--help` para ver os argumentos.
+O script local `calcular_metricas_fragmentacao.py` fica na pasta `01_Fragmentação`, junto dos produtos, com uma cópia correspondente [versionada neste diretório](calcular_metricas_fragmentacao.py). Execute com o Python do QGIS com Shapely e Matplotlib e o R com magrittr. Informe o GeoPackage de fragmentos, o limite da bacia, a fonte da revisão citada do Makurhini, o executável Rscript e uma pasta de saída existente sem resultados prévios para a borda escolhida. Execute com `--borda 45` e depois com `--borda 90`. Use `--help` para ver os argumentos. O cálculo das métricas preserva a AVU e não atribui `cat_iv`; aplique depois o classificador de IV abaixo.
+
+## Elementos da infraestrutura verde
+
+O programa [classificar_elementos_iv.py](classificar_elementos_iv.py) aplica a classificação aprovada em 10/11/2026. Usa a camada `metricas_fragmentos`, os indicadores `avu_uc_pi`, `avu_parque` e `avu_agro`, a área total `Area` e o índice `ShapeIndex`. Os dois cenários têm os mesmos 50.047 fragmentos e 54.651,8637 ha. As geometrias e os atributos usados na IV são comparados por ID antes de compartilhar a classificação; as métricas de núcleo diferem com a borda.
+
+Para a IV, a única APP é a camada `dissolvido` de `01_Base/vetores/05_AVUs/APP_Buffer_hid_Bacia_Paranoa_disso.gpkg`, em EPSG:31983. Exige-se interseção de área positiva. O campo histórico `avu_app`, usado na classificação de AVU com outras fontes, não é usado para decidir a IV.
+
+Aplica-se a primeira regra atendida pelo fragmento inteiro:
+
+1. **Hub 1:** exclusivamente os dois maiores fragmentos, pela área total, entre aqueles com sobreposição a UC de proteção integral. IDs atuais: 17964 e 50034.
+2. **Hub 2:** parques urbanos sem sobreposição à APP indicada, ainda sem classe.
+3. **Link:** fragmentos com APP ainda sem classe. Se `ShapeIndex > 25`, recebem **Hub 2**. O limite é estrito: 25 permanece Link.
+4. **Site 1:** Agrossistemas não intensivos ainda sem classe.
+5. **Site 2:** todos os demais.
+
+O ensaio anterior de herança de Hub por proximidade de 300 m foi retirado da classificação adotada. Hub 1 permanece limitado aos dois fragmentos definidos. O fragmento 27675 é o único candidato a Link com `ShapeIndex > 25` nesta base (35,4834) e passa a Hub 2.
+
+| Classe | Fragmentos, 45 m e 90 m | Área (ha) | Cor do uso do solo reutilizada |
+| --- | ---: | ---: | --- |
+| Hub 1 | 2 | 39.561,0381 | Formação florestal (3), `#4b6a40` |
+| Hub 2 | 933 | 2.550,9132 | Formação savânica (4), `#86a58f` |
+| Link | 1.185 | 5.381,4780 | Campo alagado e área pantanosa (11), `#3e5972` |
+| Site 1 | 751 | 280,4067 | Formação campestre (12), `#d0a55f` |
+| Site 2 | 47.176 | 6.878,0277 | Forração vegetal (101), `#c4cc95` |
+| **Total** | **50.047** | **54.651,8637** | |
+
+A paleta vem de `uso do solo.qml`. Reutilizar suas cores não estabelece equivalência temática entre classes de cobertura e funções da IV. O mapa interativo consulta a classe da imagem de visualização, reamostrada com vizinho mais próximo para aproximadamente 20 m em EPSG:3857. Ele representa ambos os cenários, que possuem a mesma IV. As áreas da tabela vêm da geometria integral de 3 m, e não da imagem web.
+
+Exemplo de aplicação aos dois GeoPackages existentes, executado da raiz do repositório no PowerShell:
+
+```powershell
+$baseDados = 'C:/Users/sampa/OneDrive - unb.br/02 BASE DE DADOS'
+$fragmentacao = "$baseDados/02_Análises/03_Ecologia/01_Fragmentação"
+$fitofisionomia = "$baseDados/02_Análises/03_Ecologia/03_Fitofisionomia"
+& 'C:/Program Files/QGIS 3.44.15/bin/python-qgis-ltr.bat' scripts/identificacao/classificar_elementos_iv.py `
+  --metrics "$fragmentacao/MK_Fragmentation_Bacia_Paranoa_45m_AVU_PatchMetrics.gpkg" "$fragmentacao/MK_Fragmentation_Bacia_Paranoa_90m_AVU_PatchMetrics.gpkg" `
+  --app "$baseDados/01_Base/vetores/05_AVUs/APP_Buffer_hid_Bacia_Paranoa_disso.gpkg" `
+  --apply
+```
+
+Sem `--apply`, o script apenas calcula e informa as contagens e áreas. Para exportar o mapa, acrescente `--raster` com a etapa 04, `--qml` com a paleta de uso do solo e `--map-output` com um destino PNG inexistente. O JSON impresso informa os limites e a legenda que correspondem à imagem. Na publicação, copie a imagem para `dados-mapas/iv.png` e sincronize a entrada `iv` de `dados-mapas/catalogo.json`. O script verifica as áreas rasterizadas por classe e, na gravação de `cat_iv`, confere que as demais colunas e geometrias permaneceram iguais.
+
+## Correspondência dos produtos publicados
+
+Alterações nos dados da identificação devem atualizar conjuntamente os scripts, este método, os valores e legendas de `identificacao.html`, as imagens e catálogos de `dados-mapas`, os mapas interativos e os links da árvore em `index.html`. Os GeoTIFFs e GeoPackages científicos integrais permanecem nas pastas de dados locais; o Git distribui o código, os métodos e as representações para consulta.
+
+`exportar_fitofisionomias_web.py` regenera, a partir das quatro etapas atuais, os quatro PNGs, o GIF com quatro quadros de 1,5 s e os blocos de detalhe de 3 m, além do manifesto e das análises adicionais. O manifesto inclui uma revisão calculada das imagens para evitar que o navegador reaproveite imagens de uma execução anterior. `dados-mapas/uso.png` corresponde ao PNG da etapa 04, com os mesmos limites e classes no catálogo do mapa geral. A nota de revisão do uso do solo permanece visível na página: atualizar suas representações não resolve a diferença metodológica ainda pendente em relação ao uso do solo histórico.

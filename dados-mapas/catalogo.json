@@ -5,70 +5,56 @@
       [
         3,
         "Formação florestal",
-        "#1f7047"
+        "#4b6a40"
       ],
       [
         4,
         "Formação savânica",
-        "#70a953"
+        "#86a58f"
       ],
       [
         11,
         "Campo alagado e área pantanosa",
-        "#58c3bb"
+        "#3e5972"
       ],
       [
         12,
         "Formação campestre",
-        "#add97e"
-      ],
-      [
-        9,
-        "Silvicultura",
-        "#785c9b"
-      ],
-      [
-        15,
-        "Pastagem",
-        "#e1c480"
-      ],
-      [
-        19,
-        "Lavoura temporária",
-        "#dd9976"
-      ],
-      [
-        21,
-        "Mosaico de usos",
-        "#eedc97"
-      ],
-      [
-        36,
-        "Lavoura perene",
-        "#a976a8"
-      ],
-      [
-        24,
-        "Área urbanizada",
-        "#b64a3d"
-      ],
-      [
-        25,
-        "Outras áreas não vegetadas",
-        "#a68d7f"
+        "#d0a55f"
       ],
       [
         33,
-        "Rio, lago e oceano",
-        "#5c99b1"
+        "Água",
+        "#a6cee3"
+      ],
+      [
+        100,
+        "Vegetação intraurbana",
+        "#2b5125"
+      ],
+      [
+        101,
+        "Forração vegetal",
+        "#c4cc95"
+      ],
+      [
+        102,
+        "Impermeável ou solo exposto",
+        "#e1e1e1"
+      ],
+      [
+        103,
+        "Edificações",
+        "#393939"
       ]
     ],
     "bounds": [
-      -5355581.927014676,
-      -1803315.3046882006,
-      -5309831.927014676,
-      -1755265.3046882006
-    ]
+      -5356092.147243301,
+      -1803590.6899615955,
+      -5309832.147243301,
+      -1754750.6899615955
+    ],
+    "revision": "4f54cbbfa79b81a9"
   },
   "tipologias": {
     "title": "Classes de AVU dos fragmentos",
@@ -198,5 +184,42 @@
       -5309836.372087586,
       -1755263.4452431868
     ]
+  },
+  "iv": {
+    "title": "Elementos da infraestrutura verde",
+    "bounds": [
+      -5356092.147243301,
+      -1803590.6899615955,
+      -5309832.147243301,
+      -1754750.6899615955
+    ],
+    "classes": [
+      [
+        1,
+        "Hub 1",
+        "#4b6a40"
+      ],
+      [
+        2,
+        "Hub 2",
+        "#86a58f"
+      ],
+      [
+        3,
+        "Link",
+        "#3e5972"
+      ],
+      [
+        4,
+        "Site 1",
+        "#d0a55f"
+      ],
+      [
+        5,
+        "Site 2",
+        "#c4cc95"
+      ]
+    ],
+    "revision": "bb1cd5f2e9d727fe"
   }
 }

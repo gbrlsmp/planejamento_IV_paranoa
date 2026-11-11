@@ -194,7 +194,7 @@ MAP_CLASSES = {
 }
 
 
-def export_map(raster, gt, fragment_ids, map_codes):
+def export_map(raster, gt, fragment_ids, map_codes, map_classes=MAP_CLASSES):
     thematic = gdal_array.OpenArray(map_codes[fragment_ids])
     thematic.SetGeoTransform(gt)
     thematic.SetSpatialRef(raster.GetSpatialRef())
@@ -203,7 +203,7 @@ def export_map(raster, gt, fragment_ids, map_codes):
                          resampleAlg='near')
     x, dx, _, y, _, dy = overview.GetGeoTransform()
     palette = [0] * (256 * 3)
-    for code, color in MAP_CLASSES.values():
+    for code, color in map_classes.values():
         palette[code * 3:code * 3 + 3] = bytes.fromhex(color[1:])
     image = Image.fromarray(overview.ReadAsArray())
     image.putpalette(palette)

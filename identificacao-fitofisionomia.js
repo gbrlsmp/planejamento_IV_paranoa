@@ -3,8 +3,15 @@
 (() => {
   const directory = "dados-mapas/identificacao/fitofisionomia/";
   let manifestPromise;
+  let imageRevision = "";
   let statsPromise;
   const manifest = () => manifestPromise ??= loadData(directory + "manifesto.json")
+    .then(config => {
+      imageRevision = config.revision || "";
+      const gif = document.querySelector('.fit-gif img');
+      if (gif && imageRevision) gif.src = directory + "refinamento.gif?v=" + imageRevision;
+      return config;
+    })
     .catch(error => { manifestPromise = null; throw error; });
   const stats = () => statsPromise ??= loadData(directory + "exploracoes_adicionais.json")
     .catch(error => { statsPromise = null; throw error; });
@@ -26,7 +33,8 @@
     return { map, view };
   }
   function image(file, extent, opacity, alt) {
-    return L.imageOverlay(directory + file, bounds(extent), { opacity, alt, interactive: false });
+    const url = directory + file + (imageRevision ? "?v=" + imageRevision : "");
+    return L.imageOverlay(url, bounds(extent), { opacity, alt, interactive: false });
   }
   function legend(container, items) {
     container.replaceChildren();
