@@ -38,7 +38,14 @@ def main():
         return args.base / Path(item['arquivo']).relative_to(original_base)
 
     revision = hashlib.sha256(local_text.encode('utf-8')).hexdigest()[:16]
-    require(revision == public['revisao'] == maps['revisao'], 'Revisões incompatíveis')
+    presentation = public.get('apresentacao_atualizada')
+    require(public['revisao'] == maps['revisao'], 'Revisões incompatíveis')
+    if presentation:
+        require(presentation['registro_cientifico_sha256'] == hashlib.sha256((args.tabelas / 'exploracao_ndvi.json').read_bytes()).hexdigest(), 'Registro científico alterado')
+        require(presentation['amostras_sha256'] == hashlib.sha256((args.tabelas / 'amostras_ndvi_pareadas.npz').read_bytes()).hexdigest(), 'Amostras alteradas')
+        require(presentation['codigo_sha256'] == hashlib.sha256(Path(__file__).with_name('atualizar_apresentacao_ndvi.py').read_bytes()).hexdigest(), 'Código de apresentação alterado')
+    else:
+        require(revision == public['revisao'], 'Revisão científica incompatível')
     for name in ('exploracao.json', 'referencias.json', 'mapbiomas.png', 'zee.png', 'intersecao.png'):
         require((args.figuras / name).read_bytes() == (args.publicacao / name).read_bytes(), 'Cópia de publicação diferente: ' + name)
     for source, items in local['fontes'].items():
@@ -51,7 +58,10 @@ def main():
                 for block in iter(lambda: f.read(8 * 1024 * 1024), b''):
                     h.update(block)
             require(h.hexdigest() == item['sha256'], 'Fonte alterada: ' + source + '/' + path.name)
-    require(fingerprint(Path(__file__).with_name('preparar_referencias_ndvi.py'))[0]['sha256'] == local['codigo'][0]['sha256'], 'Código difere da versão executada')
+    if not presentation:
+        require(fingerprint(Path(__file__).with_name('preparar_referencias_ndvi.py'))[0]['sha256'] == local['codigo'][0]['sha256'], 'Código difere da versão executada')
+    else:
+        require([item['sha256'] for item in public['codigo']] == [item['sha256'] for item in local['codigo']], 'Proveniência do gerador científico modificada')
     require(local['auditoria_mapbiomas']['divergentes'] == 0, 'Auditoria vetorial/raster com divergências')
     srs = spatial_ref(31983)
     saved, _ = read_vectors(args.referencias, srs)
@@ -68,8 +78,11 @@ def main():
         geom = ref['geometry']
         require(geom.is_valid, 'Referência inválida: ' + ref['grupo'])
         require(expected.symmetric_difference(geom).area < .01, 'Interseção salva difere do cruzamento das entradas')
-        area = next(a for a in maps['areas'] if a['grupo'] == ref['grupo'])
+        area = next(a for a in local['areas'] if a['grupo'] == ref['grupo'])
         require(abs(geom.area / 10000 - area['intersecao_ha']) < 1e-8, 'Área vetorial difere da tabela')
+        shown = next((a for a in maps['areas'] if a['grupo'] == ref['grupo']), None)
+        if shown is not None:
+            require(shown == area, 'Tabela publicada difere do registro científico')
     samples = np.load(args.tabelas / 'amostras_ndvi_pareadas.npz', allow_pickle=False)
     rng = np.random.default_rng(local['amostragem']['semente_grafico'])
     sources = {season: gdal.Open(str(source_path(local['fontes']['ndvi_' + season][0]))) for season in ('seca', 'chuva')}
@@ -91,6 +104,10 @@ def main():
         for season, values in [('seca', dry), ('chuva', rain)]:
             hist = np.histogram(values, bins=local['amostragem']['bins'])[0]
             require(hist.tolist() == group['histogramas'][season] and hist.sum() == n, 'Histograma inconsistente')
+            if presentation:
+                stats = group['estatisticas'][season]
+                require(abs(stats['media'] - float(np.mean(values, dtype=np.float64))) < 1e-14, 'Média inconsistente')
+                require(abs(stats['desvio_padrao'] - float(np.std(values, dtype=np.float64, ddof=0))) < 1e-14, 'Desvio populacional inconsistente')
             source = sources[season]
             gt = source.GetGeoTransform()
             for i in np.linspace(0, n - 1, min(n, 100), dtype=int):
@@ -108,8 +125,12 @@ def main():
         require(set(np.unique(a)).issubset({0, *[e['codigo'] for e in layer['legenda']]}), 'Código PNG fora da legenda')
         colors = [e['cor'] for e in layer['legenda']]
         require(len(colors) == len(set(colors)), 'Cores repetidas impedem consulta unívoca no mapa')
+    if presentation:
+        require({a['mapbiomas_codigo'] for a in maps['areas']} == {3, 4, 12}, 'Tabela de referência incorreta')
+        require(public['grupos']['pastagem']['cor'] == '#915558', 'Cor de pastagem incorreta')
+        require(all(not ('alagado' in e['nome'].lower() or e['nome'].startswith('Áreas úmidas')) for layer in maps['camadas'].values() for e in layer['legenda']), 'Área úmida na legenda de referência')
     print(f'OK: interseções integrais, áreas, todos os pontos nas referências, histogramas completos, {checks} consultas diretas aos NDVIs, subamostras reproduzíveis, fontes preservadas e cinco cópias web idênticas.')
-    print('Revisão: ' + revision + '. Coerência computacional conferida; sem validação temática independente.')
+    print('Revisão: ' + public['revisao'] + '. Coerência computacional conferida; sem validação temática independente.')
 
 
 if __name__ == '__main__':

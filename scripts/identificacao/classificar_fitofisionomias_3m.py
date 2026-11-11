@@ -22,7 +22,8 @@ ogr.UseExceptions()
 
 TILE = 512
 NODATA = 255
-CORTES = {12: 0.5582746239843752, 4: 0.6263072517078357, 3: 0.7354611318541137}
+CORTES = {12: 0.5185165309558434, 4: 0.6418583869084876, 3: 0.7354611318541107}
+LIMITE_RESIDUAL = 0.3555
 RESIDUAL_COLOR = (232, 232, 232, 255)
 PROTECTED_FILTER = "AVUs = 'UC' AND Grupo = 'UC - Proteção Integral'"
 COLORS = {
@@ -169,11 +170,13 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     temp = output.with_name(output.stem + ".incompleto.tif")
     urban_path = output.with_name("urbano.incompleto.tif")
     overlay_path = output.with_name("sobreposicoes.incompleto.tif")
+    building_path = output.with_name("construcoes.incompleto.tif")
+    water_path = output.with_name("agua.incompleto.tif")
     risk_path = output.with_name("ausencia_cerrado.incompleto.tif")
     protected_path = output.with_name("protecao_integral.incompleto.tif")
     projected_path = output.with_name("edificacoes.incompleto.gpkg")
     if any(p.exists() for p in (temp, urban_path, overlay_path, risk_path,
-                                protected_path, projected_path)):
+                                protected_path, projected_path, building_path, water_path)):
         raise FileExistsError("Arquivo temporário anterior ainda presente")
 
     projected = gdal.VectorTranslate(
@@ -188,9 +191,14 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     burn(urban, projected_path, 1)
     urban.FlushCache()
     overlay = create_mask(overlay_path, dry)
-    for source, code in ((inputs["roads"], 1), (projected_path, 3),
-                         (inputs["water"], 2)):
-        burn(overlay, source, code)
+    # Máscaras independentes preservam edificações mesmo sob a máscara de água.
+    building_mask = create_mask(building_path, dry)
+    water_mask = create_mask(water_path, dry)
+    burn(overlay, inputs["roads"], 1)
+    burn(building_mask, projected_path, 1)
+    burn(water_mask, inputs["water"], 1)
+    building_mask.FlushCache()
+    water_mask.FlushCache()
     overlay.FlushCache()
     risk = create_mask(risk_path, dry)
     burn(risk, inputs["risk"], 1, where="risco = 2")
@@ -215,14 +223,17 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     stages = {i: create_raster(path, dry, f"Proxy NDVI, etapa 0{i}", residual=i == 1)
               for i, path in stage_paths.items()}
     metadata = {
-        "method": "NDVI seca+chuva; cortes históricos do NDVI médio em float32",
+        "method": "NDVI seca+chuva; referências atuais MapBiomas × ZEE; método adotado em 11/11/2026",
         "grid": {"size_m": 3, "crs": "EPSG:31983", "source": "NDVI da seca"},
         "inputs": {key: str(value) for key, value in inputs.items()},
-        "etapa_01": "Cortes históricos do NDVI médio; vias e edificações limpam campestre",
+        "etapa_01": "Cortes do NDVI médio nas referências atuais; vias e edificações limpam campestre",
+        "referencias": "referencias_mapbiomas_zee_sistema.gpkg/referencias_equivalentes; centro do pixel; todos os pixels; desvio populacional espacial",
+        "mapbiomas_warp": "Primeira banda; vizinho mais próximo; VRT GDAL lida em faixas de 512 linhas por toda a largura; transformação aproximada padrão 0.125 pixel",
         "limites_inferiores": CORTES,
         "single_date": "NDVI da data válida comparado aos mesmos limites",
-        "etapa_02": "100 vira 101 se |chuva-seca|/2>=.09, senão 102; seca isolada .34, chuva isolada .50",
-        "etapa_03": "vias limpam 101->102; sobrepõem-se campo alagado 11 e edificações 103; água 33 prevalece sobre outras classes, exceto 3 e 4; nas UCs de proteção integral, 101->4 e 102->12",
+        "etapa_02": "Somente residual 100: NDVI efetivo <= 0.3555 vira 102; acima vira 101; comparação float32",
+        "limite_residual": LIMITE_RESIDUAL,
+        "etapa_03": "vias 101->102; campo alagado 11; água 33 preserva 3/4; edificações 103 preservam somente a classe atual 3; UCs 101->4 e 102->12",
         "uc_filter": PROTECTED_FILTER,
         "etapa_04": "risco=2/ausência de Cerrado nativo: 3/4->100, 12->101",
         "limitations": ["proxy, não validação de campo", "duas datas não descrevem ciclo fenológico",
@@ -240,6 +251,10 @@ def run(base: Path, output: Path, stages_dir: Path | None):
                    "etapa_04_forest_to_100": 0, "etapa_04_savanna_to_100": 0,
                    "etapa_04_camp_to_101": 0}
     for y in range(0, dry.RasterYSize, TILE):
+        # Faixas inteiras de 512 linhas reproduzem a transformação aproximada
+        # usada na rodada aprovada; ler a VRT em quadrados altera pixels de borda.
+        map_row = map_grid.GetRasterBand(1).ReadAsArray(
+            0, y, dry.RasterXSize, min(TILE, dry.RasterYSize - y))
         for x in range(0, dry.RasterXSize, TILE):
             width = min(TILE, dry.RasterXSize - x)
             height = min(TILE, dry.RasterYSize - y)
@@ -255,15 +270,12 @@ def run(base: Path, output: Path, stages_dir: Path | None):
 
             second = first.copy()
             target = second == 100
-            both = target & vd & vw
-            only_d = target & vd & ~vw
-            only_w = target & vw & ~vd
             if np.any(target & ~(vd | vw)):
                 raise ValueError("Classe 100 sem NDVI válido")
+            effective = np.where(vd, d, w).astype(np.float32, copy=False)
+            effective[vd & vw] = (d[vd & vw] + w[vd & vw]) / np.float32(2)
             second[target] = 102
-            second[both & (np.abs(w-d)/2 >= .09)] = 101
-            second[only_d & (d >= .34)] = 101
-            second[only_w & (w >= .50)] = 101
+            second[target & (effective > np.float32(LIMITE_RESIDUAL))] = 101
 
             third = second.copy()
             overlay_tile = overlay.GetRasterBand(1).ReadAsArray(x, y, width, height)
@@ -271,11 +283,12 @@ def run(base: Path, output: Path, stages_dir: Path | None):
             road = alive & (overlay_tile == 1) & (third == 101)
             transitions["etapa_03_road_101_to_102"] += int(road.sum())
             third[road] = 102
-            wetland = map_grid.GetRasterBand(1).ReadAsArray(x, y, width, height) == 11
+            wetland = map_row[:, x:x + width] == 11
             third[alive & wetland] = 11
-            third[alive & (overlay_tile == 3)] = 103
-            water = alive & (overlay_tile == 2) & (third != 3) & (third != 4)
+            water = alive & (water_mask.GetRasterBand(1).ReadAsArray(x, y, width, height) != 0) & (third != 3) & (third != 4)
             third[water] = 33
+            buildings = alive & (building_mask.GetRasterBand(1).ReadAsArray(x, y, width, height) != 0) & (third != 3)
+            third[buildings] = 103
             within_uc = protected.GetRasterBand(1).ReadAsArray(x, y, width, height) != 0
             uc_savanna = within_uc & (third == 101)
             uc_grassland = within_uc & (third == 102)
@@ -334,8 +347,9 @@ def run(base: Path, output: Path, stages_dir: Path | None):
                    for i, values in counts.items()},
         "transitions": transitions,
     }, ensure_ascii=False, indent=2), encoding="utf-8")
-    urban = overlay = risk = protected = map_grid = None
-    for path in (urban_path, overlay_path, risk_path, protected_path, projected_path):
+    urban = overlay = risk = protected = map_grid = building_mask = water_mask = None
+    for path in (urban_path, overlay_path, risk_path, protected_path, projected_path,
+                 building_path, water_path):
         path.unlink()
     print(json.dumps({"output": str(output), "counts_final":
                       {str(code): int(counts[4][code])

@@ -30,11 +30,6 @@
           "cor": "#d5d69e"
         },
         {
-          "codigo": 11,
-          "nome": "Campo alagado e área pantanosa",
-          "cor": "#496a6e"
-        },
-        {
           "codigo": 12,
           "nome": "Formação campestre",
           "cor": "#d0a55f"
@@ -42,7 +37,7 @@
         {
           "codigo": 15,
           "nome": "Pastagem",
-          "cor": "#a08d8e"
+          "cor": "#915558"
         },
         {
           "codigo": 19,
@@ -173,11 +168,6 @@
           "codigo": 19,
           "nome": "Área em Processo de Parcelamento Urbano",
           "cor": "#d3c8bc"
-        },
-        {
-          "codigo": 20,
-          "nome": "Áreas úmidas: Parque Cerrado (ou Murundum), Palmeirais e Veredas",
-          "cor": "#496a6e"
         }
       ]
     },
@@ -198,16 +188,11 @@
           "codigo": 3,
           "nome": "Formação florestal",
           "cor": "#4b6a40"
-        },
-        {
-          "codigo": 4,
-          "nome": "Campo alagado e área pantanosa",
-          "cor": "#3e5972"
         }
       ]
     }
   },
-  "revisao": "ef9f0896e8d42702",
+  "revisao": "ec214fd37daa9766",
   "areas": [
     {
       "grupo": "campestre",
@@ -238,24 +223,15 @@
       "zee_ha": 6184.5613761830755,
       "intersecao_ha": 5063.394100631733,
       "correspondencia": "classes_equivalentes"
-    },
-    {
-      "grupo": "campo_alagado",
-      "nome": "Campo alagado e área pantanosa",
-      "mapbiomas_codigo": 11,
-      "zee_classe": "Áreas úmidas: Parque Cerrado (ou Murundum), Palmeirais e Veredas",
-      "mapbiomas_ha": 1574.1510738546185,
-      "zee_ha": 1454.8102767679895,
-      "intersecao_ha": 246.40124410156454,
-      "correspondencia": "operacional_definicoes_distintas"
     }
   ],
-  "inclui_areas_umidas": true,
+  "inclui_areas_umidas": false,
   "nota_areas_umidas": "Correspondência operacional: classe 11 do MapBiomas ∩ áreas úmidas do ZEE; as definições não são idênticas.",
   "apresentacao_cores": {
     "mapbiomas": "uso do solo mapbiomas.qml",
     "intersecao": "uso do solo.qml",
     "zee": "paletas_identificacao.py, inspirada no QML MapBiomas",
     "nota": "O QML MapBiomas não inclui o código 36; lavoura perene usa #c0a77a."
-  }
+  },
+  "nota_apresentacao": "Áreas úmidas omitidas somente desta tabela e das vistas de referência; fontes, amostras exploratórias e classe 11 do uso do solo preservadas."
 }

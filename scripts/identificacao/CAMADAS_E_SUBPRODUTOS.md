@@ -16,6 +16,10 @@ Os gráficos atuais usam esses novos NDVIs e interseções: distribuições por 
 
 **As seções seguintes documentam a primeira exploração amostral e seus estados à época.** Para gerar novamente os produtos vigentes, usar o novo procedimento vinculado acima, não a sequência histórica de reprodução abaixo.
 
+## Estado corrente — 11/11/2026
+
+Os NDVIs integrais e o raster médio estrito estão gerados. As quatro etapas do uso do solo usam o método adotado nesta data, com residual 0,3555. Fragmentos, AVU, métricas 45/90 m e IV foram recalculados. Consulte [o método vigente](FITOFISIONOMIA_3M.md) e [os resultados](../../dados-mapas/identificacao/resultados_identificacao.json). As tabelas e estados abaixo registram a exploração histórica, não pendências da execução corrente.
+
 ## Camadas de entrada — exploração histórica
 
 | Entrada | Data e resolução ou escala | Função | Situação |

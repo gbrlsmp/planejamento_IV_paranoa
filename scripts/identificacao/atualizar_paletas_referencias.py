@@ -34,6 +34,7 @@ def main():
     parser.add_argument("--final-qml", type=Path, required=True)
     args = parser.parse_args()
     mb_colors = qml_colors(args.mapbiomas_qml)
+    mb_colors[15] = '#915558'
     final_colors = qml_colors(args.final_qml)
     refs_path, ndvi_path = args.web / "referencias.json", args.web / "exploracao.json"
     refs = json.loads(refs_path.read_text(encoding="utf-8"))

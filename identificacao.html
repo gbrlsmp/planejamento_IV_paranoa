@@ -14,14 +14,14 @@
     if (removedTopics[location.hash]) location.replace("mapa.html?tema=" + removedTopics[location.hash]);
   </script>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-  <link rel="stylesheet" href="identificacao-exploracao.css">
+  <link rel="stylesheet" href="identificacao-exploracao.css?v=2">
   <link rel="stylesheet" href="identificacao-fitofisionomia.css">
   <script defer src="subabas.js"></script>
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-base.js"></script>
-  <script defer src="identificacao-exploracao.js"></script>
+  <script defer src="identificacao-exploracao.js?v=2"></script>
   <script defer src="mapa-satelite.js"></script>
-  <script defer src="identificacao-fitofisionomia.js?v=5"></script>
+  <script defer src="identificacao-fitofisionomia.js?v=6"></script>
 
 </head>
 <body>
@@ -51,89 +51,78 @@
 
     <section id="uso-solo" class="report-section" aria-labelledby="titulo-uso-solo">
       <h3 id="titulo-uso-solo">Uso e cobertura do solo</h3>
-      <p>Esta classificação proxy combina NDVI PlanetScope da seca e da chuva em pixels de 3 m. Os cortes adotados foram recuperados das estatísticas históricas de NDVI médio nas concordâncias MapBiomas × ZEE-DF; a classificação cobre todos os pixels válidos das imagens, inclusive fragmentos urbanos. Máscaras vetoriais e o contexto de remanescentes refinam o resultado.</p>
-      <p class="note"><strong>Revisão pendente do uso do solo.</strong> Os cortes históricos de NDVI reproduzem o raster intermediário de vegetação. O mapa atual difere do raster final histórico <code>uso_cobertura_final_v01.tif</code>, sobretudo na distribuição das formações savânica (4) e campestre (12). A revisão deve recuperar as regras de combinação com o MapBiomas e comparar os resultados por classe.</p>
+      <p>Esta classificação proxy combina o NDVI extraído de imagens PlanetScope dos períodos de chuva (17/01/2026) e seca (30/07/2026), com resolução espacial de 3 metros. Os limiares de classificação foram definidos a partir da análise dos valores de NDVI de cada período e de sua média, considerando as áreas de concordância entre as fitofisionomias mapeadas pelo MapBiomas (2025) e pelo ZEE-DF (2017). Além das formações vegetais do Cerrado, a classificação distingue áreas com provável presença de superfícies impermeáveis ou solo exposto, áreas de forração vegetal e outras coberturas vegetais que não se enquadram nos limiares adotados para essas formações. Máscaras vetoriais e informações sobre o contexto dos remanescentes complementam o refinamento do resultado.</p>
+      <p class="note"><strong>Método atualizado em 11/11/2026.</strong> Os cortes usam as interseções atuais MapBiomas × ZEE-DF. A diferença nas estatísticas campestre e savânica foi explicada pela mudança das referências; a composição integral do raster final histórico ainda não foi reconstruída.</p>
       <h4>Camadas de entrada</h4>
       <div class="table-scroll" role="region" aria-label="Camadas de entrada da identificação" tabindex="0">
         <table class="indicator-table data-table">
           <thead><tr><th scope="col">Camada de entrada</th><th scope="col">Fonte, data e resolução, se disponível</th><th scope="col">Função</th><th scope="col">Tratamento</th></tr></thead>
           <tbody>
-            <tr><th scope="row">MapBiomas</th><td>Cópia local identificada como 2025; 10 m; coleção a confirmar.</td><td>Referência exploratória; campo alagado e área pantanosa (11).</td><td>Interseção com ZEE-DF para as amostras; sobreposição temática de campo alagado e área pantanosa (11) no raster.</td></tr>
-            <tr><th scope="row">PlanetScope — chuva e seca</th><td>Planet; 17/01/2026 e 30/07/2026; mosaicos com pixels de 3 m; oito bandas.</td><td>Fornecer a grade de trabalho e informação espectral para análise da vegetação.</td><td>Calcular NDVI separado por data com vermelho e infravermelho próximo; verificar qualidade e alinhamento.</td></tr>
-            <tr><th scope="row">ZEE-DF de cobertura vegetal</th><td>ZEE-DF; vetor local; data e escala a confirmar.</td><td>Referência das formações vegetais em comparação com o MapBiomas.</td><td>Compatibilizar as classes e identificar as concordâncias na bacia.</td></tr>
-            <tr><th scope="row">Risco de perda de remanescentes</th><td>ZEE-DF; vetor; data e escala da cópia em conferência.</td><td>Contextualizar a interpretação de vegetação nativa.</td><td>Na categoria “Ausência de Cerrado Nativo”, formação florestal (3) e savânica (4) passam a vegetação intraurbana (100); formação campestre (12) passa a forração vegetal (101).</td></tr>
-            <tr><th scope="row">Edificações</th><td><a href="https://sites.research.google/gr/open-buildings/">Google Open Buildings</a>; vetor local de construções da bacia.</td><td>Identificar edificações.</td><td>Limpar formação campestre (12) na etapa 1; depois, atribuir edificações (103), respeitando a prioridade da água.</td></tr>
-            <tr><th scope="row">Vias</th><td>OpenStreetMap (OSM); vetor local de vias da bacia.</td><td>Limpar classificações vegetadas sobre vias.</td><td>Limpar formação campestre (12) e forração vegetal (101); vias não se tornam uma classe.</td></tr>
-            <tr><th scope="row">Água</th><td>SEDUH, via Geoportal; vetor local de massas d'água.</td><td>Identificar água.</td><td>Atribuir água (33) aos pixels classificados, preservando formação florestal (3) e formação savânica (4).</td></tr>
             <tr><th scope="row">Limite da Bacia do Paranoá</th><td>Vetor identificado como IPE-DF 2023.</td><td>Definir a área de estudo.</td><td>Usar como recorte comum após conferir sistemas de referência.</td></tr>
-            <tr><th scope="row">Máscaras de qualidade</th><td>Planet, correspondentes às cenas; não localizadas separadamente.</td><td>Identificar nuvens e sombras.</td><td>Localizar e aplicar quando disponíveis; os relatórios dos mosaicos indicam que UDM2 não foi aplicado.</td></tr>
-          </tbody>
+            <tr><th scope="row">Uso do Solo</th><td>MapBiomas identificado como 2025, 10 m; coleção a confirmar.</td><td>Referência exploratória de NDVI; Identificação da classe campo alagado e área pantanosa (11).</td><td>Interseção com ZEE-DF para as referências; compatibilizar as classes e identificar as concordâncias na bacia; sobreposição temática de campo alagado e área pantanosa (11) no raster.</td></tr>
+            <tr><th scope="row">Uso do Solo </th><td>ZEE-DF Cobertura Vegetal (2017).</td><td>Referência exploratória de NDVI.</td><td>Interseção com MapBiomas para as referências; compatibilizar as classes e identificar as concordâncias na bacia.</td></tr>
+            <tr><th scope="row">Imagens de Satélite</th><td>PlanetScope (SuperDove 8 Bandas) - 3 m; 17/01/2026 (chuva) e 30/07/2026 (seca).</td><td>Fornecer a grade de trabalho e informação espectral para análise de uso do solo.</td><td>Calcular os NDVIs por período e sua média temporal; resumir média e desvio padrão espacial por referência; verificar qualidade e alinhamento.</td></tr>
+            <tr><th scope="row">Risco de Perda de Vegetação Nativa</th><td>ZEE-DF (2017).</td><td>Contextualizar a interpretação da fitofisionomia do cerrado.</td><td>Na categoria “Ausência de Cerrado Nativo”, formação florestal (3) e savânica (4) passam para a classe vegetação intraurbana (100); formação campestre (12) passa a forração vegetal (101).</td></tr>
+            <tr><th scope="row">Edificações</th><td><a href="https://sites.research.google/gr/open-buildings/">Google Open Buildings</a></td><td>Identificar edificações.</td><td>Depois da água, atribuir edificações (103), preservando somente a formação florestal presente nesse momento.</td></tr>
+            <tr><th scope="row">Vias</th><td><a href="https://www.openstreetmap.org/#map=4/-15.13/-53.19">OpenStreetMap (OSM)</a></td><td>Refinar classificação.</td><td>Limpar formação campestre (12) e forração vegetal (101); vias não se tornam uma classe.</td></tr>
+            <tr><th scope="row">Água</th><td>SEDUH, via Geoportal (2026).</td><td>Identificar água.</td><td>Atribuir água (33) aos pixels classificados, preservando formação florestal (3) e formação savânica (4).</td></tr>
+</tbody>
         </table>
       </div>
-      <p>Os mosaicos PlanetScope usados têm pixels de 3 m; a cópia do MapBiomas é identificada como 10 m. A <a href="https://docs.planet.com/data/imagery/arps/techspec/v1-2-0/">Planet informa</a> que cenas ortorretificadas podem ser reamostradas para pixels de 3 m. Ajustar uma camada de 10 m a uma grade de 3 m não acrescenta, por si só, detalhes de 3 m aos seus limites.</p>
+      <p>Os mosaicos PlanetScope têm pixels de 3 m. Transferir a classe 11 do MapBiomas de 10 m para essa grade não acrescenta detalhe temático de 3 m aos seus limites.</p>
       <section class="method-stage" aria-labelledby="producao-uso-titulo">
         <h4 id="producao-uso-titulo">Produção do indicador</h4>
-        <p>Primeiro são delimitadas referências entre classes equivalentes. Os NDVIs da seca e da chuva orientam os cortes; depois, o raster integral é classificado e refinado por sobreposições documentadas.</p>
+        <p>Primeiro são delimitadas as referências entre classes equivalentes do MapBiomas e do ZEE-DF. A média temporal entre os NDVIs da seca e da chuva é calculada por pixel; a média e o desvio padrão espacial desses valores, dentro de cada referência, definem os cortes.</p>
         <article class="method-card" id="etapa-referencias" aria-labelledby="titulo-etapa-referencias">
           <h5 id="titulo-etapa-referencias">1. Referências MapBiomas e ZEE-DF</h5>
-          <p>As referências resultam da interseção entre classes equivalentes das duas bases: formação campestre (12), formação savânica (4), formação florestal (3) e campo alagado e área pantanosa (11). Elas orientam a exploração do NDVI; não constituem validação independente da vegetação atual.</p>
+          <p>As áreas de referência para a análise dos valores de NDVI são definidas pela interseção entre classes correspondentes do MapBiomas e do ZEE-DF: formação campestre (12), formação savânica (4), formação florestal (3).</p>
           <details class="method-details"><summary>Ver procedimento completo</summary><div class="method-detail-body">
-            <p>O vetor MapBiomas de 2025 é recortado ao limite da bacia e cruzado com o ZEE de cobertura vegetal em SIRGAS 2000 / UTM 23S. O campo <code>cod_sub</code> identifica formação campestre (12), formação savânica (4), formação florestal (3) e campo alagado e área pantanosa (11). No ZEE, são usados <code>classe</code> e <code>simplifica</code>, mantendo as categorias originais. Apenas interseções de classes correspondentes entram nas referências.</p>
-            <p><strong>Áreas úmidas:</strong> campo alagado e área pantanosa (11) do MapBiomas é cruzado com “Áreas úmidas: Parque Cerrado (ou Murundum), Palmeirais e Veredas” do ZEE. Essa correspondência operacional foi adotada pela pesquisa; as definições das duas bases não são idênticas.</p>
-            <p>As categorias degradadas e “Campo de origem antrópica” permanecem nos agrupamentos originais do ZEE. A concordância cartográfica não garante a composição florística, a condição de conservação ou a permanência da cobertura entre as datas das fontes.</p>
+            <p>Ambos os dados são recortados ao limite da bacia e cruzados entre si em SIRGAS 2000 / UTM 23S. A partir disso, são identificadas as classes: formação campestre (12), formação savânica (4), formação florestal (3). Apenas interseções de classes correspondentes entram nas referências.</p>
+            <p>Nota metodológica: a concordância cartográfica não garante a composição florística, a condição de conservação ou a permanência da cobertura entre as datas das fontes.</p>
             <div data-reference-results>
               <p class="ident-status" role="status">Abra esta etapa para carregar as áreas e o mapa.</p>
               <div class="table-scroll" role="region" aria-label="Áreas das classes e de suas interseções" tabindex="0">
                 <table class="indicator-table data-table"><thead><tr><th scope="col">Grupo de referência</th><th scope="col">MapBiomas (ha)</th><th scope="col">ZEE (ha)</th><th scope="col">Interseção (ha)</th></tr></thead><tbody data-reference-areas></tbody></table>
               </div>
-              <p>Áreas calculadas nas geometrias vetoriais integrais, dentro da bacia. A interseção reúne somente classes correspondentes; seu tamanho não é uma medida de acurácia.</p>
+              <p>Campo alagado e área pantanosa (11) foi omitido desta tabela e das vistas de referência, permanecendo no uso do solo final e na comparação exploratória. Áreas calculadas nas geometrias vetoriais integrais, dentro da bacia. A interseção reúne somente classes correspondentes; seu tamanho não é uma medida de acurácia.</p>
               <div class="ident-controls">
                 <label>Camada <select data-reference-layer><option value="mapbiomas">MapBiomas — uso e cobertura</option><option value="zee">ZEE — cobertura vegetal</option><option value="intersecao" selected>Interseções entre classes equivalentes</option></select></label>
                 <label>Opacidade <input type="range" data-reference-opacity min="0.2" max="1" step="0.1" value="1"></label>
                 <button type="button" data-reference-fit>Enquadrar a bacia</button>
               </div>
               <div class="ident-map" data-reference-map role="region" aria-label="Mapa interativo de MapBiomas, ZEE e interseções"></div>
-              <p class="ident-map-note">As cores do MapBiomas seguem a simbologia fornecida para essa base; as interseções usam as cores da simbologia do raster final. A paleta do ZEE foi criada em tons inspirados nas classes do MapBiomas.</p>
+              <p class="ident-map-note">As cores do MapBiomas seguem a simbologia fornecida, com pastagem (15) em #915558; as interseções usam as cores da simbologia do raster final. A paleta do ZEE foi criada em tons inspirados nas classes do MapBiomas.</p>
               <p class="ident-map-note">Alterne as camadas para comparar sua distribuição; o enquadramento é mantido. Clique no mapa para consultar a classe representada.</p>
               <ul class="ident-legend" data-reference-legend aria-label="Legenda da camada selecionada"></ul>
-              <p>Representação cartográfica reduzida para passo de 20 m em EPSG:3857, por centro de pixel. Feições estreitas podem não aparecer; a redução não altera as áreas calculadas nos vetores nem a amostragem do NDVI.</p>
               <button type="button" data-reference-retry hidden>Tentar carregar novamente</button>
             </div>
-            <p><a href="scripts/identificacao/REFERENCIAS_E_NDVI.md">Consultar método, proveniência e reprodução</a>.</p>
           </div></details>
         </article>
         <article class="method-card" id="etapa-ndvi" aria-labelledby="titulo-etapa-ndvi">
           <h5 id="titulo-etapa-ndvi">2. NDVI da seca e da chuva e análise exploratória</h5>
-          <p>Os NDVIs das duas datas são comparados nas áreas de referência da etapa 1. Os histogramas, o diagrama de Sankey e o gráfico seca × chuva permitem investigar diferenças e sobreposições antes de discutir cortes de classificação.</p>
+          <p>Os NDVIs das duas datas e a média entre elas [(NDVI seca + NDVI chuva) / 2 ] são comparados nas áreas de referência identificadas na Etapa 1. Os histogramas, as médias com desvio padrão e os gráficos de dispersão permitem investigar diferenças e sobreposições antes de discutir cortes de classificação. Os valores de NDVI das classes campo alagado e área pantanosa (11) e pastagem (15) do MapBiomas são utilizados apenas para comparação exploratória, buscando compreender possíveis sobreposições espectrais e dificuldades de distinção em relação às formações vegetais, especialmente à formação campestre.</p>
           <details class="method-details"><summary>Ver procedimento completo e gráficos</summary><div class="method-detail-body">
             <span id="etapa-estatisticas"></span>
-            <p><strong>Cálculo:</strong> (NIR − vermelho) / (NIR + vermelho), com NIR na banda 8 e vermelho na banda 6 dos mosaicos PlanetScope. Foram gerados dois rasters novos de 3 m, recortados à bacia: chuva, de 17/01/2026, e seca, de 30/07/2026. Consulte o <a href="scripts/identificacao/gerar_ndvi.py">código do cálculo</a> e o <a href="scripts/identificacao/NDVI_GERACAO.md">registro de geração</a>.</p>
-            <p><strong>Comparação:</strong> os gráficos leem esses dois rasters novos nos mesmos locais, com espaçamento sistemático de 30 m entre centros de pixels originais de 3 m. Entram apenas pares válidos nas duas datas, dentro das novas referências vetoriais. A pastagem do MapBiomas participa como comparação, especialmente com campestre, e fica fora da rede de IV.</p>
+            <p><strong>Cálculo:</strong> (NIR − vermelho) / (NIR + vermelho), com NIR na banda 8 e vermelho na banda 6 dos mosaicos PlanetScope. Estão disponíveis os rasters de NDVI da chuva (17/01/2026), da seca (30/07/2026) e da média temporal. O raster médio exige as duas datas válidas. Os desvios padrão espaciais são estatísticas por grupo; não foi gerado um raster de desvio padrão.</p>
+            <p><strong>Comparação:</strong> os gráficos leem os rasters nos mesmos locais, com espaçamento sistemático de 30 m entre centros de pixels originais de 3 m. Entram apenas pares válidos nas duas datas, dentro das novas referências vetoriais. A pastagem do MapBiomas participa como comparação, especialmente com campestre, ficando fora da rede de Infraestrutura Verde (IV).</p>
             <div data-ndvi-results>
               <p class="ident-status" role="status">Abra esta etapa para carregar os gráficos.</p>
               <fieldset class="ident-groups"><legend>Grupos nos gráficos</legend><div data-ndvi-groups></div></fieldset>
               <h6>Distribuições do NDVI por grupo</h6>
-              <p>O eixo horizontal mostra o NDVI; o vertical, a porcentagem de pares do grupo em cada intervalo. Cada grupo soma 100% em cada data, permitindo comparar o formato das distribuições mesmo com áreas de tamanhos diferentes. Curvas que ocupam os mesmos valores indicam sobreposição.</p>
+              <p>O eixo horizontal mostra o NDVI; o vertical, a porcentagem de pares do grupo em cada intervalo. Cada grupo soma 100% em cada data, permitindo comparar o formato das distribuições mesmo com áreas de tamanhos diferentes. Curvas que ocupam os mesmos valores indicam sobreposição. Linhas tracejadas marcam as médias; faixas claras representam média ± um desvio padrão espacial. As tabelas apresentam os valores por grupo.</p>
               <div class="ident-distributions">
-                <figure><figcaption>Seca — 30/07/2026</figcaption><canvas data-ndvi-dry role="img" aria-label="Distribuições de NDVI por grupo na seca">Consulte os dados dos gráficos no arquivo JSON vinculado abaixo.</canvas></figure>
-                <figure><figcaption>Chuva — 17/01/2026</figcaption><canvas data-ndvi-rain role="img" aria-label="Distribuições de NDVI por grupo na chuva">Consulte os dados dos gráficos no arquivo JSON vinculado abaixo.</canvas></figure>
+                <figure><figcaption>Seca — 30/07/2026</figcaption><canvas data-ndvi-dry role="img" aria-label="Distribuições de NDVI por grupo na seca">Consulte os dados dos gráficos no arquivo JSON vinculado abaixo.</canvas><div class="table-scroll"><table class="indicator-table"><caption>Média e desvio padrão espacial — seca</caption><thead><tr><th>Grupo</th><th>Média</th><th>Desvio padrão</th></tr></thead><tbody data-ndvi-stat-table="seca"></tbody></table></div></figure>
+                <figure><figcaption>Chuva — 17/01/2026</figcaption><canvas data-ndvi-rain role="img" aria-label="Distribuições de NDVI por grupo na chuva">Consulte os dados dos gráficos no arquivo JSON vinculado abaixo.</canvas><div class="table-scroll"><table class="indicator-table"><caption>Média e desvio padrão espacial — chuva</caption><thead><tr><th>Grupo</th><th>Média</th><th>Desvio padrão</th></tr></thead><tbody data-ndvi-stat-table="chuva"></tbody></table></div></figure>
               </div>
-              <h6 id="titulo-sankey-ndvi">Distribuição dos grupos de referência por faixa de NDVI</h6>
-              <p id="descricao-sankey-ndvi">No Sankey, os grupos ficam entre as faixas de NDVI da seca, à esquerda, e da chuva, à direita. As fitas mostram a proporção de pontos do grupo em cada faixa, somando 100% por grupo em cada data. Passe o cursor sobre uma fita ou abra a tabela para consultar seu valor. As faixas são as mesmas nas duas datas e servem à leitura exploratória.</p>
-              <div data-ndvi-sankey hidden>
-                <div class="table-scroll ident-sankey-scroll" role="region" aria-labelledby="titulo-sankey-ndvi" tabindex="0">
-                  <svg role="img" aria-labelledby="titulo-sankey-ndvi" aria-describedby="descricao-sankey-ndvi"></svg>
-                </div>
-                <details class="ident-sankey-values">
-                  <summary>Consultar percentuais e contagens das fitas</summary>
-                  <div class="table-scroll" role="region" aria-label="Valores das fitas por grupo e faixa de NDVI" tabindex="0">
-                    <table class="indicator-table">
-                      <thead><tr><th scope="col">Grupo</th><th scope="col">Faixa de NDVI</th><th scope="col">Seca (%)</th><th scope="col">Seca (pontos)</th><th scope="col">Chuva (%)</th><th scope="col">Chuva (pontos)</th></tr></thead>
-                      <tbody></tbody>
-                    </table>
-                  </div>
-                </details>
+              <h6 id="titulo-resumo-ndvi">Média e desvio padrão: seca e chuva</h6>
+              <p>Cada grupo tem dois resumos espaciais dos pares da amostra sistemática: seca em círculo vazio e linha tracejada; chuva em círculo preenchido e linha contínua. As barras mostram média ± um desvio padrão populacional, sem representar intervalo de confiança.</p>
+              <div data-ndvi-summary hidden>
+                <div class="table-scroll ident-summary" role="region" aria-labelledby="titulo-resumo-ndvi" tabindex="0"><svg role="img" aria-label="Médias e desvios padrão por grupo, comparando seca e chuva"></svg></div>
+                <div class="table-scroll"><table class="indicator-table"><thead><tr><th>Grupo</th><th>Seca: média</th><th>Seca: desvio</th><th>Chuva: média</th><th>Chuva: desvio</th></tr></thead><tbody></tbody></table></div>
               </div>
+              <h6>Média × desvio padrão espacial</h6>
+              <p>O eixo X apresenta a média e o eixo Y o desvio padrão espacial do NDVI. Cada ponto representa um grupo em uma data: círculo vazio para seca e preenchido para chuva, com a cor do grupo. São dois pontos por grupo; os valores constam da tabela acima. Não se trata do desvio temporal por pixel nem do erro padrão da média.</p>
+              <figure class="ident-scatter"><canvas data-ndvi-stat-scatter role="img" aria-label="Média espacial no eixo X e desvio padrão espacial no eixo Y, por grupo e data">Consulte a tabela de médias e desvios acima.</canvas></figure>
               <h6>NDVI da seca × NDVI da chuva</h6>
               <p>Cada ponto representa o mesmo local nas duas imagens. Grupos que ocupam regiões diferentes do gráfico podem apresentar respostas complementares entre datas; a sobreposição mostra onde essa distinção é difícil. A linha diagonal indica valores iguais nas duas datas, sem funcionar como limite de classe.</p>
               <figure class="ident-scatter"><canvas data-ndvi-scatter role="img" aria-label="NDVI da seca no eixo horizontal e da chuva no vertical, por grupo">Consulte os pares exibidos no arquivo JSON vinculado abaixo.</canvas></figure>
@@ -151,9 +140,6 @@
               </section>
               <button type="button" data-ndvi-retry hidden>Tentar carregar novamente</button>
             </div>
-            <p><strong>Limitações:</strong> os relatórios dos mosaicos indicam que UDM2 não foi aplicada; nuvens e sombras podem afetar os valores. Pontos próximos podem ser dependentes. As referências históricas não substituem conferência independente. Duas datas permitem comparar as imagens, sem caracterizar um ciclo fenológico completo.</p>
-            <p>As diferenças entre datas são resumos dos pares, não um novo raster. Os limites usados na proxy e suas fragilidades aparecem na etapa 3.</p>
-            <p><a href="dados-mapas/identificacao/exploracao.json" download>Baixar dados dos gráficos e proveniência</a> · <a href="scripts/identificacao/REFERENCIAS_E_NDVI.md">Consultar o procedimento e as referências científicas</a>.</p>
           </div></details>
         </article>
         <article class="method-card" id="etapa-classificacao" aria-labelledby="titulo-etapa-classificacao">
@@ -161,31 +147,35 @@
           <p>A classificação percorre toda a grade PlanetScope válida. Quatro etapas produzem quatro rasters sucessivos; o último é a proxy final.</p>
           <details class="method-details"><summary>Ver as quatro etapas, os mapas e as limitações</summary><div class="method-detail-body" data-fitofisionomia-results>
             <section class="fit-step" aria-labelledby="fit-etapa-1"><h6 id="fit-etapa-1">Etapa 1 · Cortes de NDVI e limpeza inicial → raster 01</h6>
-              <p>Com duas datas válidas, calcula-se (NDVI seca + NDVI chuva) / 2 por pixel. Os cortes históricos vêm dos CSVs de estatísticas por formação nas referências MapBiomas × ZEE-DF. A comparação é feita em float32.</p>
-              <div class="table-scroll" role="region" aria-label="Cortes da primeira etapa" tabindex="0"><table class="indicator-table data-table"><thead><tr><th>Classe</th><th>Intervalo do NDVI</th><th>Origem do limite inferior</th></tr></thead><tbody>
-                <tr><th scope="row">Formação florestal (3)</th><td>≥ 0,7354611318541137</td><td>Média − desvio padrão</td></tr>
-                <tr><th scope="row">Formação savânica (4)</th><td>0,6263072517078357 ≤ NDVI &lt; 0,7354611318541137</td><td>Média</td></tr>
-                <tr><th scope="row">Formação campestre (12)</th><td>0,5582746239843752 ≤ NDVI &lt; 0,6263072517078357</td><td>Média + desvio padrão</td></tr>
-                <tr><th scope="row">Classe residual (100)</th><td>NDVI válido abaixo de 0,5582746239843752</td><td>—</td></tr>
+              <p>Os cortes usam todos os pixels válidos do raster médio cujos centros estão nas interseções atuais de <code>referencias_mapbiomas_zee_sistema.gpkg</code>, camada <code>referencias_equivalentes</code>. Calculam-se a média espacial e o desvio padrão populacional por formação; essas estatísticas diferem dos resumos amostrais dos gráficos.</p>
+              <div class="table-scroll" role="region" aria-label="Cortes da primeira etapa" tabindex="0"><table class="indicator-table data-table"><thead><tr><th>Classe</th><th>Intervalo do NDVI</th><th>Origem do limite inferior e refinamento</th></tr></thead><tbody>
+                <tr><th scope="row">Formação florestal (3)</th><td>≥ 0,7355</td><td>Média − desvio padrão</td></tr>
+                <tr><th scope="row">Formação savânica (4)</th><td>0,6419 ≤ NDVI &lt; 0,7355</td><td>Média</td></tr>
+                <tr><th scope="row">Formação campestre (12)</th><td>0,5185 ≤ NDVI &lt; 0,6419</td><td>Média + desvio padrão</td></tr>
+                <tr><th scope="row">Classe residual (100)</th><td>NDVI válido abaixo de 0,5185</td><td>Pixels abaixo do corte campestre e campestre sobre vias ou edificações</td></tr>
               </tbody></table></div>
-              <p>Com uma data válida, aplica-se o mesmo intervalo ao NDVI disponível. Formação campestre (12) sobre vias OSM ou edificações Open Buildings passa a classe residual (100). Pixels sem NDVI válido permanecem sem dados.</p>
+              <p>Os valores são exibidos com quatro casas decimais; cálculos e parâmetros mantêm precisão completa, com comparação em Float32. Com duas datas válidas, usa-se a média aritmética por pixel; com uma, o NDVI disponível; sem observação válida, NoData 255. Depois dos cortes, campestre sobre vias ou edificações passa para residual 100. Essa residual não é a classe 100 final de vegetação intraurbana.</p>
+              <div class="table-scroll"><table class="indicator-table"><caption>Estatísticas espaciais do NDVI médio nas referências atuais</caption><thead><tr><th>Formação</th><th>Pixels válidos</th><th>Média</th><th>Desvio padrão populacional</th><th>Corte</th></tr></thead><tbody>
+                <tr><th>Campestre</th><td>4.373.980</td><td>0,4567</td><td>0,0618</td><td>0,5185</td></tr>
+                <tr><th>Savânica</th><td>26.341.685</td><td>0,6419</td><td>0,0587</td><td>0,6419</td></tr>
+                <tr><th>Florestal</th><td>5.626.327</td><td>0,7877</td><td>0,0522</td><td>0,7355</td></tr>
+              </tbody></table></div>
             </section>
             <section class="fit-step" aria-labelledby="fit-etapa-2"><h6 id="fit-etapa-2">Etapa 2 · Separação da classe residual → raster 02</h6>
-              <p>As duas regras abaixo pertencem ao mesmo processamento. Com duas datas válidas, a diferença sazonal é usada; com uma só data, usa-se o limite auxiliar.</p>
-              <div class="table-scroll" role="region" aria-label="Separação da classe residual" tabindex="0"><table class="indicator-table data-table"><thead><tr><th>Datas disponíveis</th><th>Condição na classe residual (100)</th><th>Resultado</th></tr></thead><tbody>
-                <tr><th>Seca e chuva</th><td>|NDVI chuva − NDVI seca| / 2 ≥ 0,09</td><td>Forração vegetal (101)</td></tr>
-                <tr><th>Seca e chuva</th><td>Diferença &lt; 0,09</td><td>Impermeável ou solo exposto (102), como proxy</td></tr>
-                <tr><th>Somente seca</th><td>NDVI seca ≥ 0,34</td><td>Forração vegetal (101); abaixo, impermeável ou solo exposto (102)</td></tr>
-                <tr><th>Somente chuva</th><td>NDVI chuva ≥ 0,50</td><td>Forração vegetal (101); abaixo, impermeável ou solo exposto (102)</td></tr>
+              <p>Somente a classe residual 100 é separada pelo nível de NDVI. A média sobre vias foi 0,3555 e sobre edificações 0,2522; a pesquisa adotou o limite literal 0,3555, baseado nas vias. Não foi estabelecido um limiar ótimo por validação independente.</p>
+              <div class="table-scroll" role="region" aria-label="Separação da classe residual" tabindex="0"><table class="indicator-table data-table"><thead><tr><th>Condição na residual</th><th>Resultado</th></tr></thead><tbody>
+                <tr><th>NDVI efetivo ≤ 0,3555</th><td>Impermeável ou solo exposto (102)</td></tr>
+                <tr><th>NDVI efetivo &gt; 0,3555</th><td>Forração vegetal (101)</td></tr>
               </tbody></table></div>
+              <p>Com duas datas válidas, o NDVI efetivo é sua média; com uma, o valor disponível, usando o mesmo limite. As formações já classificadas e NoData são preservados. A classe 102 reúne impermeabilização e solo exposto, sem comprovar impermeabilidade física de toda a área.</p>
               <p>Forração vegetal (101) indica condições mais compatíveis com forração vegetal ou trechos de formações vegetais fora dos limiares de NDVI. Impermeável ou solo exposto (102) indica condições mais compatíveis com superfícies impermeabilizadas ou solo exposto. As duas classes são aproximações e podem divergir da cobertura real do terreno.</p>
             </section>
             <section class="fit-step" aria-labelledby="fit-etapa-3"><h6 id="fit-etapa-3">Etapa 3 · Sobreposições e unidades de conservação → raster 03</h6>
               <ol class="fit-steps">
                 <li>Forração vegetal (101) sobre vias OSM passa a impermeável ou solo exposto (102). As vias servem só à limpeza.</li>
                 <li>Campo alagado e área pantanosa (11) da banda original do MapBiomas é sobreposto ao raster.</li>
-                <li>Edificações (103) do Google Open Buildings são sobrepostas aos pixels com NDVI válido fora da máscara de água.</li>
-                <li>Água (33) do vetor SEDUH/Geoportal prevalece, inclusive sobre edificações, preservando formação florestal (3) e formação savânica (4) presentes nesta etapa.</li>
+                <li>Água (33) do vetor SEDUH/Geoportal é aplicada, preservando formação florestal (3) e formação savânica (4) presentes nesse momento.</li>
+                <li>Edificações (103) do Google Open Buildings são aplicadas depois da água e das áreas úmidas a todos os pixels válidos sob sua máscara, preservando somente a formação florestal (3) presente nesse momento. Edificações prevalecem inclusive sobre água e savânica. As máscaras de vias, água e edificações são independentes.</li>
                 <li>Nas UCs de proteção integral do vetor local de Áreas Verdes Urbanas, forração vegetal (101) passa a formação savânica (4) e impermeável ou solo exposto (102) passa a formação campestre (12).</li>
               </ol>
             </section>
@@ -198,8 +188,8 @@
               <p class="ident-status" data-context-status role="status">Abra esta etapa para carregar o mapa.</p>
             </section>
             <h6>Compare os quatro rasters</h6>
-            <figure class="fit-gif"><img src="dados-mapas/identificacao/fitofisionomia/refinamento.gif?v=b59b5982135a1fc0" loading="lazy" alt="Animação das quatro etapas adotadas da classificação na mesma área"><figcaption>A mesma área em quatro momentos. O mapa permite pausar e consultar cada raster.</figcaption></figure>
-            <div class="ident-controls"><label>Etapa do mapa <select data-stage-select><option value="1">Raster 01 · cortes NDVI</option><option value="2">Raster 02 · diferença sazonal</option><option value="3">Raster 03 · sobreposições e UCs</option><option value="4" selected>Raster 04 · contexto ZEE-DF</option></select></label><button type="button" data-stage-fit>Enquadrar</button></div>
+            <figure class="fit-gif"><img src="dados-mapas/identificacao/fitofisionomia/refinamento.gif?v=3d5737bbf6f8004e" loading="lazy" alt="Animação das quatro etapas adotadas da classificação na mesma área"><figcaption>A mesma área em quatro momentos. O mapa permite pausar e consultar cada raster.</figcaption></figure>
+            <div class="ident-controls"><label>Etapa do mapa <select data-stage-select><option value="1">Raster 01 · cortes NDVI</option><option value="2">Raster 02 · limite residual 0,3555</option><option value="3">Raster 03 · sobreposições e UCs</option><option value="4" selected>Raster 04 · contexto ZEE-DF</option></select></label><button type="button" data-stage-fit>Enquadrar</button></div>
             <div class="ident-map" data-stage-map role="region" aria-label="Mapa interativo das quatro etapas da classificação"></div>
             <p class="ident-map-note">Visão geral reduzida para aproximadamente 20 m; cada raster de trabalho conserva pixels de 3 m.</p>
             <ul class="ident-legend" data-stage-legend aria-label="Legenda da etapa selecionada"></ul>
@@ -230,15 +220,15 @@
             <tr><th scope="col">Classe</th><th scope="col">Código</th><th scope="col">Área (ha)</th></tr>
           </thead>
           <tbody>
-            <tr><th scope="row">Formação florestal</th><td>3</td><td>6.647,80</td></tr>
-            <tr><th scope="row">Formação savânica</th><td>4</td><td>24.023,03</td></tr>
-            <tr><th scope="row">Campo alagado e área pantanosa</th><td>11</td><td>1.531,59</td></tr>
-            <tr><th scope="row">Formação campestre</th><td>12</td><td>15.513,17</td></tr>
-            <tr><th scope="row">Água</th><td>33</td><td>4.675,97</td></tr>
-            <tr><th scope="row">Vegetação intraurbana</th><td>100</td><td>6.936,27</td></tr>
-            <tr><th scope="row">Forração vegetal</th><td>101</td><td>15.213,04</td></tr>
-            <tr><th scope="row">Impermeável ou solo exposto</th><td>102</td><td>22.898,70</td></tr>
-            <tr><th scope="row">Edificações</th><td>103</td><td>8.189,19</td></tr>
+            <tr><th scope="row">Formação florestal</th><td>3</td><td>6.648,9417</td></tr>
+            <tr><th scope="row">Formação savânica</th><td>4</td><td>20.030,4270</td></tr>
+            <tr><th scope="row">Campo alagado e área pantanosa</th><td>11</td><td>1.531,6668</td></tr>
+            <tr><th scope="row">Formação campestre</th><td>12</td><td>21.118,6107</td></tr>
+            <tr><th scope="row">Água</th><td>33</td><td>4.675,4712</td></tr>
+            <tr><th scope="row">Vegetação intraurbana</th><td>100</td><td>6.146,0433</td></tr>
+            <tr><th scope="row">Forração vegetal</th><td>101</td><td>23.993,6130</td></tr>
+            <tr><th scope="row">Impermeável ou solo exposto</th><td>102</td><td>13.294,7370</td></tr>
+            <tr><th scope="row">Edificações</th><td>103</td><td>8.189,2593</td></tr>
           </tbody>
         </table>
       </div>
@@ -268,18 +258,18 @@
         <a href="identificacao.html#metricas-forma" aria-current="page">Metodologia</a>
         <a href="mapa.html?tema=metricas">Mapa de área dos fragmentos</a>
       </nav>
-      <p>A análise atual usa os <strong>50.047 fragmentos</strong> de vegetação da base de AVU, com <strong>54.651,86 ha</strong> no total. Os fragmentos foram delimitados por vizinhança de oito pixels a partir do raster final de uso do solo de 3 m.</p>
+      <p>A análise atual usa os <strong>46.876 fragmentos</strong> de vegetação da base de AVU, com <strong>55.475,6895 ha</strong> no total. Os fragmentos foram delimitados por vizinhança de oito pixels a partir do raster final de uso do solo de 3 m.</p>
 
       <h4>Cenários de borda de 45 m e 90 m</h4>
-      <p>Em cada cenário, a função <code>MK_Fragmentation</code>, do Makurhini, recua o contorno de cada fragmento para dentro pela largura de borda escolhida. A área restante é o núcleo. Quando o recuo consome toda a geometria, a área de núcleo é zero.</p>
+      <p>Em cada cenário, o contorno de cada fragmento é recuado para dentro pela largura de borda escolhida. A área restante é o núcleo; quando o recuo consome toda a geometria, ela é zero. As operações geométricas usam GEOS no Python; as áreas, os perímetros e os núcleos são fornecidos à função <code>MK_Fragmentation</code>, do Makurhini, executada no R para calcular as métricas.</p>
       <p>As duas larguras retomam o critério de planejamento de três vezes a altura arbórea. As referências de 15 m para cerradão e 30 m para mata de galeria correspondem a 45 m e 90 m. Aplicar os dois recuos ao mesmo conjunto de fragmentos permite medir quanto núcleo permanece ao ampliar a faixa de borda. <a href="https://www.alice.cnptia.embrapa.br/alice/bitstream/doc/186922/1/CERRADO-Ecologia-e-flora-VOL-1-152-213.pdf">Fitofisionomias do Cerrado, Embrapa</a> · <a href="https://frederickcountymd.gov/ArchiveCenter/ViewFile/Item/16058">Referência de planejamento para a largura de borda</a>.</p>
 
       <div class="table-scroll" role="region" aria-label="Comparação das áreas de núcleo em 45 e 90 metros" tabindex="0">
         <table class="indicator-table summary-table">
           <thead><tr><th scope="col">Largura da borda</th><th scope="col">Área de núcleo (ha)</th><th scope="col">Núcleo (% da vegetação)</th><th scope="col">Fragmentos com núcleo</th></tr></thead>
           <tbody>
-            <tr><th scope="row">45 m</th><td>39.998,31</td><td>73,19%</td><td>320</td></tr>
-            <tr><th scope="row">90 m</th><td>35.721,42</td><td>65,36%</td><td>102</td></tr>
+            <tr><th scope="row">45 m</th><td>41.031,0730</td><td>73,9623%</td><td>347</td></tr>
+            <tr><th scope="row">90 m</th><td>36.399,9060</td><td>65,6142%</td><td>125</td></tr>
           </tbody>
         </table>
       </div>
@@ -288,9 +278,9 @@
         <summary>Dados e método</summary>
         <ul>
           <li><strong>Fragmentos.</strong> GeoPackage <code>fragmentos_vegetacao.gpkg</code>, em SIRGAS 2000 / UTM 23S (EPSG:31983). Os IDs permitem comparar os dois cenários fragmento a fragmento. A formação predominante e as tipologias de AVU são calculadas na mesma base.</li>
-          <li><strong>Área da paisagem.</strong> O limite da bacia IPE-DF 2023 foi reprojetado para o mesmo sistema de coordenadas. A área de <strong>1.056.287.128,29 m²</strong> foi usada em <code>landscape_area</code>, inclusive como denominador do tamanho efetivo de malha (MESH), que foi 88.785.847,86 m² nos dois cenários.</li>
+          <li><strong>Área da paisagem.</strong> O limite da bacia IPE-DF 2023 foi reprojetado para o mesmo sistema de coordenadas. A área de <strong>1.056.287.128,2928 m²</strong> foi usada em <code>landscape_area</code>, inclusive como denominador do tamanho efetivo de malha (MESH), que foi 89.611.444,5657 m² nos dois cenários.</li>
           <li><strong>Parâmetros.</strong> <code>edge_distance</code> de 45 ou 90 m, <code>area_unit = "m2"</code>, <code>perimeter_unit = "m"</code> e cálculo das métricas no R e geração dos gráficos a partir dos mesmos núcleos. O argumento <code>min_node_area</code> ficou no padrão da função, usado no resumo por tamanho de fragmento.</li>
-          <li><strong>Recuo em geometrias complexas.</strong> Os polígonos com pelo menos 5.000 coordenadas foram processados em blocos de 2.000 m, com margem de 51 m para a borda de 45 m e de 96 m para a borda de 90 m. Depois de reter apenas o núcleo no interior de cada bloco, as geometrias foram reunidas por ID para o cálculo no Makurhini. O GEOS 3.14.1 recuou 30 fragmentos por blocos em cada cenário. Quatro geometrias por cenário foram comparadas com o recuo direto. Para cada ID, o núcleo de 90 m ficou igual ou menor que o de 45 m.</li>
+          <li><strong>Recuo em geometrias complexas.</strong> Os polígonos com pelo menos 5.000 coordenadas foram processados em blocos de 2.000 m, com margem de 51 m para a borda de 45 m e de 96 m para a borda de 90 m. Depois de reter apenas o núcleo no interior de cada bloco, as geometrias foram reunidas por ID para o cálculo no Makurhini. O GEOS 3.14.1 recuou 25 fragmentos por blocos em cada cenário. Quatro geometrias por cenário foram comparadas com o recuo direto. Para cada ID, o núcleo de 90 m ficou igual ou menor que o de 45 m.</li>
           <li><strong>Produtos locais.</strong> GeoPackages de métricas por fragmento, tabelas de fragmentos e da paisagem e gráficos de núcleo e borda. Os dois conjuntos usam os prefixos <code>MK_Fragmentation_Bacia_Paranoa_45m_AVU</code> e <code>MK_Fragmentation_Bacia_Paranoa_90m_AVU</code>.</li>
         </ul>
         <p>Além da área de núcleo e do percentual de borda, a função calcula área, perímetro, índice de forma e dimensão fractal por fragmento. <a href="https://github.com/connectscape/Makurhini/blob/0010946ab2eef7f8d2bc4935f369869fc4c58671/R/MK_fragmentation.R">Revisão do código do Makurhini usada no cálculo</a>.</p>
@@ -319,22 +309,22 @@
       </ul>
 
       <h4>Resultados por classe de AVU</h4>
-      <p>A classificação reuniu <strong>50.047 fragmentos</strong> de vegetação válida, com área total de <strong>54.651,86 ha</strong>.</p>
+      <p>A classificação reuniu <strong>46.876 fragmentos</strong> de vegetação válida, com área total de <strong>55.475,6895 ha</strong>.</p>
       <div class="table-scroll" role="region" aria-label="Fragmentos e área por classe de AVU" tabindex="0">
         <table class="indicator-table summary-table">
           <thead><tr><th scope="col">Classe de AVU</th><th scope="col">Fragmentos</th><th scope="col">Área (ha)</th></tr></thead>
           <tbody>
-            <tr><th scope="row">UC</th><td>4.864</td><td>2.501,02</td></tr>
-            <tr><th scope="row">Parque urbano</th><td>940</td><td>124,85</td></tr>
-            <tr><th scope="row">Agrossistemas não intensivos</th><td>611</td><td>1.035,82</td></tr>
-            <tr><th scope="row">APP</th><td>1.052</td><td>946,99</td></tr>
-            <tr><th scope="row">Aviso</th><td>169</td><td>43.876,18</td></tr>
-            <tr><th scope="row">Sem AVU</th><td>42.411</td><td>6.167,01</td></tr>
+            <tr><th scope="row">UC</th><td>4.495</td><td>2.611,9062</td></tr>
+            <tr><th scope="row">Parque urbano</th><td>845</td><td>91,5543</td></tr>
+            <tr><th scope="row">Agrossistemas não intensivos</th><td>569</td><td>979,8399</td></tr>
+            <tr><th scope="row">APP</th><td>981</td><td>857,2473</td></tr>
+            <tr><th scope="row">Aviso</th><td>176</td><td>44.403,7761</td></tr>
+            <tr><th scope="row">Sem AVU</th><td>39.810</td><td>6.531,3657</td></tr>
           </tbody>
-          <tfoot><tr><th scope="row">Total</th><td>50.047</td><td>54.651,86</td></tr></tfoot>
+          <tfoot><tr><th scope="row">Total</th><td>46.876</td><td>55.475,6895</td></tr></tfoot>
         </table>
       </div>
-      <p>A área de cada classe soma os fragmentos inteiros atribuídos a ela, incluindo porções além dos limites das AVUs. Por esse critério, Aviso reúne 80,3% da área de vegetação.</p>
+      <p>A área de cada classe soma os fragmentos inteiros atribuídos a ela, incluindo porções além dos limites das AVUs. Por esse critério, Aviso reúne 80,0419% da área de vegetação.</p>
       <details class="data-method">
         <summary>Dados e método</summary>
         <ul>
@@ -353,9 +343,9 @@
         <a href="identificacao.html#elementos-iv" aria-current="page">Metodologia</a>
         <a href="mapa.html?tema=iv">Mapa interativo</a>
       </nav>
-      <p>A classificação funcional usa os mesmos 50.047 fragmentos nos cenários de borda de 45 m e 90 m. Cada fragmento recebe a primeira categoria aplicável na sequência abaixo.</p>
+      <p>A classificação funcional usa os mesmos 46.876 fragmentos nos cenários de borda de 45 m e 90 m. Cada fragmento recebe a primeira categoria aplicável na sequência abaixo.</p>
       <ol>
-        <li><strong>Hub 1.</strong> Exclusivamente os dois maiores fragmentos, pela área total, entre os que se sobrepõem a UCs de proteção integral. Na base atual, são os IDs 17964 e 50034.</li>
+        <li><strong>Hub 1.</strong> Exclusivamente os dois maiores fragmentos, pela área total, entre os que se sobrepõem a UCs de proteção integral. Na base atual, são os IDs 17217 e 46862.</li>
         <li><strong>Hub 2.</strong> Parques urbanos sem sobreposição com APP e, entre os fragmentos que seriam Link, aqueles com <code>ShapeIndex &gt; 25</code>. O valor 25 fica fora desse corte.</li>
         <li><strong>Link.</strong> Fragmentos com sobreposição com APP ainda sem classe.</li>
         <li><strong>Site 1.</strong> Agrossistemas não intensivos ainda sem classe.</li>
@@ -366,16 +356,16 @@
         <table class="indicator-table summary-table">
           <thead><tr><th scope="col">Elemento da IV</th><th scope="col">Fragmentos</th><th scope="col">Área (ha)</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Hub 1</th><td>2</td><td>39.561,04</td></tr>
-            <tr><th scope="row">Hub 2</th><td>933</td><td>2.550,91</td></tr>
-            <tr><th scope="row">Link</th><td>1.185</td><td>5.381,48</td></tr>
-            <tr><th scope="row">Site 1</th><td>751</td><td>280,41</td></tr>
-            <tr><th scope="row">Site 2</th><td>47.176</td><td>6.878,03</td></tr>
+            <tr><th scope="row">Hub 1</th><td>2</td><td>39.859,1361</td></tr>
+            <tr><th scope="row">Hub 2</th><td>834</td><td>2.697,3756</td></tr>
+            <tr><th scope="row">Link</th><td>1.179</td><td>5.370,8076</td></tr>
+            <tr><th scope="row">Site 1</th><td>714</td><td>272,7288</td></tr>
+            <tr><th scope="row">Site 2</th><td>44.147</td><td>7.275,6414</td></tr>
           </tbody>
-          <tfoot><tr><th scope="row">Total</th><td>50.047</td><td>54.651,86</td></tr></tfoot>
+          <tfoot><tr><th scope="row">Total</th><td>46.876</td><td>55.475,6895</td></tr></tfoot>
         </table>
       </div>
-      <p>O fragmento 27675, com ShapeIndex de 35,4834, recebe Hub 2 pelo critério de forma. As duas larguras de borda têm os mesmos rótulos de IV porque as geometrias e os atributos usados nesta classificação coincidem.</p>
+      <p>Pelo critério de forma, recebem Hub 2: ID 25996 (ShapeIndex 31,8252). As duas larguras de borda têm os mesmos rótulos de IV porque as geometrias e os atributos usados nesta classificação coincidem.</p>
       <details class="data-method">
         <summary>Dados, cores e reprodução</summary>
         <p>As entradas são os GeoPackages <code>MK_Fragmentation_Bacia_Paranoa_45m_AVU_PatchMetrics.gpkg</code> e <code>MK_Fragmentation_Bacia_Paranoa_90m_AVU_PatchMetrics.gpkg</code>, com os campos <code>id_frag</code>, <code>Area</code>, <code>ShapeIndex</code>, <code>avu_uc_pi</code>, <code>avu_parque</code> e <code>avu_agro</code>, além da APP hidrográfica dissolvida.</p>
