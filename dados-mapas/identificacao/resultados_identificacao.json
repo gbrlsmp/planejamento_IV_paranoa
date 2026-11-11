@@ -1,0 +1,289 @@
+{
+  "data": "2026-11-11",
+  "metodo": "v2 adotado em 11/11/2026; produtos correntes sem sufixo",
+  "cortes": {
+    "12": 0.5185165309558434,
+    "4": 0.6418583869084876,
+    "3": 0.7354611318541107
+  },
+  "limite_residual": 0.3555,
+  "classificacao": {
+    "counts": {
+      "etapa_01": {
+        "3": 9558927,
+        "4": 24587202,
+        "12": 33331874,
+        "100": 49887297,
+        "255": 107932640
+      },
+      "etapa_02": {
+        "3": 9558927,
+        "4": 24587202,
+        "12": 33331874,
+        "101": 24708217,
+        "102": 25179080,
+        "255": 107932640
+      },
+      "etapa_03": {
+        "3": 9397120,
+        "4": 27075560,
+        "11": 1701852,
+        "12": 33143747,
+        "33": 5194968,
+        "101": 16980946,
+        "102": 14771930,
+        "103": 9099177,
+        "255": 107932640
+      },
+      "etapa_04": {
+        "3": 7387713,
+        "4": 22256030,
+        "11": 1701852,
+        "12": 23465123,
+        "33": 5194968,
+        "100": 6828937,
+        "101": 26659570,
+        "102": 14771930,
+        "103": 9099177,
+        "255": 107932640
+      }
+    },
+    "transitions": {
+      "etapa_01_camp_to_100": 916797,
+      "etapa_03_road_101_to_102": 2440800,
+      "etapa_03_uc_101_to_4": 3356963,
+      "etapa_03_uc_102_to_12": 490719,
+      "etapa_04_forest_to_100": 2009407,
+      "etapa_04_savanna_to_100": 4819530,
+      "etapa_04_camp_to_101": 9678624
+    }
+  },
+  "rasters": [
+    {
+      "file": "fitofisionomias_proxy_ndvi_3m_etapa_01.tif",
+      "sha256": "775bef689aea5229c40cb0995beea291716c60958558ea9f1eb8abe23c66bb83",
+      "pixels_compared": 225297940
+    },
+    {
+      "file": "fitofisionomias_proxy_ndvi_3m_etapa_02.tif",
+      "sha256": "4cd05d697db21cf86c3e64646fb7b109e054b1ca085afd028f653704a370d937",
+      "pixels_compared": 225297940
+    },
+    {
+      "file": "fitofisionomias_proxy_ndvi_3m_etapa_03.tif",
+      "sha256": "70029a9cd133ef5830b635db79390185a867d0e0d65c71948ee2eb5eab03d9ef",
+      "pixels_compared": 225297940
+    },
+    {
+      "file": "fitofisionomias_proxy_ndvi_3m_etapa_04.tif",
+      "sha256": "fdd37bcb859acda717e36dd267ad6ecd10b768f5ede57d25e983471323780f37",
+      "pixels_compared": 225297940
+    }
+  ],
+  "fragmentos": {
+    "fragments": 46876,
+    "avus": {
+      "Sem AVU": 39810,
+      "UC": 4495,
+      "APP": 981,
+      "Agrossistemas não intensivos": 569,
+      "Parque urbano": 845,
+      "Aviso": 176
+    },
+    "area_ha_by_avu": {
+      "UC": 2611.9062,
+      "Parque urbano": 91.5543,
+      "Agrossistemas não intensivos": 979.8399,
+      "APP": 857.2473,
+      "Sem AVU": 6531.3657,
+      "Aviso": 44403.7761
+    },
+    "source_pixel_counts": {
+      "3": 7387713,
+      "4": 22256030,
+      "11": 1701852,
+      "12": 23465123,
+      "100": 6828937
+    },
+    "map": {
+      "title": "Classes de AVU dos fragmentos",
+      "classes": [
+        [
+          1,
+          "UC",
+          "#23734d"
+        ],
+        [
+          2,
+          "Parque urbano",
+          "#78ad69"
+        ],
+        [
+          3,
+          "Agrossistemas não intensivos",
+          "#a66b38"
+        ],
+        [
+          4,
+          "APP",
+          "#c4b53d"
+        ],
+        [
+          5,
+          "Sem AVU",
+          "#6b7270"
+        ],
+        [
+          6,
+          "Aviso",
+          "#89739c"
+        ]
+      ],
+      "bounds": [
+        -5356092.147243301,
+        -1803590.6899615955,
+        -5309832.147243301,
+        -1754750.6899615955
+      ]
+    },
+    "ties": 4,
+    "vegetation_pixels": 61639655,
+    "vegetation_area_ha": 55475.6895
+  },
+  "metricas": {
+    "45": {
+      "borda": 45,
+      "area_paisagem_m2": 1056287128.2928407,
+      "nucleo_m2": 410310730.3994,
+      "fragmentos_com_nucleo": 347,
+      "geos": "3.14.1",
+      "buffers_em_blocos": 25,
+      "comparacoes_diretas": 4,
+      "nucleo_ha": 41031.07303994,
+      "nucleo_pct_vegetacao": 73.96225880156028,
+      "paisagem": {
+        "Patch area (m2)": 554756895.0,
+        "Number of patches": 46876.0,
+        "Size (mean)": 11834.5613,
+        "Patches < minimum patch area": 25853.0,
+        "Patches < minimum patch area (%)": 0.1415,
+        "Total edge": 10516422.0,
+        "Edge density": 0.019,
+        "Patch density": 0.0044,
+        "Total Core Area (m2)": 410310730.3994,
+        "Cority": 0.0074,
+        "Shape Index (mean)": 1.5615,
+        "FRAC (mean)": 1.8314,
+        "MESH (m2)": 89611444.5657
+      }
+    },
+    "90": {
+      "borda": 90,
+      "area_paisagem_m2": 1056287128.2928407,
+      "nucleo_m2": 363999060.2568,
+      "fragmentos_com_nucleo": 125,
+      "geos": "3.14.1",
+      "buffers_em_blocos": 25,
+      "comparacoes_diretas": 4,
+      "nucleo_ha": 36399.90602568,
+      "nucleo_pct_vegetacao": 65.61415703662412,
+      "paisagem": {
+        "Patch area (m2)": 554756895.0,
+        "Number of patches": 46876.0,
+        "Size (mean)": 11834.5613,
+        "Patches < minimum patch area": 25853.0,
+        "Patches < minimum patch area (%)": 0.1415,
+        "Total edge": 10516422.0,
+        "Edge density": 0.019,
+        "Patch density": 0.0044,
+        "Total Core Area (m2)": 363999060.2568,
+        "Cority": 0.0027,
+        "Shape Index (mean)": 1.5615,
+        "FRAC (mean)": 1.8314,
+        "MESH (m2)": 89611444.5657
+      }
+    }
+  },
+  "iv": {
+    "fragments": 46876,
+    "counts": {
+      "Site 2": 44147,
+      "Link": 1179,
+      "Site 1": 714,
+      "Hub 2": 834,
+      "Hub 1": 2
+    },
+    "area_ha": {
+      "Site 2": 7275.641400000966,
+      "Link": 5370.807600000013,
+      "Site 1": 272.7288000000009,
+      "Hub 2": 2697.3756000000035,
+      "Hub 1": 39859.136099999996
+    },
+    "map": {
+      "title": "Elementos da infraestrutura verde",
+      "bounds": [
+        -5356092.147243301,
+        -1803590.6899615955,
+        -5309832.147243301,
+        -1754750.6899615955
+      ],
+      "classes": [
+        [
+          1,
+          "Hub 1",
+          "#4b6a40"
+        ],
+        [
+          2,
+          "Hub 2",
+          "#86a58f"
+        ],
+        [
+          3,
+          "Link",
+          "#3e5972"
+        ],
+        [
+          4,
+          "Site 1",
+          "#d0a55f"
+        ],
+        [
+          5,
+          "Site 2",
+          "#c4cc95"
+        ]
+      ]
+    },
+    "hub1_ids": [
+      17217,
+      46862
+    ],
+    "hub2_shape": [
+      {
+        "id": 25996,
+        "ShapeIndex": 31.8252
+      }
+    ]
+  },
+  "validacao": {
+    "pixels_comparados_por_etapa": 225297940,
+    "cenarios_mesma_geometria_e_regras_iv": true,
+    "nucleo90_menor_igual45_por_fragmento": true,
+    "udm2_aplicada": false,
+    "validacao_tematica_independente": false,
+    "referencias_amostras_histogramas_conferidos": true,
+    "consultas_diretas_ndvi": 1000,
+    "navegador_desktop_e_mobile": true,
+    "quatro_mapas_e_consulta_hub1": true,
+    "arvore_18_links_preservada": true,
+    "clima_existente_consistente_sem_recalculo": true
+  },
+  "ambiente": {
+    "gdal": "GDAL 3.13.3 \"Iowa City\", released 2026/08/13",
+    "numpy": "2.4.6",
+    "R": "4.5.3",
+    "GEOS": "3.14.1"
+  }
+}

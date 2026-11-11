@@ -1,9 +1,9 @@
 {
   "versao": 2,
   "etapa": "Identificação → Uso do solo",
-  "situacao": "metodologia_em_desenvolvimento",
+  "situacao": "metodo_adotado_2026-11-11",
   "decisao_mapbiomas": "Usar a cópia local de 10 m identificada como 2025; download online não obrigatório; coleção ainda não comprovada.",
-  "finalidade": "Identificar e distinguir vegetação na grade PlanetScope; regras de inclusão em infraestrutura verde serão definidas posteriormente.",
+  "finalidade": "Uso do solo → fragmentos, métricas, AVU e identificação dos elementos da infraestrutura verde.",
   "raiz_dos_caminhos": "Argumento --base da execução; os caminhos abaixo são relativos à pasta 02 BASE DE DADOS.",
   "camadas": [
     {
@@ -207,7 +207,7 @@
       "deriva_de": [
         "amostras_pareadas"
       ],
-      "estado": "gerado_nova_execucao_sem_cortes",
+      "estado": "exploracao_amostral_e_censo_espacial_dos_cortes_documentados_separadamente",
       "arquivos": [
         "dados-mapas/identificacao/exploracao.json"
       ],
@@ -237,20 +237,26 @@
     {
       "id": "regras_classificacao",
       "nome": "Regras ou modelo avaliados para classificação",
-      "tipo": "decisao_metodologica",
+      "tipo": "metodo_adotado",
       "deriva_de": [
         "estatisticas",
         "referencias_formacoes",
         "planet_chuva",
         "planet_seca"
       ],
-      "estado": "em_definicao",
-      "pendencia": "Comparação de alternativas e avaliação com referências independentes."
+      "estado": "gerado_conferido_metodo_2026-11-11",
+      "pendencia": "Validação temática independente; o método já foi adotado.",
+      "cortes": {
+        "12": 0.5185165309558434,
+        "4": 0.6418583869084876,
+        "3": 0.7354611318541107
+      },
+      "limite_residual": 0.3555
     },
     {
       "id": "classificacao_3m",
       "nome": "Classificação da vegetação na grade PlanetScope",
-      "tipo": "subproduto_planejado",
+      "tipo": "subproduto",
       "deriva_de": [
         "planet_chuva",
         "planet_seca",
@@ -259,19 +265,40 @@
         "regras_classificacao",
         "bacia"
       ],
-      "estado": "a_produzir",
+      "estado": "gerado_conferido_metodo_2026-11-11",
       "resolucao_grade_m": 3
     },
     {
       "id": "vegetacao_contextualizada",
       "nome": "Vegetação com contexto de remanescentes do ZEE",
-      "tipo": "subproduto_planejado",
+      "tipo": "subproduto",
       "deriva_de": [
         "classificacao_3m",
         "zee_remanescentes"
       ],
-      "estado": "a_produzir",
-      "nota": "Preservar classe estimada e condição do ZEE como informações rastreáveis; nomenclatura final em discussão."
+      "estado": "gerado_conferido_metodo_2026-11-11"
+    },
+    {
+      "id": "ndvi_medio",
+      "nome": "Média temporal estrita seca e chuva",
+      "tipo": "subproduto",
+      "deriva_de": [
+        "ndvi_seca",
+        "ndvi_chuva"
+      ],
+      "estado": "gerado_conferido",
+      "caminho_relativo": "02_Análises/03_Ecologia/03_Fitofisionomia/03_Raster/02_NDVI/ndvi_media_seca_chuva_2026.tif"
+    },
+    {
+      "id": "fragmentos_avu_metricas_iv",
+      "nome": "Fragmentos, AVU, métricas 45/90 m e IV",
+      "tipo": "subproduto",
+      "deriva_de": [
+        "vegetacao_contextualizada"
+      ],
+      "estado": "recalculado_conferido",
+      "fragmentos": 46876,
+      "area_ha": 55475.6895
     }
   ],
   "apresentacao_site": {
@@ -299,6 +326,7 @@
     "natureza": "intersecao_vetorial_integral_e_ndvi_amostral_pareado",
     "espacamento_amostral_m": 30,
     "resolucao_pixels_originais_m": 3,
-    "nova_classificacao_integral": false
+    "nova_classificacao_integral": true,
+    "resultados_identificacao": "dados-mapas/identificacao/resultados_identificacao.json"
   }
 }

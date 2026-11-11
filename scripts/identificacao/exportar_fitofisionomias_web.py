@@ -33,7 +33,7 @@ def asset_revision(folder):
 
 STAGES = {
     1: "Cortes NDVI e limpeza campestre",
-    2: "Diferença sazonal: classes 101 e 102",
+    2: "NDVI residual: limite 0,3555",
     3: "Sobreposições e UCs de proteção integral",
     4: "Contexto ZEE-DF e resultado final",
 }
@@ -96,7 +96,7 @@ def stats(samples: Path):
         for key, name in groups.items():
             d, w = data[key + "__seca"], data[key + "__chuva"]
             delta = w - d
-            q = lambda v: [round(float(n), 3) for n in np.quantile(v, [.25, .5, .75])]
+            q = lambda v: [float(n) for n in np.quantile(v, [.25, .5, .75])]
             report["grupos"].append({"id": key, "nome": name, "n": len(d),
                                      "seca": q(d), "chuva": q(w),
                                      "delta": q(delta)})
@@ -106,7 +106,7 @@ def stats(samples: Path):
                 d, w = data[key + "__seca"], data[key + "__chuva"]
                 inside = w[(d >= lower) & (d < upper)]
                 row["classes"][key] = {"n": len(inside),
-                                       "chuva": [round(float(v), 3)
+                                       "chuva": [float(v)
                                                  for v in np.quantile(inside, [.25, .5, .75])]}
             report["campestre_pastagem"].append(row)
         for key in ("florestal", "savanica", "campestre", "pastagem", "campo_alagado"):

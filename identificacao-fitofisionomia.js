@@ -53,7 +53,7 @@
     if (header) element.scope = "row";
     row.append(element);
   }
-  function quartiles(values) { return values.map(value => value.toFixed(3).replace(".", ",")).join(" / "); }
+  function quartiles(values) { return values.map(value => value.toFixed(4).replace(".", ",")).join(" / "); }
 
   async function extraExploration(root) {
     const info = await stats();
@@ -70,7 +70,7 @@
     for (const slice of info.campestre_pastagem) {
       for (const [key, name] of [["campestre", "Formação campestre (12)"], ["pastagem", "Pastagem (15)"]]) {
         const tr = document.createElement("tr");
-        cell(tr, `${slice.seca[0].toFixed(2)}–${slice.seca[1].toFixed(2)}`.replaceAll(".", ","), true);
+        cell(tr, `${slice.seca[0].toFixed(4)}–${slice.seca[1].toFixed(4)}`.replaceAll(".", ","), true);
         cell(tr, name); cell(tr, number.format(slice.classes[key].n));
         cell(tr, quartiles(slice.classes[key].chuva));
         comparison.append(tr);

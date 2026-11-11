@@ -33,7 +33,7 @@ GROUPS = [
 MB = {
     3: ('Formação florestal', '#4b6a40'), 4: ('Formação savânica', '#86a58f'),
     9: ('Silvicultura', '#d5d69e'), 11: ('Campo alagado e área pantanosa', '#496a6e'),
-    12: ('Formação campestre', '#d0a55f'), 15: ('Pastagem', '#a08d8e'),
+    12: ('Formação campestre', '#d0a55f'), 15: ('Pastagem', '#915558'),
     19: ('Lavoura temporária', '#64ef74'), 21: ('Mosaico de usos', '#b6b787'),
     24: ('Área urbanizada', '#e2e2e2'), 25: ('Outras áreas não vegetadas', '#eeeeee'),
     33: ('Rio, lago e oceano', '#acc6cb'), 36: ('Lavoura perene', '#c0a77a'),
@@ -202,6 +202,9 @@ def sample_ndvi(rain_path, dry_path, ref_path, pasture, basin, srs, spacing):
         index = np.sort(rng.choice(len(seca), min(2500, len(seca)), replace=False))
         report[name] = {'n_referencia': int(mask.sum()), 'n_pares_validos': len(seca),
                         'n_sem_par_valido': int((mask & ~paired).sum()),
+                        'estatisticas': {key: {'media': float(np.mean(a[selected], dtype=np.float64)),
+                                              'desvio_padrao': float(np.std(a[selected], dtype=np.float64, ddof=0))}
+                                         for key, a in values.items()},
                         'histogramas': {key: np.histogram(a[selected], bins=bins)[0].tolist() for key, a in values.items()},
                         'pontos_grafico': np.round(np.column_stack((seca[index], chuva[index])), 5).tolist()}
     return samples, report, {'tipo': 'sistematica_em_centros_de_pixels_originais', 'espacamento_m': spacing,
@@ -211,6 +214,10 @@ def sample_ndvi(rain_path, dry_path, ref_path, pasture, basin, srs, spacing):
 
 
 def map_images(out, basin, mb_records, zee_records, refs, srs, step, final_colors):
+    # Recorte de apresentação: áreas úmidas continuam nas fontes e no raster final.
+    mb_records = [r for r in mb_records if r['cod_sub'] != 11]
+    zee_records = [r for r in zee_records if r['classe'] != WETLAND]
+    refs = [r for r in refs if r[2] != 11]
     web = spatial_ref(3857)
     transform = osr.CoordinateTransformation(srs, web)
 
@@ -232,7 +239,7 @@ def map_images(out, basin, mb_records, zee_records, refs, srs, step, final_color
                    'cor': ZEE_COLORS[label]} for label in zee_labels]
     definitions = {
         'mapbiomas': ([(int(r['cod_sub']), r['geometry']) for r in mb_records],
-                      [{'codigo': code, 'nome': label, 'cor': color} for code, (label, color) in MB.items()]),
+                      [{'codigo': code, 'nome': label, 'cor': color} for code, (label, color) in MB.items() if code != 11]),
         'zee': ([(zee_ids[r['classe']], r['geometry']) for r in zee_records], zee_legend),
         'intersecao': ([(i + 1, ref[-1]) for i, ref in enumerate(refs)],
                        [{'codigo': i + 1, 'nome': ref[1], 'cor': final_colors[ref[2]]}
@@ -275,7 +282,7 @@ def main():
     styles = fit / '03_Raster/03_fitofisionomia'
     mb_qml = qml_colors(styles / 'uso do solo mapbiomas.qml')
     final_qml = qml_colors(styles / 'uso do solo.qml')
-    if any(mb_qml.get(code) != color for code, (_, color) in MB.items() if code != 36):
+    if any(mb_qml.get(code) != color for code, (_, color) in MB.items() if code not in (15, 36)):
         raise ValueError('Cores MapBiomas no código divergem do QML indicado')
     if set(code for _, _, code, _, _ in GROUPS) - set(final_qml):
         raise ValueError('QML final sem cor de alguma referência')
@@ -347,7 +354,7 @@ def main():
               'auditoria_mapbiomas': audit,
               'reparos_geometricos': {'bacia': basin_repairs, 'mapbiomas': mb_repairs, 'zee': zee_repairs},
               'metodo': {'areas': 'uniao por classe e intersecao vetorial integral em EPSG:31983, recortada a bacia',
-                         'ndvi': 'leitura dos dois rasters novos; amostra sistematica; nenhuma media ou diferenca entre datas usada nos graficos',
+                         'ndvi': 'amostra sistematica pareada; media e desvio populacional espacial por grupo e data; cortes usam censo separado no NDVI medio',
                          'histogramas': '80 intervalos iguais entre -1 e 1; normalizados pelo total valido de cada grupo e data',
                          'grafico_duas_datas': 'subamostra aleatoria sem reposicao de ate 2500 pares por grupo; semente fixa; sem ajuste de fronteiras',
                          'mapas': 'rasterizacao vetorial por centro de pixel em EPSG:3857; representacao reduzida para a web'},
@@ -375,7 +382,7 @@ def main():
             item['arquivo'] = Path(item['arquivo']).name
     revision = hashlib.sha256(full.encode('utf-8')).hexdigest()[:16]
     public['revisao'] = revision
-    maps.update({'revisao': revision, 'areas': areas, 'inclui_areas_umidas': args.incluir_areas_umidas,
+    maps.update({'revisao': revision, 'areas': [a for a in areas if a['mapbiomas_codigo'] != 11], 'inclui_areas_umidas': False,
                  'nota_areas_umidas': 'Correspondência operacional: classe 11 do MapBiomas ∩ áreas úmidas do ZEE; as definições não são idênticas.'})
     (args.web / 'referencias.json').write_text(json.dumps(maps, ensure_ascii=False, indent=2), encoding='utf-8')
     (args.web / 'exploracao.json').write_text(json.dumps(public, ensure_ascii=False, separators=(',', ':'), allow_nan=False), encoding='utf-8')

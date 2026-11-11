@@ -2,6 +2,12 @@
 
 Este documento registra a etapa de referências e exploração. A classificação proxy adotada depois dessa exploração, com quatro rasters sucessivos, está em [FITOFISIONOMIA_3M.md](FITOFISIONOMIA_3M.md).
 
+## Apresentação atualizada em 11/11/2026
+
+As geometrias científicas e amostras originais foram preservadas. A tabela de áreas e as três vistas de referência omitem áreas úmidas, inclusive de suas legendas e do desenho; a classe 11 permanece no raster final e no grupo exploratório. Pastagem (15) usa #915558. O Sankey foi substituído por média ± desvio padrão populacional espacial, comparando seca e chuva. Há também dispersão média × desvio, com um ponto por grupo e data, além do gráfico original seca × chuva. As tabelas exibem quatro casas decimais; cálculos e JSON mantêm precisão completa.
+
+Esses resumos usam a amostra sistemática pareada de 30 m. Os cortes da classificação são calculados separadamente com todos os pixels válidos do NDVI médio nas interseções atuais, por centro de pixel, conforme [o método vigente](FITOFISIONOMIA_3M.md). O raster médio exige duas datas válidas; a classificação aceita uma data. Não foi produzido raster de desvio padrão. A descrição de geração abaixo preserva a proveniência da exploração original.
+
 ## Escopo e ordem das etapas
 
 1. Referências: interseções vetoriais entre classes equivalentes do MapBiomas e do ZEE de cobertura vegetal.
@@ -49,11 +55,11 @@ Geometrias inválidas são reparadas com `make_valid`, retendo componentes polig
 4. Calcular histogramas com **80 intervalos iguais entre -1 e 1**, largura 0,025. Cada distribuição é normalizada pelo total de pares do próprio grupo, somando 100%. Essa largura é um parâmetro gráfico, não corte de classe. Os dois gráficos de distribuição compartilham os eixos e a escala vertical.
 5. No gráfico seca × chuva, mostrar até 2.500 pares sorteados sem reposição por grupo, semente 20261106. As coordenadas de NDVI são arredondadas a cinco casas somente na representação pública. A quantidade desenhada não indica área relativa. O NPZ local preserva todos os valores amostrados e suas coordenadas espaciais.
 6. Oferecer seleção dos grupos nos gráficos. A diagonal indica igualdade entre datas; não define classes. Não há inferência, testes de significância, intervalos de confiança ou estimativa de acurácia.
-7. No diagrama de Sankey, somar os intervalos dos histogramas publicados em sete faixas, com limites −1, 0,20, 0,35, 0,45, 0,55, 0,65, 0,75 e 1. Cada faixa inclui o limite inferior e a última inclui também o limite superior. As duas datas usam as mesmas faixas, com intervalos mais estreitos onde se concentram os valores amostrados. As fitas mostram a porcentagem de cada grupo em cada faixa, com 100% por grupo e por data. A tabela do diagrama apresenta os percentuais e as contagens originais de pontos. O diagrama descreve as distribuições por data. O pareamento entre pontos é mostrado no gráfico seca × chuva.
+7. Calcular média e desvio padrão populacional espacial por grupo e data, sobre todos os pares da amostra sistemática, com acumuladores Float64. Os histogramas incluem linha da média, faixa de um desvio e tabela numérica. O resumo comparativo usa barras de média ± desvio; o gráfico média × desvio tem dois pontos por grupo, um por data, mantendo as cores. Esses desvios não são temporais por pixel nem erros padrão.
 
 ### Mapa no site
 
-As três camadas mostram as classes originais do MapBiomas, as classes do ZEE e as quatro interseções correspondentes. As fontes originais são preservadas; não se substitui o ZEE de cobertura pelo de risco.
+As três vistas mostram MapBiomas, ZEE e as três interseções de formações utilizadas nos cortes. Áreas úmidas foram omitidas do desenho e das legendas de referência, preservando as fontes integrais e a classe 11 final. As fontes originais são preservadas; não se substitui o ZEE de cobertura pelo de risco.
 
 Para manter o site leve, os vetores são rasterizados por centro de célula em EPSG:3857, com passo cartográfico de **20 m** e a mesma extensão nas três imagens PNG. São representações reduzidas, não novas bases de 20 m. Feições estreitas podem desaparecer. O mapa mantém o enquadramento ao trocar camada e permite ajustar opacidade, consultar a classe representada e reenquadrar a bacia. As áreas da tabela não são calculadas nesses PNGs.
 

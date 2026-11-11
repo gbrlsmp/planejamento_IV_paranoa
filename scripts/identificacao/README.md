@@ -10,13 +10,13 @@ O código lê os caminhos de entrada declarados em [camadas_identificacao.json](
 
 ## Referências e análise exploratória
 
-Consultar [Referências e NDVI — método, produtos e reprodução](REFERENCIAS_E_NDVI.md). O programa `preparar_referencias_ndvi.py` produz interseções vetoriais entre quatro pares de classes correspondentes, lê os dois novos NDVIs integrais e prepara distribuições por data e o gráfico seca × chuva. Pastagem participa somente como comparação. A correspondência de áreas úmidas é operacional, com definições distintas explicitadas.
+Consultar [Referências e NDVI — método, produtos e reprodução](REFERENCIAS_E_NDVI.md). O programa `preparar_referencias_ndvi.py` produz interseções vetoriais entre quatro pares de classes correspondentes, lê os dois novos NDVIs integrais e prepara distribuições por data e o gráfico seca × chuva. A apresentação atual acrescenta médias e desvios populacionais espaciais por grupo/data, barras de comparação e dispersão média × desvio, preservando a amostra original. A tabela e as vistas de referência mostram somente as três formações; áreas úmidas permanecem nos dados e no uso do solo final. Pastagem participa somente como comparação. A correspondência de áreas úmidas é operacional, com definições distintas explicitadas.
 
 As versões leves são guardadas em `04_figuras`, destino confirmado pela pesquisadora, e copiadas para `dados-mapas/identificacao/` para o site. O GeoPackage e as amostras completas permanecem locais. A etapa seguinte usa os dois novos NDVIs para aplicar os cortes documentados em `FITOFISIONOMIA_3M.md`.
 
 ## Classificação proxy e publicação
 
-`classificar_fitofisionomias_3m.py` aplica as quatro etapas adotadas em uma passagem pelos NDVIs, sem ler classificações anteriores. `exportar_fitofisionomias_web.py` prepara quatro vistas leves, o GIF, o mapa de risco do ZEE-DF, os blocos detalhados e as tabelas adicionais. `atualizar_paletas_referencias.py` aplica os QML às imagens de referência já calculadas. Entradas locais e GeoTIFFs integrais ficam fora do repositório; a página publica apenas arquivos de consulta. Consulte [o método e a reprodução](FITOFISIONOMIA_3M.md).
+`classificar_fitofisionomias_3m.py` aplica as quatro etapas adotadas em uma passagem pelos NDVIs, sem ler classificações anteriores. `exportar_fitofisionomias_web.py` prepara quatro vistas leves, o GIF, o mapa de risco do ZEE-DF, os blocos detalhados e as tabelas adicionais. `atualizar_paletas_referencias.py` aplica os QML às imagens de referência já calculadas. `atualizar_apresentacao_ndvi.py` atualiza as estatísticas e a apresentação existente sem refazer as referências científicas; pastagem usa #915558. O método adotado em 11/11/2026 usa os novos cortes completos, residual literal 0,3555 e edificações depois da água, preservando a classe florestal atual. Entradas locais e GeoTIFFs integrais ficam fora do repositório; a página publica apenas arquivos de consulta. Consulte [o método e a reprodução](FITOFISIONOMIA_3M.md).
 
 ## Primeira exploração — registro histórico
 
