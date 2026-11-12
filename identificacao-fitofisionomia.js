@@ -4,7 +4,6 @@
   const directory = "dados-mapas/identificacao/fitofisionomia/";
   let manifestPromise;
   let imageRevision = "";
-  let statsPromise;
   const manifest = () => manifestPromise ??= loadData(directory + "manifesto.json")
     .then(config => {
       imageRevision = config.revision || "";
@@ -13,9 +12,6 @@
       return config;
     })
     .catch(error => { manifestPromise = null; throw error; });
-  const stats = () => statsPromise ??= loadData(directory + "exploracoes_adicionais.json")
-    .catch(error => { statsPromise = null; throw error; });
-  const number = new Intl.NumberFormat("pt-BR");
 
   function bounds(rect) {
     const [left, bottom, right, top] = rect;
@@ -47,27 +43,6 @@
       container.append(li);
     }
   }
-  function cell(row, value, header = false) {
-    const element = document.createElement(header ? "th" : "td");
-    element.textContent = value;
-    if (header) element.scope = "row";
-    row.append(element);
-  }
-  function quartiles(values) { return values.map(value => value.toFixed(4).replace(".", ",")).join(" / "); }
-
-  async function extraExploration(root) {
-    const info = await stats();
-    const codes = { florestal: 3, savanica: 4, campestre: 12, pastagem: 15, campo_alagado: 11 };
-    const groups = root.querySelector("[data-extra-summary]");
-    for (const group of info.grupos) {
-      const tr = document.createElement("tr");
-      cell(tr, `${group.nome} (${codes[group.id]})`, true); cell(tr, number.format(group.n));
-      for (const key of ["seca", "chuva", "delta"]) cell(tr, quartiles(group[key]));
-      groups.append(tr);
-    }
-
-  }
-
   async function classification(root) {
     const status = root.querySelector("[data-fit-status]");
     try {
@@ -163,7 +138,6 @@
   }
 
   for (const [selector, handler] of [
-    ["[data-extra-ndvi]", extraExploration],
     ["[data-fitofisionomia-results]", classification],
     ["[data-context-results]", context],
   ]) {

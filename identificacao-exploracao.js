@@ -4,8 +4,8 @@
   let pending;
   function data() {
     pending ??= Promise.all([
-      loadData("dados-mapas/identificacao/referencias.json"),
-      loadData("dados-mapas/identificacao/exploracao.json"),
+      loadData("dados-mapas/identificacao/referencias.json?v=5"),
+      loadData("dados-mapas/identificacao/exploracao.json?v=5"),
       loadData("mapa-base.json.gz"),
     ]).then(([references, exploration, base]) => {
       if (!references.revisao || references.revisao !== exploration.revisao) {
@@ -252,6 +252,41 @@
     }
   }
 
+  function drawJoint(canvas, active, bins, domain) {
+    const c = chart(canvas, true), { ctx, left, top, plotWidth: w, plotHeight: h } = c;
+    const [lo, hi] = domain, span = hi - lo;
+    const x = v => left + (v - lo) / span * w;
+    const y = v => top + (hi - v) / span * h;
+    ctx.font = "12px system-ui, sans-serif";
+    for (let i = 0; i <= 5; i++) {
+      const v = lo + span * i / 5;
+      ctx.strokeStyle = "#e5e8e2"; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(x(v), top); ctx.lineTo(x(v), top + h);
+      ctx.moveTo(left, y(v)); ctx.lineTo(left + w, y(v)); ctx.stroke();
+      const label = v.toLocaleString("pt-BR", {maximumFractionDigits: 2});
+      ctx.fillStyle = "#4c5751"; ctx.textAlign = "center"; ctx.fillText(label, x(v), top + h + 20);
+      ctx.textAlign = "right"; ctx.fillText(label, left - 7, y(v) + 4);
+    }
+    const maxima = active.map(group => Math.max(1, ...group.densidade_conjunta.flat()));
+    ctx.save(); ctx.beginPath(); ctx.rect(left, top, w, h); ctx.clip();
+    for (let i = 0; i < bins.length - 1; i++) for (let j = 0; j < bins.length - 1; j++) {
+      for (const [index, group] of active.entries()) {
+        const n = group.densidade_conjunta[i][j];
+        if (!n) continue;
+        ctx.fillStyle = group.cor;
+        ctx.globalAlpha = .08 + .67 * Math.sqrt(n / maxima[index]);
+        ctx.fillRect(x(bins[i]), y(bins[j + 1]), x(bins[i + 1]) - x(bins[i]), y(bins[j]) - y(bins[j + 1]));
+      }
+    }
+    ctx.restore();
+    ctx.strokeStyle = "#7d8980"; ctx.setLineDash([4, 4]);
+    ctx.beginPath(); ctx.moveTo(x(lo), y(lo)); ctx.lineTo(x(hi), y(hi)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle = "#536458"; ctx.lineWidth = 1; ctx.strokeRect(left, top, w, h);
+    ctx.fillStyle = "#34483b"; ctx.textAlign = "center";
+    ctx.fillText("NDVI da seca", left + w / 2, top + h + 43);
+    ctx.save(); ctx.translate(left - 39, top + h / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("NDVI da chuva", 0, 0); ctx.restore();
+  }
+
   function drawSankey(root, active, bins) {
     root.hidden = !active.length;
     if (root.hidden) return;
@@ -268,7 +303,8 @@
     const sum = values => values.reduce((total, value) => total + value, 0);
     const percent = (count, group) => 100 * count / group.n_pares_validos;
     const points = new Intl.NumberFormat("pt-BR");
-    const groups = active.map(group => ({
+    const ordered = [...active].sort((a, b) => Number(b.mapbiomas_codigo === 15) - Number(a.mapbiomas_codigo === 15));
+    const groups = ordered.map(group => ({
       ...group,
       bands: labels.map((label, i) => {
         const count = season => sum(group.histogramas[season].slice(edges[i], edges[i + 1]));
@@ -336,7 +372,7 @@
           const d = `M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}
             v ${thickness} C ${mid} ${y2 + thickness}, ${mid} ${y1 + thickness}, ${x1} ${y1 + thickness} Z`;
           const ribbon = appendSvg(svg, "path", { d, fill: group.cor, class: "ident-sankey-ribbon" });
-          appendSvg(ribbon, "title", {}, `${date} · ${group.nome} · NDVI ${band.label} · ${format.format(share)}% · ${points.format(count)} pontos`);
+          appendSvg(ribbon, "title", {}, `${date} · ${group.nome} · NDVI ${band.label} · ${format.format(share)}% · ${points.format(count)} pixels`);
           groupY += thickness;
           offsets[i] += thickness;
         }
@@ -403,11 +439,11 @@
           }
         }
         ymax = Math.ceil(ymax / 5) * 5;
-        const domain = distributionDomain(active, report.amostragem.bins);
+        const domain = distributionDomain(active, report.censo.bins);
         for (const [canvas, season] of [[dry, "seca"], [rain, "chuva"]]) {
           const c = chart(canvas);
           const { ctx } = c;
-          const { x, y } = axes(c, ymax, "Pares do grupo (%)", domain);
+          const { x, y } = axes(c, ymax, "Pixels do grupo (%)", domain);
           ctx.save(); ctx.beginPath(); ctx.rect(c.left, c.top, c.plotWidth, c.plotHeight); ctx.clip();
           for (const group of active) {
             const stat = group.estatisticas[season];
@@ -420,8 +456,8 @@
             ctx.beginPath();
             group.histogramas[season].forEach((n, i) => {
               const value = 100 * n / group.n_pares_validos;
-              const a = x(report.amostragem.bins[i]);
-              const b = x(report.amostragem.bins[i + 1]);
+              const a = x(report.censo.bins[i]);
+              const b = x(report.censo.bins[i + 1]);
               if (i === 0) ctx.moveTo(a, y(value)); else ctx.lineTo(a, y(value));
               ctx.lineTo(b, y(value));
             });
@@ -430,34 +466,8 @@
           ctx.restore();
         }
         drawSummary(summary, active);
-        drawSankey(sankey, active, report.amostragem.bins);
-        const c = chart(scatter, true);
-        const { ctx, left, top, plotWidth: w, plotHeight: h } = c;
-        const x = v => left + (v + 1) / 2 * w;
-        const y = v => top + (1 - v) / 2 * h;
-        ctx.font = "12px system-ui, sans-serif";
-        for (const v of [-1, -.5, 0, .5, 1]) {
-          ctx.strokeStyle = "#e5e8e2"; ctx.lineWidth = 1;
-          ctx.beginPath(); ctx.moveTo(x(v), top); ctx.lineTo(x(v), top + h); ctx.moveTo(left, y(v)); ctx.lineTo(left + w, y(v)); ctx.stroke();
-          ctx.fillStyle = "#4c5751"; ctx.textAlign = "center"; ctx.fillText(v.toLocaleString("pt-BR"), x(v), top + h + 20);
-          ctx.textAlign = "right"; ctx.fillText(v.toLocaleString("pt-BR"), left - 7, y(v) + 4);
-        }
-        ctx.strokeStyle = "#7d8980"; ctx.setLineDash([4, 4]);
-        ctx.beginPath(); ctx.moveTo(x(-1), y(-1)); ctx.lineTo(x(1), y(1)); ctx.stroke(); ctx.setLineDash([]);
-        ctx.save(); ctx.beginPath(); ctx.rect(left, top, w, h); ctx.clip();
-        // Intercalar grupos reduz o encobrimento sistemático pelo último grupo.
-        const count = Math.max(0, ...active.map(g => g.pontos_grafico.length));
-        ctx.globalAlpha = .35;
-        for (let i = 0; i < count; i++) for (const group of active) {
-          const point = group.pontos_grafico[i];
-          if (!point) continue;
-          ctx.fillStyle = group.cor; ctx.beginPath(); ctx.arc(x(point[0]), y(point[1]), 1.6, 0, Math.PI * 2); ctx.fill();
-        }
-        ctx.restore();
-        ctx.strokeStyle = "#536458"; ctx.strokeRect(left, top, w, h);
-        ctx.fillStyle = "#34483b"; ctx.textAlign = "center";
-        ctx.fillText("NDVI da seca", left + w / 2, top + h + 43);
-        ctx.save(); ctx.translate(left - 39, top + h / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("NDVI da chuva", 0, 0); ctx.restore();
+        drawSankey(sankey, active, report.censo.bins);
+        drawJoint(scatter, active, report.censo.bins, domain);
         status.textContent = active.length ? "Selecione os grupos que deseja comparar nos gráficos." : "Selecione pelo menos um grupo para comparar.";
       }
       function update() {

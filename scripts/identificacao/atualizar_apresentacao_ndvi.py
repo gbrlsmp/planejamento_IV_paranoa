@@ -14,6 +14,8 @@ from PIL import Image
 
 def update(web, samples):
     exploration = json.loads((web / 'exploracao.json').read_text(encoding='utf-8'))
+    if 'censo' in exploration:
+        raise ValueError('A apresentação usa censo. Use calcular_censo_ndvi.py em saída nova; não substituir pelo registro amostral histórico.')
     references = json.loads((web / 'referencias.json').read_text(encoding='utf-8'))
     with np.load(samples, allow_pickle=False) as data:
         for key, group in exploration['grupos'].items():

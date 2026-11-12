@@ -6,7 +6,7 @@ Este documento registra a etapa de referências e exploração. A classificaçã
 
 As geometrias científicas e amostras originais foram preservadas. A tabela de áreas e as três vistas de referência omitem áreas úmidas, inclusive de suas legendas e do desenho; a classe 11 permanece no raster final e no grupo exploratório. Pastagem (15), inclusive Pecuária no ZEE, usa #915558. A apresentação reúne distribuições, resumo de média ± desvio padrão populacional espacial, Sankey e dispersão seca × chuva. O Sankey agrega os histogramas em faixas comuns às duas datas; as fitas mostram a proporção de pontos de cada grupo por faixa em cada época, sem representar transições individuais entre datas. Seus percentuais somam 100% por grupo e época. As distribuições usam o mesmo intervalo de NDVI para seca e chuva, definido pelas faixas com observações dos grupos selecionados e uma margem; não são descartadas observações. As tabelas exibem quatro casas decimais; cálculos e JSON mantêm precisão completa. A página aproveita a largura da janela, e o mapa de referências tem opacidade fixa de 100%.
 
-Esses resumos usam a amostra sistemática pareada de 30 m. Os cortes da classificação são calculados separadamente com todos os pixels válidos do NDVI médio nas interseções atuais, por centro de pixel, conforme [o método vigente](FITOFISIONOMIA_3M.md). O raster médio exige duas datas válidas; a classificação aceita uma data. Não foi produzido raster de desvio padrão. A descrição de geração abaixo preserva a proveniência da exploração original.
+Os resumos, histogramas, Sankey e distribuição conjunta usam o **censo dos centros de pixels originais de 3 m**, com ambas as datas válidas. Nas três formações, a população espacial é a mesma usada nos cortes. Os gráficos analisam seca e chuva separadamente; os cortes continuam usando a média Float32 das duas datas por pixel. O raster médio estrito exige duas datas válidas; a classificação aceita uma data. Não foi produzido raster de desvio padrão. O Sankey apresenta pastagem no topo. O bloco de quartis sazonais foi retirado da apresentação. O procedimento e as validações correntes estão em [CENSO_NDVI.md](CENSO_NDVI.md). A descrição amostral abaixo preserva a proveniência histórica, não a população dos gráficos correntes.
 
 ## Escopo e ordem das etapas
 
@@ -34,7 +34,7 @@ A correspondência de áreas úmidas foi confirmada pela pesquisadora como **ope
 
 Os NDVIs são os novos arquivos `ndvi_chuva_2026-01-17.tif` e `ndvi_seca_2026-07-30.tif`, descritos em [NDVI_GERACAO.md](NDVI_GERACAO.md). O processamento não reutiliza os rasters antigos nem recalcula o índice nas imagens originais. O limite da bacia define o recorte comum.
 
-## Procedimento
+## Procedimento histórico da exploração amostral
 
 ### Referências e áreas
 
@@ -61,7 +61,7 @@ Geometrias inválidas são reparadas com `make_valid`, retendo componentes polig
 
 As três vistas mostram MapBiomas, ZEE e as três interseções de formações utilizadas nos cortes. Áreas úmidas foram omitidas do desenho e das legendas de referência, preservando as fontes integrais e a classe 11 final. As fontes originais são preservadas; não se substitui o ZEE de cobertura pelo de risco.
 
-Para manter o site leve, os vetores são rasterizados por centro de célula em EPSG:3857, com passo cartográfico de **20 m** e a mesma extensão nas três imagens PNG. São representações reduzidas, não novas bases de 20 m. Feições estreitas podem desaparecer. O mapa mantém o enquadramento ao trocar camada e permite ajustar opacidade, consultar a classe representada e reenquadrar a bacia. As áreas da tabela não são calculadas nesses PNGs.
+Para manter o site leve, os vetores são rasterizados por centro de célula em EPSG:3857, com passo cartográfico de **20 m** e a mesma extensão nas três imagens PNG. São representações reduzidas, não novas bases de 20 m. Feições estreitas podem desaparecer. O mapa mantém o enquadramento ao trocar camada, usa opacidade fixa de 100% e permite consultar a classe representada e reenquadrar a bacia. As áreas da tabela não são calculadas nesses PNGs.
 
 ## Produtos locais e publicação
 

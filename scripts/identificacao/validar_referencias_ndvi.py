@@ -31,6 +31,10 @@ def main():
     local_text = (args.tabelas / 'exploracao_ndvi.json').read_text(encoding='utf-8')
     local = json.loads(local_text)
     public = json.loads((args.publicacao / 'exploracao.json').read_text(encoding='utf-8'))
+    if 'censo' in public:
+        from validar_censo_ndvi import validate
+        validate(args.base, args.referencias, args.tabelas, args.figuras, args.publicacao)
+        return
     maps = json.loads((args.publicacao / 'referencias.json').read_text(encoding='utf-8'))
     original_base = Path(local['fontes']['bacia'][0]['arquivo']).parents[3]
 

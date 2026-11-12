@@ -14,14 +14,14 @@
     if (removedTopics[location.hash]) location.replace("mapa.html?tema=" + removedTopics[location.hash]);
   </script>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-  <link rel="stylesheet" href="identificacao-exploracao.css?v=4">
+  <link rel="stylesheet" href="identificacao-exploracao.css?v=5">
   <link rel="stylesheet" href="identificacao-fitofisionomia.css">
   <script defer src="subabas.js"></script>
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-base.js"></script>
-  <script defer src="identificacao-exploracao.js?v=4"></script>
+  <script defer src="identificacao-exploracao.js?v=5"></script>
   <script defer src="mapa-satelite.js"></script>
-  <script defer src="identificacao-fitofisionomia.js?v=7"></script>
+  <script defer src="identificacao-fitofisionomia.js?v=8"></script>
 
 </head>
 <body>
@@ -100,7 +100,7 @@
           <details class="method-details"><summary>Ver procedimento completo e gráficos</summary><div class="method-detail-body">
             <span id="etapa-estatisticas"></span>
             <p><strong>Cálculo:</strong> (NIR − vermelho) / (NIR + vermelho), com NIR na banda 8 e vermelho na banda 6 dos mosaicos PlanetScope. Estão disponíveis os rasters de NDVI da chuva (17/01/2026), da seca (30/07/2026) e da média temporal. O raster médio exige as duas datas válidas. Os desvios padrão espaciais são estatísticas por grupo.</p>
-            <p><strong>Comparação:</strong> os gráficos leem os rasters nos mesmos locais, com espaçamento sistemático de 30 m entre centros de pixels originais de 3 m. Entram apenas pares válidos nas duas datas, dentro das referências vetoriais. Além dos valores das áreas de intesecção das formações do cerrado, as classes pastagem (15) e campo alagado e área pantanosa (11) do MapBiomas também participam como comparação.</p>
+            <p><strong>Comparação:</strong> os gráficos usam todos os centros de pixels originais de 3 m dentro das referências vetoriais, com dados válidos nas duas datas. As três formações usam as mesmas referências, grade nativa e critérios de validade do censo empregado nos cortes, sem amostragem espacial. Seca e chuva são analisadas separadamente. Além dos valores das áreas de intesecção das formações do cerrado, as classes pastagem (15) e campo alagado e área pantanosa (11) do MapBiomas também participam como comparação.</p>
             <div data-ndvi-results>
               <p class="ident-status" role="status">Abra esta etapa para carregar os gráficos.</p>
               <fieldset class="ident-groups"><legend>Grupos nos gráficos</legend><div data-ndvi-groups></div></fieldset>
@@ -111,26 +111,21 @@
                 <figure><figcaption>Chuva — 17/01/2026</figcaption><canvas data-ndvi-rain role="img" aria-label="Distribuições de NDVI por grupo na chuva">Consulte os dados dos gráficos no arquivo JSON vinculado abaixo.</canvas></figure>
               </div>
               <h6 id="titulo-resumo-ndvi">Média e desvio padrão: seca e chuva</h6>
-              <p>Cada grupo tem dois resumos espaciais dos pares da amostra sistemática: seca em círculo vazio e linha tracejada; chuva em círculo preenchido e linha contínua. As barras mostram média ± um desvio padrão populacional, sem representar intervalo de confiança.</p>
+              <p>Cada grupo tem dois resumos espaciais de todos os pixels válidos da referência: seca em círculo vazio e linha tracejada; chuva em círculo preenchido e linha contínua. As barras mostram média ± um desvio padrão populacional, sem representar intervalo de confiança.</p>
               <div data-ndvi-summary hidden>
                 <div class="table-scroll ident-summary" role="region" aria-labelledby="titulo-resumo-ndvi" tabindex="0"><svg role="img" aria-label="Médias e desvios padrão por grupo, comparando seca e chuva"></svg></div>
                 <div class="table-scroll"><table class="indicator-table"><caption>Média e desvio padrão espacial — seca e chuva</caption><thead><tr><th scope="col">Grupo</th><th scope="col">Seca: média</th><th scope="col">Seca: desvio padrão</th><th scope="col">Chuva: média</th><th scope="col">Chuva: desvio padrão</th></tr></thead><tbody data-ndvi-summary-table></tbody></table></div>
               </div>
               <h6 id="titulo-sankey-ndvi">Sankey: faixas de NDVI na seca e na chuva</h6>
-              <p>As faixas de NDVI da seca aparecem à esquerda, os grupos de referência ao centro e as faixas da chuva à direita. A espessura de cada ligação corresponde à porcentagem dos pares amostrados daquele grupo na faixa indicada; cada grupo soma 100% em cada data. As ligações mostram distribuições por grupo e época, sem representar a trajetória de cada ponto entre datas.</p>
+              <p>As faixas de NDVI da seca aparecem à esquerda, os grupos de referência ao centro e as faixas da chuva à direita. A espessura de cada ligação corresponde à porcentagem dos pixels válidos daquele grupo na faixa indicada; cada grupo soma 100% em cada data. As ligações mostram distribuições por grupo e época, sem representar a trajetória de cada ponto entre datas.</p>
               <div data-ndvi-sankey hidden>
                 <div class="table-scroll ident-sankey-scroll" role="region" aria-labelledby="titulo-sankey-ndvi" tabindex="0"><svg role="img" aria-label="Sankey das distribuições de NDVI por grupo na seca e na chuva"></svg></div>
-                <details class="ident-sankey-values"><summary>Ver porcentagens e contagens do Sankey</summary><div class="table-scroll"><table class="indicator-table"><thead><tr><th>Grupo</th><th>Faixa de NDVI</th><th>Seca (%)</th><th>Seca (pontos)</th><th>Chuva (%)</th><th>Chuva (pontos)</th></tr></thead><tbody></tbody></table></div></details>
+                <details class="ident-sankey-values"><summary>Ver porcentagens e contagens do Sankey</summary><div class="table-scroll"><table class="indicator-table"><thead><tr><th>Grupo</th><th>Faixa de NDVI</th><th>Seca (%)</th><th>Seca (pixels)</th><th>Chuva (%)</th><th>Chuva (pixels)</th></tr></thead><tbody></tbody></table></div></details>
               </div>
               <h6>NDVI da seca × NDVI da chuva</h6>
-              <p>Cada ponto representa o mesmo local nas duas imagens. Grupos que ocupam regiões diferentes do gráfico podem apresentar respostas complementares entre datas; a sobreposição mostra onde essa distinção é difícil. A linha diagonal indica valores iguais nas duas datas, sem funcionar como limite de classe.</p>
-              <figure class="ident-scatter"><canvas data-ndvi-scatter role="img" aria-label="NDVI da seca no eixo horizontal e da chuva no vertical, por grupo">Consulte os pares exibidos no arquivo JSON vinculado abaixo.</canvas></figure>
-              <p class="ident-chart-note">As distribuições usam todos os pares da amostra sistemática. Para manter a leitura, o gráfico seca × chuva exibe até 2.500 pares sorteados por grupo, com semente fixa; a quantidade de pontos desenhados não representa a proporção de área de cada grupo.</p>
-              <section data-extra-ndvi>
-                <h6>Variação entre seca e chuva</h6>
-                <p>Q1 é o valor abaixo do qual estão 25% dos pontos; a mediana divide os pontos ao meio; Q3 é o valor abaixo do qual estão 75%. Entre Q1 e Q3 fica a metade central dos pontos. A diferença é chuva menos seca; valores positivos indicam aumento do NDVI.</p>
-                <div class="table-scroll" role="region" aria-label="Quartis do NDVI por grupo" tabindex="0"><table class="indicator-table data-table"><thead><tr><th>Grupo</th><th>Pontos</th><th>Seca Q1 / mediana / Q3</th><th>Chuva Q1 / mediana / Q3</th><th>Diferença Q1 / mediana / Q3</th></tr></thead><tbody data-extra-summary></tbody></table></div>
-              </section>
+              <p>Cada célula reúne os pixels com uma combinação de NDVI da seca e da chuva, em intervalos de 0,025 × 0,025. A intensidade da cor aumenta com a frequência relativa à célula mais frequente de cada grupo. Todos os pixels válidos entram nas contagens; use os filtros para comparar os grupos. A linha diagonal indica valores iguais nas duas datas, sem funcionar como limite de classe.</p>
+              <figure class="ident-scatter"><canvas data-ndvi-scatter role="img" aria-label="Distribuição conjunta censitária do NDVI da seca e da chuva, por grupo">Consulte as contagens por célula no arquivo JSON vinculado abaixo.</canvas></figure>
+              <p class="ident-chart-note">As distribuições, médias, desvios e contagens do Sankey usam o censo dos pixels válidos de cada referência. A distribuição conjunta agrega todos esses pixels em células de NDVI, sem sorteio ou redução da população analisada. A escala de cor é própria de cada grupo e não representa sua proporção de área na bacia.</p>
               <button type="button" data-ndvi-retry hidden>Tentar carregar novamente</button>
             </div>
           </div></details>
@@ -140,7 +135,7 @@
           <p>A classificação percorre toda a grade PlanetScope válida em quatro etapas que produzem quatro rasters sucessivos, sendo o último a proxy final.</p>
           <details class="method-details"><summary>Ver as quatro etapas, os mapas e as limitações</summary><div class="method-detail-body" data-fitofisionomia-results>
             <section class="fit-step" aria-labelledby="fit-etapa-1"><h6 id="fit-etapa-1">Etapa 1 · Cortes de NDVI e limpeza inicial → raster 01</h6>
-              <p>Os cortes usam todos os pixels válidos cujos centros estão nas interseções das formações do cerrado referentes aos dados do Mapbiomas (2025) e ZEE-DF (2017). Assim, calculam-se a média espacial e o desvio padrão populacional por formação, essas estatísticas diferem dos resumos amostrais dos gráfic os.</p>
+              <p>Os cortes usam todos os pixels válidos do NDVI médio cujos centros estão nas interseções das formações do cerrado referentes aos dados do MapBiomas (2025) e ZEE-DF (2017). Calculam-se a média espacial e o desvio padrão populacional por formação. Os gráficos exploratórios usam os mesmos pixels dessas referências, mas analisam seca e chuva separadamente; por isso, as estatísticas de cada época diferem das calculadas sobre o NDVI médio.</p>
               <div class="table-scroll" role="region" aria-label="Cortes da primeira etapa" tabindex="0"><table class="indicator-table data-table"><thead><tr><th>Classe</th><th>Intervalo do NDVI</th><th>Origem do limite inferior e refinamento</th></tr></thead><tbody>
                 <tr><th scope="row">Formação florestal (3)</th><td>≥ 0,7355</td><td>Média − desvio padrão</td></tr>
                 <tr><th scope="row">Formação savânica (4)</th><td>0,6419 ≤ NDVI &lt; 0,7355</td><td>Média</td></tr>
