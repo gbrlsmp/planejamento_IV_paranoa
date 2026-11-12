@@ -54,6 +54,16 @@ for key in ['uso','iv','metricas','tipologias']:
     assert catalog[key]['revision']==sha256((repo/f'dados-mapas/{key}.png').read_bytes()).hexdigest()[:16]
 assert catalog['uso']['bounds']==manifest['overview_bounds']
 assert catalog['iv']['classes']==d['iv']['map']['classes']
+assert catalog['tipologias']['classes']==d['fragmentos']['map']['classes']
+palette_record=json.loads((repo/'dados-mapas/identificacao/paleta-relatorio.json').read_text(encoding='utf-8'))
+for key,record in palette_record['mapas'].items():
+    with Image.open(repo/f'dados-mapas/{key}.png') as image:
+        assert image.mode=='P' and image.info['transparency']==0
+        assert list(image.size)==record['dimensoes']
+        assert sha256(np.asarray(image).tobytes()).hexdigest()==record['codigos_sha256']
+        assert record['classes']==catalog[key]['classes'] and record['bounds']==catalog[key]['bounds']
+        for code,_,color in record['classes']:
+            assert bytes(image.getpalette()[code*3:code*3+3]).hex()==color[1:]
 
 class Page(HTMLParser):
     def __init__(self):
@@ -89,6 +99,8 @@ for name in ['identificacao.html','index.html','mapa.html']:
         for value in [format_pt(d['fragmentos']['fragments'],0),format_pt(d['fragmentos']['vegetation_area_ha']),format_pt(d['metricas']['45']['nucleo_ha']),format_pt(d['metricas']['90']['nucleo_ha']),format_pt(d['iv']['area_ha']['Hub 1']),format_pt(d['limite_residual'])]:
             assert value in text,value
         assert 'data-ndvi-sankey' in text
+        assert 'data-makurhini' in text
+        assert 'Regra de classificação' in text and '<ol>' not in text.split('id="elementos-iv"')[1]
         assert page.maps==[('metricas-forma','metricas'),('tipologias','tipologias'),('elementos-iv','iv')]
         assert 'data-reference-opacity' not in text
         for removed in ['data-ndvi-stat-scatter', 'data-extra-camp-past', 'data-extra-check', 'data-extra-ndvi']:

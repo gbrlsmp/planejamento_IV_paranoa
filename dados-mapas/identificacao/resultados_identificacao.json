@@ -111,32 +111,32 @@
         [
           1,
           "UC",
-          "#23734d"
+          "#4b6a40"
         ],
         [
           2,
           "Parque urbano",
-          "#78ad69"
+          "#86a58f"
         ],
         [
           3,
           "Agrossistemas não intensivos",
-          "#a66b38"
+          "#d0a55f"
         ],
         [
           4,
           "APP",
-          "#c4b53d"
+          "#3e5972"
         ],
         [
           5,
           "Sem AVU",
-          "#6b7270"
+          "#e1e1e1"
         ],
         [
           6,
           "Aviso",
-          "#89739c"
+          "#c4cc95"
         ]
       ],
       "bounds": [

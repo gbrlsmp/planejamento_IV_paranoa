@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "fragmentos": 46876,
+  "fonte_makurhini": "https://github.com/connectscape/Makurhini/blob/0010946ab2eef7f8d2bc4935f369869fc4c58671/R/MK_fragmentation.R",
+  "geracao": "GEOS/Python para geometrias; MK_Fragmentation no R para métricas, com area_unit=m2 e perimeter_unit=m.",
+  "id": "IdTemp dos CSVs corresponde ao id_frag dos GeoPackages adotados.",
+  "indicadores": [
+    {
+      "campo": "Area",
+      "nome": "Área total",
+      "unidade": "m²"
+    },
+    {
+      "campo": "CA",
+      "nome": "Área de núcleo",
+      "unidade": "m²"
+    },
+    {
+      "campo": "CAPercent",
+      "nome": "Percentual de núcleo",
+      "unidade": "%"
+    },
+    {
+      "campo": "Perimeter",
+      "nome": "Perímetro",
+      "unidade": "m"
+    },
+    {
+      "campo": "EdgePercent",
+      "nome": "Percentual de borda",
+      "unidade": "%"
+    },
+    {
+      "campo": "PARA",
+      "nome": "Razão área/perímetro nesta execução",
+      "unidade": "m"
+    },
+    {
+      "campo": "ShapeIndex",
+      "nome": "Índice de forma",
+      "unidade": "adimensional"
+    },
+    {
+      "campo": "FRAC",
+      "nome": "Dimensão fractal",
+      "unidade": "adimensional"
+    }
+  ],
+  "nota_para": "A revisão executada calcula PARA = Area / Perimeter, embora o comentário da função descreva a razão inversa. Os valores originais foram preservados.",
+  "cenarios": [
+    {
+      "borda_m": 45,
+      "fragmentos": {
+        "arquivo": "MK_Fragmentation_Bacia_Paranoa_45m_AVU_PatchMetrics.csv",
+        "sha256": "e7019668279faea33874c250531cbbfac647b8162498620f09ef39ace221ed4f",
+        "bytes": 2255480,
+        "registros": 46876
+      },
+      "paisagem": {
+        "arquivo": "MK_Fragmentation_Bacia_Paranoa_45m_AVU_LandscapeMetrics.csv",
+        "sha256": "8cde9ce72ab8479126127028106b331ea266de47bfb4d707711fddf8d2b7aff6",
+        "bytes": 443,
+        "registros": 13
+      }
+    },
+    {
+      "borda_m": 90,
+      "fragmentos": {
+        "arquivo": "MK_Fragmentation_Bacia_Paranoa_90m_AVU_PatchMetrics.csv",
+        "sha256": "497616a79d056f93234f0b40fcb706effa8ede442429e0bc62d7908c65671ca6",
+        "bytes": 2251641,
+        "registros": 46876
+      },
+      "paisagem": {
+        "arquivo": "MK_Fragmentation_Bacia_Paranoa_90m_AVU_LandscapeMetrics.csv",
+        "sha256": "d0afd00f3129fe41667c35b6ca7fbe48fcdd13b10faff344acb2458ac3c6920d",
+        "bytes": 443,
+        "registros": 13
+      }
+    }
+  ],
+  "revisao": "a6e15b600f17bc7f"
+}

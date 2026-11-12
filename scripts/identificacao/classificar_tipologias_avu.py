@@ -13,6 +13,7 @@ from osgeo import gdal, gdal_array, ogr, osr
 import shapely
 from PIL import Image
 from shapely import MultiPolygon, STRtree
+from paletas_identificacao import AVU_COLORS
 
 gdal.UseExceptions()
 ogr.UseExceptions()
@@ -185,12 +186,12 @@ def classify(flags):
 
 
 MAP_CLASSES = {
-    'UC': (1, '#23734d'),
-    'Parque urbano': (2, '#78ad69'),
-    'Agrossistemas não intensivos': (3, '#a66b38'),
-    'APP': (4, '#c4b53d'),
-    'Sem AVU': (5, '#6b7270'),
-    'Aviso': (6, '#89739c'),
+    'UC': (1, AVU_COLORS['UC']),
+    'Parque urbano': (2, AVU_COLORS['Parque urbano']),
+    'Agrossistemas não intensivos': (3, AVU_COLORS['Agrossistemas não intensivos']),
+    'APP': (4, AVU_COLORS['APP']),
+    'Sem AVU': (5, AVU_COLORS['Sem AVU']),
+    'Aviso': (6, AVU_COLORS['Aviso']),
 }
 
 

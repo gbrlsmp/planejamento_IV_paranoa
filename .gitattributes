@@ -1,0 +1,2 @@
+# Preservar os bytes dos CSVs originais do Makurhini e suas assinaturas.
+dados-mapas/identificacao/metricas/*.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

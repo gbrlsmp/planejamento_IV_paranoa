@@ -1,0 +1,88 @@
+{
+  "origem": "Paleta final do uso do solo já adotada; paletas_identificacao.py",
+  "tratamento": "Somente cores; códigos, transparência, extensões e geometrias preservados.",
+  "mapas": {
+    "metricas": {
+      "dimensoes": [
+        911,
+        960
+      ],
+      "codigos_sha256": "2a820f3a1ee58d929d30200636f46d018783a4c6366aad785507b9772b16fe08",
+      "classes": [
+        [
+          1,
+          "Até 1 ha",
+          "#c4cc95"
+        ],
+        [
+          2,
+          "Acima de 1 até 10 ha",
+          "#86a58f"
+        ],
+        [
+          3,
+          "Acima de 10 até 100 ha",
+          "#4b6a40"
+        ],
+        [
+          4,
+          "Acima de 100 ha",
+          "#2b5125"
+        ]
+      ],
+      "bounds": [
+        -5355549.140947313,
+        -1803287.483805565,
+        -5309999.140947313,
+        -1755287.483805565
+      ],
+      "revision": "fe27089189389e40"
+    },
+    "tipologias": {
+      "dimensoes": [
+        2313,
+        2442
+      ],
+      "codigos_sha256": "67340caf1353b64ef272c92f53b9afe2443db569996e0685f533ebd841e65cb3",
+      "classes": [
+        [
+          1,
+          "UC",
+          "#4b6a40"
+        ],
+        [
+          2,
+          "Parque urbano",
+          "#86a58f"
+        ],
+        [
+          3,
+          "Agrossistemas não intensivos",
+          "#d0a55f"
+        ],
+        [
+          4,
+          "APP",
+          "#3e5972"
+        ],
+        [
+          5,
+          "Sem AVU",
+          "#e1e1e1"
+        ],
+        [
+          6,
+          "Aviso",
+          "#c4cc95"
+        ]
+      ],
+      "bounds": [
+        -5356092.147243301,
+        -1803590.6899615955,
+        -5309832.147243301,
+        -1754750.6899615955
+      ],
+      "revision": "47383a07535e5381"
+    }
+  }
+}

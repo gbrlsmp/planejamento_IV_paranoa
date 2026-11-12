@@ -23,6 +23,17 @@
 .ident-boundary-swatch { border-top-width: 2px; margin-top: .65rem; }
 .ident-report-map-note { font-size: .9rem; margin-bottom: .5rem; }
 .ident-report-map [data-map-status], .ident-report-map [data-avu-status] { font-size: .88rem; }
+.ident-makurhini { margin: 1.25rem 0; padding: 1rem; background: #fff; border: 1px solid var(--line); border-radius: .35rem; }
+.ident-makurhini summary { font-weight: 700; cursor: pointer; }
+.ident-metric-form { display: flex; flex-wrap: wrap; align-items: end; gap: .7rem; margin: 1rem 0; }
+.ident-metric-form label { display: grid; gap: .25rem; }
+.ident-metric-form input { width: 12rem; max-width: 100%; }
+.ident-metric-form input, .ident-metric-form button { padding: .5rem .7rem; border: 1px solid var(--line); border-radius: .25rem; color: inherit; background: #fff; font: inherit; }
+.ident-metric-form button { cursor: pointer; }
+.ident-metric-form button:disabled { cursor: wait; opacity: .6; }
+.ident-metric-downloads { display: flex; flex-wrap: wrap; gap: .6rem 1.5rem; padding-left: 1.25rem; }
+.ident-metric-downloads li { flex: 1 1 230px; }
+.ident-iv-table .iv-rule { min-width: 19rem; width: 52%; font-weight: 400; }
 @media (max-width: 800px) {
   .ident-report-map { padding: .65rem; }
   .ident-report-map-grid { grid-template-columns: minmax(0, 1fr); }
