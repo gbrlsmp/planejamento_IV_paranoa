@@ -53,7 +53,7 @@
       "nome": "Agrossistemas não intensivos",
       "categoria": "Agrossistemas não intensivos",
       "cor": "#d0a55f",
-      "tracejado": "3 3",
+      "tracejado": "",
       "visivel": true,
       "arquivo": "agro.geojson.gz",
       "feicoes": 221,
@@ -65,7 +65,7 @@
       "nome": "APPs de nascentes",
       "categoria": "APP de nascente",
       "cor": "#3e5972",
-      "tracejado": "2 3",
+      "tracejado": "",
       "visivel": false,
       "arquivo": "app_nascentes.geojson.gz",
       "feicoes": 488,
@@ -77,7 +77,7 @@
       "nome": "APPs de hidrografia",
       "categoria": "APP de hidrografia",
       "cor": "#3e5972",
-      "tracejado": "5 3",
+      "tracejado": "",
       "visivel": false,
       "arquivo": "app_hidrografia.geojson.gz",
       "feicoes": 1438,
@@ -168,6 +168,6 @@
       }
     ]
   },
-  "codigo_sha256_utf8_lf": "12c73042f0b96b203d959d28a09adea835bbed6c0c71a81565d853fa000439d0",
-  "revisao": "429f2a1d59f0cd3c"
+  "codigo_sha256_utf8_lf": "ab540ce00fbb8f96fbbd017ca66acb8319a9e0a2f1f93e1b1d417c4a84378af8",
+  "revisao": "6af81ceb0d12384d"
 }

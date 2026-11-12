@@ -41,7 +41,7 @@ Uso do solo, MapBiomas, ZEE, referências e IV conservam suas simbologias prescr
 | Área total | até 1; >1–10; >10–100; >100 ha | `#c4cc95`, `#86a58f`, `#4b6a40`, `#2b5125` |
 | AVU | UC; Parque; Agro; APP; Sem AVU; Aviso | `#4b6a40`, `#86a58f`, `#d0a55f`, `#3e5972`, `#e1e1e1`, `#c4cc95` |
 
-Contornos de UC, parque, agro e APP seguem as cores das categorias correspondentes. Proteção integral e uso sustentável distinguem-se pelo traço contínuo/tracejado; as duas APPs usam padrões de traço diferentes. A cor não altera sobreposições, critérios ou a atribuição ao fragmento inteiro.
+Contornos de UC, parque, agro e APP seguem as cores das categorias correspondentes. Proteção integral e uso sustentável distinguem-se pelo traço contínuo/tracejado; agrossistemas e as duas APPs usam linhas contínuas. A cor não altera sobreposições, critérios ou a atribuição ao fragmento inteiro.
 
 `padronizar_paletas_relatorio.py` muda somente as paletas dos dois PNGs e metadados correspondentes. Confere igualdade exata dos códigos antes/depois, preserva transparência e limites, atualiza revisões do catálogo e cores do manifesto vetorial. Não modifica os GeoJSONs ou fontes científicas. `paleta-relatorio.json` registra os hashes dos planos de códigos sem a paleta para conferência futura. Geradores de tipologias e contornos usam as mesmas constantes para reproduzir a apresentação.
 

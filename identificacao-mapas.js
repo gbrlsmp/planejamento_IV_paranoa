@@ -148,6 +148,13 @@
         basinBounds = addMapBase(map, base);
         L.control.scale({ imperial: false }).addTo(map);
         map.attributionControl.addAttribution("Base: IPE-DF");
+        fit.disabled = false;
+        fit.onclick = () => map.fitBounds(basinBounds, { padding: [16, 16] });
+        if (theme === "metricas") {
+          await createFragmentMetricsMap(root, map);
+          fit.onclick();
+          return;
+        }
         const image = createMapImage("dados-mapas/" + theme + ".png?v=" + layer.revision,
           layer, "tema-relatorio", 1);
         image.overlay.on("load", () => {

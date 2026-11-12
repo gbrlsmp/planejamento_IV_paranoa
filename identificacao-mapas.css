@@ -2,6 +2,9 @@
 .ident-report-map h4 { margin-top: 0; }
 .ident-report-map-controls { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem 1.25rem; margin-bottom: .8rem; }
 .ident-report-map-controls label { display: flex; align-items: center; gap: .4rem; }
+.ident-report-map-controls select { max-width: 100%; min-width: 0; padding: .5rem; border: 1px solid var(--line); border-radius: .25rem; background: #fff; color: inherit; font: inherit; }
+.ident-report-map-controls label:has(select) { flex-wrap: wrap; max-width: 100%; }
+.ident-report-map-controls [data-map-metric] { width: 23rem; }
 .ident-report-map-controls button { padding: .5rem .7rem; border: 1px solid var(--line); border-radius: .25rem; background: #fff; color: inherit; font: inherit; cursor: pointer; }
 .ident-report-map-controls button:hover { background: #f5f7f3; }
 .ident-report-map-controls button:disabled { cursor: wait; opacity: .6; }
