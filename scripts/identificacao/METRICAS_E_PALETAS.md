@@ -21,7 +21,9 @@ Os cálculos existentes usam a [revisão fixa do MK_Fragmentation](https://githu
 
 As tabelas da paisagem conservam os nomes e valores originais. A interpretação do limiar de tamanho merece distinguir a documentação da implementação dessa revisão: o padrão `min_node_area=100` é comparado diretamente com `Area`, portanto, com estes argumentos, o corte executado é 100 m²; a linha rotulada como percentual de fragmentos menores usa a soma de suas áreas, não a proporção da contagem. A densidade de fragmentos conserva o fator 100 da fórmula do pacote. Esses resultados não foram redefinidos para disponibilizar os arquivos.
 
-A consulta carrega os dois CSVs de fragmentos somente ao enviar o formulário, mantém os dados na memória da página e exibe quatro casas decimais. Não altera as fontes nem os rasters. Os downloads funcionam independentemente da consulta. `.gitattributes` desativa a normalização de texto apenas nesses CSVs para preservar os bytes e as assinaturas entre Windows e Linux.
+O mapa e a consulta compartilham o carregamento dos dois CSVs de fragmentos, iniciado quando o mapa entra na tela ou quando o formulário é enviado, mantendo os dados na memória da página. A consulta exibe quatro casas decimais. Não altera as fontes nem os rasters. Os downloads funcionam independentemente da consulta. `.gitattributes` desativa a normalização de texto apenas nesses CSVs para preservar os bytes e as assinaturas entre Windows e Linux.
+
+O relatório apresenta uma introdução à ecologia da paisagem, a leitura das oito métricas por fragmento e um bloco expansível com os 13 indicadores da paisagem. As explicações conceituais seguem a qualificação da autora; fórmulas e unidades seguem a execução adotada, inclusive PARA, FRAC, Cority, o limiar de 100 m² e as duas densidades. Ver [fontes, interpretação e faixas cartográficas](LEITURA_METRICAS_E_IV.md).
 
 Reprodução no Python científico:
 

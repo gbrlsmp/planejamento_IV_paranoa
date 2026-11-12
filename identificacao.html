@@ -14,15 +14,15 @@
     if (removedTopics[location.hash]) location.replace("mapa.html?tema=" + removedTopics[location.hash]);
   </script>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-  <link rel="stylesheet" href="identificacao-exploracao.css?v=5">
+  <link rel="stylesheet" href="identificacao-exploracao.css?v=6">
   <link rel="stylesheet" href="identificacao-fitofisionomia.css">
-  <link rel="stylesheet" href="identificacao-mapas.css?v=3">
+  <link rel="stylesheet" href="identificacao-mapas.css?v=5">
   <script defer src="subabas.js"></script>
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-base.js"></script>
   <script defer src="mapa-camadas.js"></script>
   <script defer src="identificacao-metricas-dados.js?v=1"></script>
-  <script defer src="identificacao-metricas-mapa.js?v=1"></script>
+  <script defer src="identificacao-metricas-mapa.js?v=2"></script>
   <script defer src="identificacao-mapas.js?v=2"></script>
   <script defer src="identificacao-metricas.js?v=2"></script>
   <script defer src="identificacao-exploracao.js?v=5"></script>
@@ -248,6 +248,49 @@
 
     <section id="metricas-forma" class="report-section" aria-labelledby="titulo-metricas-forma">
       <h3 id="titulo-metricas-forma">Métricas de forma</h3>
+      <p>As métricas vêm da <strong>ecologia da paisagem</strong>, que interpreta o território como um mosaico de manchas, corredores e matriz. Elas ajudam a descrever quanto há de vegetação e como os fragmentos se organizam: tamanho, contorno, área interior e exposição à borda. Essa leitura da estrutura apoia o planejamento da infraestrutura verde; a conectividade funcional depende também das espécies, dos processos ecológicos e das condições do entorno.</p>
+      <p>Nesta seção, as oito métricas do mapa descrevem <strong>cada fragmento</strong>. Já os indicadores dos CSVs de paisagem resumem <strong>o conjunto dos fragmentos na bacia</strong>. Um valor isolado não comprova qualidade do habitat nem o deslocamento de espécies.</p>
+      <h4>O que cada métrica mostra</h4>
+      <div class="table-scroll" role="region" aria-label="Significado e interpretação das métricas dos fragmentos" tabindex="0">
+        <table class="indicator-table summary-table ident-metric-reading-table">
+          <thead><tr><th scope="col">Métrica do fragmento</th><th scope="col">O que mostra e como ler</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Área total (Area)</th><td data-metric-help="Area">Tamanho do fragmento. Valores maiores indicam mais área de vegetação; sua condição ecológica também depende da forma, da cobertura e do entorno.</td></tr>
+            <tr><th scope="row">Área de núcleo (CA)</th><td data-metric-help="CA">Área interna restante após retirar a faixa de borda de 45 m ou 90 m. Maior CA significa mais interior disponível no cenário; zero indica que o recuo consumiu toda a geometria.</td></tr>
+            <tr><th scope="row">Percentual de núcleo (CAPercent)</th><td data-metric-help="CAPercent">Parcela da área total que permanece como núcleo. Valores altos indicam maior proporção de interior; permitem comparar fragmentos de tamanhos diferentes.</td></tr>
+            <tr><th scope="row">Perímetro (Perimeter)</th><td data-metric-help="Perimeter">Comprimento do contorno e extensão do contato com o entorno. Um perímetro maior pode resultar de maior tamanho, de recortes ou de alongamento; deve ser lido junto com a área.</td></tr>
+            <tr><th scope="row">Percentual de borda (EdgePercent)</th><td data-metric-help="EdgePercent">Parcela do fragmento ocupada pela faixa de borda no cenário. É complementar ao percentual de núcleo: quanto maior, menor a proporção de interior restante.</td></tr>
+            <tr><th scope="row">Razão área/perímetro (PARA)</th><td data-metric-help="PARA">Nesta execução, é Area / Perimeter, em metros. Valores altos significam mais área por unidade de contorno; valores baixos, mais contorno por área. Depende também do tamanho do fragmento.</td></tr>
+            <tr><th scope="row">Índice de forma (ShapeIndex)</th><td data-metric-help="ShapeIndex">Compara o perímetro com o de um círculo de mesma área. Próximo de 1 indica maior compacidade; valores altos indicam formas mais alongadas ou recortadas.</td></tr>
+            <tr><th scope="row">Dimensão fractal (FRAC)</th><td data-metric-help="FRAC">Expressa a complexidade do contorno pela relação entre os logaritmos de perímetro e área. Valores maiores sugerem maior complexidade, mas a leitura é sensível ao tamanho e à resolução da base.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="ident-report-map-note">Base conceitual: Freires (2026), texto de qualificação, seções 1.4 e 2.4.2, Quadros 13 e 19; Forman e Godron (1986) e Turner e Gardner (2015), discutidos pela autora. A apresentação respeita as fórmulas da <a href="https://github.com/connectscape/Makurhini/blob/0010946ab2eef7f8d2bc4935f369869fc4c58671/R/MK_fragmentation.R">revisão adotada do Makurhini</a>: PARA é área/perímetro; FRAC pode superar 2 em fragmentos pequenos e seus valores originais foram preservados.</p>
+      <details class="ident-landscape-reading">
+        <summary>O que os indicadores da paisagem mostram</summary>
+        <p>Os CSVs <code>LandscapeMetrics</code> resumem o mosaico da bacia. Os nomes originais em inglês permitem localizar cada indicador nos arquivos de 45 m e 90 m.</p>
+        <div class="table-scroll" role="region" aria-label="Interpretação dos treze indicadores da paisagem" tabindex="0">
+          <table class="indicator-table summary-table ident-metric-reading-table">
+            <thead><tr><th scope="col">Indicador do CSV</th><th scope="col">O que mostra nesta execução</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Patch area (m2)</th><td>Soma das áreas de vegetação dos fragmentos, em m².</td></tr>
+              <tr><th scope="row">Number of patches</th><td>Quantidade de fragmentos. Sua comparação exige o mesmo recorte, resolução e regra de delimitação.</td></tr>
+              <tr><th scope="row">Size (mean)</th><td>Área média por fragmento, em m². Não descreve sozinha a grande diferença entre fragmentos pequenos e grandes.</td></tr>
+              <tr><th scope="row">Patches &lt; minimum patch area</th><td>Número de fragmentos com menos de 100 m², limiar efetivamente usado. Eles permanecem na base.</td></tr>
+              <tr><th scope="row">Patches &lt; minimum patch area (%)</th><td>Percentual da área vegetal somada pelos fragmentos menores que 100 m²; nesta revisão, não é percentual da contagem.</td></tr>
+              <tr><th scope="row">Total edge</th><td>Soma dos perímetros dos fragmentos, em metros, expressando a extensão total de seus contornos.</td></tr>
+              <tr><th scope="row">Edge density</th><td>Soma dos perímetros dividida pela área total dos fragmentos, em m/m². Valores altos indicam mais contorno por área vegetal.</td></tr>
+              <tr><th scope="row">Patch density</th><td>Relação entre número de fragmentos e área da paisagem. O CSV conserva o fator 100 da fórmula executada; nesta base, o valor corresponde a fragmentos por 100 m².</td></tr>
+              <tr><th scope="row">Total Core Area (m2)</th><td>Soma das áreas de núcleo do cenário, em m². Mostra quanto interior permanece ao considerar a largura de borda.</td></tr>
+              <tr><th scope="row">Cority</th><td>Proporção de fragmentos com núcleo positivo, entre 0 e 1. Não é a proporção da área da bacia coberta por núcleo.</td></tr>
+              <tr><th scope="row">Shape Index (mean)</th><td>Média do índice de forma entre fragmentos, com o mesmo peso para cada um.</td></tr>
+              <tr><th scope="row">FRAC (mean)</th><td>Média da dimensão fractal entre fragmentos, com o mesmo peso para cada um; herda a sensibilidade à escala e ao tamanho.</td></tr>
+              <tr><th scope="row">MESH (m2)</th><td>Tamanho efetivo de malha: soma das áreas dos fragmentos ao quadrado dividida pela área da paisagem. Valores maiores indicam maior concentração da vegetação em fragmentos grandes, no mesmo recorte.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
       <p>A análise atual usa os <strong>46.876 fragmentos</strong> de vegetação da base de AVU, com <strong>55.475,6895 ha</strong> no total. Os fragmentos foram delimitados por vizinhança de oito pixels a partir do raster final de uso do solo de 3 m.</p>
 
       <h4>Cenários de borda de 45 m e 90 m</h4>
@@ -278,6 +321,7 @@
           <div class="ident-report-map-canvas" data-report-map role="region" aria-label="Mapa interativo de métricas dos fragmentos"></div>
           <aside class="ident-report-map-key" aria-label="Legenda da métrica selecionada">
             <h5 data-map-legend-title>Área total do fragmento</h5>
+            <p data-map-metric-reading class="ident-report-map-note"></p>
             <p data-map-metric-note class="ident-report-map-note"></p>
             <ul data-map-legend></ul>
           </aside>
@@ -392,6 +436,23 @@
 
     <section id="elementos-iv" class="report-section" aria-labelledby="titulo-elementos-iv">
       <h3 id="titulo-elementos-iv">Elementos da infraestrutura verde</h3>
+      <p>A <strong>infraestrutura verde (IV)</strong> é uma rede planejada de áreas naturais e seminaturais, espaços verdes e conexões que sustenta processos ecológicos e serviços ecossistêmicos. Na leitura desenvolvida na qualificação, conservação e desenvolvimento urbano são pensados em conjunto, articulando biodiversidade, água, conforto ambiental e resiliência climática.</p>
+      <p>Seu desenho pode ser lido como um sistema de <strong>hubs</strong>, áreas que ancoram a rede; <strong>links</strong>, conexões entre suas partes; e <strong>sites</strong>, áreas verdes menores ou descontínuas que podem complementar a rede e atuar como pontos de apoio. O papel de cada área depende de sua posição, das condições do entorno e da escala de análise.</p>
+      <figure class="ident-iv-concept">
+        <a href="imagens/infraestrutura-verde-elementos.png" target="_blank" rel="noopener" aria-label="Abrir o esquema dos elementos da infraestrutura verde em tamanho original">
+          <img src="imagens/infraestrutura-verde-elementos.png" width="2497" height="1401" loading="lazy" decoding="async" alt="Esquema conceitual da infraestrutura verde: dois hubs de vegetação conectados por um link principal e três sites associados por conexões menores. Hubs ancoram a rede, links conectam suas partes e sites representam áreas verdes descontínuas.">
+        </a>
+        <figcaption>Desenho e elementos da infraestrutura verde. Imagem fornecida pela autora (Prancheta 19); base conceitual discutida em Freires (2026), seção 2.3 e Figura 41, a partir de Benedict e McMahon (2002) e Sant’Anna (2020). Clique para ampliar.</figcaption>
+      </figure>
+      <h4>Como ler as classes deste relatório</h4>
+      <ul class="ident-iv-reading">
+        <li><strong>Hub 1:</strong> grandes âncoras da rede na escala da bacia, associadas às UCs de proteção integral.</li>
+        <li><strong>Hub 2:</strong> áreas de apoio à estrutura da rede, incluindo parques urbanos e o fragmento destacado pelo critério de forma.</li>
+        <li><strong>Link:</strong> elementos associados à APP hidrográfica, com potencial de contribuir para a continuidade da rede.</li>
+        <li><strong>Site 1:</strong> áreas associadas aos agrossistemas não intensivos, que complementam a estrutura verde.</li>
+        <li><strong>Site 2:</strong> demais fragmentos de vegetação, cujo papel deve ser lido em relação à sua posição e ao entorno.</li>
+      </ul>
+      <p>Os números 1 e 2 distinguem as categorias operacionais adotadas. O enquadramento em Hub, Link ou Site orienta a leitura e o planejamento da rede; por si só, não comprova conectividade funcional nem representa uma classificação de qualidade ecológica. As cores do esquema são ilustrativas; as classes do mapa seguem sua própria legenda.</p>
       <p>A classificação funcional usa os mesmos 46.876 fragmentos nos cenários de borda de 45 m e 90 m. Cada fragmento recebe a primeira categoria aplicável, seguindo a ordem de prioridade indicada na tabela.</p>
       <p>Para estes elementos da IV, a APP corresponde à camada <code>dissolvido</code> de <code>APP_Buffer_hid_Bacia_Paranoa_disso.gpkg</code>. O cruzamento em EPSG:31983 exige área positiva de sobreposição e a categoria vale para o fragmento inteiro.</p>
       <div class="table-scroll" role="region" aria-label="Fragmentos e área por elemento da IV" tabindex="0">

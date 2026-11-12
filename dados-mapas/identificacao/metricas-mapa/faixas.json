@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "metodo": "Partição ótima de variância intra-classe ponderada pela área",
+  "peso": "Area em m² de todos os fragmentos; valores iguais nunca são separados.",
+  "classes": 4,
+  "fragmentos": 46876,
+  "fontes": [
+    {
+      "arquivo": "MK_Fragmentation_Bacia_Paranoa_45m_AVU_PatchMetrics.csv",
+      "sha256": "e7019668279faea33874c250531cbbfac647b8162498620f09ef39ace221ed4f"
+    },
+    {
+      "arquivo": "MK_Fragmentation_Bacia_Paranoa_90m_AVU_PatchMetrics.csv",
+      "sha256": "497616a79d056f93234f0b40fcb706effa8ede442429e0bc62d7908c65671ca6"
+    }
+  ],
+  "indicadores": {
+    "Perimeter": {
+      "limites_superiores": [
+        165906.0,
+        447498.0,
+        577134.0
+      ],
+      "minimo": 12.0,
+      "maximo": 947430.0,
+      "fragmentos_por_classe": [
+        46873,
+        1,
+        1,
+        1
+      ],
+      "area_ha_por_classe": [
+        12999.5667,
+        28406.385,
+        2616.9867,
+        11452.7511
+      ],
+      "area_percentual_por_classe": [
+        23.432906949268293,
+        51.20510489554168,
+        4.7173576815120075,
+        20.644630473678024
+      ]
+    },
+    "PARA": {
+      "limites_superiores": [
+        31.283,
+        80.748,
+        185.9684
+      ],
+      "minimo": 0.75,
+      "maximo": 634.7824,
+      "fragmentos_por_classe": [
+        46780,
+        87,
+        8,
+        1
+      ],
+      "area_ha_por_classe": [
+        6911.3673,
+        7910.2908,
+        12247.6464,
+        28406.385
+      ],
+      "area_percentual_por_classe": [
+        12.4583711573337,
+        14.259022053254515,
+        22.077501893870107,
+        51.20510489554168
+      ]
+    },
+    "FRAC": {
+      "limites_superiores": [
+        1.4086,
+        1.5168,
+        1.6924
+      ],
+      "minimo": 1.2742,
+      "maximo": 2.2619,
+      "fragmentos_por_classe": [
+        230,
+        4076,
+        14888,
+        27682
+      ],
+      "area_ha_por_classe": [
+        30641.2839,
+        17780.2632,
+        6923.1879,
+        130.9545
+      ],
+      "area_percentual_por_classe": [
+        55.23371440025094,
+        32.05054927708469,
+        12.479678869065701,
+        0.23605745359866145
+      ]
+    }
+  },
+  "revisao": "245c29b18938afae"
+}
