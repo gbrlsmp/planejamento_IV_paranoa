@@ -1,0 +1,173 @@
+{
+  "schema": 1,
+  "crs_web": "EPSG:4326",
+  "crs_conferencia": "EPSG:31983",
+  "simplificacao_m": 0,
+  "recorte_adicional": false,
+  "casas_coordenadas": 10,
+  "nota": "Polígonos das fontes originais de AVU/APP, sem simplificação nem recorte adicional; não representam os fragmentos classificados.",
+  "contagens_fontes": {
+    "AVUs_Bacia do Paranoá_Final.shp": 290,
+    "APP_Nascente_Bacia Paranoa.shp": 488,
+    "APP_Buffer_hid_Bacia_Paranoa.shp": 1438
+  },
+  "camadas": [
+    {
+      "id": "uc_pi",
+      "nome": "UC — Proteção Integral",
+      "categoria": "UC - Proteção Integral",
+      "cor": "#174f36",
+      "tracejado": "",
+      "visivel": true,
+      "arquivo": "uc_pi.geojson.gz",
+      "feicoes": 16,
+      "sha256": "4f66bdfe0a3c1634b0e88b32b2b7e4a43cddf81f7c6e2b8dbf6bb5388bdb170f",
+      "bytes": 50724
+    },
+    {
+      "id": "uc_us",
+      "nome": "UC — Uso Sustentável",
+      "categoria": "UC - Uso Sustentável",
+      "cor": "#23734d",
+      "tracejado": "6 3",
+      "visivel": true,
+      "arquivo": "uc_us.geojson.gz",
+      "feicoes": 32,
+      "sha256": "89fade8717f51b356a039fef5608206317453d94d2798085a258c859105c2f9e",
+      "bytes": 132677
+    },
+    {
+      "id": "parques",
+      "nome": "Parques urbanos",
+      "categoria": "Parque urbano",
+      "cor": "#356d96",
+      "tracejado": "",
+      "visivel": true,
+      "arquivo": "parques.geojson.gz",
+      "feicoes": 21,
+      "sha256": "0cebddb4d3ce68be2b3cb0f87a33d3ef0c3cfe5c60cd38bcd7f1769211fcb949",
+      "bytes": 18827
+    },
+    {
+      "id": "agro",
+      "nome": "Agrossistemas não intensivos",
+      "categoria": "Agrossistemas não intensivos",
+      "cor": "#a66b38",
+      "tracejado": "3 3",
+      "visivel": true,
+      "arquivo": "agro.geojson.gz",
+      "feicoes": 221,
+      "sha256": "28c978346f9d78b0af715bfde3752c2edb44e12312d8dd0b52e835601b22a0b3",
+      "bytes": 52095
+    },
+    {
+      "id": "app_nascentes",
+      "nome": "APPs de nascentes",
+      "categoria": "APP de nascente",
+      "cor": "#7b4b9e",
+      "tracejado": "2 3",
+      "visivel": false,
+      "arquivo": "app_nascentes.geojson.gz",
+      "feicoes": 488,
+      "sha256": "f0ef5d76ca0feac7144af711542268a6f1cb2112440ebc7194a9e55ecfa924d3",
+      "bytes": 269062
+    },
+    {
+      "id": "app_hidrografia",
+      "nome": "APPs de hidrografia",
+      "categoria": "APP de hidrografia",
+      "cor": "#287f9d",
+      "tracejado": "5 3",
+      "visivel": false,
+      "arquivo": "app_hidrografia.geojson.gz",
+      "feicoes": 1438,
+      "sha256": "77dcca8d2a2c33965c4c93c99ead7eed890e2e43ed9d41db77141739c741fb58",
+      "bytes": 2629649
+    }
+  ],
+  "fontes": {
+    "AVUs_Bacia do Paranoá_Final.shp": [
+      {
+        "arquivo": "AVUs_Bacia do Paranoá_Final.shp",
+        "bytes": 504588,
+        "sha256": "ffbd837998bdbb9ae0f91265c7f7c8ce3748991304dec0ad3d43c5df8aeac10c"
+      },
+      {
+        "arquivo": "AVUs_Bacia do Paranoá_Final.shx",
+        "bytes": 2420,
+        "sha256": "4e75ee424c1bc75ba78b0e58282ef2c8110aad49608555434b2bc82d4565d1cc"
+      },
+      {
+        "arquivo": "AVUs_Bacia do Paranoá_Final.dbf",
+        "bytes": 88676,
+        "sha256": "9ac3293c036b022fcba70ce9467a4a4b14ee81f30256308529b61dd9cfcfbb96"
+      },
+      {
+        "arquivo": "AVUs_Bacia do Paranoá_Final.prj",
+        "bytes": 418,
+        "sha256": "9ecb93a63f0561f69281402099c3d4ef8713de9c48bd4627354724f8a6a6bcee"
+      },
+      {
+        "arquivo": "AVUs_Bacia do Paranoá_Final.cpg",
+        "bytes": 5,
+        "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+      }
+    ],
+    "APP_Nascente_Bacia Paranoa.shp": [
+      {
+        "arquivo": "APP_Nascente_Bacia Paranoa.shp",
+        "bytes": 854372,
+        "sha256": "0a4d56c4214763b97da01db7e78183b2fd636f7a571e7b9771ca633344d6abe6"
+      },
+      {
+        "arquivo": "APP_Nascente_Bacia Paranoa.shx",
+        "bytes": 4004,
+        "sha256": "469dd73175e64cc896099112775a42e0d052b1527a57e15c3f1d65a3a9a2e491"
+      },
+      {
+        "arquivo": "APP_Nascente_Bacia Paranoa.dbf",
+        "bytes": 356170,
+        "sha256": "b47be79162b1ea210ed94baea3b552f0eaae4bf0437155e731891067654e21be"
+      },
+      {
+        "arquivo": "APP_Nascente_Bacia Paranoa.prj",
+        "bytes": 425,
+        "sha256": "f2e7fb14d55bdd8d6a3bc2c272a48729d8f9d0ad72936e20eae6a9a81c2fccd0"
+      },
+      {
+        "arquivo": "APP_Nascente_Bacia Paranoa.cpg",
+        "bytes": 5,
+        "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+      }
+    ],
+    "APP_Buffer_hid_Bacia_Paranoa.shp": [
+      {
+        "arquivo": "APP_Buffer_hid_Bacia_Paranoa.shp",
+        "bytes": 4220476,
+        "sha256": "2784c38f3c2ad91f8ca4532bcae88eefc863c43a1fc136facb639ed382738496"
+      },
+      {
+        "arquivo": "APP_Buffer_hid_Bacia_Paranoa.shx",
+        "bytes": 11604,
+        "sha256": "efa7cd6f0b0c01bd38fd08e3c19f7bc8c652b892adcbe24d98ea1fdd6af824ff"
+      },
+      {
+        "arquivo": "APP_Buffer_hid_Bacia_Paranoa.dbf",
+        "bytes": 653142,
+        "sha256": "c4fe25b3a6dcf9c02b72b916d38db7e162b64ed1bf1aa27dde7f3c37e9589b44"
+      },
+      {
+        "arquivo": "APP_Buffer_hid_Bacia_Paranoa.prj",
+        "bytes": 418,
+        "sha256": "9ecb93a63f0561f69281402099c3d4ef8713de9c48bd4627354724f8a6a6bcee"
+      },
+      {
+        "arquivo": "APP_Buffer_hid_Bacia_Paranoa.cpg",
+        "bytes": 5,
+        "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+      }
+    ]
+  },
+  "codigo_sha256_utf8_lf": "50624f75cc1448054a6d728945843c0c4eb24aa0e1050fd2bd6a77965057da46",
+  "revisao": "1cd0028c5adcc39e"
+}

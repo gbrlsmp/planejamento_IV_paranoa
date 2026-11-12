@@ -56,9 +56,18 @@ assert catalog['uso']['bounds']==manifest['overview_bounds']
 assert catalog['iv']['classes']==d['iv']['map']['classes']
 
 class Page(HTMLParser):
-    def __init__(self): super().__init__(); self.ids=[]; self.links=[]; self.tables=[]; self.stack=[]
+    def __init__(self):
+        super().__init__(); self.ids=[]; self.links=[]; self.tables=[]; self.stack=[]
+        self.section=None; self.section_tables=0; self.maps=[]
     def handle_starttag(self,tag,attrs):
         attrs=dict(attrs)
+        if tag=='section':self.section=attrs.get('id'); self.section_tables=0
+        if tag=='table':self.section_tables+=1
+        if 'data-ident-map-theme' in attrs:
+            assert self.section_tables>0, 'Mapa deve aparecer depois da tabela'
+            self.maps.append((self.section,attrs['data-ident-map-theme']))
+        if self.section in ['metricas-forma','tipologias','elementos-iv'] and tag=='a':
+            assert not attrs.get('href','').startswith('mapa.html?tema='), 'Mapa redireciona ao atlas'
         if 'id' in attrs:self.ids.append(attrs['id'])
         for a in ['href','src']:
             if a in attrs:self.links.append(attrs[a])
@@ -80,6 +89,7 @@ for name in ['identificacao.html','index.html','mapa.html']:
         for value in [format_pt(d['fragmentos']['fragments'],0),format_pt(d['fragmentos']['vegetation_area_ha']),format_pt(d['metricas']['45']['nucleo_ha']),format_pt(d['metricas']['90']['nucleo_ha']),format_pt(d['iv']['area_ha']['Hub 1']),format_pt(d['limite_residual'])]:
             assert value in text,value
         assert 'data-ndvi-sankey' in text
+        assert page.maps==[('metricas-forma','metricas'),('tipologias','tipologias'),('elementos-iv','iv')]
         assert 'data-reference-opacity' not in text
         for removed in ['data-ndvi-stat-scatter', 'data-extra-camp-past', 'data-extra-check', 'data-extra-ndvi']:
             assert removed not in text, removed
