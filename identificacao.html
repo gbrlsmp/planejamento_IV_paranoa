@@ -14,12 +14,12 @@
     if (removedTopics[location.hash]) location.replace("mapa.html?tema=" + removedTopics[location.hash]);
   </script>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-  <link rel="stylesheet" href="identificacao-exploracao.css?v=3">
+  <link rel="stylesheet" href="identificacao-exploracao.css?v=4">
   <link rel="stylesheet" href="identificacao-fitofisionomia.css">
   <script defer src="subabas.js"></script>
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-base.js"></script>
-  <script defer src="identificacao-exploracao.js?v=3"></script>
+  <script defer src="identificacao-exploracao.js?v=4"></script>
   <script defer src="mapa-satelite.js"></script>
   <script defer src="identificacao-fitofisionomia.js?v=7"></script>
 
@@ -105,16 +105,16 @@
               <p class="ident-status" role="status">Abra esta etapa para carregar os gráficos.</p>
               <fieldset class="ident-groups"><legend>Grupos nos gráficos</legend><div data-ndvi-groups></div></fieldset>
               <h6>Distribuições do NDVI por grupo</h6>
-              <p>O eixo horizontal mostra o NDVI; o vertical, a porcentagem de pares do grupo em cada intervalo. Cada grupo soma 100% em cada data, permitindo comparar o formato das distribuições mesmo com áreas de tamanhos diferentes. Curvas que ocupam os mesmos valores indicam sobreposição. Linhas tracejadas marcam as médias; faixas claras representam média ± um desvio padrão espacial. As tabelas apresentam os valores por grupo. Os dois gráficos usam as mesmas escalas; o eixo NDVI abrange todos os intervalos com observações dos grupos selecionados, com uma margem.</p>
+              <p>O eixo horizontal mostra o NDVI; o vertical, a porcentagem de pares do grupo em cada intervalo. Cada grupo soma 100% em cada data, permitindo comparar o formato das distribuições mesmo com áreas de tamanhos diferentes. Curvas que ocupam os mesmos valores indicam sobreposição. Linhas tracejadas marcam as médias; faixas claras representam média ± um desvio padrão espacial. A tabela conjunta apresenta os valores dos dois períodos por grupo. Os dois gráficos usam as mesmas escalas; o eixo NDVI abrange todos os intervalos com observações dos grupos selecionados, com uma margem.</p>
               <div class="ident-distributions">
-                <figure><figcaption>Seca — 30/07/2026</figcaption><canvas data-ndvi-dry role="img" aria-label="Distribuições de NDVI por grupo na seca">Consulte os dados dos gráficos no arquivo JSON vinculado abaixo.</canvas><div class="table-scroll"><table class="indicator-table"><caption>Média e desvio padrão espacial — seca</caption><thead><tr><th>Grupo</th><th>Média</th><th>Desvio padrão</th></tr></thead><tbody data-ndvi-stat-table="seca"></tbody></table></div></figure>
-                <figure><figcaption>Chuva — 17/01/2026</figcaption><canvas data-ndvi-rain role="img" aria-label="Distribuições de NDVI por grupo na chuva">Consulte os dados dos gráficos no arquivo JSON vinculado abaixo.</canvas><div class="table-scroll"><table class="indicator-table"><caption>Média e desvio padrão espacial — chuva</caption><thead><tr><th>Grupo</th><th>Média</th><th>Desvio padrão</th></tr></thead><tbody data-ndvi-stat-table="chuva"></tbody></table></div></figure>
+                <figure><figcaption>Seca — 30/07/2026</figcaption><canvas data-ndvi-dry role="img" aria-label="Distribuições de NDVI por grupo na seca">Consulte os dados dos gráficos no arquivo JSON vinculado abaixo.</canvas></figure>
+                <figure><figcaption>Chuva — 17/01/2026</figcaption><canvas data-ndvi-rain role="img" aria-label="Distribuições de NDVI por grupo na chuva">Consulte os dados dos gráficos no arquivo JSON vinculado abaixo.</canvas></figure>
               </div>
               <h6 id="titulo-resumo-ndvi">Média e desvio padrão: seca e chuva</h6>
               <p>Cada grupo tem dois resumos espaciais dos pares da amostra sistemática: seca em círculo vazio e linha tracejada; chuva em círculo preenchido e linha contínua. As barras mostram média ± um desvio padrão populacional, sem representar intervalo de confiança.</p>
               <div data-ndvi-summary hidden>
                 <div class="table-scroll ident-summary" role="region" aria-labelledby="titulo-resumo-ndvi" tabindex="0"><svg role="img" aria-label="Médias e desvios padrão por grupo, comparando seca e chuva"></svg></div>
-                <div class="table-scroll"><table class="indicator-table"><thead><tr><th>Grupo</th><th>Seca: média</th><th>Seca: desvio</th><th>Chuva: média</th><th>Chuva: desvio</th></tr></thead><tbody></tbody></table></div>
+                <div class="table-scroll"><table class="indicator-table"><caption>Média e desvio padrão espacial — seca e chuva</caption><thead><tr><th scope="col">Grupo</th><th scope="col">Seca: média</th><th scope="col">Seca: desvio padrão</th><th scope="col">Chuva: média</th><th scope="col">Chuva: desvio padrão</th></tr></thead><tbody data-ndvi-summary-table></tbody></table></div>
               </div>
               <h6 id="titulo-sankey-ndvi">Sankey: faixas de NDVI na seca e na chuva</h6>
               <p>As faixas de NDVI da seca aparecem à esquerda, os grupos de referência ao centro e as faixas da chuva à direita. A espessura de cada ligação corresponde à porcentagem dos pares amostrados daquele grupo na faixa indicada; cada grupo soma 100% em cada data. As ligações mostram distribuições por grupo e época, sem representar a trajetória de cada ponto entre datas.</p>

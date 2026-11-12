@@ -224,16 +224,18 @@
     const svg = root.querySelector("svg"), body = root.querySelector("tbody");
     svg.replaceChildren(); body.replaceChildren();
     if (!active.length) return;
-    const height = active.length * 64 + 78;
-    svg.setAttribute("viewBox", `0 0 740 ${height}`);
-    const x = v => 232 + v * 470;
+    const width = Math.max(740, root.querySelector(".ident-summary").clientWidth);
+    const height = active.length * 48 + 72;
+    svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+    svg.setAttribute("height", height);
+    const x = v => 280 + v * (width - 308);
     for (const v of [0, .2, .4, .6, .8, 1]) {
       appendSvg(svg, "line", { x1: x(v), x2: x(v), y1: 24, y2: height - 44, stroke: "#e5e8e2" });
       appendSvg(svg, "text", { x: x(v), y: height - 25, "text-anchor": "middle" }, v.toLocaleString("pt-BR"));
     }
-    appendSvg(svg, "text", { x: 467, y: height - 5, "text-anchor": "middle" }, "NDVI · média ± desvio padrão");
+    appendSvg(svg, "text", { x: (x(0) + x(1)) / 2, y: height - 5, "text-anchor": "middle" }, "NDVI · média ± desvio padrão");
     for (const [i, group] of active.entries()) {
-      const y = 44 + i * 64;
+      const y = 40 + i * 48;
       appendSvg(svg, "text", { x: 12, y: y + 5 }, group.nome);
       const row = body.insertRow();
       const name = document.createElement("th"); name.scope = "row"; name.textContent = group.nome; row.append(name);
@@ -247,19 +249,6 @@
         appendSvg(point, "title", {}, `${group.nome} · ${season} · média ${format.format(stat.media)} · desvio ${format.format(stat.desvio_padrao)}`);
         for (const value of [stat.media, stat.desvio_padrao]) row.insertCell().textContent = format.format(value);
       }
-    }
-  }
-
-  function distributionStats(root, active, season) {
-    const body = root.querySelector(`[data-ndvi-stat-table="${season}"]`);
-    body.replaceChildren();
-    for (const group of active) {
-      const row = body.insertRow(), label = document.createElement("th");
-      label.scope = "row";
-      const swatch = document.createElement("span"); swatch.className = "ident-swatch";
-      swatch.style.backgroundColor = group.cor; swatch.setAttribute("aria-hidden", "true");
-      label.append(swatch, document.createTextNode(" " + group.nome)); row.append(label);
-      for (const value of [group.estatisticas[season].media, group.estatisticas[season].desvio_padrao]) row.insertCell().textContent = format.format(value);
     }
   }
 
@@ -440,7 +429,7 @@
           }
           ctx.restore();
         }
-        for (const season of ["seca", "chuva"]) distributionStats(root, active, season);
+        drawSummary(summary, active);
         drawSankey(sankey, active, report.amostragem.bins);
         const c = chart(scatter, true);
         const { ctx, left, top, plotWidth: w, plotHeight: h } = c;
@@ -473,7 +462,6 @@
       }
       function update() {
         draw();
-        drawSummary(summary, selectedGroups());
       }
       update();
       controls.addEventListener("change", update);
