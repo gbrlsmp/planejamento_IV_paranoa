@@ -29,8 +29,12 @@ def update(web, samples):
         exploration['grupos']['pastagem']['cor'] = '#915558'
     exploration['metodo']['estatisticas'] = (
         'Média e desvio padrão populacional espacial dos pares da amostra sistemática, '
-        'por grupo e data; um ponto por grupo e data no gráfico média × desvio. '
+        'por grupo e data, apresentados nas distribuições e no resumo média ± desvio. '
         'Não é desvio temporal por pixel, erro padrão ou censo dos cortes.'
+    )
+    exploration['metodo']['sankey'] = (
+        'Histogramas agregados nas faixas [-1, 0.2, 0.35, 0.45, 0.55, 0.65, 0.75, 1]; '
+        '100% dos pares por grupo e data; distribuições marginais, sem trajetórias individuais.'
     )
     exploration['apresentacao_atualizada'] = {
         'registro_cientifico_sha256': sha256((samples.parent / 'exploracao_ndvi.json').read_bytes()).hexdigest(),
@@ -55,7 +59,8 @@ def update(web, samples):
             if 'alagado' in entry['nome'].lower() or entry['nome'].startswith('Áreas úmidas'):
                 values[values == entry['codigo']] = 0
                 continue
-            if key == 'mapbiomas' and entry['codigo'] == 15:
+            if ((key == 'mapbiomas' and entry['codigo'] == 15)
+                    or (key == 'zee' and entry['nome'] == 'Pecuária')):
                 entry['cor'] = '#915558'
             palette[entry['codigo'] * 3:entry['codigo'] * 3 + 3] = bytes.fromhex(entry['cor'][1:])
             legend.append(entry)

@@ -125,6 +125,12 @@ def main():
         require(set(np.unique(a)).issubset({0, *[e['codigo'] for e in layer['legenda']]}), 'Código PNG fora da legenda')
         colors = [e['cor'] for e in layer['legenda']]
         require(len(colors) == len(set(colors)), 'Cores repetidas impedem consulta unívoca no mapa')
+        palette = pic.getpalette()
+        for entry in layer['legenda']:
+            actual = bytes(palette[entry['codigo'] * 3:entry['codigo'] * 3 + 3]).hex()
+            require('#' + actual == entry['cor'], 'Paleta PNG diverge da legenda: ' + name)
+            if entry['nome'] in ('Pastagem', 'Pecuária'):
+                require(entry['cor'] == '#915558', 'Cor de pastagem incorreta: ' + name)
     if presentation:
         require({a['mapbiomas_codigo'] for a in maps['areas']} == {3, 4, 12}, 'Tabela de referência incorreta')
         require(public['grupos']['pastagem']['cor'] == '#915558', 'Cor de pastagem incorreta')

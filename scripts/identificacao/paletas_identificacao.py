@@ -28,7 +28,7 @@ ZEE_COLORS = {
     "Formação Savânica": "#86a58f",
     "Hortifruticultura": "#a7d18b",
     "Lagoas de Estabilização": "#80b0b8",
-    "Pecuária": "#a08d8e",
+    "Pecuária": "#915558",
     "Reflorestamento": "#d5d69e",
     "Represas, Lagos, Lagoas e Rios": "#acc6cb",
     "Uso Rural Diversificado": "#b6b787",

@@ -54,7 +54,6 @@
       const [left, bottom, right, top] = config.bounds_3857;
       const bounds = L.latLngBounds(L.CRS.EPSG3857.unproject(L.point(left, bottom)), L.CRS.EPSG3857.unproject(L.point(right, top)));
       const select = root.querySelector("[data-reference-layer]");
-      const opacity = root.querySelector("[data-reference-opacity]");
       let currentImage, currentCanvas, currentKey, sequence = 0;
 
       async function update() {
@@ -68,7 +67,7 @@
         status.textContent = "Carregando " + titles[key] + "…";
         retry.hidden = true;
         container.setAttribute("aria-busy", "true");
-        const overlay = L.imageOverlay(item.imagem + "?v=" + config.revisao, bounds, { opacity: Number(opacity.value), alt: titles[key] });
+        const overlay = L.imageOverlay(item.imagem + "?v=" + config.revisao, bounds, { opacity: 1, alt: titles[key] });
         overlay.once("load", () => {
           if (request !== sequence) { overlay.remove(); return; }
           currentImage = overlay;
@@ -105,7 +104,6 @@
         basin.bringToFront();
       }
       select.addEventListener("change", update);
-      opacity.addEventListener("input", () => currentImage?.setOpacity(Number(opacity.value)));
       root.querySelector("[data-reference-fit]").addEventListener("click", fit);
       retry.onclick = update;
       map.on("click", event => {
@@ -157,14 +155,31 @@
     ctx.scale(dpr, dpr);
     ctx.fillStyle = "#fff";
     ctx.fillRect(0, 0, width, height);
-    let plotWidth = width - 72, plotHeight = height - 58;
+    let plotWidth = width - 88, plotHeight = height - 70;
     if (square) plotWidth = plotHeight = Math.min(plotWidth, plotHeight);
-    const left = square ? (width - plotWidth) / 2 : 52;
-    return { ctx, width, height, left, top: 12, plotWidth, plotHeight };
+    const left = square ? (width - plotWidth) / 2 : 64;
+    return { ctx, width, height, left, top: 16, plotWidth, plotHeight };
   }
-  function axes(c, ymax, yLabel) {
+  function distributionDomain(active, bins) {
+    let lo = Infinity, hi = -Infinity;
+    for (const group of active) for (const season of ["seca", "chuva"]) {
+      group.histogramas[season].forEach((count, i) => {
+        if (count) { lo = Math.min(lo, bins[i]); hi = Math.max(hi, bins[i + 1]); }
+      });
+      const stat = group.estatisticas[season];
+      lo = Math.min(lo, stat.media - stat.desvio_padrao);
+      hi = Math.max(hi, stat.media + stat.desvio_padrao);
+    }
+    if (!Number.isFinite(lo)) return [-1, 1];
+    const pad = Math.max(.025, (hi - lo) * .03);
+    return [Math.max(-1, Math.floor((lo - pad) * 20) / 20),
+      Math.min(1, Math.ceil((hi + pad) * 20) / 20)];
+  }
+
+  function axes(c, ymax, yLabel, domain) {
     const { ctx, left, top, plotWidth: w, plotHeight: h } = c;
-    const x = v => left + (v + 1) / 2 * w;
+    const [xmin, xmax] = domain;
+    const x = v => left + (v - xmin) / (xmax - xmin) * w;
     const y = v => top + h - v / ymax * h;
     ctx.font = "12px system-ui, sans-serif";
     ctx.lineWidth = 1;
@@ -176,7 +191,13 @@
       ctx.textAlign = "right";
       ctx.fillText(tick.toLocaleString("pt-BR", { maximumFractionDigits: 1 }), left - 7, y(tick) + 4);
     }
-    for (const tick of [-1, -.5, 0, .5, 1]) {
+    const step = xmax - xmin <= .8 ? .1 : xmax - xmin <= 1.4 ? .2 : .5;
+    const ticks = [xmin];
+    for (let value = Math.ceil(xmin / step) * step; value < xmax - step * .25; value += step) {
+      if (value - xmin > step * .25) ticks.push(Math.round(value * 100) / 100 || 0);
+    }
+    ticks.push(xmax);
+    for (const tick of ticks) {
       ctx.textAlign = "center";
       ctx.fillStyle = "#4c5751";
       ctx.fillText(tick.toLocaleString("pt-BR"), x(tick), top + h + 20);
@@ -242,25 +263,112 @@
     }
   }
 
-  function drawMeanScatter(canvas, active) {
-    const c = chart(canvas), { ctx, left, top, plotWidth: w, plotHeight: h } = c;
-    const ymax = Math.max(.15, Math.ceil(Math.max(0, ...active.flatMap(g => [g.estatisticas.seca.desvio_padrao, g.estatisticas.chuva.desvio_padrao])) / .05) * .05);
-    const x = v => left + v * w, y = v => top + h - v / ymax * h;
-    ctx.font = "12px system-ui, sans-serif"; ctx.lineWidth = 1;
-    for (let i = 0; i <= 5; i++) {
-      const v = i / 5;
-      ctx.strokeStyle = "#e5e8e2";
-      ctx.beginPath(); ctx.moveTo(x(v), top); ctx.lineTo(x(v), top + h); ctx.moveTo(left, y(v * ymax)); ctx.lineTo(left + w, y(v * ymax)); ctx.stroke();
-      ctx.fillStyle = "#4c5751"; ctx.textAlign = "center"; ctx.fillText(v.toLocaleString("pt-BR"), x(v), top + h + 20);
-      ctx.textAlign = "right"; ctx.fillText((v * ymax).toLocaleString("pt-BR", {maximumFractionDigits: 2}), left - 7, y(v * ymax) + 4);
+  function drawSankey(root, active, bins) {
+    root.hidden = !active.length;
+    if (root.hidden) return;
+
+    // Os limites coincidem com bordas dos histogramas, para preservar as contagens.
+    const limits = [-1, .2, .35, .45, .55, .65, .75, 1];
+    const edges = limits.map(limit => bins.findIndex(bin => Math.abs(bin - limit) < 1e-8));
+    if (edges.includes(-1)) throw new Error("Os intervalos do histograma são incompatíveis com o Sankey.");
+    const rangeFormat = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 2 });
+    const labels = limits.slice(1).map((upper, index) => {
+      const lower = limits[index];
+      return rangeFormat.format(lower) + " a " + (upper === 1 ? "" : "<") + rangeFormat.format(upper);
+    });
+    const sum = values => values.reduce((total, value) => total + value, 0);
+    const percent = (count, group) => 100 * count / group.n_pares_validos;
+    const points = new Intl.NumberFormat("pt-BR");
+    const groups = active.map(group => ({
+      ...group,
+      bands: labels.map((label, i) => {
+        const count = season => sum(group.histogramas[season].slice(edges[i], edges[i + 1]));
+        return { label, seca: count("seca"), chuva: count("chuva") };
+      }),
+    }));
+
+    const svg = root.querySelector("svg");
+    const body = root.querySelector("tbody");
+    svg.replaceChildren();
+    body.replaceChildren();
+    for (const group of groups) {
+      for (const band of group.bands) {
+        const row = body.insertRow();
+        const name = document.createElement("th");
+        name.scope = "row";
+        name.textContent = group.nome;
+        row.append(name);
+        for (const value of [band.label, format.format(percent(band.seca, group)), points.format(band.seca),
+          format.format(percent(band.chuva, group)), points.format(band.chuva)]) {
+          row.insertCell().textContent = value;
+        }
+      }
     }
-    for (const group of active) for (const season of ["seca", "chuva"]) {
-      const stat = group.estatisticas[season]; ctx.strokeStyle = group.cor; ctx.fillStyle = season === "seca" ? "#fff" : group.cor;
-      ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(x(stat.media), y(stat.desvio_padrao), 5, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
+
+    const width = Math.max(690, root.querySelector(".ident-sankey-scroll").clientWidth);
+    const scale = .75;
+    const gap = 12;
+    const bar = 9;
+    const groupHeight = 100 * scale;
+    const middleLeft = width / 2 - 110, middleRight = width / 2 + 110;
+    let bandsHeight = 0;
+    const rows = labels.map((label, i) => {
+      const total = season => scale * sum(groups.map(group => percent(group.bands[i][season], group)));
+      const seca = total("seca"), chuva = total("chuva");
+      const height = Math.max(20, seca, chuva);
+      const row = { label, seca, chuva, height, y: bandsHeight };
+      bandsHeight += height + gap;
+      return row;
+    });
+    bandsHeight -= gap;
+    const groupsHeight = groups.length * (groupHeight + gap) - gap;
+    const plotHeight = Math.max(bandsHeight, groupsHeight);
+    const groupTop = 44 + (plotHeight - groupsHeight) / 2;
+    const bandTop = 44 + (plotHeight - bandsHeight) / 2;
+    svg.setAttribute("viewBox", `0 0 ${width} ${Math.ceil(plotHeight + 62)}`);
+
+    const headings = { class: "ident-sankey-heading", y: 24 };
+    appendSvg(svg, "text", { ...headings, x: 12 }, "Seca · 30/07/2026");
+    appendSvg(svg, "text", { ...headings, x: width / 2, "text-anchor": "middle" }, "Grupos de referência");
+    appendSvg(svg, "text", { ...headings, x: width - 12, "text-anchor": "end" }, "Chuva · 17/01/2026");
+
+    for (const [season, date, isDry, x] of [["seca", "Seca", true, 108], ["chuva", "Chuva", false, width - 117]]) {
+      const offsets = rows.map(row => bandTop + row.y + (row.height - row[season]) / 2);
+      for (const [groupIndex, group] of groups.entries()) {
+        let groupY = groupTop + groupIndex * (groupHeight + gap);
+        for (const [i, band] of group.bands.entries()) {
+          const count = band[season];
+          if (!count) continue;
+          const share = percent(count, group);
+          const thickness = scale * share;
+          const [x1, x2] = isDry ? [x + bar, middleLeft] : [middleRight, x];
+          const [y1, y2] = isDry ? [offsets[i], groupY] : [groupY, offsets[i]];
+          const mid = (x1 + x2) / 2;
+          const d = `M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}
+            v ${thickness} C ${mid} ${y2 + thickness}, ${mid} ${y1 + thickness}, ${x1} ${y1 + thickness} Z`;
+          const ribbon = appendSvg(svg, "path", { d, fill: group.cor, class: "ident-sankey-ribbon" });
+          appendSvg(ribbon, "title", {}, `${date} · ${group.nome} · NDVI ${band.label} · ${format.format(share)}% · ${points.format(count)} pontos`);
+          groupY += thickness;
+          offsets[i] += thickness;
+        }
+      }
+      for (const row of rows) {
+        const center = bandTop + row.y + row.height / 2;
+        if (row[season]) appendSvg(svg, "rect", { x, y: center - row[season] / 2, width: bar, height: row[season], opacity: .75 });
+        appendSvg(svg, "text", { x: isDry ? x - 8 : x + bar + 8, y: center, "dominant-baseline": "middle",
+          "text-anchor": isDry ? "end" : "start" }, row.label);
+      }
     }
-    ctx.strokeStyle = "#536458"; ctx.lineWidth = 1; ctx.strokeRect(left, top, w, h);
-    ctx.fillStyle = "#34483b"; ctx.textAlign = "center"; ctx.fillText("Média espacial do NDVI", left + w / 2, top + h + 43);
-    ctx.save(); ctx.translate(left - 39, top + h / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("Desvio padrão espacial", 0, 0); ctx.restore();
+
+    for (const [index, group] of groups.entries()) {
+      const y = groupTop + index * (groupHeight + gap);
+      const box = { x: middleLeft, y, width: middleRight - middleLeft, height: groupHeight };
+      appendSvg(svg, "rect", { ...box, fill: group.cor, "fill-opacity": .14, stroke: group.cor, rx: 4 });
+      const label = document.createElement("div");
+      label.className = "ident-sankey-group";
+      label.textContent = group.nome;
+      appendSvg(svg, "foreignObject", box).append(label);
+    }
   }
 
   async function ndviCharts(root) {
@@ -294,7 +402,7 @@
       const rain = root.querySelector("[data-ndvi-rain]");
       const scatter = root.querySelector("[data-ndvi-scatter]");
       const summary = root.querySelector("[data-ndvi-summary]");
-      const statScatter = root.querySelector("[data-ndvi-stat-scatter]");
+      const sankey = root.querySelector("[data-ndvi-sankey]");
       const selectedGroups = () => [...controls.querySelectorAll("input:checked")].map(input => report.grupos[input.value]);
 
       function draw() {
@@ -306,10 +414,12 @@
           }
         }
         ymax = Math.ceil(ymax / 5) * 5;
+        const domain = distributionDomain(active, report.amostragem.bins);
         for (const [canvas, season] of [[dry, "seca"], [rain, "chuva"]]) {
           const c = chart(canvas);
           const { ctx } = c;
-          const { x, y } = axes(c, ymax, "Pares do grupo (%)");
+          const { x, y } = axes(c, ymax, "Pares do grupo (%)", domain);
+          ctx.save(); ctx.beginPath(); ctx.rect(c.left, c.top, c.plotWidth, c.plotHeight); ctx.clip();
           for (const group of active) {
             const stat = group.estatisticas[season];
             ctx.fillStyle = group.cor; ctx.globalAlpha = .055;
@@ -328,9 +438,10 @@
             });
             ctx.stroke();
           }
+          ctx.restore();
         }
         for (const season of ["seca", "chuva"]) distributionStats(root, active, season);
-        drawMeanScatter(statScatter, active);
+        drawSankey(sankey, active, report.amostragem.bins);
         const c = chart(scatter, true);
         const { ctx, left, top, plotWidth: w, plotHeight: h } = c;
         const x = v => left + (v + 1) / 2 * w;
@@ -358,7 +469,7 @@
         ctx.fillStyle = "#34483b"; ctx.textAlign = "center";
         ctx.fillText("NDVI da seca", left + w / 2, top + h + 43);
         ctx.save(); ctx.translate(left - 39, top + h / 2); ctx.rotate(-Math.PI / 2); ctx.fillText("NDVI da chuva", 0, 0); ctx.restore();
-        status.textContent = active.length ? "Gráficos da nova execução · marque os grupos que deseja comparar." : "Selecione pelo menos um grupo para comparar.";
+        status.textContent = active.length ? "Selecione os grupos que deseja comparar nos gráficos." : "Selecione pelo menos um grupo para comparar.";
       }
       function update() {
         draw();
@@ -367,7 +478,7 @@
       update();
       controls.addEventListener("change", update);
       const resize = new ResizeObserver(draw);
-      for (const canvas of [dry, rain, scatter, statScatter]) resize.observe(canvas);
+      for (const canvas of [dry, rain, scatter]) resize.observe(canvas);
     } catch (error) {
       status.textContent = "Os gráficos não puderam ser carregados. " + error.message;
       root.dataset.loading = "";
