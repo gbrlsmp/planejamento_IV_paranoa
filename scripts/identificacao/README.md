@@ -24,6 +24,8 @@ Os procedimentos de fragmentação e de classificação funcional da IV estão e
 
 Os mapas próprios de cada seção e os contornos das fontes de AVU/APP estão documentados em [Mapas no relatório](MAPAS_NO_RELATORIO.md), com exportação reproduzível e conferência de todas as feições originais.
 
+A [consulta das métricas e as paletas do relatório](METRICAS_E_PALETAS.md) documentam os quatro CSVs originais do Makurhini, os oito indicadores por fragmento, as cores compartilhadas e as regras apresentadas na tabela de IV.
+
 - [Método e resultados descritivos](resultados/LEITURA.md)
 - [Gráficos sazonais](resultados/comparacao_ndvi.png)
 - [Registro da execução, assinaturas das fontes e estatísticas](resultados/resultados.json)

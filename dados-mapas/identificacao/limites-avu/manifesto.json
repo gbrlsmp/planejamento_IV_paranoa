@@ -16,7 +16,7 @@
       "id": "uc_pi",
       "nome": "UC — Proteção Integral",
       "categoria": "UC - Proteção Integral",
-      "cor": "#174f36",
+      "cor": "#4b6a40",
       "tracejado": "",
       "visivel": true,
       "arquivo": "uc_pi.geojson.gz",
@@ -28,7 +28,7 @@
       "id": "uc_us",
       "nome": "UC — Uso Sustentável",
       "categoria": "UC - Uso Sustentável",
-      "cor": "#23734d",
+      "cor": "#4b6a40",
       "tracejado": "6 3",
       "visivel": true,
       "arquivo": "uc_us.geojson.gz",
@@ -40,7 +40,7 @@
       "id": "parques",
       "nome": "Parques urbanos",
       "categoria": "Parque urbano",
-      "cor": "#356d96",
+      "cor": "#86a58f",
       "tracejado": "",
       "visivel": true,
       "arquivo": "parques.geojson.gz",
@@ -52,7 +52,7 @@
       "id": "agro",
       "nome": "Agrossistemas não intensivos",
       "categoria": "Agrossistemas não intensivos",
-      "cor": "#a66b38",
+      "cor": "#d0a55f",
       "tracejado": "3 3",
       "visivel": true,
       "arquivo": "agro.geojson.gz",
@@ -64,7 +64,7 @@
       "id": "app_nascentes",
       "nome": "APPs de nascentes",
       "categoria": "APP de nascente",
-      "cor": "#7b4b9e",
+      "cor": "#3e5972",
       "tracejado": "2 3",
       "visivel": false,
       "arquivo": "app_nascentes.geojson.gz",
@@ -76,7 +76,7 @@
       "id": "app_hidrografia",
       "nome": "APPs de hidrografia",
       "categoria": "APP de hidrografia",
-      "cor": "#287f9d",
+      "cor": "#3e5972",
       "tracejado": "5 3",
       "visivel": false,
       "arquivo": "app_hidrografia.geojson.gz",
@@ -168,6 +168,6 @@
       }
     ]
   },
-  "codigo_sha256_utf8_lf": "50624f75cc1448054a6d728945843c0c4eb24aa0e1050fd2bd6a77965057da46",
-  "revisao": "1cd0028c5adcc39e"
+  "codigo_sha256_utf8_lf": "12c73042f0b96b203d959d28a09adea835bbed6c0c71a81565d853fa000439d0",
+  "revisao": "429f2a1d59f0cd3c"
 }

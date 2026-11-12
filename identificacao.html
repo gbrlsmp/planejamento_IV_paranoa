@@ -16,12 +16,13 @@
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="identificacao-exploracao.css?v=5">
   <link rel="stylesheet" href="identificacao-fitofisionomia.css">
-  <link rel="stylesheet" href="identificacao-mapas.css?v=1">
+  <link rel="stylesheet" href="identificacao-mapas.css?v=2">
   <script defer src="subabas.js"></script>
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-base.js"></script>
   <script defer src="mapa-camadas.js"></script>
   <script defer src="identificacao-mapas.js?v=1"></script>
+  <script defer src="identificacao-metricas.js?v=1"></script>
   <script defer src="identificacao-exploracao.js?v=5"></script>
   <script defer src="mapa-satelite.js"></script>
   <script defer src="identificacao-fitofisionomia.js?v=8"></script>
@@ -280,6 +281,31 @@
         <p class="ident-report-map-note">Fonte: <code>fragmentos_vegetacao.gpkg</code>. Visualização de aproximadamente 50 m; as métricas e a tabela usam a base original dos fragmentos.</p>
       </div>
 
+      <details class="ident-makurhini" data-makurhini>
+        <summary>Consultar métricas e baixar tabelas do Makurhini</summary>
+        <p>Consulte as oito métricas de qualquer um dos 46.876 fragmentos nos dois cenários. O ID corresponde ao campo <code>id_frag</code> dos GeoPackages e a <code>IdTemp</code> dos CSVs.</p>
+        <form class="ident-metric-form">
+          <label>ID do fragmento <input type="number" name="fragmento" min="1" max="46876" step="1" value="1" required></label>
+          <button type="submit">Consultar métricas</button>
+        </form>
+        <p data-metric-status role="status">Informe o ID e selecione Consultar métricas.</p>
+        <div data-metric-result hidden>
+          <h4 data-metric-title>Métricas do fragmento</h4>
+          <div class="table-scroll" role="region" aria-label="Métricas do fragmento em 45 e 90 metros" tabindex="0">
+            <table class="indicator-table summary-table">
+              <thead><tr><th scope="col">Métrica</th><th scope="col">Unidade</th><th scope="col">Borda de 45 m</th><th scope="col">Borda de 90 m</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <p>As tabelas completas abaixo são os arquivos originais gerados, com os valores e nomes dos campos preservados.</p>
+        <ul class="ident-metric-downloads">
+          <li><strong>Borda de 45 m:</strong> <a href="dados-mapas/identificacao/metricas/MK_Fragmentation_Bacia_Paranoa_45m_AVU_PatchMetrics.csv" download>métricas dos fragmentos (CSV)</a> · <a href="dados-mapas/identificacao/metricas/MK_Fragmentation_Bacia_Paranoa_45m_AVU_LandscapeMetrics.csv" download>métricas da paisagem (CSV)</a></li>
+          <li><strong>Borda de 90 m:</strong> <a href="dados-mapas/identificacao/metricas/MK_Fragmentation_Bacia_Paranoa_90m_AVU_PatchMetrics.csv" download>métricas dos fragmentos (CSV)</a> · <a href="dados-mapas/identificacao/metricas/MK_Fragmentation_Bacia_Paranoa_90m_AVU_LandscapeMetrics.csv" download>métricas da paisagem (CSV)</a></li>
+        </ul>
+        <p class="ident-report-map-note">Área e núcleo estão em m²; perímetro, em metros. Nesta revisão do código, <code>PARA = Area / Perimeter</code>, em metros. A consulta preserva essa fórmula executada. <a href="scripts/identificacao/METRICAS_E_PALETAS.md">Campos, fontes e detalhes da reprodução</a>.</p>
+      </details>
+
       <details class="data-method">
         <summary>Dados e método</summary>
         <ul>
@@ -361,26 +387,19 @@
 
     <section id="elementos-iv" class="report-section" aria-labelledby="titulo-elementos-iv">
       <h3 id="titulo-elementos-iv">Elementos da infraestrutura verde</h3>
-      <p>A classificação funcional usa os mesmos 46.876 fragmentos nos cenários de borda de 45 m e 90 m. Cada fragmento recebe a primeira categoria aplicável na sequência abaixo.</p>
-      <ol>
-        <li><strong>Hub 1.</strong> Exclusivamente os dois maiores fragmentos, pela área total, entre os que se sobrepõem a UCs de proteção integral. Na base atual, são os IDs 17217 e 46862.</li>
-        <li><strong>Hub 2.</strong> Parques urbanos sem sobreposição com APP e, entre os fragmentos que seriam Link, aqueles com <code>ShapeIndex &gt; 25</code>. O valor 25 fica fora desse corte.</li>
-        <li><strong>Link.</strong> Fragmentos com sobreposição com APP ainda sem classe.</li>
-        <li><strong>Site 1.</strong> Agrossistemas não intensivos ainda sem classe.</li>
-        <li><strong>Site 2.</strong> Demais fragmentos.</li>
-      </ol>
+      <p>A classificação funcional usa os mesmos 46.876 fragmentos nos cenários de borda de 45 m e 90 m. Cada fragmento recebe a primeira categoria aplicável, seguindo a ordem de prioridade indicada na tabela.</p>
       <p>Para estes elementos da IV, a APP corresponde à camada <code>dissolvido</code> de <code>APP_Buffer_hid_Bacia_Paranoa_disso.gpkg</code>. O cruzamento em EPSG:31983 exige área positiva de sobreposição e a categoria vale para o fragmento inteiro.</p>
       <div class="table-scroll" role="region" aria-label="Fragmentos e área por elemento da IV" tabindex="0">
-        <table class="indicator-table summary-table">
-          <thead><tr><th scope="col">Elemento da IV</th><th scope="col">Fragmentos</th><th scope="col">Área (ha)</th></tr></thead>
+        <table class="indicator-table summary-table ident-iv-table">
+          <thead><tr><th scope="col">Prioridade</th><th scope="col">Elemento da IV</th><th scope="col">Regra de classificação</th><th scope="col">Fragmentos</th><th scope="col">Área (ha)</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Hub 1</th><td>2</td><td>39.859,1361</td></tr>
-            <tr><th scope="row">Hub 2</th><td>834</td><td>2.697,3756</td></tr>
-            <tr><th scope="row">Link</th><td>1.179</td><td>5.370,8076</td></tr>
-            <tr><th scope="row">Site 1</th><td>714</td><td>272,7288</td></tr>
-            <tr><th scope="row">Site 2</th><td>44.147</td><td>7.275,6414</td></tr>
+            <tr><td>1</td><th scope="row">Hub 1</th><td class="iv-rule">Exclusivamente os dois maiores fragmentos, pela área total, entre os que se sobrepõem a UCs de proteção integral. Na base atual, são os IDs 17217 e 46862.</td><td>2</td><td>39.859,1361</td></tr>
+            <tr><td>2</td><th scope="row">Hub 2</th><td class="iv-rule">Parques urbanos sem sobreposição com APP e, entre os fragmentos que seriam Link, aqueles com <code>ShapeIndex &gt; 25</code>. O valor 25 fica fora desse corte.</td><td>834</td><td>2.697,3756</td></tr>
+            <tr><td>3</td><th scope="row">Link</th><td class="iv-rule">Fragmentos com sobreposição com APP ainda sem classe.</td><td>1.179</td><td>5.370,8076</td></tr>
+            <tr><td>4</td><th scope="row">Site 1</th><td class="iv-rule">Agrossistemas não intensivos ainda sem classe.</td><td>714</td><td>272,7288</td></tr>
+            <tr><td>5</td><th scope="row">Site 2</th><td class="iv-rule">Demais fragmentos.</td><td>44.147</td><td>7.275,6414</td></tr>
           </tbody>
-          <tfoot><tr><th scope="row">Total</th><td>46.876</td><td>55.475,6895</td></tr></tfoot>
+          <tfoot><tr><th scope="row" colspan="3">Total</th><td>46.876</td><td>55.475,6895</td></tr></tfoot>
         </table>
       </div>
       <p>Pelo critério de forma, recebem Hub 2: ID 25996 (ShapeIndex 31,8252). As duas larguras de borda têm os mesmos rótulos de IV porque as geometrias e os atributos usados nesta classificação coincidem.</p>

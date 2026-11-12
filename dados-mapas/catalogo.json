@@ -62,32 +62,32 @@
       [
         1,
         "UC",
-        "#23734d"
+        "#4b6a40"
       ],
       [
         2,
         "Parque urbano",
-        "#78ad69"
+        "#86a58f"
       ],
       [
         3,
         "Agrossistemas não intensivos",
-        "#a66b38"
+        "#d0a55f"
       ],
       [
         4,
         "APP",
-        "#c4b53d"
+        "#3e5972"
       ],
       [
         5,
         "Sem AVU",
-        "#6b7270"
+        "#e1e1e1"
       ],
       [
         6,
         "Aviso",
-        "#89739c"
+        "#c4cc95"
       ]
     ],
     "bounds": [
@@ -96,7 +96,7 @@
       -5309832.147243301,
       -1754750.6899615955
     ],
-    "revision": "35f81e9437c58050"
+    "revision": "47383a07535e5381"
   },
   "metricas": {
     "title": "Área dos fragmentos",
@@ -104,22 +104,22 @@
       [
         1,
         "Até 1 ha",
-        "#dcecc1"
+        "#c4cc95"
       ],
       [
         2,
         "Acima de 1 até 10 ha",
-        "#9acb88"
+        "#86a58f"
       ],
       [
         3,
         "Acima de 10 até 100 ha",
-        "#519658"
+        "#4b6a40"
       ],
       [
         4,
         "Acima de 100 ha",
-        "#215f45"
+        "#2b5125"
       ]
     ],
     "bounds": [
@@ -128,7 +128,7 @@
       -5309999.140947313,
       -1755287.483805565
     ],
-    "revision": "39df4c26e0451341"
+    "revision": "fe27089189389e40"
   },
   "momentos": {
     "title": "Momentos da água",

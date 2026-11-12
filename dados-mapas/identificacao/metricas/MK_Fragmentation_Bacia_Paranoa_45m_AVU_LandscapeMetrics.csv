@@ -1,0 +1,14 @@
+"","Metric","Value"
+"1","Patch area (m2)",554756895
+"2","Number of patches",46876
+"3","Size (mean)",11834.5613
+"4","Patches < minimum patch area",25853
+"5","Patches < minimum patch area (%)",0.1415
+"6","Total edge",10516422
+"7","Edge density",0.019
+"8","Patch density",0.0044
+"9","Total Core Area (m2)",410310730.3994
+"10","Cority",0.0074
+"11","Shape Index (mean)",1.5615
+"12","FRAC (mean)",1.8314
+"13","MESH (m2)",89611444.5657

@@ -14,6 +14,7 @@ from osgeo import ogr, osr
 import shapely
 
 from preparar_referencias_ndvi import fingerprint, spatial_ref
+from paletas_identificacao import AVU_COLORS
 
 ogr.UseExceptions()
 SOURCES = [
@@ -22,12 +23,12 @@ SOURCES = [
     'APP_Buffer_hid_Bacia_Paranoa.shp',
 ]
 GROUPS = {
-    'uc_pi': {'nome': 'UC — Proteção Integral', 'categoria': 'UC - Proteção Integral', 'cor': '#174f36', 'tracejado': '', 'visivel': True},
-    'uc_us': {'nome': 'UC — Uso Sustentável', 'categoria': 'UC - Uso Sustentável', 'cor': '#23734d', 'tracejado': '6 3', 'visivel': True},
-    'parques': {'nome': 'Parques urbanos', 'categoria': 'Parque urbano', 'cor': '#356d96', 'tracejado': '', 'visivel': True},
-    'agro': {'nome': 'Agrossistemas não intensivos', 'categoria': 'Agrossistemas não intensivos', 'cor': '#a66b38', 'tracejado': '3 3', 'visivel': True},
-    'app_nascentes': {'nome': 'APPs de nascentes', 'categoria': 'APP de nascente', 'cor': '#7b4b9e', 'tracejado': '2 3', 'visivel': False},
-    'app_hidrografia': {'nome': 'APPs de hidrografia', 'categoria': 'APP de hidrografia', 'cor': '#287f9d', 'tracejado': '5 3', 'visivel': False},
+    'uc_pi': {'nome': 'UC — Proteção Integral', 'categoria': 'UC - Proteção Integral', 'cor': AVU_COLORS['UC'], 'tracejado': '', 'visivel': True},
+    'uc_us': {'nome': 'UC — Uso Sustentável', 'categoria': 'UC - Uso Sustentável', 'cor': AVU_COLORS['UC'], 'tracejado': '6 3', 'visivel': True},
+    'parques': {'nome': 'Parques urbanos', 'categoria': 'Parque urbano', 'cor': AVU_COLORS['Parque urbano'], 'tracejado': '', 'visivel': True},
+    'agro': {'nome': 'Agrossistemas não intensivos', 'categoria': 'Agrossistemas não intensivos', 'cor': AVU_COLORS['Agrossistemas não intensivos'], 'tracejado': '3 3', 'visivel': True},
+    'app_nascentes': {'nome': 'APPs de nascentes', 'categoria': 'APP de nascente', 'cor': AVU_COLORS['APP'], 'tracejado': '2 3', 'visivel': False},
+    'app_hidrografia': {'nome': 'APPs de hidrografia', 'categoria': 'APP de hidrografia', 'cor': AVU_COLORS['APP'], 'tracejado': '5 3', 'visivel': False},
 }
 
 

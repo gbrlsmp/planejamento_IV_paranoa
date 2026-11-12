@@ -4,6 +4,16 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 
 
+# Cores do QML final já adotado. Os temas abaixo não tinham paleta prescrita.
+# Os códigos e as regras de cada tema são independentes do uso do solo.
+FRAGMENT_AREA_COLORS = {1: '#c4cc95', 2: '#86a58f', 3: '#4b6a40', 4: '#2b5125'}
+AVU_COLORS = {
+    'UC': '#4b6a40', 'Parque urbano': '#86a58f',
+    'Agrossistemas não intensivos': '#d0a55f', 'APP': '#3e5972',
+    'Sem AVU': '#e1e1e1', 'Aviso': '#c4cc95',
+}
+
+
 def qml_colors(path: Path) -> dict[int, str]:
     root = ET.parse(path).getroot()
     entries = root.findall(".//rasterrenderer/colorPalette/paletteEntry")
