@@ -26,9 +26,9 @@ GROUPS = {
     'uc_pi': {'nome': 'UC — Proteção Integral', 'categoria': 'UC - Proteção Integral', 'cor': AVU_COLORS['UC'], 'tracejado': '', 'visivel': True},
     'uc_us': {'nome': 'UC — Uso Sustentável', 'categoria': 'UC - Uso Sustentável', 'cor': AVU_COLORS['UC'], 'tracejado': '6 3', 'visivel': True},
     'parques': {'nome': 'Parques urbanos', 'categoria': 'Parque urbano', 'cor': AVU_COLORS['Parque urbano'], 'tracejado': '', 'visivel': True},
-    'agro': {'nome': 'Agrossistemas não intensivos', 'categoria': 'Agrossistemas não intensivos', 'cor': AVU_COLORS['Agrossistemas não intensivos'], 'tracejado': '3 3', 'visivel': True},
-    'app_nascentes': {'nome': 'APPs de nascentes', 'categoria': 'APP de nascente', 'cor': AVU_COLORS['APP'], 'tracejado': '2 3', 'visivel': False},
-    'app_hidrografia': {'nome': 'APPs de hidrografia', 'categoria': 'APP de hidrografia', 'cor': AVU_COLORS['APP'], 'tracejado': '5 3', 'visivel': False},
+    'agro': {'nome': 'Agrossistemas não intensivos', 'categoria': 'Agrossistemas não intensivos', 'cor': AVU_COLORS['Agrossistemas não intensivos'], 'tracejado': '', 'visivel': True},
+    'app_nascentes': {'nome': 'APPs de nascentes', 'categoria': 'APP de nascente', 'cor': AVU_COLORS['APP'], 'tracejado': '', 'visivel': False},
+    'app_hidrografia': {'nome': 'APPs de hidrografia', 'categoria': 'APP de hidrografia', 'cor': AVU_COLORS['APP'], 'tracejado': '', 'visivel': False},
 }
 
 

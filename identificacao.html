@@ -16,13 +16,15 @@
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="identificacao-exploracao.css?v=5">
   <link rel="stylesheet" href="identificacao-fitofisionomia.css">
-  <link rel="stylesheet" href="identificacao-mapas.css?v=2">
+  <link rel="stylesheet" href="identificacao-mapas.css?v=3">
   <script defer src="subabas.js"></script>
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-base.js"></script>
   <script defer src="mapa-camadas.js"></script>
-  <script defer src="identificacao-mapas.js?v=1"></script>
-  <script defer src="identificacao-metricas.js?v=1"></script>
+  <script defer src="identificacao-metricas-dados.js?v=1"></script>
+  <script defer src="identificacao-metricas-mapa.js?v=1"></script>
+  <script defer src="identificacao-mapas.js?v=2"></script>
+  <script defer src="identificacao-metricas.js?v=2"></script>
   <script defer src="identificacao-exploracao.js?v=5"></script>
   <script defer src="mapa-satelite.js"></script>
   <script defer src="identificacao-fitofisionomia.js?v=8"></script>
@@ -263,22 +265,25 @@
       </div>
 
       <div class="ident-report-map" data-ident-map-theme="metricas" aria-labelledby="titulo-mapa-metricas">
-        <h4 id="titulo-mapa-metricas">Mapa de área dos fragmentos</h4>
-        <p class="ident-report-map-note">As cores indicam a área total de cada fragmento. As áreas de núcleo dos cenários de 45 m e 90 m estão na tabela acima.</p>
+        <h4 id="titulo-mapa-metricas">Mapa de métricas dos fragmentos</h4>
+        <p class="ident-report-map-note">Selecione uma métrica para comparar os fragmentos. Área de núcleo e percentuais de núcleo e borda permitem alternar entre os cenários de 45 m e 90 m.</p>
         <div class="ident-report-map-controls">
-          <label><input type="checkbox" data-map-show checked disabled> Mostrar área dos fragmentos</label>
+          <label>Métrica <select data-map-metric disabled aria-label="Métrica dos fragmentos"></select></label>
+          <label>Borda <select data-map-scenario aria-label="Cenário de borda" disabled><option value="45">45 m</option><option value="90">90 m</option></select></label>
+          <label><input type="checkbox" data-map-show checked disabled> Mostrar métrica dos fragmentos</label>
           <button type="button" data-map-fit disabled>Enquadrar a bacia</button>
           <button type="button" data-map-retry hidden>Tentar novamente</button>
         </div>
         <div class="ident-report-map-grid">
-          <div class="ident-report-map-canvas" data-report-map role="region" aria-label="Mapa interativo de área dos fragmentos"></div>
-          <aside class="ident-report-map-key" aria-label="Legenda de área dos fragmentos">
-            <h5>Área total do fragmento</h5>
+          <div class="ident-report-map-canvas" data-report-map role="region" aria-label="Mapa interativo de métricas dos fragmentos"></div>
+          <aside class="ident-report-map-key" aria-label="Legenda da métrica selecionada">
+            <h5 data-map-legend-title>Área total do fragmento</h5>
+            <p data-map-metric-note class="ident-report-map-note"></p>
             <ul data-map-legend></ul>
           </aside>
         </div>
         <p data-map-status role="status">O mapa será carregado ao entrar nesta seção.</p>
-        <p class="ident-report-map-note">Fonte: <code>fragmentos_vegetacao.gpkg</code>. Visualização de aproximadamente 50 m; as métricas e a tabela usam a base original dos fragmentos.</p>
+        <p class="ident-report-map-note">Fontes: GeoPackages e CSVs <code>MK_Fragmentation_Bacia_Paranoa_45m/90m_AVU</code>, camada <code>metricas_fragmentos</code>. Visualização de aproximadamente 20 m por vizinho mais próximo; fragmentos pequenos podem não aparecer nesta escala. As cores representam valores do fragmento inteiro, inclusive nas métricas de núcleo. A consulta por ID abaixo inclui todos os fragmentos.</p>
       </div>
 
       <details class="ident-makurhini" data-makurhini>

@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "arquivo": "fragmentos-ids.png",
+  "sha256": "22268ef35771a025ded3a43543a84d2efff8f05285289e54b9c26132bffac74e",
+  "bounds": [
+    -5356092.147243301,
+    -1803590.6899615955,
+    -5309832.147243301,
+    -1754750.6899615955
+  ],
+  "largura": 2313,
+  "altura": 2442,
+  "resolucao_m": 20,
+  "crs": "EPSG:3857",
+  "codificacao": "id_frag = R * 256 + G; B = 0; fundo = 0",
+  "fragmentos_fonte": 46876,
+  "fragmentos_representados": 18458,
+  "fonte": "MK_Fragmentation_Bacia_Paranoa_45m_AVU_PatchMetrics.gpkg",
+  "camada": "metricas_fragmentos",
+  "nota": "Representação por vizinho mais próximo; fragmentos menores podem não aparecer. Cores representam métricas do fragmento inteiro, inclusive CA; não delimitam núcleos.",
+  "revisao": "e2919ba714ee6d84"
+}
