@@ -37,4 +37,4 @@
   .ident-controls label:first-child { width: 100%; }
   .ident-scatter canvas { height: 350px; }
 }
-.container { width: calc(100% - 2rem); }
+.container { width: calc(100% - 2 * clamp(16px, 2.5vw, 40px)); }

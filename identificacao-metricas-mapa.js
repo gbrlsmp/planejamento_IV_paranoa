@@ -10,9 +10,12 @@ async function createFragmentMetricsMap(root, map) {
   const legend = root.querySelector("[data-map-legend]");
   const heading = root.querySelector("[data-map-legend-title]");
   const note = root.querySelector("[data-map-metric-note]");
-  const [{ manifest, scenarios }, spatial] = await Promise.all([
-    loadMakurhiniMetrics(), loadData(folder + "manifesto.json"),
+  const reading = root.querySelector("[data-map-metric-reading]");
+  const [{ manifest, scenarios }, spatial, ranges] = await Promise.all([
+    loadMakurhiniMetrics(), loadData(folder + "manifesto.json"), loadData(folder + "faixas.json"),
   ]);
+  if (ranges.fragmentos !== manifest.fragmentos || ranges.fontes.some((source, i) =>
+    source.sha256 !== manifest.cenarios[i].fragmentos.sha256)) throw new Error("Faixas de outra base");
   const img = new Image();
   await new Promise((resolve, reject) => {
     img.onload = resolve;
@@ -67,6 +70,9 @@ async function createFragmentMetricsMap(root, map) {
     } else if (isPercent) {
       edges = [25, 50, 75];
       scale = "Faixas fixas de percentual.";
+    } else if (ranges.indicadores[info.campo]) {
+      edges = ranges.indicadores[info.campo].limites_superiores;
+      scale = "Faixas cartográficas pela distribuição dos valores, ponderadas pela área dos fragmentos.";
     } else {
       const sorted = Array.from(records.values(), row => row[index]).sort((a, b) => a-b);
       const maximum = sorted[sorted.length-1];
@@ -99,13 +105,14 @@ async function createFragmentMetricsMap(root, map) {
       overlay = L.imageOverlay(url, bounds, { pane: "tema-relatorio", opacity: 1, className: "mapa-classe" });
     } else overlay.setUrl(url);
     if (show.checked) overlay.addTo(map);
-    const display = value => exact.format(isArea ? value/10000 : value);
-    const unit = isArea ? "ha" : info.unidade === "adimensional" ? "" : info.unidade;
+    const display = value => exact.format(isArea ? value/10000 : info.campo === "Perimeter" ? value/1000 : value);
+    const unit = isArea ? "ha" : info.campo === "Perimeter" ? "km" : info.unidade === "adimensional" ? "" : info.unidade;
     const labels = edges.map((edge, i) =>
       (i ? "Acima de " + display(edges[i-1]) + " até " : hasZero ? "Acima de 0 até " : "Até ") + display(edge));
     labels.push(edges.length ? "Acima de " + display(edges[edges.length-1]) : "Todos os valores");
     if (hasZero) labels.unshift("0");
     heading.textContent = info.nome + (dependent.has(info.campo) ? " · borda de " + scenario.value + " m" : "");
+    reading.textContent = document.querySelector('[data-metric-help="' + info.campo + '"]').textContent;
     legend.replaceChildren();
     labels.forEach((label, i) => {
       const row = document.createElement("li");
@@ -119,8 +126,7 @@ async function createFragmentMetricsMap(root, map) {
     scenario.disabled = !dependent.has(info.campo);
     note.textContent = scale + (scenario.disabled ? " Esta métrica é igual nos cenários de 45 m e 90 m." :
       " Cenário de borda de " + scenario.value + " m.") +
-      (info.campo === "CA" ? " As cores indicam a área de núcleo atribuída ao fragmento inteiro; não delimitam o núcleo." : "") +
-      (info.campo === "PARA" ? " PARA = Area / Perimeter, conforme a execução adotada." : "");
+      (info.campo === "CA" ? " As cores indicam a área de núcleo atribuída ao fragmento inteiro; não delimitam o núcleo." : "");
     current = { info, records, index };
     status.textContent = "Clique em um fragmento para consultar seu ID e o valor da métrica selecionada.";
   }

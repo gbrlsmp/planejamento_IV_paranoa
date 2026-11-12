@@ -37,6 +37,22 @@
 .ident-metric-downloads { display: flex; flex-wrap: wrap; gap: .6rem 1.5rem; padding-left: 1.25rem; }
 .ident-metric-downloads li { flex: 1 1 230px; }
 .ident-iv-table .iv-rule { min-width: 19rem; width: 52%; font-weight: 400; }
+.ident-metric-reading-table th[scope="row"] { width: 25%; min-width: 12rem; }
+.ident-landscape-reading { margin: 1rem 0 1.5rem; }
+.ident-landscape-reading > p { margin-top: .8rem; }
+.ident-iv-concept { margin: 1.5rem auto; max-width: 1100px; }
+.ident-iv-concept img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: .35rem; }
+.ident-iv-concept figcaption { margin-top: .6rem; font-size: .88rem; color: var(--muted); }
+.ident-iv-reading { padding-left: 1.3rem; }
+.ident-iv-reading li { margin: .4rem 0; }
+@media (max-width: 600px) {
+  .ident-metric-reading-table, .ident-metric-reading-table tbody { display: block; width: 100%; }
+  .ident-metric-reading-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .ident-metric-reading-table tr { display: block; border-bottom: 1px solid var(--line); }
+  .ident-metric-reading-table th[scope="row"], .ident-metric-reading-table td { display: block; width: 100%; min-width: 0; border-bottom: 0; overflow-wrap: anywhere; }
+  .ident-metric-reading-table th[scope="row"] { padding-bottom: .15rem; }
+  .ident-metric-reading-table td { padding-top: .15rem; }
+}
 @media (max-width: 800px) {
   .ident-report-map { padding: .65rem; }
   .ident-report-map-grid { grid-template-columns: minmax(0, 1fr); }
