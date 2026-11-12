@@ -81,7 +81,7 @@ for name in ['identificacao.html','index.html','mapa.html']:
             assert value in text,value
         assert 'data-ndvi-sankey' in text
         assert 'data-reference-opacity' not in text
-        for removed in ['data-ndvi-stat-scatter', 'data-extra-camp-past', 'data-extra-check']:
+        for removed in ['data-ndvi-stat-scatter', 'data-extra-camp-past', 'data-extra-check', 'data-extra-ndvi']:
             assert removed not in text, removed
         assert 'quatro rasters novos de 3 m' not in text
 print('OK: rasters promovidos, GeoPackages, CSVs, áreas, IV 45/90 m, 46 blocos, GIF, catálogos, números, estrutura HTML e arquivos vinculados.')

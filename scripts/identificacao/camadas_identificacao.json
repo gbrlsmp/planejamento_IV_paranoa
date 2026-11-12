@@ -188,7 +188,7 @@
     },
     {
       "id": "amostras_pareadas",
-      "nome": "Amostras com ambas as datas válidas",
+      "nome": "Amostras históricas com ambas as datas válidas",
       "tipo": "subproduto",
       "deriva_de": [
         "referencias_formacoes",
@@ -196,18 +196,28 @@
         "ndvi_seca",
         "mapbiomas_vetor"
       ],
-      "estado": "gerado_dos_novos_ndvis_e_intersecoes",
+      "estado": "historico_preservado_fora_dos_graficos_correntes",
       "arquivo": "02_Tabela/Exploracao_NDVI_sistema/amostras_ndvi_pareadas.npz",
-      "nota": "Pastagem da classe 15 MapBiomas apenas para comparação e fora da rede de IV. Amostras NPZ locais, sem distribuição no Git."
+      "nota": "Amostra sistemática histórica de 30 m, preservada no NPZ local. Os gráficos correntes usam o censo da grade nativa."
+    },
+    {
+      "id": "censo_pareado",
+      "nome": "Censo pareado de pixels válidos de NDVI em 3 m",
+      "tipo": "subproduto",
+      "deriva_de": ["referencias_formacoes", "ndvi_chuva", "ndvi_seca", "ndvi_medio", "mapbiomas_vetor", "bacia"],
+      "estado": "censo_integral_recontado_e_compativel_com_os_cortes",
+      "arquivo": "02_Tabela/Exploracao_NDVI_sistema/censo_ndvi.json",
+      "resolucao_m": 3,
+      "nota": "Centros de pixels com ambas as datas válidas; máscaras independentes; sem amostragem. Seca e chuva separadas; parâmetros do NDVI médio conferidos sem modificar a classificação."
     },
     {
       "id": "estatisticas",
       "nome": "Distribuições do NDVI por grupo e data",
       "tipo": "subproduto",
       "deriva_de": [
-        "amostras_pareadas"
+        "censo_pareado"
       ],
-      "estado": "exploracao_amostral_e_censo_espacial_dos_cortes_documentados_separadamente",
+      "estado": "censo_espacial_por_data_com_populacao_das_referencias_dos_cortes",
       "arquivos": [
         "dados-mapas/identificacao/exploracao.json"
       ],
@@ -221,17 +231,17 @@
           "origem": "ndvi_chuva"
         }
       ],
-      "nota": "Apresentação restrita às distribuições por data e ao gráfico seca × chuva. Médias/diferenças entre datas da exploração histórica não são usadas nesta execução."
+      "nota": "Médias e desvios populacionais por época, histogramas integrais, Sankey e matriz conjunta 80 × 80 com todos os pares. Cortes continuam usando NDVI médio."
     },
     {
       "id": "graficos",
       "nome": "Distribuições por data e NDVI seca × chuva",
       "tipo": "subproduto",
       "deriva_de": [
-        "amostras_pareadas",
+        "censo_pareado",
         "estatisticas"
       ],
-      "estado": "gerados_no_navegador_a_partir_da_nova_execucao",
+      "estado": "gerados_no_navegador_a_partir_do_censo",
       "arquivo": "dados-mapas/identificacao/exploracao.json"
     },
     {
@@ -323,8 +333,8 @@
   "execucao_existente": {
     "registro": "dados-mapas/identificacao/exploracao.json",
     "registro_historico": "scripts/identificacao/resultados/resultados.json",
-    "natureza": "intersecao_vetorial_integral_e_ndvi_amostral_pareado",
-    "espacamento_amostral_m": 30,
+    "natureza": "intersecao_vetorial_integral_e_censo_ndvi_pareado",
+    "censo_grade_nativa": true,
     "resolucao_pixels_originais_m": 3,
     "nova_classificacao_integral": true,
     "resultados_identificacao": "dados-mapas/identificacao/resultados_identificacao.json"
