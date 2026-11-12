@@ -16,9 +16,12 @@
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
   <link rel="stylesheet" href="identificacao-exploracao.css?v=5">
   <link rel="stylesheet" href="identificacao-fitofisionomia.css">
+  <link rel="stylesheet" href="identificacao-mapas.css?v=1">
   <script defer src="subabas.js"></script>
   <script defer src="vendor/leaflet/leaflet.js"></script>
   <script defer src="mapa-base.js"></script>
+  <script defer src="mapa-camadas.js"></script>
+  <script defer src="identificacao-mapas.js?v=1"></script>
   <script defer src="identificacao-exploracao.js?v=5"></script>
   <script defer src="mapa-satelite.js"></script>
   <script defer src="identificacao-fitofisionomia.js?v=8"></script>
@@ -242,10 +245,6 @@
 
     <section id="metricas-forma" class="report-section" aria-labelledby="titulo-metricas-forma">
       <h3 id="titulo-metricas-forma">Métricas de forma</h3>
-      <nav class="risk-tabs" aria-label="Vistas de Métricas de forma">
-        <a href="identificacao.html#metricas-forma" aria-current="page">Metodologia</a>
-        <a href="mapa.html?tema=metricas">Mapa de área dos fragmentos</a>
-      </nav>
       <p>A análise atual usa os <strong>46.876 fragmentos</strong> de vegetação da base de AVU, com <strong>55.475,6895 ha</strong> no total. Os fragmentos foram delimitados por vizinhança de oito pixels a partir do raster final de uso do solo de 3 m.</p>
 
       <h4>Cenários de borda de 45 m e 90 m</h4>
@@ -260,6 +259,25 @@
             <tr><th scope="row">90 m</th><td>36.399,9060</td><td>65,6142%</td><td>125</td></tr>
           </tbody>
         </table>
+      </div>
+
+      <div class="ident-report-map" data-ident-map-theme="metricas" aria-labelledby="titulo-mapa-metricas">
+        <h4 id="titulo-mapa-metricas">Mapa de área dos fragmentos</h4>
+        <p class="ident-report-map-note">As cores indicam a área total de cada fragmento. As áreas de núcleo dos cenários de 45 m e 90 m estão na tabela acima.</p>
+        <div class="ident-report-map-controls">
+          <label><input type="checkbox" data-map-show checked disabled> Mostrar área dos fragmentos</label>
+          <button type="button" data-map-fit disabled>Enquadrar a bacia</button>
+          <button type="button" data-map-retry hidden>Tentar novamente</button>
+        </div>
+        <div class="ident-report-map-grid">
+          <div class="ident-report-map-canvas" data-report-map role="region" aria-label="Mapa interativo de área dos fragmentos"></div>
+          <aside class="ident-report-map-key" aria-label="Legenda de área dos fragmentos">
+            <h5>Área total do fragmento</h5>
+            <ul data-map-legend></ul>
+          </aside>
+        </div>
+        <p data-map-status role="status">O mapa será carregado ao entrar nesta seção.</p>
+        <p class="ident-report-map-note">Fonte: <code>fragmentos_vegetacao.gpkg</code>. Visualização de aproximadamente 50 m; as métricas e a tabela usam a base original dos fragmentos.</p>
       </div>
 
       <details class="data-method">
@@ -277,10 +295,6 @@
 
     <section id="tipologias" class="report-section" aria-labelledby="titulo-tipologias">
       <h3 id="titulo-tipologias">Tipologias de AVU</h3>
-      <nav class="risk-tabs" aria-label="Vistas de Tipologias de AVU">
-        <a href="identificacao.html#tipologias" aria-current="page">Metodologia</a>
-        <a href="mapa.html?tema=tipologias">Mapa</a>
-      </nav>
       <p>Cada fragmento de vegetação do raster final de uso do solo de 3 m recebe uma classe segundo sua relação espacial com as Áreas Verdes Urbanas (AVU) e as Áreas de Preservação Permanente (APP).</p>
 
       <h4>Delimitação dos fragmentos</h4>
@@ -313,6 +327,26 @@
         </table>
       </div>
       <p>A área de cada classe soma os fragmentos inteiros atribuídos a ela, incluindo porções além dos limites das AVUs. Por esse critério, Aviso reúne 80,0419% da área de vegetação.</p>
+      <div class="ident-report-map" data-ident-map-theme="tipologias" aria-labelledby="titulo-mapa-tipologias">
+        <h4 id="titulo-mapa-tipologias">Mapa de tipologias de AVU</h4>
+        <p class="ident-report-map-note">O preenchimento representa os fragmentos classificados. Os contornos mostram os polígonos das AVUs e APPs usados no cruzamento, permitindo comparar seus limites.</p>
+        <div class="ident-report-map-controls">
+          <label><input type="checkbox" data-map-show checked disabled> Mostrar classes dos fragmentos</label>
+          <button type="button" data-map-fit disabled>Enquadrar a bacia</button>
+          <button type="button" data-map-retry hidden>Tentar novamente</button>
+        </div>
+        <div class="ident-report-map-grid">
+          <div class="ident-report-map-canvas" data-report-map role="region" aria-label="Mapa interativo de tipologias e limites de AVU"></div>
+          <aside class="ident-report-map-key" aria-label="Legenda e limites das AVUs">
+            <h5>Classe dos fragmentos</h5>
+            <ul data-map-legend></ul>
+            <fieldset data-avu-limits><legend>Limites das AVUs e APPs</legend></fieldset>
+            <p data-avu-status role="status">Carregando opções de contorno…</p>
+          </aside>
+        </div>
+        <p data-map-status role="status">O mapa será carregado ao entrar nesta seção.</p>
+        <p class="ident-report-map-note">Classes dos fragmentos: visualização de aproximadamente 20 m. Contornos: polígonos das fontes originais, sem simplificação. Clique em um contorno para consultar sua categoria, nome quando disponível e arquivo de origem.</p>
+      </div>
       <details class="data-method">
         <summary>Dados e método</summary>
         <ul>
@@ -327,10 +361,6 @@
 
     <section id="elementos-iv" class="report-section" aria-labelledby="titulo-elementos-iv">
       <h3 id="titulo-elementos-iv">Elementos da infraestrutura verde</h3>
-      <nav class="risk-tabs" aria-label="Vistas de Elementos da IV">
-        <a href="identificacao.html#elementos-iv" aria-current="page">Metodologia</a>
-        <a href="mapa.html?tema=iv">Mapa interativo</a>
-      </nav>
       <p>A classificação funcional usa os mesmos 46.876 fragmentos nos cenários de borda de 45 m e 90 m. Cada fragmento recebe a primeira categoria aplicável na sequência abaixo.</p>
       <ol>
         <li><strong>Hub 1.</strong> Exclusivamente os dois maiores fragmentos, pela área total, entre os que se sobrepõem a UCs de proteção integral. Na base atual, são os IDs 17217 e 46862.</li>
@@ -354,6 +384,23 @@
         </table>
       </div>
       <p>Pelo critério de forma, recebem Hub 2: ID 25996 (ShapeIndex 31,8252). As duas larguras de borda têm os mesmos rótulos de IV porque as geometrias e os atributos usados nesta classificação coincidem.</p>
+      <div class="ident-report-map" data-ident-map-theme="iv" aria-labelledby="titulo-mapa-iv">
+        <h4 id="titulo-mapa-iv">Mapa de elementos da IV</h4>
+        <div class="ident-report-map-controls">
+          <label><input type="checkbox" data-map-show checked disabled> Mostrar elementos da IV</label>
+          <button type="button" data-map-fit disabled>Enquadrar a bacia</button>
+          <button type="button" data-map-retry hidden>Tentar novamente</button>
+        </div>
+        <div class="ident-report-map-grid">
+          <div class="ident-report-map-canvas" data-report-map role="region" aria-label="Mapa interativo dos elementos da infraestrutura verde"></div>
+          <aside class="ident-report-map-key" aria-label="Legenda dos elementos da IV">
+            <h5>Elemento da IV</h5>
+            <ul data-map-legend></ul>
+          </aside>
+        </div>
+        <p data-map-status role="status">O mapa será carregado ao entrar nesta seção.</p>
+        <p class="ident-report-map-note">Fonte: campo <code>cat_iv</code> da camada <code>metricas_fragmentos</code> dos GeoPackages de métricas de 45 m e 90 m. As categorias coincidem nos dois cenários. Visualização de aproximadamente 20 m.</p>
+      </div>
       <details class="data-method">
         <summary>Dados, cores e reprodução</summary>
         <p>As entradas são os GeoPackages <code>MK_Fragmentation_Bacia_Paranoa_45m_AVU_PatchMetrics.gpkg</code> e <code>MK_Fragmentation_Bacia_Paranoa_90m_AVU_PatchMetrics.gpkg</code>, com os campos <code>id_frag</code>, <code>Area</code>, <code>ShapeIndex</code>, <code>avu_uc_pi</code>, <code>avu_parque</code> e <code>avu_agro</code>, além da APP hidrográfica dissolvida.</p>

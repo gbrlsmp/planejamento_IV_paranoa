@@ -1,0 +1,31 @@
+.ident-report-map { margin: 1.5rem 0; padding: 1rem; background: #fff; border: 1px solid var(--line); border-radius: .35rem; }
+.ident-report-map h4 { margin-top: 0; }
+.ident-report-map-controls { display: flex; align-items: center; flex-wrap: wrap; gap: .75rem 1.25rem; margin-bottom: .8rem; }
+.ident-report-map-controls label { display: flex; align-items: center; gap: .4rem; }
+.ident-report-map-controls button { padding: .5rem .7rem; border: 1px solid var(--line); border-radius: .25rem; background: #fff; color: inherit; font: inherit; cursor: pointer; }
+.ident-report-map-controls button:hover { background: #f5f7f3; }
+.ident-report-map-controls button:disabled { cursor: wait; opacity: .6; }
+.ident-report-map-grid { display: grid; grid-template-columns: minmax(0, 1fr) 265px; gap: 1rem; }
+.ident-report-map-canvas { height: 560px; min-width: 0; background: #fff; border: 1px solid var(--line); border-radius: .25rem; isolation: isolate; }
+.ident-report-map-canvas .leaflet-image-layer { image-rendering: pixelated; }
+.ident-report-map-canvas .leaflet-popup-content { max-width: 250px; overflow-wrap: anywhere; line-height: 1.5; }
+.ident-report-map-canvas .leaflet-popup-content p { margin: .4rem 0; }
+.ident-report-map-key { min-width: 0; font-size: .88rem; }
+.ident-report-map-key h5 { font-size: 1rem; margin: 0 0 .65rem; }
+.ident-report-map-key ul { list-style: none; padding: 0; margin: 0 0 1rem; }
+.ident-report-map-key li { display: flex; align-items: start; gap: .5rem; margin: .45rem 0; }
+.ident-class-swatch { display: inline-block; width: 1rem; height: 1rem; flex: 0 0 1rem; margin-top: .2rem; border: 1px solid #0002; border-radius: 2px; }
+.ident-report-map-key fieldset { min-width: 0; margin: 1rem 0 .5rem; padding: .6rem; border: 1px solid var(--line); }
+.ident-report-map-key legend { font-weight: 700; }
+.ident-report-map-key label { display: grid; grid-template-columns: auto 22px minmax(0, 1fr); gap: .4rem; align-items: start; margin: .6rem 0; }
+.ident-report-map-key input { margin: .3rem 0 0; }
+.ident-report-map-key small { grid-column: 3; }
+.ident-boundary-swatch { border-top-width: 2px; margin-top: .65rem; }
+.ident-report-map-note { font-size: .9rem; margin-bottom: .5rem; }
+.ident-report-map [data-map-status], .ident-report-map [data-avu-status] { font-size: .88rem; }
+@media (max-width: 800px) {
+  .ident-report-map { padding: .65rem; }
+  .ident-report-map-grid { grid-template-columns: minmax(0, 1fr); }
+  .ident-report-map-canvas { height: 400px; }
+  .ident-report-map-key ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0 .75rem; }
+}

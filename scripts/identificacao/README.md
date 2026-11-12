@@ -22,6 +22,8 @@ As versões leves são guardadas em `04_figuras`, destino confirmado pela pesqui
 
 Os procedimentos de fragmentação e de classificação funcional da IV estão em [FITOFISIONOMIA_3M.md](FITOFISIONOMIA_3M.md#elementos-da-infraestrutura-verde), com os scripts `calcular_metricas_fragmentacao.py` e `classificar_elementos_iv.py`. A publicação acompanha as mesmas regras, contagens e cores dos produtos locais de 45 m e 90 m.
 
+Os mapas próprios de cada seção e os contornos das fontes de AVU/APP estão documentados em [Mapas no relatório](MAPAS_NO_RELATORIO.md), com exportação reproduzível e conferência de todas as feições originais.
+
 - [Método e resultados descritivos](resultados/LEITURA.md)
 - [Gráficos sazonais](resultados/comparacao_ndvi.png)
 - [Registro da execução, assinaturas das fontes e estatísticas](resultados/resultados.json)
