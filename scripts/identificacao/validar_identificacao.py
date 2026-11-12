@@ -79,6 +79,9 @@ for name in ['identificacao.html','index.html','mapa.html']:
         format_pt=lambda v, digits=4: f'{v:,.{digits}f}'.replace(',','|').replace('.',',').replace('|','.')
         for value in [format_pt(d['fragmentos']['fragments'],0),format_pt(d['fragmentos']['vegetation_area_ha']),format_pt(d['metricas']['45']['nucleo_ha']),format_pt(d['metricas']['90']['nucleo_ha']),format_pt(d['iv']['area_ha']['Hub 1']),format_pt(d['limite_residual'])]:
             assert value in text,value
-        assert 'Sankey' not in text
+        assert 'data-ndvi-sankey' in text
+        assert 'data-reference-opacity' not in text
+        for removed in ['data-ndvi-stat-scatter', 'data-extra-camp-past', 'data-extra-check']:
+            assert removed not in text, removed
         assert 'quatro rasters novos de 3 m' not in text
 print('OK: rasters promovidos, GeoPackages, CSVs, áreas, IV 45/90 m, 46 blocos, GIF, catálogos, números, estrutura HTML e arquivos vinculados.')

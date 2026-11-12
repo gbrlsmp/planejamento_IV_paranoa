@@ -127,7 +127,7 @@
         {
           "codigo": 11,
           "nome": "Pecuária",
-          "cor": "#a08d8e"
+          "cor": "#915558"
         },
         {
           "codigo": 12,
@@ -192,7 +192,7 @@
       ]
     }
   },
-  "revisao": "ec214fd37daa9766",
+  "revisao": "af2e5fed7e57c6ec",
   "areas": [
     {
       "grupo": "campestre",

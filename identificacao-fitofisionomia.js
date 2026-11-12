@@ -59,29 +59,13 @@
     const info = await stats();
     const codes = { florestal: 3, savanica: 4, campestre: 12, pastagem: 15, campo_alagado: 11 };
     const groups = root.querySelector("[data-extra-summary]");
-    const comparison = root.querySelector("[data-extra-camp-past]");
-    const check = root.querySelector("[data-extra-check]");
     for (const group of info.grupos) {
       const tr = document.createElement("tr");
       cell(tr, `${group.nome} (${codes[group.id]})`, true); cell(tr, number.format(group.n));
       for (const key of ["seca", "chuva", "delta"]) cell(tr, quartiles(group[key]));
       groups.append(tr);
     }
-    for (const slice of info.campestre_pastagem) {
-      for (const [key, name] of [["campestre", "Formação campestre (12)"], ["pastagem", "Pastagem (15)"]]) {
-        const tr = document.createElement("tr");
-        cell(tr, `${slice.seca[0].toFixed(4)}–${slice.seca[1].toFixed(4)}`.replaceAll(".", ","), true);
-        cell(tr, name); cell(tr, number.format(slice.classes[key].n));
-        cell(tr, quartiles(slice.classes[key].chuva));
-        comparison.append(tr);
-      }
-    }
-    for (const group of info.checagem) {
-      const tr = document.createElement("tr");
-      cell(tr, `${group.nome} (${codes[group.id]})`, true); cell(tr, number.format(group.n));
-      for (const key of ["3", "4", "12", "100"]) cell(tr, number.format(group.contagens[key]));
-      check.append(tr);
-    }
+
   }
 
   async function classification(root) {
