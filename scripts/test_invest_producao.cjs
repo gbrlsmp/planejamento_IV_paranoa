@@ -15,13 +15,16 @@ class Element {
   dispatch(name) { this.handlers[name]?.({ target: this }); }
 }
 
-function harness({ failImage = false, hidden = false, delayed = false } = {}) {
+function harness({ failImage = false, hidden = false, delayed = false, surface = false } = {}) {
   const elements = new Map();
   const element = selector => { if (!elements.has(selector)) elements.set(selector, new Element()); return elements.get(selector); };
   const root = element("root");root.offsetWidth = hidden ? 0 : 800;
+  const selectedManifest=surface?JSON.parse(fs.readFileSync(path.join(__dirname,"../dados-mapas/clima/superficie-sazonal/manifesto.json"))):manifest;
+  root.dataset={folder:surface?"dados-mapas/clima/superficie-sazonal/":"dados-mapas/clima/urban-cooling-2026/"};
   root.querySelector = element;root.querySelectorAll = () => [element("canvas0"),element("canvas1")];
   element("[data-invest-indicator]").value="t";element("[data-invest-period]").value="dia";element("[data-invest-scale]").value="common";
-  const state = { fetches: [], images: [], maps: [], documentHandlers: {}, intersections: [], popups: [] };
+  if(surface){element("[data-invest-indicator]").value="lst";element("[data-invest-period]").value="seca";}
+  const state = { fetches: [], images: [], maps: [], vectorLayers: [], documentHandlers: {}, intersections: [], popups: [] };
   const center = (x=0,y=0) => ({x,y,equals(other) { return this.x===other.x && this.y===other.y; }});
   class MapStub {
     constructor() { this.panes={};this.center=center();this.zoom=10;this.events={};this.attributionControl={addAttribution(){}};state.maps.push(this); }
@@ -32,17 +35,17 @@ function harness({ failImage = false, hidden = false, delayed = false } = {}) {
   }
   const document = { querySelector: () => root, addEventListener: (name,fn) => {state.documentHandlers[name]=fn;}, createElement: tag => {
     const node=new Element();
-    if(tag==="canvas") {node.getContext=()=>({drawImage(){},getImageData(){return {data:Uint8ClampedArray.from([128,0,0,255,0,0,0,0,255,255,0,255,0,1,0,255])};},putImageData(){}});node.toDataURL=()=>"data:image/png;base64,test";}
+    if(tag==="canvas") {let drawn;node.getContext=()=>({drawImage(image){drawn=image;},getImageData(){return {data:Uint8ClampedArray.from(drawn?.url.includes("contagem")?[5,5,5,255,255,255,255,255,6,6,6,255,1,1,1,255]:[128,0,0,255,0,0,0,0,255,255,0,255,0,1,0,255])};},putImageData(){}});node.toDataURL=()=>"data:image/png;base64,test";}
     return node;
   }};
-  const L={map:()=>new MapStub(),geoJSON:()=>({addTo(){}}),control:{scale:()=>({addTo(){}})},latLngBounds:(a,b)=>[a,b],point:(x,y)=>({x,y}),CRS:{EPSG3857:{project:p=>p,unproject:p=>p}},imageOverlay:()=>({addTo(){return this;},remove(){}}),popup:()=>({setLatLng(){return this;},setContent(content){state.popups.push(content);return this;},openOn(){return this;}})};
+  const L={map:()=>new MapStub(),geoJSON:(data,options)=>{const layer={data,options,addTo(){return this;},remove(){this.removed=true;}};state.vectorLayers.push(layer);return layer;},control:{scale:()=>({addTo(){}})},latLngBounds:(a,b)=>[a,b],point:(x,y)=>({x,y}),CRS:{EPSG3857:{project:p=>p,unproject:p=>p}},imageOverlay:()=>({addTo(){return this;},remove(){}}),popup:()=>({setLatLng(){return this;},setContent(content){state.popups.push(content);return this;},openOn(){return this;}})};
   class MockImage {
     constructor(){this.naturalWidth=2;this.naturalHeight=2;state.images.push(this);}
     set src(value){this.url=value;if(!delayed)queueMicrotask(()=>{if(failImage){failImage=false;this.onerror();}else this.onload();});}
   }
-  const context={document,L,InvestRaster:Raster,Image:MockImage,ImageData:class{},Uint8ClampedArray,console,requestAnimationFrame:fn=>fn(),window:{addEventListener(){}},IntersectionObserver:class{constructor(fn){state.intersections.push(fn);}observe(){}},loadData:async file=>{state.fetches.push(file);return file.includes("manifesto")?manifest:{};},addMapBase:map=>{map.createPane("cartografia");return [];}};
+  const context={document,L,InvestRaster:Raster,Image:MockImage,ImageData:class{},Uint8ClampedArray,console,requestAnimationFrame:fn=>fn(),window:{addEventListener(){}},IntersectionObserver:class{constructor(fn){state.intersections.push(fn);}observe(){}},loadData:async file=>{state.fetches.push(file);return file.includes("manifesto")?selectedManifest:{};},addMapBase:map=>{map.createPane("cartografia");return [];}};
   vm.runInNewContext(fs.readFileSync(path.join(__dirname,"../invest-producao.js"),"utf8"),context);
-  return {state,root,element,enter(){state.intersections[0]([{isIntersecting:true}]);}};
+  return {state,root,element,context,enter(){state.intersections[0]([{isIntersecting:true}]);}};
 }
 
 test("decodificação e consulta preservam zero como ausência e limites espaciais",()=>{
@@ -95,6 +98,61 @@ test("retorna à aba Clima após iniciar a seção escondida",async()=>{
   const h=harness({hidden:true});h.enter();await settle();assert.equal(h.state.fetches.length,0);
   h.root.offsetWidth=800;h.state.documentHandlers.click({target:{closest:()=>({})}});await settle();
   assert.equal(h.state.maps.length,1);assert.match(h.element("[data-invest-status]").textContent,/Mapa disponível/);
+});
+
+test("classes respeitam direção, empates e falta de dados, sem forçar quatro grupos",()=>{
+  const base={class_breaks:{dia:[.25,.5,.75]},higher_is_better:true};
+  assert.deepEqual([0,.25,.5,.75,1].map(v=>Raster.classIndex(v,base,"dia")),[0,1,2,3,3]);
+  assert.equal(Raster.classIndex(null,base,"dia"),null);
+  const temperature={...base,higher_is_better:false};
+  assert.deepEqual([0,.25,.5,.75,1].map(v=>Raster.classIndex(v,temperature,"dia")),[3,2,1,0,0]);
+  assert.deepEqual(Raster.valueColor(null,temperature,[0,1],"classes","dia"),[0,0,0,0]);
+  assert.equal(new Set([1,1,1,1].map(v=>Raster.classIndex(v,base,"dia"))).size,1);
+});
+
+test("faixas desativam contraste livre e preservam o valor consultado",async()=>{
+  const h=harness();h.enter();await settle();
+  const mode=h.element("[data-invest-mode]");mode.value="classes";mode.dispatch("change");await settle();
+  assert.equal(h.element("[data-invest-scale]").disabled,true);
+  assert.equal(h.element("[data-invest-legend]").children[1].children.length,4);
+  mode.value="continuous";mode.dispatch("change");await settle();assert.equal(h.element("[data-invest-scale]").disabled,false);
+});
+
+test("Landsat compara seca/chuva com cortes comuns e informa disponibilidade por pixel",async()=>{
+  const h=harness({surface:true});h.enter();await settle();
+  assert.equal(h.state.maps.length,1);
+  assert.equal(h.element("[data-invest-map-title]").textContent,"Seca");
+  const meta=JSON.parse(fs.readFileSync(path.join(__dirname,"../dados-mapas/clima/superficie-sazonal/manifesto.json")));
+  const box=meta.bounds;
+  h.state.maps[0].events.click({latlng:{x:box[0]+(box[2]-box[0])*.25,y:box[3]-(box[3]-box[1])*.25}});
+  assert.match(h.state.popups[0].children[2].textContent,/5 de 13 observações/);
+  const comparison=h.element("[data-invest-compare]");comparison.checked=true;comparison.dispatch("change");await settle();
+  assert.equal(h.state.maps.length,2);assert.equal(h.element("[data-invest-period]").value,"seca");
+  const mode=h.element("[data-invest-mode]");mode.value="classes";mode.dispatch("change");await settle();
+  const cuts=h.element("[data-invest-legend]").children[2].textContent;
+  assert.match(cuts,/Seca: cortes/);assert.match(cuts,/Chuva: cortes/);
+});
+
+test("zonas usam polígonos do cenário InVEST, legenda própria e remoção ao desmarcar",async()=>{
+  const h=harness();
+  h.context.ClimateFragments={ensure:async()=>({metadata:{zones:{dia:{file:"zonas-quentes-dia.geojson",sha256:"0123456789abcdef",threshold_C:26.3}}}})};
+  h.enter();await settle();const zones=h.element("[data-invest-zones]");zones.checked=true;zones.dispatch("change");await settle();
+  assert.ok(h.state.fetches.some(p=>p.includes("zonas-quentes-dia.geojson")));
+  assert.match(h.element("[data-invest-legend]").children.at(-1).textContent,/Contorno das zonas relativamente quentes/);
+  const zone=h.state.vectorLayers.at(-1);assert.equal(zone.options.bubblingMouseEvents,false);
+  zones.checked=false;zones.dispatch("change");await settle();assert.equal(zone.removed,true);
+  assert.doesNotMatch(h.element("[data-invest-legend]").children.at(-1).textContent,/Contorno das zonas/);
+});
+
+test("alternar raster e fragmentos mantém mapa e consulta a base atual por ID",async()=>{
+  const h=harness();let rendered=0;
+  h.context.ClimateFragments={ensure:async()=>({}),raster:()=>{rendered++;return {image:"data:image/png;base64,fragmentos",bounds:manifest.bounds};},idAt:()=>1,record:id=>({id_frag:id}),popup:row=>({textContent:"Fragmento atual "+row.id_frag})};
+  h.enter();await settle();const map=h.state.maps[0];map.setView({x:5,y:6},12);
+  const view=h.element("[data-invest-view]");view.value="fragments";view.dispatch("change");await settle();
+  assert.equal(rendered,1);assert.equal(h.state.maps.length,1);assert.equal(map.getZoom(),12);
+  map.events.click({latlng:{x:0,y:0}});assert.equal(h.state.popups.at(-1).textContent,"Fragmento atual 1");
+  view.value="source";view.dispatch("change");await settle();assert.equal(map.getZoom(),12);
+  assert.ok(h.state.fetches.every(p=>!p.includes("mapa-dados")));
 });
 
 test("INMET recolhido não carrega gráficos; abrir a etapa inicializa uma vez",async()=>{

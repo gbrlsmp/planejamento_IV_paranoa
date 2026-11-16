@@ -1,0 +1,49 @@
+{
+  "tref": {
+    "raw_csv_independent_read": true,
+    "utc_to_local_and_solar_windows": true,
+    "paired_dates": 153,
+    "tref": {
+      "dia": 24.265416609534256,
+      "noite": 19.714379846732786
+    },
+    "source_sha256": "7d3d8d67533b1216290c914cdf63d7b9cbc696dd8033e61eb6728c7a7ce6aba3"
+  },
+  "landsat": [
+    {
+      "period": "seca",
+      "independent_native_pixel_checks": 64,
+      "count_agrees": true,
+      "maximum_mean_error_C": 1.8881189731700943e-06,
+      "source_band_sampling": "Transformação independente dos centros para a grade nativa; leitura direta de ST e flags, sem gdal.Warp."
+    },
+    {
+      "period": "chuva",
+      "independent_native_pixel_checks": 64,
+      "count_agrees": true,
+      "maximum_mean_error_C": 1.9037422163137308e-06,
+      "source_band_sampling": "Transformação independente dos centros para a grade nativa; leitura direta de ST e flags, sem gdal.Warp."
+    }
+  ],
+  "source_files_modified": false,
+  "model_translation": {
+    "day": {
+      "cc_hm_hashes_equal_previous_run": {
+        "cc": true,
+        "hm": true
+      },
+      "reference_shift_C": -0.8904866142261092,
+      "maximum_translation_error_C": 4.1323312000685064e-05,
+      "interpretation": "Trocar apenas Tref desloca a temperatura absoluta; preserva CC/HM e aproximadamente a amplitude espacial. Não aumenta o contraste do modelo."
+    },
+    "night": {
+      "cc_hm_hashes_equal_previous_run": {
+        "cc": true,
+        "hm": true
+      },
+      "reference_shift_C": 1.9042661509048031,
+      "maximum_translation_error_C": 3.6219130585379844e-05,
+      "interpretation": "Trocar apenas Tref desloca a temperatura absoluta; preserva CC/HM e aproximadamente a amplitude espacial. Não aumenta o contraste do modelo."
+    }
+  }
+}

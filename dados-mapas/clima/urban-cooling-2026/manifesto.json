@@ -14,7 +14,7 @@
     "formula": "value = low + (R*256+G-1)/65534*(high-low)"
   },
   "palette_source": "scripts/identificacao/paletas_identificacao.py; cores existentes da identificação e do relatório",
-  "fragment_results_published": false,
+  "fragment_results_published": true,
   "risk_classification": false,
   "indicators": {
     "cc": {
@@ -69,7 +69,21 @@
           "quantization_max_absolute_error": 7.629590988100787e-06,
           "web_valid_cells": 2876495
         }
-      }
+      },
+      "higher_is_better": true,
+      "class_breaks": {
+        "dia": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "noite": [
+          0.25,
+          0.5,
+          0.75
+        ]
+      },
+      "class_method": "Faixas de 0,25 em CC/HM; temperatura: faixas de 0,25 no excesso (T−Tref)/UHI do respectivo cenário. Classes relativas do modelo, sem limiares de saúde ou calibração local."
     },
     "hm": {
       "label": "Mitigação térmica (HM)",
@@ -123,7 +137,21 @@
           "quantization_max_absolute_error": 7.629590988100787e-06,
           "web_valid_cells": 2876495
         }
-      }
+      },
+      "higher_is_better": true,
+      "class_breaks": {
+        "dia": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "noite": [
+          0.25,
+          0.5,
+          0.75
+        ]
+      },
+      "class_method": "Faixas de 0,25 em CC/HM; temperatura: faixas de 0,25 no excesso (T−Tref)/UHI do respectivo cenário. Classes relativas do modelo, sem limiares de saúde ou calibração local."
     },
     "t": {
       "label": "Temperatura estimada do ar",
@@ -137,49 +165,63 @@
         "#8d554e"
       ],
       "range": [
-        17.5,
-        28
+        19,
+        27
       ],
       "scenarios": {
         "dia": {
           "file": "t-dia-valores.png",
           "preview": "t-dia-previa.png",
-          "sha256": "d6875aba0ac7471f68a78a460fdfa36c438dc2c63c0e7dd1bc5230a3046271af",
-          "preview_sha256": "fea7c37bac19c436c78915cc985b9a6c74ae24223c8edb7425f499624c4e1b56",
+          "sha256": "66df1abbf63c0d3e406e531081556506e28a4e519db947068541c214116a1eb0",
+          "preview_sha256": "c98f1bbb8200e35e22c43ce70cfafa0eb2740abd60765be7c0d430730ad68bf1",
           "source_file": "T_air_seca_2026_dia.tif",
-          "source_sha256": "98b1e0292b875bd496c1a93268efc7a896f58e3464c1ca9d605eced38541806f",
+          "source_sha256": "bc13f4081cdd3fbb22b3d400a68500f9d18fc0fbd0c78a2967413062de2524b2",
           "native_stats": {
             "n": 117365300,
-            "sum": 3156768306.525332,
-            "sum2": 84919663025.084,
-            "min": 26.10219822500209,
-            "max": 27.635632574144168,
-            "mean": 26.896947449760123,
-            "sd": 0.3228307216534806
+            "sum": 3052256184.311082,
+            "sum2": 79390615478.22983,
+            "min": 25.211708734078293,
+            "max": 26.74514297339449,
+            "mean": 26.00646174219366,
+            "sd": 0.3228309877691777
           },
-          "quantization_max_absolute_error": 8.011108737449035e-05,
+          "quantization_max_absolute_error": 6.103672790658266e-05,
           "web_valid_cells": 2876495
         },
         "noite": {
           "file": "t-noite-valores.png",
           "preview": "t-noite-previa.png",
-          "sha256": "5b38f8d099d6e5dc0cd5b36874be766873cf7ab6cc0c2f1bda28d6476130fae7",
-          "preview_sha256": "d8ceab81f0bce97d55858280f1f247793579ffbbc1fdd2d77f3eb41bf3de75ff",
+          "sha256": "d74795535e8aac72e2887271b04d56013bce55112da235878227261cbf550bc1",
+          "preview_sha256": "0f1530f2f37d5351c5d268ee44e6cc78d6db7f8cca4908213d9ccb0d59b468a2",
           "source_file": "T_air_seca_2026_noite.tif",
-          "source_sha256": "07ed623a3f0295e84560001a63599943e083cea17cca05fc8ba3ac31894dc277",
+          "source_sha256": "2fee5d1d929f210d97d97fd0644b1d75ef6a429314814ee691bdf66f29ecbc6c",
           "native_stats": {
             "n": 117365300,
-            "sum": 2097728172.0993934,
-            "sum2": 37494723975.4924,
-            "min": 17.81009276428732,
-            "max": 18.373285680055325,
-            "mean": 17.873495591110775,
-            "sd": 0.09178489658194804
+            "sum": 2321223063.757701,
+            "sum2": 45909587886.9335,
+            "min": 19.714354957059744,
+            "max": 20.277556414977735,
+            "mean": 19.777762794946213,
+            "sd": 0.09178478752303039
           },
-          "quantization_max_absolute_error": 8.011108737449035e-05,
+          "quantization_max_absolute_error": 6.103608760099632e-05,
           "web_valid_cells": 2876495
         }
-      }
+      },
+      "higher_is_better": false,
+      "class_breaks": {
+        "dia": [
+          24.98026516105122,
+          25.695113712568183,
+          26.40996226408515
+        ],
+        "noite": [
+          20.42922839824975,
+          21.144076949766713,
+          21.85892550128368
+        ]
+      },
+      "class_method": "Faixas de 0,25 em CC/HM; temperatura: faixas de 0,25 no excesso (T−Tref)/UHI do respectivo cenário. Classes relativas do modelo, sem limiares de saúde ou calibração local."
     }
   },
   "bounds": [
@@ -192,5 +234,10 @@
     2288,
     2402
   ],
-  "revision": "42469fa875eb892b"
+  "periods": {
+    "dia": "Dia",
+    "noite": "Noite"
+  },
+  "relative_classification": true,
+  "revision": "54f5a82289874363"
 }

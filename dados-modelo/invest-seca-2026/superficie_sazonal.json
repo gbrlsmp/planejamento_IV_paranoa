@@ -1,0 +1,263 @@
+{
+  "source": "Landsat 8/9 Collection 2 Level-2 ST_B10",
+  "source_resolution_m": 30,
+  "effective_thermal_resolution_m": 100,
+  "periods": {
+    "seca": {
+      "scenes": [
+        {
+          "id": "LC09_L2SP_221071_20260607_02_T1",
+          "date": "2026-06-07",
+          "valid_pixels": 1172785,
+          "sources_sha256": {
+            "LC09_L2SP_221071_20260607_20260609_02_T1_ST_B10.TIF": "040b292bf3630add8983491d4803f53a9411f2ee9c5cc728c5433b0c649ca235",
+            "LC09_L2SP_221071_20260607_20260609_02_T1_QA_PIXEL.TIF": "858d2bfb8f0b0de65c63c78f1d1a8678c00f1f01e0a320e98834a34da2454984",
+            "LC09_L2SP_221071_20260607_20260609_02_T1_QA_RADSAT.TIF": "e8a81b697d9c5269e32c98203f2776401325d46a1a74211855af8d65d7fec1d8",
+            "LC09_L2SP_221071_20260607_20260609_02_T1_ST_QA.TIF": "7b97a40fbfa4f18234f21e0221cb2c1ad7d873a49d9b09175237c573bc6d4ea1"
+          }
+        },
+        {
+          "id": "LC08_L2SP_221071_20260615_02_T1",
+          "date": "2026-06-15",
+          "valid_pixels": 1172650,
+          "sources_sha256": {
+            "LC08_L2SP_221071_20260615_20260626_02_T1_ST_B10.TIF": "3802bd1ce9bc12e9c49ce79b90016b642c45853e854f29581a5c60b5285a1253",
+            "LC08_L2SP_221071_20260615_20260626_02_T1_QA_PIXEL.TIF": "cc2e9066a8007615d2745e390cb06736796a27351a6d281a40c2166e8df26cd7",
+            "LC08_L2SP_221071_20260615_20260626_02_T1_QA_RADSAT.TIF": "90c49adcfe31d84bb72e10e8fc4755dcb4db20aee8debf075648252117332633",
+            "LC08_L2SP_221071_20260615_20260626_02_T1_ST_QA.TIF": "e93697fe7586c750f33ef9a89eb8a26a516ab7ee34c90af661784cfc51efb854"
+          }
+        },
+        {
+          "id": "LC09_L2SP_221071_20260623_02_T1",
+          "date": "2026-06-23",
+          "valid_pixels": 1175533,
+          "sources_sha256": {
+            "LC09_L2SP_221071_20260623_20260624_02_T1_ST_B10.TIF": "b75c0cb1f3d3aeef8d4435d4b8e374c6076e7fd53c3385df063da6fab3b95fd9",
+            "LC09_L2SP_221071_20260623_20260624_02_T1_QA_PIXEL.TIF": "2e47f9317dda80cc9ae48626155283834301456630bbf47d1fe4a07851e912e5",
+            "LC09_L2SP_221071_20260623_20260624_02_T1_QA_RADSAT.TIF": "3fe4e255da41b81d90d446d7040d11f7eab423a3da69bf7fa6082c032f395a7e",
+            "LC09_L2SP_221071_20260623_20260624_02_T1_ST_QA.TIF": "026aca82a7e53eb857e294fa5bd4fdcc9779f375ff3953c3f68b203e1dc807fa"
+          }
+        },
+        {
+          "id": "LC08_L2SP_221071_20260701_02_T1",
+          "date": "2026-07-01",
+          "valid_pixels": 1173608,
+          "sources_sha256": {
+            "LC08_L2SP_221071_20260701_20260715_02_T1_ST_B10.TIF": "4281d570050221c2475ce39783dfeefd24b91e665f833230a460e2a9ef511c4a",
+            "LC08_L2SP_221071_20260701_20260715_02_T1_QA_PIXEL.TIF": "bec2c481594eaee7e1dbf5371c94a85355dc0e594ab5d761ff3979bd52a27d72",
+            "LC08_L2SP_221071_20260701_20260715_02_T1_QA_RADSAT.TIF": "b256bdf32345e44a8e0d5fdad1f929b1dacc8f5bbebb1b3f9d9a5915d40b0862",
+            "LC08_L2SP_221071_20260701_20260715_02_T1_ST_QA.TIF": "e3dba21175f1df60b81ff78a11c653b14ddf098643546b3151ec6160796ec173"
+          }
+        },
+        {
+          "id": "LC09_L2SP_221071_20260709_02_T1",
+          "date": "2026-07-09",
+          "valid_pixels": 1174594,
+          "sources_sha256": {
+            "LC09_L2SP_221071_20260709_20260710_02_T1_ST_B10.TIF": "b14afbf4f12f0a61fcd6e33186477a5965e87f9a74c1ebcbd58db83371ddef88",
+            "LC09_L2SP_221071_20260709_20260710_02_T1_QA_PIXEL.TIF": "cbade74d658a43e82603939dc127399823f9632eae17aea22a7a3988133d689b",
+            "LC09_L2SP_221071_20260709_20260710_02_T1_QA_RADSAT.TIF": "229a8c3f42b17d72bf92dd3600667f01d4577509b44fe1b4e8018c2ea8da1989",
+            "LC09_L2SP_221071_20260709_20260710_02_T1_ST_QA.TIF": "0bc0c2291741ac60553c15c9601e926123e295b4c782a8a794af1e3773501a43"
+          }
+        },
+        {
+          "id": "LC08_L2SP_221071_20260717_02_T1",
+          "date": "2026-07-17",
+          "valid_pixels": 1174369,
+          "sources_sha256": {
+            "LC08_L2SP_221071_20260717_20260724_02_T1_ST_B10.TIF": "ac9d2f863ae099706856f291dd9f0f8131621b69337bfa3daebae1bc65cf0235",
+            "LC08_L2SP_221071_20260717_20260724_02_T1_QA_PIXEL.TIF": "79c01ff670c404f30a2c047075280baa250598085bc5e5d05cc0214b0946639a",
+            "LC08_L2SP_221071_20260717_20260724_02_T1_QA_RADSAT.TIF": "781880831fb8a782d66ce0c743187a8621918187d155b769dea8e93e0eb5fb25",
+            "LC08_L2SP_221071_20260717_20260724_02_T1_ST_QA.TIF": "b0e7a15a64e93cd9a505a25c1ccadd7328471137bbfe58146e5e59689ea6db28"
+          }
+        },
+        {
+          "id": "LC08_L2SP_221071_20260802_02_T1",
+          "date": "2026-08-02",
+          "valid_pixels": 1175625,
+          "sources_sha256": {
+            "LC08_L2SP_221071_20260802_20260811_02_T1_ST_B10.TIF": "8410b2a3d7155230d49c437ce423ff99e5c6ff0ad98fca94c7f504ece7baafcf",
+            "LC08_L2SP_221071_20260802_20260811_02_T1_QA_PIXEL.TIF": "499fcbdcc9b96a0f2d3787413399b392149918ee9b3d6dc3c04437fdab52e648",
+            "LC08_L2SP_221071_20260802_20260811_02_T1_QA_RADSAT.TIF": "267c4455ece2236e016bfeaf23c057e9518df3c75af2af0f28e9c4ea7ef7926b",
+            "LC08_L2SP_221071_20260802_20260811_02_T1_ST_QA.TIF": "f4fb6cf87a3d4748db146913a1752b146f2527b6fdf8ffe8d34a383d5ca3cac2"
+          }
+        },
+        {
+          "id": "LC09_L2SP_221071_20260810_02_T1",
+          "date": "2026-08-10",
+          "valid_pixels": 1176541,
+          "sources_sha256": {
+            "LC09_L2SP_221071_20260810_20260811_02_T1_ST_B10.TIF": "de4f8a09c80c28950da94059f49145bea0381d31969159a00869cb5373dd62b0",
+            "LC09_L2SP_221071_20260810_20260811_02_T1_QA_PIXEL.TIF": "6ff52bdc103bad8933ec7ead6609fcc9f4e48d1989061aca75432e2d5fbd251f",
+            "LC09_L2SP_221071_20260810_20260811_02_T1_QA_RADSAT.TIF": "3edca0718cfb4ac78e1ba4795c2b08663be3d2ec289dcfef3e5495e9e2a51af6",
+            "LC09_L2SP_221071_20260810_20260811_02_T1_ST_QA.TIF": "b1b2af686af94c1eb97ad669ddb543148837c146c781674b853df5b28a34e1f9"
+          }
+        },
+        {
+          "id": "LC08_L2SP_221071_20260818_02_T1",
+          "date": "2026-08-18",
+          "valid_pixels": 1175933,
+          "sources_sha256": {
+            "LC08_L2SP_221071_20260818_20260824_02_T1_ST_B10.TIF": "760bfbe3aa0352a9ea27a5d23adfbbdab7db64de63b362a022534604920f2d0c",
+            "LC08_L2SP_221071_20260818_20260824_02_T1_QA_PIXEL.TIF": "47a73c89539aaa01fa0757775f9b7297d61399354d47f9ccddf9645e07640359",
+            "LC08_L2SP_221071_20260818_20260824_02_T1_QA_RADSAT.TIF": "3cabd89ad700ff93a4d31b5716acbbdcb250831fb466b860ab693e583608092d",
+            "LC08_L2SP_221071_20260818_20260824_02_T1_ST_QA.TIF": "9a67420fbd462a255bde8f19ae47be237c36880a2059b639ea86d1eb7c7d47ef"
+          }
+        },
+        {
+          "id": "LC08_L2SP_221071_20260903_02_T1",
+          "date": "2026-09-03",
+          "valid_pixels": 1173008,
+          "sources_sha256": {
+            "LC08_L2SP_221071_20260903_20260911_02_T1_ST_B10.TIF": "e0c9b779e0c8c6dad517982304b7e9846d4e4aeb976acf516cae42486e4ec8cc",
+            "LC08_L2SP_221071_20260903_20260911_02_T1_QA_PIXEL.TIF": "df6b23d85c0857aab5df390ce19328c6a81503500d13f9e5f2dbb478c63b38ed",
+            "LC08_L2SP_221071_20260903_20260911_02_T1_QA_RADSAT.TIF": "0489700e9e62d5481065374b3533169faf5c52e7e49f1198d8fa4903f11333d5",
+            "LC08_L2SP_221071_20260903_20260911_02_T1_ST_QA.TIF": "8f65711df81c7f43c78b649f4cc9038a0e1b16bd12f12a50f2a1540870acb3a5"
+          }
+        },
+        {
+          "id": "LC09_L2SP_221071_20260911_02_T1",
+          "date": "2026-09-11",
+          "valid_pixels": 1177025,
+          "sources_sha256": {
+            "LC09_L2SP_221071_20260911_20260913_02_T1_ST_B10.TIF": "c6fceb9b8119ffd614304831ec368ed4f8b1d3e37458f887e612628e8c2e7134",
+            "LC09_L2SP_221071_20260911_20260913_02_T1_QA_PIXEL.TIF": "9474692a4f6afc27567c5f708371d69c3af83eb38cb7860fbe2ec7aaa8a88909",
+            "LC09_L2SP_221071_20260911_20260913_02_T1_QA_RADSAT.TIF": "c5503537ab833cead5d86fceb61af84cfefc7db824515e1233a2a995df73fefb",
+            "LC09_L2SP_221071_20260911_20260913_02_T1_ST_QA.TIF": "429b8335abc3a8566d250650ebc07d2e39163abdfd492f470513e3225132b766"
+          }
+        },
+        {
+          "id": "LC08_L2SP_221071_20260919_02_T1",
+          "date": "2026-09-19",
+          "valid_pixels": 1177022,
+          "sources_sha256": {
+            "LC08_L2SP_221071_20260919_20260925_02_T1_ST_B10.TIF": "ec5ab9a21d9011bacd9e40dd0de1dd3d55835fb894702ae9d4a237d3985813a3",
+            "LC08_L2SP_221071_20260919_20260925_02_T1_QA_PIXEL.TIF": "3de6131aaa8978808091f665a23901cc9a76f08bf4462d45cbe12957a19fba04",
+            "LC08_L2SP_221071_20260919_20260925_02_T1_QA_RADSAT.TIF": "f3e97827c78b8cd41f1f22e7d93245551d859856e94e16b02780486f2392d42e",
+            "LC08_L2SP_221071_20260919_20260925_02_T1_ST_QA.TIF": "bddab5cf4eb730560d385664ba8e9c5af951e52fa55ebdaaddb62ce8d31bfaa0"
+          }
+        },
+        {
+          "id": "LC09_L2SP_221071_20260927_02_T1",
+          "date": "2026-09-27",
+          "valid_pixels": 1173970,
+          "sources_sha256": {
+            "LC09_L2SP_221071_20260927_20260928_02_T1_ST_B10.TIF": "325b68d9d011352716d753187911b87f6a2e53bed8ae045eca162ebd1b85c60d",
+            "LC09_L2SP_221071_20260927_20260928_02_T1_QA_PIXEL.TIF": "35cb98f4c4966b5c946815542c2131bf74774a250d961772251c39a16fc0e977",
+            "LC09_L2SP_221071_20260927_20260928_02_T1_QA_RADSAT.TIF": "2d3eb51edb0e2517eed469c35b9a325555d3fc000436de81b074cd3d255e8b1b",
+            "LC09_L2SP_221071_20260927_20260928_02_T1_ST_QA.TIF": "72b75007182320ec1c90f94b0c21a8deccc443f205e9bb53367eebf37aa1f03b"
+          }
+        }
+      ],
+      "dates": [
+        "2026-06-07",
+        "2026-06-15",
+        "2026-06-23",
+        "2026-07-01",
+        "2026-07-09",
+        "2026-07-17",
+        "2026-08-02",
+        "2026-08-10",
+        "2026-08-18",
+        "2026-09-03",
+        "2026-09-11",
+        "2026-09-19",
+        "2026-09-27"
+      ],
+      "min": 23.623624801635742,
+      "max": 48.773414611816406,
+      "mean": 31.825132369995117,
+      "valid_pixels": 1177044,
+      "basin_pixels": 1177044,
+      "count_min": 1,
+      "count_max": 13
+    },
+    "chuva": {
+      "scenes": [
+        {
+          "id": "LC08_L2SP_221071_20251002_02_T1",
+          "date": "2025-10-02",
+          "valid_pixels": 1177035,
+          "sources_sha256": {
+            "LC08_L2SP_221071_20251002_20251114_02_T1_ST_B10.TIF": "48681fc405f9f4a681cb01395e11ebdf1b0ebfb6666d19bc24029d204235f7e2",
+            "LC08_L2SP_221071_20251002_20251114_02_T1_QA_PIXEL.TIF": "176a85fd39dd0e27a97ddd0b51d355b49b99340ea3c3a468fa388e6d7ca835ca",
+            "LC08_L2SP_221071_20251002_20251114_02_T1_QA_RADSAT.TIF": "a6799b135ca4414331aa6882a12577a013a13680da5dace02b86b5a721584c64",
+            "LC08_L2SP_221071_20251002_20251114_02_T1_ST_QA.TIF": "e6cb503e1ef3633211a032e67101e9856671a3d4b9260f7de61f44cbea5f82b2"
+          }
+        },
+        {
+          "id": "LC09_L2SP_221071_20251010_02_T1",
+          "date": "2025-10-10",
+          "valid_pixels": 1175446,
+          "sources_sha256": {
+            "LC09_L2SP_221071_20251010_20251011_02_T1_ST_B10.TIF": "a2dbd9d249a7fa4a23f41bdda3a42300edb4198218317da30555499422c26936",
+            "LC09_L2SP_221071_20251010_20251011_02_T1_QA_PIXEL.TIF": "a29b214ae91a9f2da8ab9fbed276d567ce078797d6debc7720fc3fd086d38541",
+            "LC09_L2SP_221071_20251010_20251011_02_T1_QA_RADSAT.TIF": "5691395cd3ab06d864b48c9834c3ba31f7e5552345a396c712025eb5da23d386",
+            "LC09_L2SP_221071_20251010_20251011_02_T1_ST_QA.TIF": "68c62dbc9818f13e27585ed91d4a3bded4e2708ba340c39743a842dbd34cbed9"
+          }
+        },
+        {
+          "id": "LC09_L2SP_221071_20260215_02_T1",
+          "date": "2026-02-15",
+          "valid_pixels": 357244,
+          "sources_sha256": {
+            "LC09_L2SP_221071_20260215_20260216_02_T1_ST_B10.TIF": "57b3678ebebfdacb93bd3a4eeb11ce7505df3bc6313e7eb843e8d01140da2c84",
+            "LC09_L2SP_221071_20260215_20260216_02_T1_QA_PIXEL.TIF": "20872c3c8e80ea9f3850638efffc158d39d44e2288e39ad8391ae3c7628c514f",
+            "LC09_L2SP_221071_20260215_20260216_02_T1_QA_RADSAT.TIF": "1082218ad4c61bc085796c02c598323de1774b73c8063559a07bb3274983a559",
+            "LC09_L2SP_221071_20260215_20260216_02_T1_ST_QA.TIF": "7e75e7b3dc3ddd652035407dd44f7bffc83bd83de88f4f1feacb276397e0485d"
+          }
+        },
+        {
+          "id": "LC09_L2SP_221071_20260319_02_T1",
+          "date": "2026-03-19",
+          "valid_pixels": 830649,
+          "sources_sha256": {
+            "LC09_L2SP_221071_20260319_20260324_02_T1_ST_B10.TIF": "e6c7ca1b8332b8c0e566ddf0d24604c6e71dd6047ac28103beac705cf7ab8755",
+            "LC09_L2SP_221071_20260319_20260324_02_T1_QA_PIXEL.TIF": "3920768d0d10ac9c0f2034b491d9fc348c1a6d9a35860ee70cb2009baeeefcb1",
+            "LC09_L2SP_221071_20260319_20260324_02_T1_QA_RADSAT.TIF": "a6ddb58bf1a84b1568073f65a189d1d31d92a869ce03a54b4375241874754180",
+            "LC09_L2SP_221071_20260319_20260324_02_T1_ST_QA.TIF": "f2e3ae9b125cbea153b6af6efc839ddd257661e7da0dbec29b08afebcf5bacc2"
+          }
+        },
+        {
+          "id": "LC09_L2SP_221071_20260420_02_T1",
+          "date": "2026-04-20",
+          "valid_pixels": 1021381,
+          "sources_sha256": {
+            "LC09_L2SP_221071_20260420_20260421_02_T1_ST_B10.TIF": "c57f70226acc6de9ce6a4f27698103c25271a7ec5bdce0030a6d050a3441a114",
+            "LC09_L2SP_221071_20260420_20260421_02_T1_QA_PIXEL.TIF": "622e15ca8144f09e1e563d40ac2dd97edca4c2cc177cbd9e0ba54901f494d31e",
+            "LC09_L2SP_221071_20260420_20260421_02_T1_QA_RADSAT.TIF": "c5e55ef29e5a92b54c3b8324a40c8711b12b08d53d3d35e8d32499583635ccd5",
+            "LC09_L2SP_221071_20260420_20260421_02_T1_ST_QA.TIF": "753d325ab2f54eac2d56a0c3e2c93080fdf16816a0240fa84af496e10779b6dc"
+          }
+        },
+        {
+          "id": "LC08_L2SP_221071_20260428_02_T1",
+          "date": "2026-04-28",
+          "valid_pixels": 1016912,
+          "sources_sha256": {
+            "LC08_L2SP_221071_20260428_20260506_02_T1_ST_B10.TIF": "db53fc452e6c349bbd3fad58254daf1375aaa6c96c9d7cb66ba93cf4f2e280c0",
+            "LC08_L2SP_221071_20260428_20260506_02_T1_QA_PIXEL.TIF": "74919de55fb89131357ffed6d8bd3d2ddfed587bf9d950ad23501888d7de2744",
+            "LC08_L2SP_221071_20260428_20260506_02_T1_QA_RADSAT.TIF": "0c9d6f5cab248b3beeba4b078a653a689d08cfc609f7b01af19f7985bdbcaf0f",
+            "LC08_L2SP_221071_20260428_20260506_02_T1_ST_QA.TIF": "2b809e48f8d46f2582edd81e8e7729d142f9f30586bcd101bd8c257f6b520820"
+          }
+        }
+      ],
+      "dates": [
+        "2025-10-02",
+        "2025-10-10",
+        "2026-02-15",
+        "2026-03-19",
+        "2026-04-20",
+        "2026-04-28"
+      ],
+      "min": 21.51097297668457,
+      "max": 53.08937454223633,
+      "mean": 33.762943267822266,
+      "valid_pixels": 1177044,
+      "basin_pixels": 1177044,
+      "count_min": 2,
+      "count_max": 6
+    }
+  },
+  "mask": "Pixels de 30 m que intersectam a bacia (ALL_TOUCHED); ST DN 293..61440; QA_PIXEL bits 0..5 ausentes; QA_RADSAT bit 11 ausente; ST_QA válido (sem corte adicional de incerteza); água incluída.",
+  "composition": "Média por pixel das observações diurnas válidas de cada período; contagem acompanha cada pixel. Mesma grade de 30 m, reamostragem nearest para alinhar as bandas. Cenas com cobertura integral do recorte DF do inventário, mesmas 13 da seca e 6 da chuva. Não é média de todas as horas ou dias da estação."
+}

@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "count": 46876,
+  "id_field": "id_frag",
+  "data_file": "fragmentos-dados.json.gz",
+  "data_sha256": "2fe215ad4ddd552db459abe73e058108c77bb815150691b37b16c8c38a38c0fa",
+  "ids_file": "id-fragmentos-20m.png",
+  "ids_sha256": "00794be8423fabe9f1b1e696f3e6eb14b420b9c9ba9f692ee67d1dc4a697a585",
+  "bounds": [
+    -5355589.312995788,
+    -1803301.8541774822,
+    -5309829.312995788,
+    -1755261.8541774822
+  ],
+  "size": [
+    2288,
+    2402
+  ],
+  "display_resolution_m": 20,
+  "selection": "IDs rasterizados pelo centro em 20 m para exibição. Fragmentos menores podem não aparecer; todos os 46.876 IDs são consultáveis pela tabela e busca. Contornos individuais simplificados em 3 m; geometrias integrais preservadas no GPKG local.",
+  "zones": {
+    "dia": {
+      "threshold_C": 26.329292729962837,
+      "mean_C": 26.00646174219366,
+      "sd_C": 0.3228309877691777,
+      "minimum_area_ha": 2,
+      "connectivity": 4,
+      "native_selected_pixels_before_area_filter": 24823439,
+      "polygons": 5,
+      "area_ha": 22341.0951,
+      "file": "zonas-quentes-dia.geojson",
+      "sha256": "f38cc6068528b567962812f0b27619429fa0362006dfeb2ae3aa4c0e3b0d9c77",
+      "source_sha256": "bc13f4081cdd3fbb22b3d400a68500f9d18fc0fbd0c78a2967413062de2524b2",
+      "web_simplification_m": 9
+    },
+    "noite": {
+      "threshold_C": 19.86954758246924,
+      "mean_C": 19.777762794946213,
+      "sd_C": 0.09178478752303039,
+      "minimum_area_ha": 2,
+      "connectivity": 4,
+      "native_selected_pixels_before_area_filter": 18034122,
+      "polygons": 10,
+      "area_ha": 16230.709799999999,
+      "file": "zonas-quentes-noite.geojson",
+      "sha256": "c053503722f6518943292951881efdd44cab4ddd5673fd0231c0d856024573fa",
+      "source_sha256": "2fee5d1d929f210d97d97fd0644b1d75ef6a429314814ee691bdf66f29ecbc6c",
+      "web_simplification_m": 9
+    }
+  },
+  "zone_method": "Zonas relativamente quentes: T_air > média + 1 desvio padrão populacional da bacia em cada cenário, conectividade 4, área mínima 2 ha. Critério exploratório operacional, sem demonstrar ilha de calor urbano-rural observada.",
+  "relative_classes": {
+    "cc_hm": [
+      0.25,
+      0.5,
+      0.75
+    ],
+    "t": "(T−Tref)/UHI: 0,25 / 0,50 / 0,75; menor temperatura recebe melhor classe.",
+    "lst": "Quartis dos pixels válidos das composições seca e chuva reunidas; mesmos cortes nos dois períodos.",
+    "labels": [
+      "Ruim",
+      "Médio",
+      "Bom",
+      "Muito bom"
+    ],
+    "meaning": "Avaliação térmica relativa dos produtos, sem risco sanitário ou limiares empíricos locais."
+  },
+  "classification_counts": {
+    "cc_dia_classe": {
+      "Ruim": 0,
+      "Médio": 13145,
+      "Bom": 224,
+      "Muito bom": 33507,
+      "Sem dados": 0
+    },
+    "cc_noite_classe": {
+      "Ruim": 0,
+      "Médio": 0,
+      "Bom": 0,
+      "Muito bom": 46876,
+      "Sem dados": 0
+    },
+    "hm_dia_classe": {
+      "Ruim": 0,
+      "Médio": 13082,
+      "Bom": 283,
+      "Muito bom": 33511,
+      "Sem dados": 0
+    },
+    "hm_noite_classe": {
+      "Ruim": 0,
+      "Médio": 0,
+      "Bom": 0,
+      "Muito bom": 46876,
+      "Sem dados": 0
+    },
+    "t_dia_classe": {
+      "Ruim": 5078,
+      "Médio": 39125,
+      "Bom": 2673,
+      "Muito bom": 0,
+      "Sem dados": 0
+    },
+    "t_noite_classe": {
+      "Ruim": 0,
+      "Médio": 0,
+      "Bom": 0,
+      "Muito bom": 46876,
+      "Sem dados": 0
+    },
+    "lst_seca_classe": {
+      "Ruim": 6172,
+      "Médio": 17459,
+      "Bom": 18973,
+      "Muito bom": 4272,
+      "Sem dados": 0
+    },
+    "lst_chuva_classe": {
+      "Ruim": 21522,
+      "Médio": 18968,
+      "Bom": 5518,
+      "Muito bom": 868,
+      "Sem dados": 0
+    }
+  }
+}
