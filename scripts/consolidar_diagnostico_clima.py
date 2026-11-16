@@ -168,7 +168,10 @@ Os produtos v6 e diagnósticos antigos são preservados em páginas históricas,
     (notes/'METODOLOGIA_CLIMA_ATUAL.md').write_text(text,encoding='utf8')
     for src in p11.glob('NOTA_TECNICA*.md'):shutil.copy2(src,notes/src.name)
     config={'status':'entradas_conferidas_distancias_pendentes_modelo_nao_executado','invest_version':'3.20.2','coverage':REPORT['outputs']['auxiliary'],'biophysical_table':REPORT['outputs']['table'],'eto':str(CLIMA/'04_Rasters/ETo/ETo_A001_media_diaria_seca_2026_uniforme_3m.tif'),'day':{'cc_method':'factors','t_ref':25.155903223760365,'shade_weight':.6,'albedo_weight':.2,'eti_weight':.2},'night':{'cc_method':'intensity','t_ref':17.810113695827983},'uhi_max':2.8593942060678548,'green_area_cooling_distance':None,'t_air_average_radius':None,'historical_distances_m':{'green_area_cooling_distance':450,'t_air_average_radius':500},'invest_executed':False,'output_folder':str(CLIMA/'06_Execucoes_InVEST')}
-    p=CLIMA/'03_Tabelas/Parametros_climaticos/CONFIGURACAO_PREPARADA.json';p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(config,ensure_ascii=False,indent=2),encoding='utf8')
+    p=CLIMA/'03_Tabelas/Parametros_climaticos/CONFIGURACAO_PREPARADA.json';p.parent.mkdir(parents=True,exist_ok=True)
+    # A configuração confirmada e os registros de execução prevalecem sobre o
+    # estado histórico desta preparação. Um gerador documental não os reinicia.
+    if not p.exists():p.write_text(json.dumps(config,ensure_ascii=False,indent=2),encoding='utf8')
 
 def assets():
     folder=WEB/'imagens/clima';folder.mkdir(parents=True,exist_ok=True)

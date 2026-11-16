@@ -9,3 +9,11 @@ jobs:
         with:
           python-version: '3.12'
       - run: python scripts/validar_clima.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install Pillow
+      - run: python scripts/validar_producao_clima.py --regenerar
+      - run: node --test scripts/test_invest_producao.cjs
+      - run: node --check clima-exploracao.js
+      - run: node --check invest-producao.js

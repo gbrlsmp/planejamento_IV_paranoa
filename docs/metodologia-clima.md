@@ -1,6 +1,6 @@
 # Metodologia climática da Bacia do Paranoá
 
-A pesquisa utilizará o InVEST Urban Cooling 3.20.2 na seca de 2026, com factors para o dia e intensity para a noite. Objetivo: estimar capacidade de resfriamento (CC), mitigação térmica (HM) e temperatura do ar, para posterior análise na base atual de 46.876 fragmentos. As entradas estão preparadas; as novas execuções e extrações de risco ainda não foram realizadas.
+A pesquisa utilizou o InVEST Urban Cooling 3.20.2 na seca de 2026, com factors para o dia e intensity para a noite. Objetivo: estimar capacidade de resfriamento (CC), mitigação térmica (HM) e temperatura do ar, para posterior análise na base atual de 46.876 fragmentos. As duas execuções e a conferência técnica estão concluídas. Os mapas contínuos da bacia são apresentados na produção climática; resultados por fragmento e classificação de risco ficam para a etapa de diagnóstico.
 
 ## Dados de entrada e finalidade
 
@@ -22,7 +22,7 @@ A pesquisa utilizará o InVEST Urban Cooling 3.20.2 na seca de 2026, com factors
 
 ### 1. Caracterizar os períodos e conferir a meteorologia
 
-A exploração compara 01/10/2025–30/04/2026 (212 dias) e 01/05–30/09/2026 (153 dias), nas quatro estações. A comparação com a chuva caracteriza os dados disponíveis; as entradas atualmente preparadas para o InVEST representam a seca de 2026.
+A exploração compara 01/10/2025–30/04/2026 (212 dias) e 01/05–30/09/2026 (153 dias), nas quatro estações. A comparação com a chuva caracteriza os dados disponíveis; as entradas utilizadas no InVEST representam a seca de 2026.
 
 Os horários são convertidos para UTC−03 antes de agrupar. Temperatura pontual, umidade, orvalho e vento seguem o timestamp local. Precipitação, máximas/mínimas e radiação referentes à hora anterior são atribuídas ao respectivo intervalo; o tratamento concreto depende do produto calculado.
 
@@ -82,17 +82,17 @@ As subclasses aplicam-se somente à implantação original 103: baixa até 0,25;
 
 Notas relacionadas: NM 08, NM 09, NM 10, NM 11.
 
-### 6. Aplicar o InVEST Urban Cooling — etapa a executar
+### 6. Executar e conferir o InVEST Urban Cooling
 
-Será utilizado o InVEST Urban Cooling, versão instalada 3.20.2, com uma execução diurna pelo método factors e outra noturna pelo método intensity. O manual de referência consultado é o 3.20.0. O objetivo é estimar capacidade de resfriamento, mitigação térmica e temperatura do ar para apoiar o diagnóstico da IV na seca.
+Foi utilizado o InVEST Urban Cooling 3.20.2, por script, com uma execução diurna pelo método factors e outra noturna pelo método intensity, ambas representativas da seca de 2026. O manual de referência consultado é o 3.20.0. O objetivo é estimar capacidade de resfriamento, mitigação térmica e temperatura do ar para apoiar o diagnóstico da IV na seca.
 
 A cobertura auxiliar é associada à tabela pelo lucode. No dia: ETI = Kc × ETo / máximo(ETo); CC = 0,60 × shade + 0,20 × albedo + 0,20 × ETI. São mantidos os pesos padrão do modelo. Como a ETo adotada é uniforme e positiva, ETI = Kc nesta configuração.
 
 Na noite: CC = 1 − building_intensity. O índice combinado da pesquisa é usado como adaptação desse parâmetro. O mecanismo adicional de áreas verdes utiliza green_area; o modelo considera a soma de área verde na vizinhança, com limiar interno de 2 ha, sem exigir que ela corresponda a um único fragmento contíguo. A influência verde pode elevar o índice de mitigação HM em relação à capacidade local.
 
-Antes da mistura espacial, T_ar = Tref + (1 − HM) × UHI. A etapa de mistura gera a estimativa final de temperatura do ar. As distâncias de resfriamento e mistura são parâmetros diferentes da janela morfológica de 500 m; os valores históricos 450 e 500 m ainda aguardam confirmação para a nova rodada.
+Antes da mistura espacial, T_ar = Tref + (1 − HM) × UHI. A etapa de mistura gera a estimativa final de temperatura do ar. As distâncias de resfriamento e mistura são parâmetros diferentes da janela morfológica de 500 m; foram confirmados e utilizados 450 m para resfriamento e 500 m para mistura do ar, alinhados às recomendações iniciais do manual, sem calibração local.
 
-As saídas previstas são CC e HM, adimensionais, e temperatura do ar em °C. Serão conferidas antes da análise na base de 46.876 fragmentos e da definição dos critérios de classificação de risco. O Urban Cooling não gera diretamente um mapa de umidade do ar. Uma eventual média aritmética de dia e noite é um cenário sintético, sem equivaler à temperatura observada de 24 horas. Nenhuma nova execução foi realizada.
+Foram produzidos e conferidos CC e HM, adimensionais, e temperatura do ar em °C. As avaliações opcionais de energia e produtividade foram desativadas. Nesta apresentação são mostradas as superfícies contínuas da bacia; resultados por fragmento e classificação de risco pertencem à etapa de diagnóstico. O Urban Cooling não gera diretamente um mapa de umidade do ar. Não foi calculada média dia/noite. As duas execuções concluíram com código 0; a conferência leu integralmente as saídas, verificando grade, máscara, equações e integridade das cópias. Não houve calibração ou validação térmica empírica.
 
 Notas relacionadas: NM 06, NM 07, NM 11, NM 12.
 
@@ -187,7 +187,7 @@ A média regional usa somente alturas aproveitáveis, sem mínimo adicional de c
 
 ### NM 12 — Escalas, estado da execução e interpretação
 
-Pixel de 3 m, janela morfológica de 500 × 500 m, entorno comparativo das estações e distâncias climáticas são suportes distintos. As distâncias históricas 450/500 m ainda não foram confirmadas para a próxima rodada. Entradas e tabela estão produzidas; novas saídas do InVEST e novas extrações de risco ainda não. Conferência técnica e aceite metodológico não constituem validação térmica. Critérios de risco serão revistos conforme as novas saídas; IDs antigos não devem ser associados aos atuais por igualdade numérica.
+Pixel de 3 m, janela morfológica de 500 × 500 m, entorno comparativo das estações e distâncias climáticas são suportes distintos. As distâncias 450/500 m foram confirmadas e utilizadas nas execuções diurna e noturna da seca de 2026. As saídas contínuas foram produzidas e conferidas; a apresentação dos resultados por fragmento e a classificação de risco ficam para o diagnóstico. Conferência técnica e aceite metodológico não constituem validação térmica. Critérios de risco serão revistos conforme as novas saídas; IDs antigos não devem ser associados aos atuais por igualdade numérica.
 
 ## Exploração INMET
 
@@ -195,4 +195,10 @@ Os gráficos e os critérios de agregação estão detalhados na primeira etapa.
 
 ## Rastreabilidade e aplicação
 
-[Metodologia na aba Clima](../diagnostico.html#metodologia-clima), [aplicação do InVEST](../aplicacao-invest.html), [qualidade das alturas](nota-qualidade-alturas.md), [preenchimento residual](nota-preenchimento-alturas.md). Tabela completa de doze classes e tabela diurna de dez classes correspondem a coberturas diferentes. Não intercambiar. As camadas integrais ficam na base local organizada. Scripts e verificações acompanham as entregas, sem nova execução do modelo nesta revisão documental.
+[Metodologia na aba Clima](../diagnostico.html#metodologia-clima), [aplicação do InVEST](../aplicacao-invest.html), [qualidade das alturas](nota-qualidade-alturas.md), [preenchimento residual](nota-preenchimento-alturas.md). Tabela completa de doze classes e tabela diurna de dez classes correspondem a coberturas diferentes. Não intercambiar. As camadas integrais ficam na base local organizada. Scripts, parâmetros e verificações das execuções oficiais acompanham a publicação; esta organização do site não recalcula o modelo.
+
+## Resultados contínuos da bacia
+
+As duas rodadas oficiais estão concluídas, com 450 m de resfriamento e 500 m de mistura do ar, sem avaliações de energia/produtividade e sem média dia/noite. [Mapas contínuos e estatísticas](../diagnostico.html#resultados-invest), [configuração](../dados-modelo/invest-seca-2026/configuracao.json), [conferências](../dados-modelo/invest-seca-2026/verificacoes_bacia.json) e [registros da execução](../dados-modelo/invest-seca-2026/LEIA_ME.md). Resultados por fragmento e classificação de risco pertencem à etapa de diagnóstico e não são apresentados nesta produção.
+
+A versão web agrega por média em 20 m, EPSG:3857, com codificação UInt16 para consulta. As cores são interpoladas da paleta existente. A escala comum permite comparar cenários; ampliar o contraste usa os limites do cenário e é desativado na comparação lado a lado. As estatísticas tabulares vêm da conferência integral dos rasters nativos de 3 m. A escala de cores não define risco.

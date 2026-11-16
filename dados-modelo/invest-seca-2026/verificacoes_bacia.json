@@ -1,0 +1,122 @@
+{
+  "status": "executado_extraido_conferido",
+  "scenarios": {
+    "day": {
+      "period": "day",
+      "grid": {
+        "size": [
+          14484,
+          15134
+        ],
+        "geotransform": [
+          167079.0,
+          3.0,
+          0.0,
+          8275935.0,
+          0.0,
+          -3.0
+        ],
+        "epsg": 31983
+      },
+      "full_raster_stats": {
+        "cc": {
+          "n": 117365300,
+          "sum": 40153353.03399874,
+          "sum2": 18945261.25070372,
+          "min": 0.10714580118656158,
+          "max": 0.7988073825836182,
+          "mean": 0.34212286795158997,
+          "sd": 0.21064961390371295
+        },
+        "hm": {
+          "n": 117365300,
+          "sum": 45809979.17577484,
+          "sum2": 22165943.004495528,
+          "min": 0.10714580118656158,
+          "max": 0.7988073825836182,
+          "mean": 0.39031961896552764,
+          "sd": 0.1910848702270868
+        },
+        "t": {
+          "n": 117365300,
+          "sum": 3156768306.525332,
+          "sum2": 84919663025.084,
+          "min": 26.10219822500209,
+          "max": 27.635632574144168,
+          "mean": 26.896947449760123,
+          "sd": 0.3228307216534806
+        }
+      },
+      "max_cc_formula_absolute_error": 2.6076507619876566e-08,
+      "max_temperature_nomix_formula_absolute_error": 1.4449279319705965e-06,
+      "masks_match_input": true,
+      "hm_at_least_cc": true,
+      "all_fragments_have_data": true,
+      "t_in_reference_uhi_bounds_within_tolerance": true,
+      "temperature_bounds_tolerance_C": 0.0001,
+      "temperature_below_reference_max_C": 0.0,
+      "temperature_above_reference_plus_uhi_max_C": 0.0
+    },
+    "night": {
+      "period": "night",
+      "grid": {
+        "size": [
+          14484,
+          15134
+        ],
+        "geotransform": [
+          167079.0,
+          3.0,
+          0.0,
+          8275935.0,
+          0.0,
+          -3.0
+        ],
+        "epsg": 31983
+      },
+      "full_raster_stats": {
+        "cc": {
+          "n": 117365300,
+          "sum": 114728503.73530847,
+          "sum2": 112932177.2100231,
+          "min": 0.4287887215614319,
+          "max": 1.0,
+          "mean": 0.9775334254273492,
+          "sd": 0.08158674152229933
+        },
+        "hm": {
+          "n": 117365300,
+          "sum": 114757945.23014367,
+          "sum2": 112976071.97752258,
+          "min": 0.4287887215614319,
+          "max": 1.0,
+          "mean": 0.9777842789150086,
+          "sd": 0.08086964427163401
+        },
+        "t": {
+          "n": 117365300,
+          "sum": 2097728172.0993934,
+          "sum2": 37494723975.4924,
+          "min": 17.81009276428732,
+          "max": 18.373285680055325,
+          "mean": 17.873495591110775,
+          "sd": 0.09178489658194804
+        }
+      },
+      "max_cc_formula_absolute_error": 3.061250297697882e-08,
+      "max_temperature_nomix_formula_absolute_error": 1.3687507305348845e-06,
+      "masks_match_input": true,
+      "hm_at_least_cc": true,
+      "all_fragments_have_data": true,
+      "t_in_reference_uhi_bounds_within_tolerance": true,
+      "temperature_bounds_tolerance_C": 0.0001,
+      "temperature_below_reference_max_C": 2.0931540664292925e-05,
+      "temperature_above_reference_plus_uhi_max_C": 0.0
+    }
+  },
+  "source_geometries_preserved": true,
+  "input_hashes_unchanged": true,
+  "native_copy_hash_checks": 48,
+  "empirical_thermal_validation": false,
+  "fragment_results": "Reservados à etapa de diagnóstico; não publicados aqui."
+}

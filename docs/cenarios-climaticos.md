@@ -1,5 +1,7 @@
 # Comparação de cenários climáticos
 
+> Registro histórico do conjunto climático anterior. Para as superfícies atuais da seca de 2026 (dia/noite, sem média e sem classificação de risco), consulte a [produção climática](../diagnostico.html#resultados-invest) e a [metodologia vigente](metodologia-clima.md).
+
 A metodologia de Riscos apresenta comparativos e mapas das camadas integrais de temperatura do ar e HM da rodada InVEST Urban Cooling v6. Esses mapas mostram as entradas do diagnóstico, antes das estatísticas por fragmento.
 
 ## Cenários e média

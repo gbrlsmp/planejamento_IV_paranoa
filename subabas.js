@@ -12,6 +12,10 @@ function showSubtab() {
   // Notas metodológicas e procedimentos devem abrir ao seguir sua âncora.
   for (let detail = target?.closest("details"); detail;
        detail = detail.parentElement?.closest("details")) detail.open = true;
+  if (target?.matches(".method-card")) {
+    const content = target.querySelector(":scope > details");
+    if (content) content.open = true;
+  }
 
   panels.forEach((panel, index) => {
     const active = panel === activePanel;
