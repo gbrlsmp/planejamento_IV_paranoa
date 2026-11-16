@@ -9,6 +9,10 @@ function showSubtab() {
   const activePanel = panels.find(panel => panel.contains(target)) ?? panels[0];
   const wasHidden = activePanel.hidden;
 
+  // Notas metodológicas e procedimentos devem abrir ao seguir sua âncora.
+  for (let detail = target?.closest("details"); detail;
+       detail = detail.parentElement?.closest("details")) detail.open = true;
+
   panels.forEach((panel, index) => {
     const active = panel === activePanel;
     panel.hidden = !active;

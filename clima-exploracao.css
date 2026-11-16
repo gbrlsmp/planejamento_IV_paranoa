@@ -14,5 +14,16 @@
 .climate-downloads { display:flex; flex-wrap:wrap; gap:1rem; margin:1rem 0; }
 .risk-family-tabs { margin:1rem 0 1.5rem; }
 .risk-family-tabs a { flex:1; text-align:center; min-width:5rem; }
+.climate-methodology > section { margin-top:1.6rem; }
+.climate-methodology h5 { font-size:1rem; margin:.8rem 0; }
+.climate-input-table { min-width:52rem; table-layout:fixed; width:100%; }
+.climate-input-table th, .climate-input-table td { vertical-align:top; overflow-wrap:anywhere; }
+.climate-input-table th:first-child { min-width:10rem; }
+.climate-biophysical-table { min-width:58rem; }
+.climate-procedure { border-bottom:1px solid var(--line); padding:.9rem 0; }
+.climate-procedure summary { cursor:pointer; font-weight:600; min-height:2rem; }
+.climate-procedure-body { margin-top:.8rem; }
+.climate-procedure-body p { max-width:75ch; }
+.climate-decision:target { background:#edf1e7; padding-inline:.7rem; }
 [hidden] { display:none !important; }
 @media(max-width:520px) { .inmet-chart {height:350px;} .inmet-chart-sankey {height:610px;} .inmet-stations{height:300px;} .climate-controls{gap:.7rem;} }
