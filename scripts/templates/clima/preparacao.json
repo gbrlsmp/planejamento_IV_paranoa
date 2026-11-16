@@ -1,0 +1,7 @@
+{
+  "eto": "<figure class=\"climate-figure\"><img src=\"imagens/clima/eto.png\" loading=\"lazy\" alt=\"Representação do raster uniforme de ETo da A001\"><figcaption>ETo uniforme na máscara válida, em mm/dia.</figcaption></figure>",
+  "landsat": "<figure class=\"climate-figure\"><img src=\"imagens/clima/contraste-superficial.png\" loading=\"lazy\" alt=\"Contrastes superficiais entre as referências nas datas Landsat\"><figcaption>Comparação superficial utilizada na determinação do contraste UHI.</figcaption></figure>",
+  "ocupacao": "<figure class=\"climate-figure\"><img src=\"imagens/clima/ocupacao-horizontal.png\" loading=\"lazy\" alt=\"Ocupação horizontal da implantação das edificações em janelas de 500 metros\"><figcaption>Fração da área terrestre ocupada por edificações; água excluída do denominador.</figcaption></figure>",
+  "altura": "<figure class=\"climate-figure\"><img src=\"imagens/clima/altura-regional.png\" loading=\"lazy\" alt=\"Altura média ponderada das construções em janelas de 500 metros\"><figcaption>Altura média com os dados disponíveis. Água, fora da máscara e ausência de altura regional aparecem sem cor.</figcaption></figure>",
+  "intensidade": "<figure class=\"climate-figure\"><img src=\"imagens/clima/intensidade-500m.png\" loading=\"lazy\" alt=\"Mapa das três classes de intensidade combinada nas edificações\"><figcaption>Intensidade combinada; grupo alto relativo à distribuição adotada.</figcaption></figure>"
+}

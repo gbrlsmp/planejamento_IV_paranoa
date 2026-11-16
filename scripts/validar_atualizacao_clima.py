@@ -71,6 +71,6 @@ for a,e in zip(actual,rows):
     assert a[0]==e['classe'] and a[1]==int(e['lucode'])
     for i,key in enumerate(['kc','green_area','shade','albedo','building_intensity'],2):assert abs(a[i]-float(e[key]))<1e-12
 assert all('SSEBop' not in (WEB/'docs/referencias-clima.md').read_text(encoding='utf8') for _ in [0])
-out={'html_pages':4,'local_links_and_anchors_verified':links,'stations':4,'daily_records':1460,'independent_hourly_source_spotchecks':spotchecks,'sankey_counts_verified':True,'table_rows':12,'land_cover_classes':10,'xlsx_cached_values_match_csv':True,'iv_preserved':r['iv_preserved'],'invest_executed':False}
+out={'html_pages':4,'local_links_and_anchors_verified':links,'stations':4,'daily_records':1460,'independent_hourly_source_spotchecks':spotchecks,'sankey_counts_verified':True,'table_rows':12,'land_cover_classes':10,'xlsx_cached_values_match_csv':True,'iv_preserved':r['iv_preserved'],'invest_executed':json.loads((WEB/'dados-modelo/invest-seca-2026/configuracao.json').read_text(encoding='utf8'))['invest_executed']}
 (C/'08_Scripts_e_verificacoes/VALIDACAO_PUBLICACAO.json').write_text(json.dumps(out,ensure_ascii=False,indent=2),encoding='utf8')
 print(json.dumps(out,ensure_ascii=False))

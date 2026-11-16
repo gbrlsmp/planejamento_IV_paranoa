@@ -10,7 +10,7 @@
   const names = { chuva: 'Chuva', seca: 'Seca' };
   const labels = { temp: 'Temperatura média diária (°C)', rh: 'Umidade relativa média diária (%)' };
   const config = { responsive: true, displaylogo: false, locale: 'pt-BR', modeBarButtonsToRemove: ['lasso2d', 'select2d'] };
-  let data, stationMap, markers = [];
+  let data, stationMap, markers = [], starting = false, ready = false, stationBounds;
   const num = (v, d = 1) => v == null ? 'Sem dados' : v.toLocaleString('pt-BR', { maximumFractionDigits: d });
   function layout(title, x, y, extra = {}) {
     return { title: { text: title, font: { size: 16 } }, paper_bgcolor: 'transparent', plot_bgcolor: 'transparent',
@@ -77,14 +77,21 @@
     root.querySelector('[data-sankey-note]').textContent = `Faixas relativas calculadas pelos tercis dos dias pareados de ${s.id}, reunindo os dois períodos. Temperatura: ${num(s.sankey_cuts.temp[0], 2)} e ${num(s.sankey_cuts.temp[1], 2)} °C; umidade: ${num(s.sankey_cuts.rh[0], 2)} e ${num(s.sankey_cuts.rh[1], 2)}%. Os limites são iguais entre os períodos desta estação. Não são limiares de risco ou conforto.`;
   }
   async function start() {
+    if (starting || ready || !root.offsetWidth) return;
+    starting = true;
     try {
-      data = await loadData('dados-mapas/clima/inmet-exploracao.json?v=20261115');
+      const [observations, base] = await Promise.all([
+        loadData('dados-mapas/clima/inmet-exploracao.json?v=20261115'), loadData('mapa-base.json.gz')
+      ]);
+      data = observations;
+      if (!root.offsetWidth) return;
+      select.replaceChildren();
       for (const s of data.stations) { const option = document.createElement('option'); option.value = s.id; option.textContent = `${s.id} · ${s.name}`; select.append(option); }
       select.value = 'A001'; select.disabled = false; variable.disabled = false;
       stationMap = L.map(root.querySelector('[data-stations-map]'), { scrollWheelZoom: false }).setView([-15.8, -47.8], 9);
-      const base = await loadData('mapa-base.json.gz');
       addMapBase(stationMap, base, false);
-      const coords = data.stations.map(s => [s.latitude, s.longitude]); stationMap.fitBounds(coords, { padding: [25, 25] });
+      stationBounds = data.stations.map(s => [s.latitude, s.longitude]);
+      if (root.querySelector('[data-stations-map]').offsetWidth) stationMap.fitBounds(stationBounds, { padding: [25, 25] });
       L.control.scale({ imperial: false }).addTo(stationMap);
       // Local vector map: station locations remain available without third-party tiles.
       for (const s of data.stations) {
@@ -92,16 +99,36 @@
         marker.on('click', () => { select.value = s.id; update(); }); markers.push({ id: s.id, marker });
       }
       select.addEventListener('change', update); variable.addEventListener('change', update);
-      root.querySelector('details').addEventListener('toggle', () => setTimeout(() => stationMap.invalidateSize(), 80));
+      root.querySelector('details').addEventListener('toggle', () => requestAnimationFrame(() => {
+        if (root.querySelector('[data-stations-map]').offsetWidth) { stationMap.invalidateSize(); stationMap.fitBounds(stationBounds, { padding: [25, 25] }); }
+      }));
       await update();
-      document.addEventListener('click', e => { if (e.target.closest('[data-report-tabs]')) setTimeout(() => { stationMap.invalidateSize(); root.querySelectorAll('[data-chart]').forEach(el => Plotly.Plots.resize(el)); }, 80); });
-      window.addEventListener('hashchange', () => setTimeout(() => { stationMap.invalidateSize(); root.querySelectorAll('[data-chart]').forEach(el => { if (el.offsetWidth) Plotly.Plots.resize(el); }); }, 80));
+      ready = true;
+      document.addEventListener('click', e => { if (e.target.closest('[data-report-tabs]')) setTimeout(() => {
+        if (!root.offsetWidth) return;
+        if (root.querySelector('[data-stations-map]').offsetWidth) stationMap.invalidateSize();
+        root.querySelectorAll('[data-chart]').forEach(el => { if (el.offsetWidth) Plotly.Plots.resize(el); });
+      }, 80); });
+      window.addEventListener('hashchange', () => setTimeout(() => {
+        if (!root.offsetWidth) return;
+        if (root.querySelector('[data-stations-map]').offsetWidth) stationMap.invalidateSize();
+        root.querySelectorAll('[data-chart]').forEach(el => { if (el.offsetWidth) Plotly.Plots.resize(el); });
+      }, 80));
       let resizeTimer;
       window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { if (root.offsetWidth) update(); }, 200); });
     } catch (error) {
+      if (stationMap) { stationMap.remove(); stationMap = null; markers = []; }
       status.textContent = 'Não foi possível carregar a exploração INMET: ' + error.message;
       const retry = document.createElement('button'); retry.type = 'button'; retry.textContent = 'Tentar novamente'; retry.onclick = () => location.reload(); status.append(' ', retry);
-    }
+    } finally { starting = false; }
   }
+  document.addEventListener('toggle', event => {
+    if (event.target.tagName !== 'DETAILS' || !event.target.contains(root) || !event.target.open) return;
+    if (!ready) start();
+    else requestAnimationFrame(() => {
+      if (root.querySelector('[data-stations-map]').offsetWidth) stationMap.invalidateSize();
+      root.querySelectorAll('[data-chart]').forEach(el => { if (el.offsetWidth) Plotly.Plots.resize(el); });
+    });
+  }, true);
   start();
 })();

@@ -6,11 +6,11 @@ Relatório metodológico da Bacia do Paranoá, no Distrito Federal. O projeto bu
 
 ## Como consultar a metodologia
 
-Riscos, Condicionantes e Ecologia apresentam a mesma sequência: breve explicação, **Indicadores e critérios**, **Produção do indicador** (caixas com resumo e procedimento expansível) e **Aplicação no diagnóstico**. As lacunas de Ecologia permanecem identificadas. [Parâmetros, fontes e limites documentados](docs/metodologia-camadas.md).
+Clima segue a apresentação da Identificação da IV: **Camadas de entrada → Produção climática → Resultados contínuos da bacia**. A exploração INMET está na etapa 1; produtos, cálculos e notas ficam junto de suas etapas. Resultados por fragmento e classificação de risco pertencem ao diagnóstico e não são publicados nessa produção. Os demais temas mantêm seus indicadores, procedimentos e aplicação; as lacunas de Ecologia permanecem identificadas. [Parâmetros, fontes e limites documentados](docs/metodologia-camadas.md).
 
-Ao abrir **Ver procedimento completo** nas caixas de Temperatura do ar e Mitigação térmica (HM), compare **dia, noite e média** e explore cada cenário com zoom. Alterne entre **Degradê contínuo**, em escala comum aos três cenários, e **Cinco classes**, com cortes próprios de cada raster e porcentagens de área na legenda. [Critérios, valores e reprodução dos mapas climáticos](docs/cenarios-climaticos.md).
+Em [Resultados do InVEST](diagnostico.html#resultados-invest), explore **CC, HM e temperatura estimada do ar**, para **dia e noite na seca de 2026**, com zoom, consulta de valores e comparação lado a lado. As cores contínuas vêm da paleta existente; a escala comum permite comparar cenários e o contraste ampliado evidencia diferenças internas. Não há média dia/noite ou novas classes de risco. [Metodologia atual](docs/metodologia-clima.md) · [Configuração, estatísticas e reprodução](dados-modelo/invest-seca-2026/LEIA_ME.md). Os [cenários e critérios anteriores](docs/cenarios-climaticos.md) são históricos.
 
-As menções ao [InVEST na metodologia](aplicacao-invest.html) abrem a aplicação local do Urban Cooling, com entradas, tabela biofísica v5, ETo/INMET, parâmetros e dependências de cada indicador. [Registro de conferência](docs/conferencia-invest.md).
+As menções ao [InVEST na metodologia](aplicacao-invest.html) abrem a aplicação local do Urban Cooling 3.20.2, com a tabela de doze classes, ETo/INMET, parâmetros 450/500 m e as execuções concluídas. Os GeoTIFFs originais e os resultados completos por fragmento permanecem na base local. [Registro de conferência anterior](docs/conferencia-invest.md).
 
 Os demais indicadores de Riscos também têm mapas nos procedimentos expansíveis, sem comparativo. É possível consultar a entrada e o resultado por fragmento; variáveis numéricas oferecem degradê e classes. [Origem, representação e exportação](docs/mapas-metodologicos-riscos.md).
 
