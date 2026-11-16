@@ -17,7 +17,7 @@ def backup(name):
     return new.read_text(encoding='utf8')
 def shell(title,body,diagnosis=False):
     return f'''<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="{title} na Bacia do Paranoá"><title>{title} | Bacia do Paranoá</title>
-<link rel="stylesheet" href="style.css?v=7"><link rel="stylesheet" href="vendor/leaflet/leaflet.css"><link rel="stylesheet" href="cenarios-climaticos.css?v=2"><link rel="stylesheet" href="clima-exploracao.css?v=1">
+<link rel="stylesheet" href="style.css?v=7"><link rel="stylesheet" href="vendor/leaflet/leaflet.css"><link rel="stylesheet" href="cenarios-climaticos.css?v=2"><link rel="stylesheet" href="clima-exploracao.css?v=2">
 <script src="vendor/leaflet/leaflet.js" defer></script><script src="mapa-base.js?v=3" defer></script>
 {('<script src="vendor/plotly/plotly-2.35.2.min.js" defer></script><script src="clima-dados.js?v=1" defer></script><script src="mapas-metodologicos-riscos.js?v=2" defer></script><script src="clima-exploracao.js?v=1" defer></script><script src="subabas.js?v=1" defer></script>') if diagnosis else ''}
 </head><body><header class="masthead"><div class="container"><p class="eyebrow">Relatório metodológico</p><h1><a href="index.html#sumario">Bacia do Paranoá</a></h1><nav class="main-tabs" aria-label="Blocos do relatório"><a href="index.html">O Sistema</a><a href="identificacao.html">Identificação da Rede de Infraestrutura Verde</a><a href="diagnostico.html" aria-current="location">Diagnóstico</a><a href="estrategias.html">Matriz e estratégias</a><a href="mapa.html">Mapa interativo</a></nav></div></header><main class="container">{body}</main></body></html>'''
@@ -187,4 +187,8 @@ def catalogue():
     p=WEB/'dados-mapas/identificacao/resultados_identificacao.json';d=json.loads(p.read_text(encoding='utf8'))
     d['rasters'][-1].update(file='../04_Vias_pavimentadas_2026-11-15/uso_cobertura_2026_vias_pavimentadas_3m.tif',sha256=hashlib.sha256(Path(REPORT['outputs']['coverage']).read_bytes()).hexdigest());p.write_text(json.dumps(d,ensure_ascii=False,indent=2),encoding='utf8')
 
-if __name__=='__main__':identification();invest();diagnosis();references();documents();assets();catalogue();print('Conteúdo científico e páginas consolidados.')
+if __name__=='__main__':
+    identification();invest();diagnosis();references();documents();assets();catalogue()
+    from completar_metodologia_clima import update
+    update(WEB)
+    print('Conteúdo científico e páginas consolidados.')
