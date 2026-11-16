@@ -1,0 +1,176 @@
+{
+  "status": "atributos_diurnos_identicos_pixel_a_pixel",
+  "previous_run": "Seca_2026_A001_Dia_Noite_2026-11-16",
+  "pixels_compared": 225297940,
+  "recoded_pixels": 15116363,
+  "only_classes_recoded": [
+    102,
+    104
+  ],
+  "fields_equal": [
+    "kc",
+    "shade",
+    "albedo",
+    "green_area"
+  ],
+  "other_codes_unchanged": true,
+  "same_grid_mask_eto_weights_tref_uhi_distances": true,
+  "day_reuse": "Saídas oficiais diurnas anteriores reaproveitadas após prova integral de equivalência dos atributos; nenhuma nova execução diurna é alegada.",
+  "zero_intensity": "D500 igual a zero conserva BI=0 em subclasse própria; não recebe a média positiva da faixa baixa.",
+  "coefficients": "Mesmos cortes <=0.25 / <=0.50 / >0.50 da 103. Média de I entre pixels com suporte disponível de cada nova subclasse; lacunas preenchidas não entram na estimação.",
+  "fallback_height_m": 6.445500373840332,
+  "fallback_pixels": 484009,
+  "classes": [
+    {
+      "base": 102,
+      "level": 0,
+      "lucode": 1020,
+      "building_intensity": 0.0,
+      "n": 639990,
+      "known_n": 639990,
+      "sum": 0.0,
+      "fallback_n": 0
+    },
+    {
+      "base": 102,
+      "level": 1,
+      "lucode": 1021,
+      "building_intensity": 0.1535945708139576,
+      "n": 6191222,
+      "known_n": 5778717,
+      "sum": 887579.5574703206,
+      "fallback_n": 412505
+    },
+    {
+      "base": 102,
+      "level": 2,
+      "lucode": 1022,
+      "building_intensity": 0.33120587317405836,
+      "n": 3007407,
+      "known_n": 3007407,
+      "sum": 996070.8614247753,
+      "fallback_n": 0
+    },
+    {
+      "base": 102,
+      "level": 3,
+      "lucode": 1023,
+      "building_intensity": 0.572266588180558,
+      "n": 494408,
+      "known_n": 494408,
+      "sum": 282933.1793291733,
+      "fallback_n": 0
+    },
+    {
+      "base": 104,
+      "level": 0,
+      "lucode": 1040,
+      "building_intensity": 0.0,
+      "n": 27664,
+      "known_n": 27664,
+      "sum": 0.0,
+      "fallback_n": 0
+    },
+    {
+      "base": 104,
+      "level": 1,
+      "lucode": 1041,
+      "building_intensity": 0.17185987828019594,
+      "n": 2225992,
+      "known_n": 2154488,
+      "sum": 370270.0454361428,
+      "fallback_n": 71504
+    },
+    {
+      "base": 104,
+      "level": 2,
+      "lucode": 1042,
+      "building_intensity": 0.34227877719152056,
+      "n": 2308640,
+      "known_n": 2308640,
+      "sum": 790198.476175432,
+      "fallback_n": 0
+    },
+    {
+      "base": 104,
+      "level": 3,
+      "lucode": 1043,
+      "building_intensity": 0.5719002387512886,
+      "n": 221040,
+      "known_n": 221040,
+      "sum": 126412.82877358483,
+      "fallback_n": 0
+    }
+  ],
+  "source_hashes": {
+    "cobertura_auxiliar_1031_1033_vias104_3m.tif": {
+      "bytes": 14488722,
+      "sha256": "3cc97b60b4932938fbcb0acecd7481c4f10c12b876b9d59a75b105f3f2312c34"
+    },
+    "tab_biofisica_completa_12classes.csv": {
+      "bytes": 739,
+      "sha256": "0ca60a64f50f4bd3fd6003df5ecc82f15b1e4a3d105f052da93e795069c0fe99"
+    },
+    "ETo_A001_media_diaria_seca_2026_uniforme_3m.tif": {
+      "bytes": 4622848,
+      "sha256": "46f6b8ab1e4723185c06ef73a52e27774231477d46b9feaa0b5911025d1bd412"
+    },
+    "densidade_edificada_500m_percentual_3m.tif": {
+      "bytes": 104153399,
+      "sha256": "47f17232c36f49f71c6845adb78edcdc40bf58f93cb794bb31a2af5fe91498bd"
+    },
+    "altura_media_edificada_vizinhanca_500m_3m.tif": {
+      "bytes": 106461699,
+      "sha256": "91f882c43f580dfdcc97ee82cb0deb0d7ba316aa033675a61aa035c497cefcc4"
+    },
+    "cobertura_alturas_validas_janela_500m_percentual_3m.tif": {
+      "bytes": 113190660,
+      "sha256": "64e9e25b148315f7c78a62f35838819db62edcc7c092923c3a636e5902e37ebb"
+    }
+  },
+  "class_count": 18,
+  "counts": {
+    "11": 1701852,
+    "100": 6828937,
+    "101": 26315137,
+    "1021": 6191222,
+    "1031": 3345522,
+    "65535": 107932640,
+    "4": 22256030,
+    "12": 23465123,
+    "1020": 639990,
+    "1040": 27664,
+    "1041": 2225992,
+    "3": 7387713,
+    "33": 5194968,
+    "1022": 3007407,
+    "1032": 5436256,
+    "1042": 2308640,
+    "1023": 494408,
+    "1043": 221040,
+    "1033": 317399
+  },
+  "physical_limit": "Intensidade construída de entorno, não armazenamento de calor medido do pavimento/solo.",
+  "day_rasters_identical": {
+    "cc": {
+      "sha256": "ffadf68061577da81c026de97cdfdcdfb8147db917ee7f0d3b8c476597983ba7",
+      "identical": true
+    },
+    "hm": {
+      "sha256": "5b322ee63a5604837a33a30429f964bb0b4aa9bb7e2dc69f5bdbefc5775e4d94",
+      "identical": true
+    },
+    "T_air": {
+      "sha256": "bc13f4081cdd3fbb22b3d400a68500f9d18fc0fbd0c78a2967413062de2524b2",
+      "identical": true
+    }
+  },
+  "day_web_files_identical": {
+    "cc-dia-valores.png": "577b28aacbe8427d90a6e325ab07c039bee084ef7706dfcea14ae3d1c959ea89",
+    "cc-dia-previa.png": "84bdc4bdfb662ffb094d70accfeb5d85a7431195450594bcce56b055c070c995",
+    "hm-dia-valores.png": "81253e8a441c721ceb4da9bf70a06a8f27d480d410f6e026b4b38b1e88cf42fa",
+    "hm-dia-previa.png": "8ab0d8ff242833c6795c0e2cab52734a6ad01d7f557038192ec8b892c3a75ade",
+    "t-dia-valores.png": "66df1abbf63c0d3e406e531081556506e28a4e519db947068541c214116a1eb0",
+    "t-dia-previa.png": "c98f1bbb8200e35e22c43ce70cfafa0eb2740abd60765be7c0d430730ad68bf1"
+  }
+}

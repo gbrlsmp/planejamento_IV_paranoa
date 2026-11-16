@@ -3,7 +3,7 @@
   "count": 46876,
   "id_field": "id_frag",
   "data_file": "fragmentos-dados.json.gz",
-  "data_sha256": "2fe215ad4ddd552db459abe73e058108c77bb815150691b37b16c8c38a38c0fa",
+  "data_sha256": "52005a954fdef7e8998fbb665876060beeec289e54d97a97d0a59e33e51e85e1",
   "ids_file": "id-fragmentos-20m.png",
   "ids_sha256": "00794be8423fabe9f1b1e696f3e6eb14b420b9c9ba9f692ee67d1dc4a697a585",
   "bounds": [
@@ -34,17 +34,17 @@
       "web_simplification_m": 9
     },
     "noite": {
-      "threshold_C": 19.86954758246924,
-      "mean_C": 19.777762794946213,
-      "sd_C": 0.09178478752303039,
+      "threshold_C": 20.05571133938019,
+      "mean_C": 19.86195104879103,
+      "sd_C": 0.19376029058915675,
       "minimum_area_ha": 2,
       "connectivity": 4,
-      "native_selected_pixels_before_area_filter": 18034122,
+      "native_selected_pixels_before_area_filter": 19672225,
       "polygons": 10,
-      "area_ha": 16230.709799999999,
+      "area_ha": 17705.0025,
       "file": "zonas-quentes-noite.geojson",
-      "sha256": "c053503722f6518943292951881efdd44cab4ddd5673fd0231c0d856024573fa",
-      "source_sha256": "2fee5d1d929f210d97d97fd0644b1d75ef6a429314814ee691bdf66f29ecbc6c",
+      "sha256": "a36234f8a0695a62614c1f2718e1c6db05513e90f7ef3ff7dbd95b2d46b5f8ae",
+      "source_sha256": "66f52d04da6b764b46a0a904f087f98a56af8e102dfc6d45270b9f48ab294dd3",
       "web_simplification_m": 9
     }
   },
@@ -104,8 +104,8 @@
     "t_noite_classe": {
       "Ruim": 0,
       "Médio": 0,
-      "Bom": 0,
-      "Muito bom": 46876,
+      "Bom": 298,
+      "Muito bom": 46578,
       "Sem dados": 0
     },
     "lst_seca_classe": {

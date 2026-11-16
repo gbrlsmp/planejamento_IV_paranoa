@@ -1,6 +1,6 @@
 # Metodologia climática da Bacia do Paranoá
 
-A pesquisa utilizou o InVEST Urban Cooling 3.20.2 na seca de 2026, com factors para o dia e intensity para a noite. Objetivo: estimar capacidade de resfriamento (CC), mitigação térmica (HM) e temperatura do ar, para posterior análise na base atual de 46.876 fragmentos. As duas execuções e a conferência técnica estão concluídas. Os mapas contínuos da bacia são apresentados na produção climática; resultados por fragmento e classificação de risco ficam para a etapa de diagnóstico.
+A pesquisa utilizou o InVEST Urban Cooling 3.20.2 na seca de 2026, com factors para o dia e intensity para a noite. Objetivo: estimar capacidade de resfriamento (CC), mitigação térmica (HM) e temperatura do ar, para análise na base atual de 46.876 fragmentos. A execução noturna corrigida e a conferência técnica estão concluídas; o dia da rodada A001 foi preservado por equivalência integral dos insumos diurnos. Os mapas contínuos da bacia são apresentados na produção climática; resultados por fragmento e classificação de risco ficam para a etapa de diagnóstico.
 
 ## Dados de entrada e finalidade
 
@@ -16,7 +16,7 @@ A pesquisa utilizou o InVEST Urban Cooling 3.20.2 na seca de 2026, com factors p
 | Contraste UHI | Landsat: Vicente Pires e Estação Ecológica da UnB. | Diferença das médias espaciais na mesma data; média dos 13 contrastes, com pesos temporais iguais. | Parâmetro UHI de 2,8593942060678548 °C. | Fornecer a amplitude usada na conversão do índice HM em temperatura, sob as aproximações declaradas. |
 | Implantação e altura das construções | Classe 103; SHP local de construções; Google Open Buildings 2.5D, ano 2023. | Altura >0 e ≤100 m, confiança de presença ≥0,50; mediana por construção na grade e amostra direta válida como alternativa; ausências preservadas. | Raster de altura individual disponível e origem/qualidade das atribuições. | Fornecer a componente vertical da morfologia construída. A temporalidade específica do SHP não foi comprovada. |
 | Ocupação horizontal e altura regional | Classe 103 e alturas individuais aproveitáveis. | Janelas móveis exatas de 500 × 500 m: implantação/área terrestre e altura média ponderada pela área edificada com altura. | D500, H500 e cobertura de alturas por janela. | Descrever o entorno construído nas dimensões horizontal e vertical, com suporte espacial comum. |
-| Tabela biofísica e cobertura auxiliar | Hu, Wang e Li (2023), Ribeiro e Walter (2008), manual InVEST e decisões da pesquisa. | Transferência de parâmetros e adaptações por classe; média 50/50 de D e V; três subclasses de edificações; correspondência integral dos códigos. | CSV com doze classes e cobertura auxiliar 1031–1033/104. | Traduzir a cobertura em parâmetros de resfriamento diurno e intensidade construída noturna. |
+| Tabela biofísica e cobertura auxiliar | Hu, Wang e Li (2023), Ribeiro e Walter (2008), manual InVEST e decisões da pesquisa. | Transferência de parâmetros e adaptações por classe; média 50/50 de D e V; três subclasses de edificações e intensidade regional aplicada a 102/104, com zero separado; correspondência integral dos códigos. | CSV com dezoito classes e cobertura auxiliar 1031–1033, 1020–1023 e 1040–1043. | Traduzir a cobertura em parâmetros de resfriamento diurno e intensidade construída noturna. |
 
 ## Procedimentos
 
@@ -84,7 +84,11 @@ A altura H500 é Σ(altura disponível × área edificada interceptada) / Σ(ár
 
 Normaliza-se V = mínimo(H500 / 31,5; 1), e combina-se I = 0,5 × D + 0,5 × V. A referência de 31,5 m é o P99 das medianas individuais de alturas. Pesos iguais permitem compensação: ocupação 0,40 com V 0,20 e ocupação 0,20 com V 0,40 produzem I 0,30.
 
-As subclasses aplicam-se somente à implantação original 103: baixa até 0,25; média >0,25–0,50; alta >0,50–1. As faixas têm amplitudes diferentes. Cada subclasse recebe a média de I dos seus pixels com altura regional disponível: 0,1831179045052647; 0,3389960833545074; 0,5712112814785731. Não se faz média dos rótulos das classificações horizontal e vertical.
+As subclasses 1031–1033 mantêm a classificação da implantação original 103: baixa até 0,25; média >0,25–0,50; alta >0,50–1. As faixas têm amplitudes diferentes. Cada subclasse recebe a média de I dos seus pixels com altura regional disponível: 0,1831179045052647; 0,3389960833545074; 0,5712112814785731. Não se faz média dos rótulos das classificações horizontal e vertical.
+
+Nas superfícies 102 e 104, usa-se o mesmo índice I do entorno e os mesmos cortes positivos: 0 < I ≤ 0,25, 0,25 < I ≤ 0,50 e I > 0,50. D500 igual a zero permanece em categoria própria, com BI zero (1020/1040). Não se inclui o pavimento no numerador de D; usa-se a construção existente no entorno. Cada subclasse recebe a média de I dos seus pixels com suporte disponível; preenchidos ficam fora dessa estimação.
+
+A 102 é representada por 1020–1023 e a 104 por 1040–1043. São recodificados 15.116.363 pixels, preservando as outras classes. Em 484.009 pixels dessas superfícies com D positivo e altura regional ausente, aplica-se a mesma mediana de 6,445500373840332 m usada na 103, com flag 9. São 435,6081 ha, sem tratar o preenchimento como altura observada. O zero confirmado de D não é preenchido com uma intensidade positiva.
 
 Notas relacionadas: NM 08, NM 09, NM 10, NM 11.
 
@@ -96,13 +100,13 @@ Foi utilizado o InVEST Urban Cooling 3.20.2, por script, com uma execução diur
 
 A cobertura auxiliar é associada à tabela pelo lucode. No dia: ETI = Kc × ETo / máximo(ETo); CC = 0,60 × shade + 0,20 × albedo + 0,20 × ETI. São mantidos os pesos padrão do modelo. Como a ETo adotada é uniforme e positiva, ETI = Kc nesta configuração.
 
-Na noite: CC = 1 − building_intensity. O índice combinado da pesquisa é usado como adaptação desse parâmetro. O mecanismo adicional de áreas verdes utiliza green_area; o modelo considera a soma de área verde na vizinhança, com limiar interno de 2 ha, sem exigir que ela corresponda a um único fragmento contíguo. A influência verde pode elevar o índice de mitigação HM em relação à capacidade local.
+Na noite: CC = 1 − building_intensity. O índice combinado é aplicado às edificações 103 e às superfícies 102/104 conforme o entorno. É um preditor por intensidade territorial, não medição de armazenamento térmico nem prova de resfriamento produzido pelo edifício, asfalto ou solo. O mecanismo adicional de áreas verdes utiliza green_area; o modelo considera a soma de área verde na vizinhança, com limiar interno de 2 ha, sem exigir que ela corresponda a um único fragmento contíguo. A influência verde pode elevar o índice de mitigação HM em relação à capacidade local.
 
 Antes da mistura espacial, T_ar = Tref + (1 − HM) × UHI. A etapa de mistura gera a estimativa final de temperatura do ar. As distâncias de resfriamento e mistura são parâmetros diferentes da janela morfológica de 500 m; foram confirmados e utilizados 450 m para resfriamento e 500 m para mistura do ar, alinhados às recomendações iniciais do manual, sem calibração local.
 
 Hu, Wang e Li (2023), Tabela 2, p. 8, utilizaram 550 m para mistura e 450 m para resfriamento. Borges (2026), p. 111, utilizou 500 m e 450 m, respectivamente. Os trabalhos apresentam 500–600 m como faixa inicial recomendada para mistura. A adoção de 500 m nesta pesquisa tem precedente metodológico, sem demonstrar calibração específica para o Paranoá.
 
-Foram produzidos e conferidos CC e HM, adimensionais, e temperatura do ar em °C. As avaliações opcionais de energia e produtividade foram desativadas. Nesta apresentação são mostradas as superfícies contínuas da bacia; resultados por fragmento e classificação de risco pertencem à etapa de diagnóstico. O Urban Cooling não gera diretamente um mapa de umidade do ar. Não foi calculada média dia/noite. As duas execuções concluíram com código 0; a conferência leu integralmente as saídas, verificando grade, máscara, equações e integridade das cópias. Não houve calibração ou validação térmica empírica.
+Foram produzidos e conferidos CC e HM, adimensionais, e temperatura do ar em °C. As avaliações opcionais de energia e produtividade foram desativadas. Nesta apresentação são mostradas as superfícies contínuas da bacia; resultados por fragmento e classificação de risco pertencem à etapa de diagnóstico. O Urban Cooling não gera diretamente um mapa de umidade do ar. Não foi calculada média dia/noite. A nova noite foi executada oficialmente e concluída com código 0. O dia da rodada A001 foi reaproveitado após provar equivalência pixel a pixel de Kc, sombra, albedo e green_area em toda a grade; não se alega nova execução diurna. A conferência leu integralmente as saídas, verificando grade, máscara, equações e integridade das cópias. Não houve calibração ou validação térmica empírica.
 
 Notas relacionadas: NM 06, NM 07, NM 11, NM 12.
 
@@ -110,7 +114,7 @@ Notas relacionadas: NM 06, NM 07, NM 11, NM 12.
 
 | Campo | Significado | Uso no modelo |
 | --- | --- | --- |
-| lucode / classe | Código inteiro único e nome da cobertura. | Relacionam cada pixel à linha correta da tabela; a auxiliar tem doze códigos válidos. |
+| lucode / classe | Código inteiro único e nome da cobertura. | Relacionam cada pixel à linha correta da tabela; a auxiliar tem dezoito códigos válidos. |
 | kc | Coeficiente adimensional da cobertura. | Multiplica ETo no cálculo de ETI diurno; pode superar 1 e não é medida de umidade ou de ET real. |
 | shade | Fração de cobertura de copa de árvores com altura ≥2 m, entre 0 e 1. | Representa sombra arbórea no cálculo diurno; não inclui automaticamente sombra projetada por edifícios. |
 | albedo | Fração da radiação solar refletida, entre 0 e 1. | Representa reflexão da superfície no componente diurno. |
@@ -128,11 +132,17 @@ A tabela é fundamentada em Hu, Wang e Li (2023), Tabela 1; a discussão de cobe
 | 33 | Água | 1 | 0 | 0 | 0.056354 | 0 |
 | 100 | Vegetação intraurbana | 1.003927 | 1 | 0.9 | 0.14011 | 0 |
 | 101 | Forração vegetal | 0.931543 | 1 | 0.05 | 0.192888 | 0 |
-| 102 | Impermeável ou solo exposto | 0.4704955 | 0 | 0 | 0.220078 | 0 |
-| 104 | Vias pavimentadas | 0.327539 | 0 | 0 | 0.20819 | 0 |
+| 1020 | Impermeável ou solo exposto — sem edificações no entorno | 0.4704955 | 0 | 0 | 0.220078 | 0.0 |
+| 1021 | Impermeável ou solo exposto — baixa | 0.4704955 | 0 | 0 | 0.220078 | 0.1535945708139576 |
+| 1022 | Impermeável ou solo exposto — média | 0.4704955 | 0 | 0 | 0.220078 | 0.33120587317405836 |
+| 1023 | Impermeável ou solo exposto — alta | 0.4704955 | 0 | 0 | 0.220078 | 0.572266588180558 |
 | 1031 | Edificações — baixa | 0.327539 | 0 | 0 | 0.20819 | 0.1831179045052647 |
 | 1032 | Edificações — média | 0.327539 | 0 | 0 | 0.20819 | 0.3389960833545074 |
 | 1033 | Edificações — alta | 0.327539 | 0 | 0 | 0.20819 | 0.5712112814785731 |
+| 1040 | Vias pavimentadas — sem edificações no entorno | 0.327539 | 0 | 0 | 0.20819 | 0.0 |
+| 1041 | Vias pavimentadas — baixa | 0.327539 | 0 | 0 | 0.20819 | 0.17185987828019594 |
+| 1042 | Vias pavimentadas — média | 0.327539 | 0 | 0 | 0.20819 | 0.34227877719152056 |
+| 1043 | Vias pavimentadas — alta | 0.327539 | 0 | 0 | 0.20819 | 0.5719002387512886 |
 
 ### Justificativas por classe
 
@@ -146,7 +156,7 @@ A tabela é fundamentada em Hu, Wang e Li (2023), Tabela 1; a discussão de cobe
 | 100 — Vegetação intraurbana | Kc/albedo de tree cover. Shade 0,90 mantido por decisão expressa; não é reponderado pela origem florestal/savânica da classe. |
 | 101 — Forração vegetal | Kc/albedo herbáceos e shade 0,05 por analogia operacional com campestre, admitindo algumas copas. Green_area 1 no modelo não inclui a classe na fragmentação da IV. |
 | 102 — Impermeável ou solo exposto | Mistura sintética 50/50 de built-up e bare/sparse: Kc = (0,327539 + 0,613452)/2 = 0,4704955; albedo = (0,208190 + 0,231966)/2 = 0,220078. Não são proporções locais medidas. |
-| 104 — Vias pavimentadas | Kc 0,327539 e albedo 0,208190 de built-up; shade, green_area e building_intensity iguais a zero. Built-up é referência urbanizada ampla, não medição exclusiva de asfalto. Retirar vias da 102 não torna o remanescente exclusivamente solo exposto. |
+| 104 — Vias pavimentadas | Kc 0,327539 e albedo 0,208190 de built-up; shade e green_area iguais a zero; building_intensity é atribuído pelo entorno em 1040–1043. Built-up é referência urbanizada ampla, não medição exclusiva de asfalto. Retirar vias da 102 não torna o remanescente exclusivamente solo exposto. |
 | 1031 / 1032 / 1033 — Edificações | Repetem Kc 0,327539, albedo 0,208190, shade 0 e green_area 0 de built-up. Diferem no coeficiente noturno, calculado como média do índice combinado em cada grupo. Baixa/média/alta são níveis desta classificação, sem equivaler a LCZ ou limiares térmicos calibrados. |
 
 ## Decisões metodológicas e limitações
@@ -177,11 +187,11 @@ Kc e albedo de Hu foram aplicados em Wuhan; sua transferência e as misturas sin
 
 ### NM 07 — Sombra, área verde e água
 
-Shade representa copa arbórea, sem equivaler a toda vegetação ou à sombra dos prédios. Os valores são hipóteses e decisões apoiadas na discussão das formações. Green_area é uma regra do Urban Cooling: forração 101 recebe 1, mas continua fora da fragmentação da IV; água recebe 0, mantendo Kc 1 e sua contribuição local diurna. BI zero em água, solo, vias e vegetação produz CC noturna inicial 1: simplificação estrutural, sem demonstrar resfriamento físico máximo ou comportamento idêntico dessas superfícies.
+Shade representa copa arbórea, sem equivaler a toda vegetação ou à sombra dos prédios. Os valores são hipóteses e decisões apoiadas na discussão das formações. Green_area é uma regra do Urban Cooling: forração 101 recebe 1, mas continua fora da fragmentação da IV; água recebe 0, mantendo Kc 1 e sua contribuição local diurna. Água e vegetação conservam BI zero e CC noturna inicial 1. Nas superfícies 102/104, BI zero fica restrito ao entorno sem edificações; as demais recebem a intensidade regional. Valores positivos de CC em construções/pavimento são índices complementares da intensidade e não demonstram produção ativa de resfriamento. HM pode incluir benefício recebido da vegetação próxima.
 
 ### NM 08 — Representação das vias e da classe 102
 
-A faixa de 2,5 m por lado é uma hipótese uniforme aplicada a linhas de eixos e margens; não mede a largura real ou o material de cada pista. Só 101/102 foram recodificadas para 104, com IV, edificações, água e NoData preservados. Os parâmetros integrais de built-up foram aceitos para 104; a 102 remanescente mantém a mistura 50/50, pois ainda pode conter outras superfícies impermeáveis. Essas proporções não foram medidas.
+A faixa de 2,5 m por lado é uma hipótese uniforme aplicada a linhas de eixos e margens; não mede a largura real ou o material de cada pista. Só 101/102 foram recodificadas para 104, com IV, edificações, água e NoData preservados. Os parâmetros integrais de built-up foram aceitos para 104; a 102 remanescente mantém a mistura 50/50, pois ainda pode conter outras superfícies impermeáveis. Essas proporções não foram medidas. A atribuição noturna da intensidade regional às superfícies 102/104 preserva esses atributos diurnos e não transforma as vias em implantação edificada.
 
 ### NM 09 — Alturas e diferença temporal
 
@@ -193,7 +203,7 @@ A média 50/50 de ocupação e altura normalizada é adaptação, sem medição 
 
 ### NM 11 — Suporte parcial e preenchimento residual
 
-A média regional usa somente alturas aproveitáveis, sem mínimo adicional de cobertura. Na fonte individual, cerca de 24,15% da área 103 permanece sem altura; regionalizar não recupera essas alturas. Há 36,9252 ha de centros 103 com menos de 50% de cobertura das alturas na janela. Os 9.093.491 pixels 103 com média regional têm suporte parcial, flag 2. Outros 5.686 pixels, 5,1174 ha ou 0,06248917% da área edificada, usam a mediana regional de 6,445500373840332 m, mantendo D local e flag 9. Esse preenchimento foi aceito e não participou da estimação dos coeficientes representativos. Não é altura medida; os componentes disponíveis conservam as lacunas.
+A média regional usa somente alturas aproveitáveis, sem mínimo adicional de cobertura. Na fonte individual, cerca de 24,15% da área 103 permanece sem altura; regionalizar não recupera essas alturas. Há 36,9252 ha de centros 103 com menos de 50% de cobertura das alturas na janela. Os 9.093.491 pixels 103 com média regional têm suporte parcial, flag 2. Outros 5.686 pixels, 5,1174 ha ou 0,06248917% da área edificada, usam a mediana regional de 6,445500373840332 m, mantendo D local e flag 9. Esse preenchimento foi aceito e não participou da estimação dos coeficientes representativos. Não é altura medida; os componentes disponíveis conservam as lacunas. A extensão às classes 102/104 acrescenta 484.009 pixels com esse mesmo preenchimento (435,6081 ha), identificados em raster de qualidade e excluídos do cálculo das médias representativas.
 
 ### NM 12 — Escalas, estado da execução e interpretação
 
@@ -205,7 +215,7 @@ Os gráficos e os critérios de agregação estão detalhados na primeira etapa.
 
 ## Rastreabilidade e aplicação
 
-[Metodologia na aba Clima](../diagnostico.html#metodologia-clima), [aplicação do InVEST](../aplicacao-invest.html), [qualidade das alturas](nota-qualidade-alturas.md), [preenchimento residual](nota-preenchimento-alturas.md). Tabela completa de doze classes e tabela diurna de dez classes correspondem a coberturas diferentes. Não intercambiar. As camadas integrais ficam na base local organizada. Scripts, parâmetros e verificações das execuções oficiais acompanham a publicação; esta organização do site não recalcula o modelo.
+[Metodologia na aba Clima](../diagnostico.html#metodologia-clima), [aplicação do InVEST](../aplicacao-invest.html), [qualidade das alturas](nota-qualidade-alturas.md), [preenchimento residual](nota-preenchimento-alturas.md). Tabela completa de dezoito classes e tabela diurna de dez classes correspondem a coberturas diferentes. Não intercambiar. As camadas integrais ficam na base local organizada. Scripts, parâmetros e verificações das execuções oficiais acompanham a publicação; esta organização do site não recalcula o modelo.
 
 ## Resultados contínuos da bacia
 
@@ -222,3 +232,9 @@ Classes relativas Ruim, Médio, Bom e Muito bom: CC/HM com cortes 0,25/0,50/0,75
 Zonas relativamente quentes: exclusivamente saídas T_air do InVEST acima da média da bacia mais um desvio padrão populacional em cada cenário, conectividade 4 e área mínima de 2 ha na grade nativa de 3 m. Contornos web simplificados em 9 m; GPKG local preserva os polígonos nativos. Critério operacional exploratório; não demonstra ilha de calor urbano-rural observada ou persistência entre datas.
 
 O [diagnóstico dos fragmentos](../diagnostico.html#diagnostico-clima-atual) permite consultar os 46.876 IDs, mapas, classes e estatísticas. A imagem de IDs de 20 m pode omitir fragmentos pequenos; tabela e busca cobrem todos. Contornos individuais web são simplificados em 3 m; geometrias integrais permanecem nos GPKGs locais. [CSV completo](../dados-modelo/invest-seca-2026/diagnostico_fragmentos_46876.csv), [critérios e limiares](../dados-mapas/clima/diagnostico-2026/manifesto.json), [Tref A001](../dados-modelo/invest-seca-2026/tref_a001.json) e [Landsat](../dados-modelo/invest-seca-2026/superficie_sazonal.json).
+
+## Revisão noturna das superfícies 102 e 104
+
+A intensidade regional passa a 1020–1023 e 1040–1043. D500 zero mantém BI zero em subclasse própria. Os coeficientes positivos são médias do índice com suporte disponível em cada nova subclasse, com os cortes da 103. A tabela atual tem 18 códigos. Os 484.009 pixels com D positivo e altura ausente usam a mediana regional somente para a classificação, com flag 9, sem participar da estimação das médias. O índice representa o entorno construído, não o armazenamento térmico medido dos materiais.
+
+A noite foi executada novamente com o InVEST oficial. O dia A001 anterior foi reaproveitado: Kc, sombra, albedo e green_area são idênticos em todos os 225.297.940 pixels da grade. Os três rasters nativos e os seis arquivos de mapas diurnos mantêm seus hashes. Não se alega nova execução diurna. [Prova integral, coeficientes e lacunas](../dados-modelo/invest-seca-2026/equivalencia_diurna_102_104.json).

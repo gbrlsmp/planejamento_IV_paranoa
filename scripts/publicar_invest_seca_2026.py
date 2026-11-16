@@ -38,6 +38,7 @@ def publish(run):
     assert qa['status']=='executado_extraido_conferido'
     config=json.loads((run/'01_Entradas/configuracao_confirmada.json').read_text(encoding='utf-8'))
     out=WEB/'dados-mapas/clima/urban-cooling-2026';out.mkdir(parents=True,exist_ok=True)
+    previous_web=json.loads((out/'manifesto.json').read_text(encoding='utf-8')) if 'night_revision' in config else None
     archive=WEB/'dados-modelo/invest-seca-2026';archive.mkdir(parents=True,exist_ok=True)
     greens=list(FRAGMENT_AREA_COLORS.values())
     warm=[ZEE_COLORS['Lagoas de Estabilização'],ZEE_COLORS['Represas, Lagos, Lagoas e Rios'],FRAGMENT_AREA_COLORS[1],ZEE_COLORS['Formação Campestre'],RISK_COLORS[4][1],RISK_COLORS[5][1]]
@@ -89,6 +90,8 @@ def publish(run):
     inputs=json.loads((run/'01_Entradas/preparacao.json').read_text(encoding='utf-8'))
     clean_config={k:config[k] for k in ('invest_version','day','night','uhi_max','green_area_cooling_distance','t_air_average_radius')}
     clean_config.update(invest_executed=True,do_energy_valuation=False,do_productivity_valuation=False,source_resolution_m=3,reference_station=config['reference_station'],reference_days=config['reference_days'])
+    if 'night_revision' in config:
+        clean_config.update(night_revision=config['night_revision'],auxiliary_class_count=config['auxiliary_class_count'],day_reused=True,day_reused_from=Path(config['day_reused_from']).name,day_reuse_proof='equivalencia_diurna_102_104.json')
     save(archive/'configuracao.json',clean_config)
     save(archive/'verificacoes_bacia.json',{'status':qa['status'],'scenarios':{p:{k:v for k,v in qa['scenarios'][p].items() if k!='raster_files'} for p in ('day','night')},'source_geometries_preserved':qa['source_geometries_preserved'],'input_hashes_unchanged':qa['input_hashes_unchanged'],'native_copy_hash_checks':len(qa['native_to_delivered_copy_checks']),'empirical_thermal_validation':False,'fragment_results':'Reservados à etapa de diagnóstico; não publicados aqui.'})
     save(archive/'fontes_sha256.json',{'inputs':{Path(k).name:v for k,v in inputs['input_files'].items() if not k.endswith('CONFIGURACAO_PREPARADA.json')},'rasters':{i:{p:{k:r[k] for k in ('source_file','source_sha256')} for p,r in cfg['scenarios'].items()} for i,cfg in meta['indicators'].items()}})
@@ -107,10 +110,29 @@ O site usa derivados médios de 20 m em EPSG:3857 e codificação UInt16; consul
 UHI superficial diurno transferido ao ar e à noite por hipótese, ETo uniforme e ausência de calibração local continuam como limitações. Resultados por fragmento ficam para o diagnóstico e não integram estes arquivos de publicação.
 ''',encoding='utf-8')
     readme=archive/'LEIA_ME.md'
-    text=readme.read_text(encoding='utf-8').replace('Seca_2026_Dia_Noite_2026-11-16','Seca_2026_A001_Dia_Noite_2026-11-16')
+    text=readme.read_text(encoding='utf-8').replace('Seca_2026_Dia_Noite_2026-11-16',run.name)
     text=text.replace('sem média dia/noite ou classificação de risco.', 'sem média dia/noite ou classificação de risco sanitário. Referência do ar A001 — Brasília, 153 datas pareadas; dia 24,265416609534256 °C e noite 19,714379846732786 °C. Referência operacional urbana, sem equivalência demonstrada ao ar rural.')
     text=text.replace('Resultados por fragmento ficam para o diagnóstico e não integram estes arquivos de publicação.', 'O diagnóstico atual publica os 46.876 fragmentos, classes térmicas relativas e polígonos de zonas relativamente quentes do InVEST. Consulte `diagnostico_fragmentos_46876.csv`, `tref_a001.json` e os manifestos em `dados-mapas/clima/diagnostico-2026` e `superficie-sazonal`. A classificação não foi calibrada e não representa risco sanitário. A rodada anterior A045 foi preservada na base local.')
     text+='\n\nPreparação atual: `scripts/preparar_revisao_clima.py` calcula as referências e gera uma nova pasta, recusando sobrescrever entregas. Após preparar entradas com o Python do QGIS, `--iniciar` define workspaces locais novos; `executar_invest.ps1` chama o InVEST oficial. Para concluir a cópia e extração use `scripts/concluir_revisao_clima.ps1 -RunRoot PASTA`. Os produtores `produzir_superficie_sazonal.py` e `publicar_diagnostico_clima.py` registram as composições, classes e polígonos. Ajuste os caminhos de ROOT/SCRATCH ao ambiente. Nenhuma execução modifica as fontes Landsat/INMET ou as geometrias originais.\n'
+    if 'night_revision' in config:
+        text=text[:text.index('\n\nPreparação atual:')]
+        old_instructions='Os scripts são cópias da execução local e documentam a reprodução: devem ser colocados na pasta da rodada com `01_Entradas/argumentos_day.json` e `argumentos_night.json`, gerados por `preparar_execucao.py`. Ajuste a raiz da base e o caminho do executável ao ambiente; não execute produtores sobre uma entrega existente.'
+        text=text.replace(old_instructions,'Os scripts publicados registram a execução local. A preparação vigente e seus módulos de apoio devem ser executados a partir do repositório completo, conforme o procedimento abaixo. Ajuste a raiz da base e o caminho do executável ao ambiente; não execute produtores sobre uma entrega existente.')
+        text=text.replace('As rodadas completas ocorreram em pasta local fora do OneDrive, após um teste integral em recorte, para evitar WinError 5 na limpeza de temporários.','A nova noite ocorreu em pasta local fora do OneDrive para evitar WinError 5 na limpeza de temporários; o dia foi copiado da rodada A001 anterior após prova integral de equivalência.')
+        proof=json.loads((run/'05_Verificacoes/PROVA_DIURNA_E_PARAMETRIZACAO.json').read_text(encoding='utf-8'))
+        audit=json.loads((run/'05_Verificacoes/VERIFICACAO_CORRECAO_NOTURNA.json').read_text(encoding='utf-8'))
+        proof['day_rasters_identical']=audit['day_rasters_identical']
+        proof['day_web_files_identical']={}
+        for key,ind in previous_web['indicators'].items():
+            record=ind['scenarios']['dia']
+            for field,hash_field in [('file','sha256'),('preview','preview_sha256')]:
+                assert digest(out/record[field])==record[hash_field], 'Derivado diurno mudou: '+record[field]
+                proof['day_web_files_identical'][record[field]]=record[hash_field]
+        proof['previous_run']=Path(proof['previous_run']).name
+        proof['source_hashes']={Path(k).name:v for k,v in proof['source_hashes'].items()}
+        save(archive/'equivalencia_diurna_102_104.json',proof)
+        shutil.copyfile(config['biophysical_table'],WEB/'dados-modelo/tab_biofisica_completa_18classes.csv')
+        text+='\n## Correção noturna das classes 102 e 104\n\nA nova noite foi executada oficialmente após estender o índice de entorno às superfícies 102 e 104. A tabela auxiliar tem 18 códigos: 1020–1023, 1040–1043 e as dez linhas preservadas. O zero significa ausência de edificações no entorno e é mantido em categoria própria; as demais faixas são até 0,25, até 0,50 e acima de 0,50. Coeficientes são médias do índice disponível em cada subclasse; preenchimentos não entram na média. A mediana regional de 6,445500373840332 m é usada nas lacunas com D positivo, com flag e contagem explícitas. São 484.009 pixels (435,6081 ha). É proxy de intensidade territorial, não medição do armazenamento térmico do asfalto ou do solo.\n\nO dia foi reaproveitado da rodada A001 anterior: a equivalência de Kc, sombra, albedo e green_area foi comprovada em todos os 225.297.940 pixels da grade. Não se alega nova execução diurna. Conferir `equivalencia_diurna_102_104.json` e a tabela de 18 classes. Os dados Landsat e as referências A001 também foram preservados.\n\nReprodução a partir do repositório: `python scripts/corrigir_intensidade_noturna.py` prepara uma nova pasta (ajustar PREVIOUS/RUN/SCRATCH ao ambiente). Execute somente `executar_invest.ps1 -Periodo night` nessa pasta. Depois, `scripts/finalizar_correcao_noturna.ps1 -RunRoot PASTA` copia a noite, extrai, confere e produz os derivados. O dia já existe e não deve ser novamente copiado por um finalizador antigo. A planilha pode ser atualizada com `scripts/atualizar_tabela_biofisica_102_104.mjs PASTA_CLIMA MODULOS_RUNTIME PASTA_SAIDA`, preservando a aba Diurna e as fórmulas da 103.\n'
     readme.write_text(text,encoding='utf-8')
 
 

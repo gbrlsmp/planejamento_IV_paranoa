@@ -53,20 +53,20 @@
         "noite": {
           "file": "cc-noite-valores.png",
           "preview": "cc-noite-previa.png",
-          "sha256": "7df6c79795faf2bac4999678d4d2dbeb60c2adac1fdc54a629cb53001b3aacb7",
-          "preview_sha256": "8613df6eec14c9d7d353302369a6b2bd794442c78e17e6ad4d4b6842c985b863",
+          "sha256": "0369dff309ec26917a046fad1f058ec81f36bb6336bb1606902cc6d5d5d85db4",
+          "preview_sha256": "69515d1789ec372c1cef53a271f922b0e42531badf4873e916991bf6960cfefb",
           "source_file": "cc_seca_2026_noite.tif",
-          "source_sha256": "1639fea078c176547c1ab1db8a8776df074493da4bdbc04cfa6389dc5299a95b",
+          "source_sha256": "11b62dfd2b2381202ec2a6885ae2ace21e2836dd3b8c80c3866a26779b14e40c",
           "native_stats": {
             "n": 117365300,
-            "sum": 114728503.73530847,
-            "sum2": 112932177.2100231,
-            "min": 0.4287887215614319,
+            "sum": 111199391.82115167,
+            "sum2": 106920340.11890309,
+            "min": 0.4277334213256836,
             "max": 1.0,
-            "mean": 0.9775334254273492,
-            "sd": 0.08158674152229933
+            "mean": 0.9474639592890887,
+            "sd": 0.11539821302475715
           },
-          "quantization_max_absolute_error": 7.629590988100787e-06,
+          "quantization_max_absolute_error": 7.629623730909252e-06,
           "web_valid_cells": 2876495
         }
       },
@@ -121,20 +121,20 @@
         "noite": {
           "file": "hm-noite-valores.png",
           "preview": "hm-noite-previa.png",
-          "sha256": "2d58bcce03a38141649e880c946074a491f438e49124f9dca98ce76813bde6eb",
-          "preview_sha256": "01ba555008076d2c302df4ab718c54478358f1d8c91ae4832ffd313401e0ee3d",
+          "sha256": "cc0edbb9178b138b355a8196ed0a8486d6ef521c61c54ba63663ff46009e5b5e",
+          "preview_sha256": "27fcec60d4ee77604148aa6c22d446d6e505e17cb293d1c213d4a8475474294b",
           "source_file": "hm_seca_2026_noite.tif",
-          "source_sha256": "9ba68e2f616258e464cb09102c7d0dd1ff79cf24094ccfcafe2b7f7c12a37dbe",
+          "source_sha256": "08dd710cf17256747f880f8df553ce334aea8c4a8e0207a730062976f6ba0aeb",
           "native_stats": {
             "n": 117365300,
-            "sum": 114757945.23014367,
-            "sum2": 112976071.97752258,
-            "min": 0.4287887215614319,
+            "sum": 111281942.99244058,
+            "sum2": 107043700.75734216,
+            "min": 0.4277334213256836,
             "max": 1.0,
-            "mean": 0.9777842789150086,
-            "sd": 0.08086964427163401
+            "mean": 0.9481673287798061,
+            "sd": 0.1141687394732728
           },
-          "quantization_max_absolute_error": 7.629590988100787e-06,
+          "quantization_max_absolute_error": 7.629623730909252e-06,
           "web_valid_cells": 2876495
         }
       },
@@ -191,20 +191,20 @@
         "noite": {
           "file": "t-noite-valores.png",
           "preview": "t-noite-previa.png",
-          "sha256": "d74795535e8aac72e2887271b04d56013bce55112da235878227261cbf550bc1",
-          "preview_sha256": "0f1530f2f37d5351c5d268ee44e6cc78d6db7f8cca4908213d9ccb0d59b468a2",
+          "sha256": "d4155aa4ffb3d0ac39245bbf14dbccc28cc2809620577fa7fcb05d1f27b7fade",
+          "preview_sha256": "9f8e671de5a7efa3ecf8387ff743b7e403888ba784a0cb4126cc65d83be76e9f",
           "source_file": "T_air_seca_2026_noite.tif",
-          "source_sha256": "2fee5d1d929f210d97d97fd0644b1d75ef6a429314814ee691bdf66f29ecbc6c",
+          "source_sha256": "66f52d04da6b764b46a0a904f087f98a56af8e102dfc6d45270b9f48ab294dd3",
           "native_stats": {
             "n": 117365300,
-            "sum": 2321223063.757701,
-            "sum2": 45909587886.9335,
+            "sum": 2331103843.426674,
+            "sum2": 46304676679.139946,
             "min": 19.714354957059744,
-            "max": 20.277556414977735,
-            "mean": 19.777762794946213,
-            "sd": 0.09178478752303039
+            "max": 20.71677282367823,
+            "mean": 19.86195104879103,
+            "sd": 0.19376029058915675
           },
-          "quantization_max_absolute_error": 6.103608760099632e-05,
+          "quantization_max_absolute_error": 6.103655327649449e-05,
           "web_valid_cells": 2876495
         }
       },
@@ -239,5 +239,5 @@
     "noite": "Noite"
   },
   "relative_classification": true,
-  "revision": "54f5a82289874363"
+  "revision": "b2b3e4057cb7f87c"
 }

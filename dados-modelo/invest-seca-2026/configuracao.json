@@ -19,5 +19,10 @@
   "do_productivity_valuation": false,
   "source_resolution_m": 3,
   "reference_station": "A001",
-  "reference_days": 153
+  "reference_days": 153,
+  "night_revision": "Intensidade regional nas classes 102 e 104; 103 preservada",
+  "auxiliary_class_count": 18,
+  "day_reused": true,
+  "day_reused_from": "Seca_2026_A001_Dia_Noite_2026-11-16",
+  "day_reuse_proof": "equivalencia_diurna_102_104.json"
 }

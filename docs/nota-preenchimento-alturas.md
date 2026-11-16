@@ -37,4 +37,12 @@ A falta de altura individual na fonte (aproximadamente 24,15% da área 103) e a 
 
 Fontes locais: `RESULTADO_COMBINACAO.json`, `RELATORIO_COMBINACAO_E_TABELA.md` e `qualidade_combinacao_500m_3m.tif`. Para o suporte parcial das médias, consultar [Nota técnica — qualidade das alturas regionais](nota-qualidade-alturas.md).
 
-As expressões “proposto” e “para revisão” dos arquivos originais descrevem o estado da produção. Esta nota registra especificamente o aceite posterior do preenchimento; não representa aceite automático das demais configurações do InVEST. Não houve alteração dos rasters ou nova execução do modelo para elaborar esta nota.
+As expressões “proposto” e “para revisão” dos arquivos originais descrevem o estado da produção. O registro de 15/11 trata do aceite posterior do preenchimento da 103; não representa aceite automático das demais configurações do InVEST. Sua elaboração não alterou os rasters nem executou o modelo.
+
+## Extensão noturna às superfícies 102 e 104 — 16/11/2026
+
+A correção solicitada estende a intensidade do entorno às classes 102 (impermeável/solo exposto) e 104 (vias pavimentadas), mantendo a 103. Nas áreas dessas duas classes com D500 positivo e H500 ausente, aplica-se a mesma mediana regional somente para classificá-las nas faixas do índice I. São 484.009 pixels, equivalentes a 435,6081 ha: 412.505 na 102 e 71.504 na 104. Todos recebem flag 9 em `qualidade_intensidade_102_104_3m.tif`.
+
+Esses pixels não participam da estimação dos coeficientes médios de cada nova subclasse. D500 igual a zero é mantido em categoria própria, com BI zero (1020/1040), sem atribuição de uma intensidade positiva. Os componentes observados permanecem intactos. A área preenchida adicional não deve ser confundida com os 0,0625% descritos para a classe 103.
+
+A tabela auxiliar passa a 18 códigos. A noite foi executada novamente com o InVEST oficial; o dia anterior foi preservado após prova integral de equivalência dos atributos diurnos. Consulte a [prova, contagens e coeficientes](../dados-modelo/invest-seca-2026/equivalencia_diurna_102_104.json). O preenchimento continua sendo uma estimativa, sem calibração local ou comprovação da altura real em cada pixel.
