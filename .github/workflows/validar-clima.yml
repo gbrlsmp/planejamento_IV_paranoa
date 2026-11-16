@@ -15,5 +15,7 @@ jobs:
       - run: python -m pip install Pillow
       - run: python scripts/validar_producao_clima.py --regenerar
       - run: node --test scripts/test_invest_producao.cjs
+      - run: node --test scripts/test_clima_fragmentos.cjs
       - run: node --check clima-exploracao.js
       - run: node --check invest-producao.js
+      - run: node --check clima-fragmentos.js

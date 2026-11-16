@@ -15,7 +15,7 @@ ogr.UseExceptions()
 ROOT = Path(__file__).resolve().parent
 CLIMA = ROOT.parent.parent
 BASE = CLIMA.parents[2]
-CONFIG = CLIMA / '03_Tabelas/Parametros_climaticos/CONFIGURACAO_PREPARADA.json'
+CONFIG = ROOT / 'configuracao_a001.json'
 FRAG = BASE / '02_Análises/03_Ecologia/01_Fragmentação'
 FRAGMENTOS = FRAG / 'fragmentos_vegetacao.gpkg'
 METRICAS = FRAG / 'MK_Fragmentation_Bacia_Paranoa_45m_AVU_PatchMetrics.gpkg'

@@ -2,14 +2,14 @@
   "invest_version": "3.20.2",
   "day": {
     "cc_method": "factors",
-    "t_ref": 25.155903223760365,
+    "t_ref": 24.265416609534256,
     "shade_weight": 0.6,
     "albedo_weight": 0.2,
     "eti_weight": 0.2
   },
   "night": {
     "cc_method": "intensity",
-    "t_ref": 17.810113695827983
+    "t_ref": 19.714379846732786
   },
   "uhi_max": 2.8593942060678548,
   "green_area_cooling_distance": 450,
@@ -17,5 +17,7 @@
   "invest_executed": true,
   "do_energy_valuation": false,
   "do_productivity_valuation": false,
-  "source_resolution_m": 3
+  "source_resolution_m": 3,
+  "reference_station": "A001",
+  "reference_days": 153
 }

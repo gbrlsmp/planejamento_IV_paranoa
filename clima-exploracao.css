@@ -40,6 +40,20 @@
 .invest-actions button { min-height:42px; padding:.5rem .8rem; font:inherit; color:var(--accent); background:var(--surface); border:1px solid var(--line); border-radius:.3rem; cursor:pointer; }
 .invest-actions label { display:flex; align-items:center; gap:.5rem; min-height:42px; }
 .invest-legend { margin:1rem 0; padding:1rem; border:1px solid var(--line); border-radius:.35rem; }
+.invest-explorer { margin-block:1.5rem; }
+.invest-map-layout { display:grid; grid-template-columns:minmax(0,1fr) 14rem; gap:1rem; margin-block:1rem; }
+.invest-map-layout .invest-map-grid { margin:0; }
+.invest-map-layout .invest-legend { margin:0; height:fit-content; font-size:.92rem; }
+.invest-map-layout .climate-class-list li { align-items:flex-start; }
+.invest-map-layout .climate-swatch { flex-shrink:0; margin-top:.2rem; }
+.climate-zone-legend { border-left:3px solid #8d554e; padding-left:.7rem; }
+.invest-map .climate-pixels { image-rendering:pixelated; }
+@media(max-width:1000px) { .invest-map-layout { grid-template-columns:1fr; } }
+.climate-fragment-search { display:grid; gap:.5rem; max-width:32rem; margin-block:1rem; font-weight:600; }
+.climate-fragment-search input,.climate-fragment-search select { min-height:44px; padding:.6rem; font:inherit; color:var(--ink); background:var(--surface); border:1px solid var(--line); border-radius:.3rem; }
+[data-fragment-table] td button { min-height:36px; padding:.3rem .5rem; font:inherit; color:var(--accent); background:var(--surface); border:1px solid var(--line); border-radius:.25rem; cursor:pointer; }
+[data-fragment-table] table { min-width:70rem; }
+.climate-methodology .method-detail-body > section > h6 { font-size:1rem; margin-block:1.4rem .7rem; }
 .invest-legend-bar { height:16px; border-radius:3px; margin:.5rem 0; }
 .invest-legend-labels { display:flex; justify-content:space-between; gap:1rem; }
 .invest-previews { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }

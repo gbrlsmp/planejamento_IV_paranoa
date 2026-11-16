@@ -10,9 +10,9 @@ A pesquisa utilizou o InVEST Urban Cooling 3.20.2 na seca de 2026, com factors p
 | Uso e cobertura do solo | PlanetScope de 17/01 e 30/07/2026; MapBiomas, ZEE-DF e vetores descritos na identificação. | Classificação proxy por NDVI e refinamentos territoriais em grade de 3 m, EPSG:31983; dez classes na cobertura final. | Raster de cobertura com edificações 103 e vias 104. | Localizar as superfícies às quais serão atribuídos os parâmetros biofísicos. |
 | Vias pavimentadas | Camada local Vias_OSM_Bacia_Paranoa.shp, campo pavimentad. | Seleção SIM; buffer de 2,5 m por lado das linhas, rasterização pelos centros; somente pixels 101/102 recebem 104. A fonte reúne eixos e margens. | Classe 104 — Vias pavimentadas; buffer e máscara de apoio. | Distinguir o pavimento da mistura impermeável/solo exposto, preservando as classes de IV. |
 | Meteorologia horária | INMET: A001 Brasília, A045 Águas Emendadas, A046 Gama e A047 Paranoá; arquivos 2025/2026. | UTC convertido para UTC−03; triagem por variável, ausência preservada. Médias, distribuições e perfis por período. Critérios específicos para exploração, Tref e ETo. | Séries e gráficos seca/chuva; dados para ETo e Tref. | Caracterizar os períodos e fornecer as observações meteorológicas usadas nas entradas do modelo. |
-| Temperatura de superfície e qualidade | Landsat 8/9 Collection 2 Level-2 Surface Temperature, USGS, obtido pelo Planetary Computer. | ST_B10 com escala/offset e conversão para °C; máscaras QA_PIXEL e QA_RADSAT. Médias nas seis áreas e em 13 datas completas da seca. | Comparações superficiais, médias por data e contraste entre referências. | Apoiar a seleção da estação de referência e construir a aproximação de UHI. Não é temperatura do ar. |
+| Temperatura de superfície e qualidade | Landsat 8/9 Collection 2 Level-2 Surface Temperature, USGS, obtido pelo Planetary Computer. | ST_B10 com escala/offset e conversão para °C; máscaras QA_PIXEL e QA_RADSAT. Médias nas seis áreas em 13 datas da seca; composições da bacia com 13 datas secas e 6 chuvosas, com contagem por pixel. | Mapas de superfície seca/chuva, comparações das áreas e contraste UHI. | Caracterizar os contrastes superficiais e construir a aproximação de UHI. A referência atual do ar usa A001; Landsat não mede temperatura do ar. |
 | Evapotranspiração de referência — ETo | Meteorologia da A001; método FAO56 de Allen et al. (1998). | Penman–Monteith calculado por dia; vento nominal de 10 m convertido a 2 m; média de 152 dias aceitos. | ETo média de 3,948045309995122 mm/dia em raster uniforme. | Fornecer a demanda evaporativa de referência para calcular ETI com o Kc de cada cobertura. |
-| Temperaturas de referência — Tref | Temperatura do ar A045; estação selecionada pelo critério superficial Landsat. | Janelas solares NOAA; mínimo de 20 leituras/dia e 80% por janela; mesmas 147 datas elegíveis para dia e noite. | Tref dia 25,155903223760365 °C; noite 17,810113695827983 °C. | Fixar a referência térmica de cada cenário do Urban Cooling. |
+| Temperaturas de referência — Tref | Temperatura do ar INMET A001 — Brasília. | Janelas solares NOAA; mínimo de 20 leituras/dia e 80% por janela; mesmas 153 datas elegíveis para dia e noite. Média das médias diárias por janela. | Tref dia 24,265416609534256 °C; noite 19,714379846732786 °C. | Fixar a referência operacional de cada cenário do Urban Cooling; a estação urbana não equivale automaticamente a uma referência rural. |
 | Contraste UHI | Landsat: Vicente Pires e Estação Ecológica da UnB. | Diferença das médias espaciais na mesma data; média dos 13 contrastes, com pesos temporais iguais. | Parâmetro UHI de 2,8593942060678548 °C. | Fornecer a amplitude usada na conversão do índice HM em temperatura, sob as aproximações declaradas. |
 | Implantação e altura das construções | Classe 103; SHP local de construções; Google Open Buildings 2.5D, ano 2023. | Altura >0 e ≤100 m, confiança de presença ≥0,50; mediana por construção na grade e amostra direta válida como alternativa; ausências preservadas. | Raster de altura individual disponível e origem/qualidade das atribuições. | Fornecer a componente vertical da morfologia construída. A temporalidade específica do SHP não foi comprovada. |
 | Ocupação horizontal e altura regional | Classe 103 e alturas individuais aproveitáveis. | Janelas móveis exatas de 500 × 500 m: implantação/área terrestre e altura média ponderada pela área edificada com altura. | D500, H500 e cobertura de alturas por janela. | Descrever o entorno construído nas dimensões horizontal e vertical, com suporte espacial comum. |
@@ -20,7 +20,9 @@ A pesquisa utilizou o InVEST Urban Cooling 3.20.2 na seca de 2026, com factors p
 
 ## Procedimentos
 
-### 1. Caracterizar os períodos e conferir a meteorologia
+### 1. Meteorologia e ETo
+
+#### Caracterizar os períodos e conferir a meteorologia
 
 A exploração compara 01/10/2025–30/04/2026 (212 dias) e 01/05–30/09/2026 (153 dias), nas quatro estações. A comparação com a chuva caracteriza os dados disponíveis; as entradas utilizadas no InVEST representam a seca de 2026.
 
@@ -32,29 +34,7 @@ Os boxplots resumem a distribuição entre dias; o perfil horário mostra média
 
 Notas relacionadas: NM 01, NM 03.
 
-### 2. Preparar a temperatura superficial e selecionar as referências
-
-O inventário contém 38 cenas Landsat, sendo 24 secas e 14 chuvosas; 19 têm cobertura completa no recorte considerado, das quais 13 são da seca. O filtro de nuvens de cena foi <5% na seca e <15% na chuva. A seleção térmica principal usa somente as 13 datas completas da seca, observadas de junho a setembro; não se preenche maio.
-
-A temperatura superficial é calculada por ST_B10 × 0,00341802 + 149 − 273,15, em °C, após aplicar a máscara básica: banda válida, exclusão dos bits 0–5 de QA_PIXEL e da oclusão de relevo, bit 11 de QA_RADSAT. A água permanece incluída. ST_QA é conservada para diagnóstico, sem corte adicional de magnitude no resultado principal.
-
-Comparam-se os entornos padronizados de 500 m das estações A001/A045/A046/A047 e as duas áreas de referência. Calcula-se primeiro a média espacial de cada área/data e depois a média das datas com pesos iguais. A045 apresentou a menor média superficial entre as quatro estações e foi selecionada para obter Tref a partir do seu registro de temperatura do ar.
-
-O UHI adotado é a média dos contrastes emparelhados Vicente Pires menos Estação Ecológica da UnB: 2,8593942060678548 °C. Esse contraste é superficial, diurno e específico das áreas/datas observadas; sua utilização como parâmetro do modelo de ar e sua transferência para a noite são aproximações explícitas.
-
-Notas relacionadas: NM 02, NM 04.
-
-### 3. Calcular a referência do ar para dia e noite
-
-As janelas são delimitadas por nascer e pôr do sol teóricos, calculados pelas equações NOAA. Dia inclui o nascer e exclui o pôr; noite reúne os horários anteriores ao nascer e posteriores ao pôr na mesma data civil local. Não se trata de uma noite contínua atravessando duas datas.
-
-O critério exige ≥20 leituras válidas no dia e ≥80% das leituras esperadas em cada janela, com o mínimo arredondado para cima. A média principal usa as mesmas 147 datas com ambas as janelas elegíveis. Nesse conjunto específico, as janelas também são completas.
-
-Calcula-se a média de cada janela em cada dia; depois, a média das médias diárias com pesos iguais. Obtêm-se 25,155903223760365 °C para o dia e 17,810113695827983 °C para a noite. A045 é fonte de Tref; A001 é fonte de ETo.
-
-Notas relacionadas: NM 03, NM 04.
-
-### 4. Calcular a ETo diária e produzir o raster de referência
+#### Calcular a ETo diária e produzir o raster de referência
 
 Aplica-se FAO Penman–Monteith diário à A001, antes de qualquer média sazonal. Tmax é a maior máxima horária do dia; Tmin, a menor mínima horária; T = (Tmax + Tmin)/2. Cada leitura de ponto de orvalho é convertida em pressão de vapor antes de calcular a pressão média diária. A pressão atmosférica é estimada pela altitude.
 
@@ -70,7 +50,33 @@ A média aritmética das 152 estimativas diárias é 3,948045309995122 mm/dia. �
 
 Notas relacionadas: NM 03, NM 05.
 
-### 5. Representar ocupação horizontal e altura em 500 m
+### 2. Temperatura de superfície e referências do ar
+
+#### Preparar a temperatura superficial e selecionar as referências
+
+O inventário contém 38 cenas Landsat, sendo 24 secas e 14 chuvosas; 19 têm cobertura completa no recorte considerado: 13 da seca e 6 da chuva. O filtro de nuvens de cena foi <5% na seca e <15% na chuva. As composições comparativas usam esses dois conjuntos, com disponibilidade por pixel. O contraste UHI usa somente as 13 datas completas da seca, observadas de junho a setembro; não se preenche maio.
+
+A temperatura superficial é calculada por ST_B10 × 0,00341802 + 149 − 273,15, em °C, após aplicar a máscara básica: banda válida, exclusão dos bits 0–5 de QA_PIXEL e da oclusão de relevo, bit 11 de QA_RADSAT. A água permanece incluída. ST_QA é conservada para diagnóstico, sem corte adicional de magnitude no resultado principal.
+
+Comparam-se os entornos padronizados de 500 m das estações A001/A045/A046/A047 e as duas áreas de referência. Calcula-se primeiro a média espacial de cada área/data e depois a média das datas com pesos iguais. A045 apresentou a menor média superficial; a configuração atual utiliza o ar da A001 como referência operacional por decisão da pesquisa. O ranking superficial permanece como exploração independente e não determina a referência atual.
+
+O UHI adotado é a média dos contrastes emparelhados Vicente Pires menos Estação Ecológica da UnB: 2,8593942060678548 °C. Esse contraste é superficial, diurno e específico das áreas/datas observadas; sua utilização como parâmetro do modelo de ar e sua transferência para a noite são aproximações explícitas.
+
+Notas relacionadas: NM 02, NM 04.
+
+#### Calcular a referência do ar para dia e noite
+
+As janelas são delimitadas por nascer e pôr do sol teóricos, calculados pelas equações NOAA. Dia inclui o nascer e exclui o pôr; noite reúne os horários anteriores ao nascer e posteriores ao pôr na mesma data civil local. Não se trata de uma noite contínua atravessando duas datas.
+
+O critério exige ≥20 leituras válidas no dia e ≥80% das leituras esperadas em cada janela, com o mínimo arredondado para cima. A média principal da A001 usa as mesmas 153 datas com ambas as janelas elegíveis, entre 01/05 e 30/09/2026; ausências não são preenchidas.
+
+Calcula-se a média de cada janela em cada dia; depois, a média das médias diárias com pesos iguais. Obtêm-se 24,265416609534256 °C para o dia e 19,714379846732786 °C para a noite. A001 fornece Tref e ETo, com critérios de agregação específicos para cada produto.
+
+Notas relacionadas: NM 03, NM 04.
+
+### 3. Cobertura e parâmetros biofísicos
+
+#### Representar ocupação horizontal e altura em 500 m
 
 A ocupação horizontal D é a área da implantação 103 dividida pela área terrestre válida na janela quadrada móvel de 500 × 500 m. Água e fora da máscara são excluídos do denominador; vias 104 e demais classes terrestres entram no denominador. Vias não são somadas à implantação de edifícios.
 
@@ -82,7 +88,9 @@ As subclasses aplicam-se somente à implantação original 103: baixa até 0,25;
 
 Notas relacionadas: NM 08, NM 09, NM 10, NM 11.
 
-### 6. Executar e conferir o InVEST Urban Cooling
+### 4. InVEST e resultados
+
+#### Executar e conferir o InVEST Urban Cooling
 
 Foi utilizado o InVEST Urban Cooling 3.20.2, por script, com uma execução diurna pelo método factors e outra noturna pelo método intensity, ambas representativas da seca de 2026. O manual de referência consultado é o 3.20.0. O objetivo é estimar capacidade de resfriamento, mitigação térmica e temperatura do ar para apoiar o diagnóstico da IV na seca.
 
@@ -91,6 +99,8 @@ A cobertura auxiliar é associada à tabela pelo lucode. No dia: ETI = Kc × ETo
 Na noite: CC = 1 − building_intensity. O índice combinado da pesquisa é usado como adaptação desse parâmetro. O mecanismo adicional de áreas verdes utiliza green_area; o modelo considera a soma de área verde na vizinhança, com limiar interno de 2 ha, sem exigir que ela corresponda a um único fragmento contíguo. A influência verde pode elevar o índice de mitigação HM em relação à capacidade local.
 
 Antes da mistura espacial, T_ar = Tref + (1 − HM) × UHI. A etapa de mistura gera a estimativa final de temperatura do ar. As distâncias de resfriamento e mistura são parâmetros diferentes da janela morfológica de 500 m; foram confirmados e utilizados 450 m para resfriamento e 500 m para mistura do ar, alinhados às recomendações iniciais do manual, sem calibração local.
+
+Hu, Wang e Li (2023), Tabela 2, p. 8, utilizaram 550 m para mistura e 450 m para resfriamento. Borges (2026), p. 111, utilizou 500 m e 450 m, respectivamente. Os trabalhos apresentam 500–600 m como faixa inicial recomendada para mistura. A adoção de 500 m nesta pesquisa tem precedente metodológico, sem demonstrar calibração específica para o Paranoá.
 
 Foram produzidos e conferidos CC e HM, adimensionais, e temperatura do ar em °C. As avaliações opcionais de energia e produtividade foram desativadas. Nesta apresentação são mostradas as superfícies contínuas da bacia; resultados por fragmento e classificação de risco pertencem à etapa de diagnóstico. O Urban Cooling não gera diretamente um mapa de umidade do ar. Não foi calculada média dia/noite. As duas execuções concluíram com código 0; a conferência leu integralmente as saídas, verificando grade, máscara, equações e integridade das cópias. Não houve calibração ou validação térmica empírica.
 
@@ -151,11 +161,11 @@ Landsat mede superfície, enquanto Tref vem do ar. O contraste entre duas áreas
 
 ### NM 03 — Critérios de completude específicos
 
-Exploração: ≥20 leituras por dia e 24 intervalos para chuva; Sankey/dispersão: ≥20 pares T/UR. Tref: ≥20 temperaturas/dia e ≥80% em cada janela solar, com 147 datas pareadas efetivas. ETo: 24 valores das variáveis essenciais e tratamento da radiação descrito no procedimento. Não transportar um único critério para todos os produtos; ausências permanecem identificadas.
+Exploração: ≥20 leituras por dia e 24 intervalos para chuva; Sankey/dispersão: ≥20 pares T/UR. Tref A001: ≥20 temperaturas/dia e ≥80% em cada janela solar, com 153 datas pareadas efetivas. ETo: 24 valores das variáveis essenciais e tratamento da radiação descrito no procedimento. Não transportar um único critério para todos os produtos; ausências permanecem identificadas.
 
-### NM 04 — Escolha e representatividade da A045
+### NM 04 — Referência operacional da A001 e representatividade
 
-A045 foi selecionada pela menor média superficial do entorno comparativo; isso não prova que registre o ar mais frio de toda a região. A estação fica fora da bacia. O entorno de 500 m é recorte de comparação e não raio demonstrado de representatividade meteorológica. A seleção utiliza 13 datas Landsat de junho–setembro; Tref abrange datas elegíveis de maio–setembro, com compatibilidade sazonal e sem simultaneidade integral.
+A001 — Brasília fornece as referências diurna e noturna por decisão da pesquisa. É uma estação urbana; não foi demonstrado que represente o ar rural, mais frio ou não afetado pela ilha de calor. Assim, as temperaturas absolutas são condicionadas a essa referência operacional. O ranking superficial das quatro estações é exploratório. O entorno comparativo de 500 m não demonstra representatividade meteorológica. Landsat utiliza 13 datas diurnas de junho–setembro; Tref abrange 153 datas de maio–setembro, com compatibilidade sazonal e sem simultaneidade integral.
 
 ### NM 05 — Fonte única e uniformidade da ETo
 
@@ -199,6 +209,16 @@ Os gráficos e os critérios de agregação estão detalhados na primeira etapa.
 
 ## Resultados contínuos da bacia
 
-As duas rodadas oficiais estão concluídas, com 450 m de resfriamento e 500 m de mistura do ar, sem avaliações de energia/produtividade e sem média dia/noite. [Mapas contínuos e estatísticas](../diagnostico.html#resultados-invest), [configuração](../dados-modelo/invest-seca-2026/configuracao.json), [conferências](../dados-modelo/invest-seca-2026/verificacoes_bacia.json) e [registros da execução](../dados-modelo/invest-seca-2026/LEIA_ME.md). Resultados por fragmento e classificação de risco pertencem à etapa de diagnóstico e não são apresentados nesta produção.
+As duas rodadas oficiais estão concluídas, com 450 m de resfriamento e 500 m de mistura do ar, sem avaliações de energia/produtividade e sem média dia/noite. [Mapas contínuos e estatísticas](../diagnostico.html#resultados-invest), [configuração](../dados-modelo/invest-seca-2026/configuracao.json), [conferências](../dados-modelo/invest-seca-2026/verificacoes_bacia.json) e [registros da execução](../dados-modelo/invest-seca-2026/LEIA_ME.md). Os resultados por fragmento e as classes térmicas relativas são apresentados na seção de diagnóstico atual; não constituem classificação de risco sanitário.
 
 A versão web agrega por média em 20 m, EPSG:3857, com codificação UInt16 para consulta. As cores são interpoladas da paleta existente. A escala comum permite comparar cenários; ampliar o contraste usa os limites do cenário e é desativado na comparação lado a lado. As estatísticas tabulares vêm da conferência integral dos rasters nativos de 3 m. A escala de cores não define risco.
+
+## Comparação Landsat seca/chuva e diagnóstico atual
+
+Composições diurnas de 13 datas da seca e 6 da chuva, com média por pixel disponível, sem preenchimento, máscara QA básica e contagem de observações. Grade de 30 m (térmico efetivo de 100 m), pixels que intersectam a bacia. As datas não representam todas as horas ou dias dos períodos. A extração nos fragmentos usa os valores desses pixels sobre os centros da grade geométrica de 3 m, sem criar informação térmica. O percentual válido é informado.
+
+Classes relativas Ruim, Médio, Bom e Muito bom: CC/HM com cortes 0,25/0,50/0,75, maiores valores melhores; temperatura do ar pelo excesso normalizado (T−Tref)/UHI, cortes 0,25/0,50/0,75, menores valores melhores; LST pelos quartis dos pixels válidos das duas composições reunidas, mesmos cortes na seca e chuva. Cada corte pertence à faixa superior de valores. Empates não são separados e não se forçam classes ocupadas. Não são limiares de saúde ou calibração local.
+
+Zonas relativamente quentes: exclusivamente saídas T_air do InVEST acima da média da bacia mais um desvio padrão populacional em cada cenário, conectividade 4 e área mínima de 2 ha na grade nativa de 3 m. Contornos web simplificados em 9 m; GPKG local preserva os polígonos nativos. Critério operacional exploratório; não demonstra ilha de calor urbano-rural observada ou persistência entre datas.
+
+O [diagnóstico dos fragmentos](../diagnostico.html#diagnostico-clima-atual) permite consultar os 46.876 IDs, mapas, classes e estatísticas. A imagem de IDs de 20 m pode omitir fragmentos pequenos; tabela e busca cobrem todos. Contornos individuais web são simplificados em 3 m; geometrias integrais permanecem nos GPKGs locais. [CSV completo](../dados-modelo/invest-seca-2026/diagnostico_fragmentos_46876.csv), [critérios e limiares](../dados-mapas/clima/diagnostico-2026/manifesto.json), [Tref A001](../dados-modelo/invest-seca-2026/tref_a001.json) e [Landsat](../dados-modelo/invest-seca-2026/superficie_sazonal.json).

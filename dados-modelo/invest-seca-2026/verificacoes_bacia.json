@@ -39,23 +39,23 @@
         },
         "t": {
           "n": 117365300,
-          "sum": 3156768306.525332,
-          "sum2": 84919663025.084,
-          "min": 26.10219822500209,
-          "max": 27.635632574144168,
-          "mean": 26.896947449760123,
-          "sd": 0.3228307216534806
+          "sum": 3052256184.311082,
+          "sum2": 79390615478.22983,
+          "min": 25.211708734078293,
+          "max": 26.74514297339449,
+          "mean": 26.00646174219366,
+          "sd": 0.3228309877691777
         }
       },
       "max_cc_formula_absolute_error": 2.6076507619876566e-08,
-      "max_temperature_nomix_formula_absolute_error": 1.4449279319705965e-06,
+      "max_temperature_nomix_formula_absolute_error": 1.7416966358041464e-06,
       "masks_match_input": true,
       "hm_at_least_cc": true,
-      "all_fragments_have_data": true,
       "t_in_reference_uhi_bounds_within_tolerance": true,
       "temperature_bounds_tolerance_C": 0.0001,
       "temperature_below_reference_max_C": 0.0,
-      "temperature_above_reference_plus_uhi_max_C": 0.0
+      "temperature_above_reference_plus_uhi_max_C": 0.0,
+      "all_fragments_have_data": true
     },
     "night": {
       "period": "night",
@@ -95,28 +95,28 @@
         },
         "t": {
           "n": 117365300,
-          "sum": 2097728172.0993934,
-          "sum2": 37494723975.4924,
-          "min": 17.81009276428732,
-          "max": 18.373285680055325,
-          "mean": 17.873495591110775,
-          "sd": 0.09178489658194804
+          "sum": 2321223063.757701,
+          "sum2": 45909587886.9335,
+          "min": 19.714354957059744,
+          "max": 20.277556414977735,
+          "mean": 19.777762794946213,
+          "sd": 0.09178478752303039
         }
       },
       "max_cc_formula_absolute_error": 3.061250297697882e-08,
-      "max_temperature_nomix_formula_absolute_error": 1.3687507305348845e-06,
+      "max_temperature_nomix_formula_absolute_error": 1.5752678024227862e-06,
       "masks_match_input": true,
       "hm_at_least_cc": true,
-      "all_fragments_have_data": true,
       "t_in_reference_uhi_bounds_within_tolerance": true,
       "temperature_bounds_tolerance_C": 0.0001,
-      "temperature_below_reference_max_C": 2.0931540664292925e-05,
-      "temperature_above_reference_plus_uhi_max_C": 0.0
+      "temperature_below_reference_max_C": 2.488967304259404e-05,
+      "temperature_above_reference_plus_uhi_max_C": 0.0,
+      "all_fragments_have_data": true
     }
   },
   "source_geometries_preserved": true,
   "input_hashes_unchanged": true,
-  "native_copy_hash_checks": 48,
+  "native_copy_hash_checks": 50,
   "empirical_thermal_validation": false,
   "fragment_results": "Reservados à etapa de diagnóstico; não publicados aqui."
 }

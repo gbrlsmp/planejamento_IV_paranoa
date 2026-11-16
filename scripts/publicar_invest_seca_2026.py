@@ -36,13 +36,16 @@ def palette(colors):
 def publish(run):
     qa=json.loads((run/'05_Verificacoes/RESULTADO_EXECUCAO_E_EXTRACAO.json').read_text(encoding='utf-8'))
     assert qa['status']=='executado_extraido_conferido'
+    config=json.loads((run/'01_Entradas/configuracao_confirmada.json').read_text(encoding='utf-8'))
     out=WEB/'dados-mapas/clima/urban-cooling-2026';out.mkdir(parents=True,exist_ok=True)
     archive=WEB/'dados-modelo/invest-seca-2026';archive.mkdir(parents=True,exist_ok=True)
     greens=list(FRAGMENT_AREA_COLORS.values())
     warm=[ZEE_COLORS['Lagoas de Estabilização'],ZEE_COLORS['Represas, Lagos, Lagoas e Rios'],FRAGMENT_AREA_COLORS[1],ZEE_COLORS['Formação Campestre'],RISK_COLORS[4][1],RISK_COLORS[5][1]]
     meta={'schema':1,'invest_version':'3.20.2','period':'Seca de 2026','source_resolution_m':3,'web_resolution_m':20,'web_crs':'EPSG:3857','web_resampling':'average','encoding':{'type':'uint16_rg','nodata':0,'minimum_code':1,'maximum_code':65535,'formula':'value = low + (R*256+G-1)/65534*(high-low)'},'palette_source':'scripts/identificacao/paletas_identificacao.py; cores existentes da identificação e do relatório','fragment_results_published':False,'risk_classification':False,'indicators':{}}
     summary=[];bounds=None
-    for key,label,unit,colors,limits in [('cc','Capacidade de resfriamento (CC)','',greens,[0,1]),('hm','Mitigação térmica (HM)','',greens,[0,1]),('t','Temperatura estimada do ar','°C',warm,[17.5,28])]:
+    import math
+    t_limits=[math.floor(min(qa['scenarios'][p]['full_raster_stats']['t']['min'] for p in ('day','night'))),math.ceil(max(qa['scenarios'][p]['full_raster_stats']['t']['max'] for p in ('day','night')))]
+    for key,label,unit,colors,limits in [('cc','Capacidade de resfriamento (CC)','',greens,[0,1]),('hm','Mitigação térmica (HM)','',greens,[0,1]),('t','Temperatura estimada do ar','°C',warm,t_limits)]:
         indicator={'label':label,'unit':unit,'colors':colors,'range':limits,'scenarios':{}}
         lut=palette(colors)
         for period,short in [('day','dia'),('night','noite')]:
@@ -85,7 +88,7 @@ def publish(run):
     config=json.loads((run/'01_Entradas/configuracao_confirmada.json').read_text(encoding='utf-8'))
     inputs=json.loads((run/'01_Entradas/preparacao.json').read_text(encoding='utf-8'))
     clean_config={k:config[k] for k in ('invest_version','day','night','uhi_max','green_area_cooling_distance','t_air_average_radius')}
-    clean_config.update(invest_executed=True,do_energy_valuation=False,do_productivity_valuation=False,source_resolution_m=3)
+    clean_config.update(invest_executed=True,do_energy_valuation=False,do_productivity_valuation=False,source_resolution_m=3,reference_station=config['reference_station'],reference_days=config['reference_days'])
     save(archive/'configuracao.json',clean_config)
     save(archive/'verificacoes_bacia.json',{'status':qa['status'],'scenarios':{p:{k:v for k,v in qa['scenarios'][p].items() if k!='raster_files'} for p in ('day','night')},'source_geometries_preserved':qa['source_geometries_preserved'],'input_hashes_unchanged':qa['input_hashes_unchanged'],'native_copy_hash_checks':len(qa['native_to_delivered_copy_checks']),'empirical_thermal_validation':False,'fragment_results':'Reservados à etapa de diagnóstico; não publicados aqui.'})
     save(archive/'fontes_sha256.json',{'inputs':{Path(k).name:v for k,v in inputs['input_files'].items() if not k.endswith('CONFIGURACAO_PREPARADA.json')},'rasters':{i:{p:{k:r[k] for k in ('source_file','source_sha256')} for p,r in cfg['scenarios'].items()} for i,cfg in meta['indicators'].items()}})
@@ -103,6 +106,12 @@ O site usa derivados médios de 20 m em EPSG:3857 e codificação UInt16; consul
 
 UHI superficial diurno transferido ao ar e à noite por hipótese, ETo uniforme e ausência de calibração local continuam como limitações. Resultados por fragmento ficam para o diagnóstico e não integram estes arquivos de publicação.
 ''',encoding='utf-8')
+    readme=archive/'LEIA_ME.md'
+    text=readme.read_text(encoding='utf-8').replace('Seca_2026_Dia_Noite_2026-11-16','Seca_2026_A001_Dia_Noite_2026-11-16')
+    text=text.replace('sem média dia/noite ou classificação de risco.', 'sem média dia/noite ou classificação de risco sanitário. Referência do ar A001 — Brasília, 153 datas pareadas; dia 24,265416609534256 °C e noite 19,714379846732786 °C. Referência operacional urbana, sem equivalência demonstrada ao ar rural.')
+    text=text.replace('Resultados por fragmento ficam para o diagnóstico e não integram estes arquivos de publicação.', 'O diagnóstico atual publica os 46.876 fragmentos, classes térmicas relativas e polígonos de zonas relativamente quentes do InVEST. Consulte `diagnostico_fragmentos_46876.csv`, `tref_a001.json` e os manifestos em `dados-mapas/clima/diagnostico-2026` e `superficie-sazonal`. A classificação não foi calibrada e não representa risco sanitário. A rodada anterior A045 foi preservada na base local.')
+    text+='\n\nPreparação atual: `scripts/preparar_revisao_clima.py` calcula as referências e gera uma nova pasta, recusando sobrescrever entregas. Após preparar entradas com o Python do QGIS, `--iniciar` define workspaces locais novos; `executar_invest.ps1` chama o InVEST oficial. Para concluir a cópia e extração use `scripts/concluir_revisao_clima.ps1 -RunRoot PASTA`. Os produtores `produzir_superficie_sazonal.py` e `publicar_diagnostico_clima.py` registram as composições, classes e polígonos. Ajuste os caminhos de ROOT/SCRATCH ao ambiente. Nenhuma execução modifica as fontes Landsat/INMET ou as geometrias originais.\n'
+    readme.write_text(text,encoding='utf-8')
 
 
 if __name__=='__main__':
