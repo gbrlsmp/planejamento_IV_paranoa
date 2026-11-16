@@ -8,7 +8,7 @@ Método adotado em **11/11/2026**, chamado v2 nos testes dessa data. Ele substit
 - Grade da seca: EPSG:31983, 3 × 3 m, 14.644 × 15.385 células; geotransformação `(166599, 3, 0, 8276418, 0, -3)`.
 - NDVIs Float32, NoData −9999; classificação Byte, NoData 255.
 - Referências atuais: `referencias_mapbiomas_zee_sistema.gpkg`, camada `referencias_equivalentes`, códigos 12, 4 e 3. Centros de pixel, todos os valores válidos, sem amostragem.
-- Vias OSM sem filtro de pavimentação ou buffer; Google Open Buildings; água SEDUH/Geoportal; UCs de proteção integral; MapBiomas local identificado como 2025 e 10 m; ZEE-DF de risco de perda da vegetação nativa. Coleção MapBiomas e certas datas das fontes continuam sem comprovação documental.
+- Vias OSM lineares na limpeza e, na integração final, seleção de pavimentadas com buffer de 2,5 m; Google Open Buildings; água SEDUH/Geoportal; UCs de proteção integral; MapBiomas local identificado como 2025 e 10 m; ZEE-DF de risco de perda da vegetação nativa. Coleção MapBiomas e certas datas das fontes continuam sem comprovação documental.
 
 O raster `ndvi_media_seca_chuva_2026.tif`, na pasta `02_NDVI`, exige as duas datas válidas. O classificador usa a média aritmética com duas observações válidas e o valor disponível com uma única data; sem observação válida, mantém NoData. Um valor válido é finito, entre −1 e 1 e diferente de NoData. A média temporal é calculada em Float32. Os quatro rasters classificados têm 117.365.300 pixels válidos, 1.492 a mais que o raster médio estrito.
 
@@ -48,9 +48,11 @@ Máscaras de vias, água e edificações são independentes. Vetores usam `ALL_T
 
 A classe MapBiomas é transferida por vizinho mais próximo usando uma VRT GDAL, transformação aproximada padrão de 0,125 pixel, lida em faixas de **512 linhas por toda a largura**. Na reprodução desta rodada, ler a VRT em quadrados alterava pixels de borda; a leitura em faixas reproduziu integralmente os testes aprovados. O ambiente conferido consta no JSON de resultados.
 
-### 04 — contexto ZEE-DF
+### 04 — contexto ZEE-DF e vias pavimentadas
 
 Somente em `risco = 2`, legenda “Ausência de Cerrado Nativo”: 3/4 → vegetação intraurbana 100; 12 → forração 101. As demais classes, inclusive edificações 103, permanecem.
+
+Na integração final, selecionar `pavimentad = 'SIM'` da camada Vias_OSM_Bacia_Paranoa; aplicar buffer de 2,5 m às linhas em EPSG:31983 e rasterizar pelos centros dos pixels. A fonte inclui eixos e margens, sem filtro adicional de tipo. Somente 101/102 recebem 104 — Vias pavimentadas; preservar 3/4/11/12/33/100/103 e NoData. A máscara da IV e as edificações são conferidas integralmente. O produto corrente é `04_Vias_pavimentadas_2026-11-15/uso_cobertura_2026_vias_pavimentadas_3m.tif`.
 
 ## Uso do solo final
 
@@ -62,9 +64,10 @@ Somente em `risco = 2`, legenda “Ausência de Cerrado Nativo”: 3/4 → veget
 | Formação campestre (12) | 23.465.123 | 21.118,6107 |
 | Água (33) | 5.194.968 | 4.675,4712 |
 | Vegetação intraurbana (100) | 6.828.937 | 6.146,0433 |
-| Forração vegetal (101) | 26.659.570 | 23.993,6130 |
-| Impermeável ou solo exposto (102) | 14.771.930 | 13.294,7370 |
+| Forração vegetal (101) | 26.315.137 | 23.683,6233 |
+| Impermeável ou solo exposto (102) | 10.333.027 | 9.299,7243 |
 | Edificações (103) | 9.099.177 | 8.189,2593 |
+| Vias pavimentadas (104) | 4.783.336 | 4.305,0024 |
 
 Áreas = células × 9 m² / 10.000. NoData: 107.932.640 células, fora da soma.
 
@@ -137,7 +140,7 @@ Os GeoPackages correntes foram atualizados por transação no mesmo arquivo, par
 
 ## Limitações
 
-NDVI e regras média ± desvio são proxies empíricas, sem comprovação de origem nativa, composição botânica ou limiares ótimos. Duas datas não descrevem o ciclo fenológico completo. UDM2 não foi aplicada. Vias lineares sem largura/filtro de pavimentação e edificações sem erosão podem incluir pixels mistos, vegetação e sombras. Classe 102 reúne impermeabilização e solo exposto; 101 não é tipologia botânica validada. A classe 11 conserva o detalhe temático de 10 m. Referências cartográficas históricas não são validação independente. Vistas web reamostradas não substituem dados nativos para medir área.
+NDVI e regras média ± desvio são proxies empíricas, sem comprovação de origem nativa, composição botânica ou limiares ótimos. Duas datas não descrevem o ciclo fenológico completo. UDM2 não foi aplicada. A limpeza por vias lineares, a largura fixa das vias pavimentadas e edificações sem erosão podem incluir pixels mistos, vegetação e sombras. Classe 102 reúne impermeabilização e solo exposto; 101 não é tipologia botânica validada. A classe 11 conserva o detalhe temático de 10 m. Referências cartográficas históricas não são validação independente. Vistas web reamostradas não substituem dados nativos para medir área.
 
 ## Histórico dos cortes de NDVI
 
@@ -148,3 +151,8 @@ NDVI e regras média ± desvio são proxies empíricas, sem comprovação de ori
 | Primeiro teste v3 | Desvio padrão amostral calculado sobre a média seca–chuva de cada pixel das interseções. Limites inferiores 0,5185165380148051 para formação campestre (12), 0,6418583869093903 para formação savânica (4) e 0,7354611272062169 para formação florestal (3). |
 | v3 histórica (superada) | Recuperação dos cortes históricos da etapa de NDVI médio. Era a base anterior sem sufixo; substituída pelo método adotado em 11/11/2026. |
 | v2 de 11/11/2026 (vigente) | Referências atuais, desvio populacional espacial, cortes completos registrados acima; residual literal 0,3555; edificações depois da água, preservando classe atual 3. |
+
+
+## Integração das entradas climáticas
+
+`integrar_vias_pavimentadas.py --base BASE --web CHECKOUT` integra vias à cobertura final já conferida, preserva fontes, produz tabela de dez classes e cobertura/tabela de doze classes para InVEST (1031–1033). O script completo de classificação também incorpora esse refinamento na etapa 04. A faixa não comprova material ou largura real de todas as pistas. Produtos vetoriais da IV permanecem válidos pela igualdade integral de suas classes.

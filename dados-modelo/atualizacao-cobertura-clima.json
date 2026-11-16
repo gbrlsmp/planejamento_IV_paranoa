@@ -1,0 +1,86 @@
+{
+  "date": "2026-11-15",
+  "filter": "pavimentad = 'SIM'",
+  "selected_features": 41169,
+  "selected_types": {
+    "MARGEM": 11336,
+    "EIXO": 29833
+  },
+  "buffer_m_each_side": 2.5,
+  "rasterization": "pixel centers; ALL_TOUCHED=FALSE",
+  "grid": {
+    "width": 14644,
+    "height": 15385,
+    "epsg": 31983,
+    "pixel_m": 3
+  },
+  "counts": {
+    "11": 1701852,
+    "100": 6828937,
+    "101": 26315137,
+    "102": 10333027,
+    "103": 9099177,
+    "255": 107932640,
+    "4": 22256030,
+    "12": 23465123,
+    "104": 4783336,
+    "3": 7387713,
+    "33": 5194968
+  },
+  "before_counts": {
+    "11": 1701852,
+    "100": 6828937,
+    "101": 26659570,
+    "102": 14771930,
+    "103": 9099177,
+    "255": 107932640,
+    "4": 22256030,
+    "12": 23465123,
+    "3": 7387713,
+    "33": 5194968
+  },
+  "transitions_to104": {
+    "101": 344433,
+    "102": 4438903
+  },
+  "area_vias_ha": 4305.0024,
+  "aux_counts": {
+    "11": 1701852,
+    "100": 6828937,
+    "101": 26315137,
+    "102": 10333027,
+    "1031": 3345522,
+    "65535": 107932640,
+    "4": 22256030,
+    "12": 23465123,
+    "104": 4783336,
+    "3": 7387713,
+    "33": 5194968,
+    "1032": 5436256,
+    "1033": 317399
+  },
+  "pixels_verified": 225297940,
+  "iv_preserved": true,
+  "buildings_preserved": true,
+  "nodata_preserved": true,
+  "fragment_count_preserved": 46876,
+  "components_D_H_I_reused": true,
+  "thermal_validation": false,
+  "invest_executed": false,
+  "source_hashes_sha256": {
+    "C:\\Users\\sampa\\OneDrive - unb.br\\02 BASE DE DADOS\\02_Análises\\03_Ecologia\\03_Fitofisionomia\\03_Raster\\03_fitofisionomia\\fitofisionomias_proxy_ndvi_3m_etapa_04.tif": "fdd37bcb859acda717e36dd267ad6ecd10b768f5ede57d25e983471323780f37",
+    "C:\\Users\\sampa\\OneDrive - unb.br\\02 BASE DE DADOS\\02_Análises\\01_Riscos\\01_Clima\\11_Intensidade_combinada_500m_2026-11-15\\cobertura_auxiliar_1031_1034_500m_proposta_3m.tif": "5d84a6c449eb1e85ee400675debad0b901f6768423dbf09b38c26076e9aa6359",
+    "C:\\Users\\sampa\\OneDrive - unb.br\\02 BASE DE DADOS\\02_Análises\\01_Riscos\\01_Clima\\11_Intensidade_combinada_500m_2026-11-15\\classes_indice_combinado_500m_disponivel_3m.tif": "730c7f8279111c69b65b66c365d26bfb5fac0beca47259bb7d68133e35daef59",
+    "C:\\Users\\sampa\\OneDrive - unb.br\\02 BASE DE DADOS\\01_Base\\vetores\\Vias_OSM_Bacia_Paranoa.shp": "693fbe5954cd42d150bff69524e42585e42e4b44158a9e4770d7aecafc91e3a7",
+    "C:\\Users\\sampa\\OneDrive - unb.br\\02 BASE DE DADOS\\01_Base\\vetores\\Vias_OSM_Bacia_Paranoa.shx": "9efff217110115e506fec43ec2ac5dba2ea0ab862779e41adef595e6738c12df",
+    "C:\\Users\\sampa\\OneDrive - unb.br\\02 BASE DE DADOS\\01_Base\\vetores\\Vias_OSM_Bacia_Paranoa.dbf": "07d9be86289f83dd25fbe47fd3899c38b7ac1672dc2991c7bb0ee1a0fa8cadd8",
+    "C:\\Users\\sampa\\OneDrive - unb.br\\02 BASE DE DADOS\\01_Base\\vetores\\Vias_OSM_Bacia_Paranoa.prj": "9ecb93a63f0561f69281402099c3d4ef8713de9c48bd4627354724f8a6a6bcee",
+    "C:\\Users\\sampa\\OneDrive - unb.br\\02 BASE DE DADOS\\01_Base\\vetores\\Vias_OSM_Bacia_Paranoa.cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+  },
+  "outputs": {
+    "coverage": "C:\\Users\\sampa\\OneDrive - unb.br\\02 BASE DE DADOS\\02_Análises\\03_Ecologia\\03_Fitofisionomia\\03_Raster\\04_Vias_pavimentadas_2026-11-15\\uso_cobertura_2026_vias_pavimentadas_3m.tif",
+    "auxiliary": "C:\\Users\\sampa\\OneDrive - unb.br\\02 BASE DE DADOS\\02_Análises\\01_Riscos\\01_Clima\\04_Rasters\\Cobertura_para_InVEST\\cobertura_auxiliar_1031_1033_vias104_3m.tif",
+    "table": "C:\\Users\\sampa\\OneDrive - unb.br\\02 BASE DE DADOS\\02_Análises\\01_Riscos\\01_Clima\\03_Tabelas\\Biofisica\\tab_biofisica_completa_12classes.csv"
+  },
+  "duration_seconds": 26.78
+}
