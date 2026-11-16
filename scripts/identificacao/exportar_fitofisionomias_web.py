@@ -35,13 +35,13 @@ STAGES = {
     1: "Cortes NDVI e limpeza campestre",
     2: "NDVI residual: limite 0,3555",
     3: "Sobreposições e UCs de proteção integral",
-    4: "Contexto ZEE-DF e resultado final",
+    4: "Contexto ZEE-DF e vias pavimentadas",
 }
 LABELS = {
     3: "Formação florestal", 4: "Formação savânica",
     11: "Campo alagado e área pantanosa", 12: "Formação campestre", 33: "Água",
     100: "Vegetação intraurbana", 101: "Forração vegetal",
-    102: "Impermeável ou solo exposto", 103: "Edificações",
+    102: "Impermeável ou solo exposto", 103: "Edificações", 104: "Vias pavimentadas",
 }
 RISK = RISK_COLORS
 CHUNK = 2048
@@ -50,7 +50,7 @@ CHUNK = 2048
 def palette(qml: Path):
     colors = qml_colors(qml)
     if set(LABELS) - set(colors):
-        raise ValueError("QML sem todas as nove cores esperadas")
+        raise ValueError("QML sem todas as dez cores esperadas")
     lut = np.zeros((256, 4), dtype=np.uint8)
     for code, hex_color in colors.items():
         lut[code, :3] = tuple(bytes.fromhex(hex_color.lstrip("#")))

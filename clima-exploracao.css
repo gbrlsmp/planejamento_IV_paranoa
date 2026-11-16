@@ -1,0 +1,18 @@
+.climate-controls { display:flex; flex-wrap:wrap; gap:1rem; margin:1.25rem 0; align-items:end; }
+.climate-controls label { display:grid; gap:.3rem; font-weight:600; flex:1 1 15rem; }
+.climate-controls select { width:100%; min-height:44px; padding:.5rem; color:var(--text); background:var(--surface); border:1px solid var(--line); border-radius:.25rem; font:inherit; }
+.inmet-chart { width:100%; min-width:0; height:390px; margin:1rem 0; }
+.inmet-chart-sankey { height:510px; }
+.inmet-stations { height:260px; margin-block:1rem; background:#edf1e7; }
+.climate-intro { padding:1.1rem 0; border-block:1px solid var(--line); }
+.climate-status-note { padding:1rem 1.2rem; border-left:4px solid var(--accent); background:#edf1e7; margin:1rem 0; }
+.climate-method-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr)); gap:1rem; margin:1rem 0; }
+.climate-method-grid article { padding:1rem; border:1px solid var(--line); border-radius:.4rem; }
+.climate-method-grid h4 { margin-bottom:.5rem; }
+.climate-figure img { width:100%; height:auto; display:block; }
+.climate-figure figcaption { margin-top:.5rem; color:var(--muted); font-size:.9rem; }
+.climate-downloads { display:flex; flex-wrap:wrap; gap:1rem; margin:1rem 0; }
+.risk-family-tabs { margin:1rem 0 1.5rem; }
+.risk-family-tabs a { flex:1; text-align:center; min-width:5rem; }
+[hidden] { display:none !important; }
+@media(max-width:520px) { .inmet-chart {height:350px;} .inmet-chart-sankey {height:610px;} .inmet-stations{height:300px;} .climate-controls{gap:.7rem;} }

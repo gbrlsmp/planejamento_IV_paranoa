@@ -1,0 +1,13 @@
+﻿classe,lucode,kc,green_area,shade,albedo,building_intensity
+Formação florestal,3,1.003927,1,0.95,0.14011,0
+Formação savânica — cerrado denso/típico,4,0.967735,1,0.5,0.166499,0
+Campo alagado/pantanoso,11,1.1,1,0.15,0.141964,0
+Formação campestre,12,0.931543,1,0.05,0.192888,0
+Água,33,1,0,0,0.056354,0
+Vegetação intraurbana,100,1.003927,1,0.9,0.14011,0
+Forração vegetal,101,0.931543,1,0.05,0.192888,0
+Impermeável ou solo exposto,102,0.4704955,0,0,0.220078,0
+Vias pavimentadas,104,0.327539,0,0,0.20819,0
+Edificações — baixa,1031,0.327539,0,0,0.20819,0.1831179045052647
+Edificações — média,1032,0.327539,0,0,0.20819,0.3389960833545074
+Edificações — alta,1033,0.327539,0,0,0.20819,0.5712112814785731

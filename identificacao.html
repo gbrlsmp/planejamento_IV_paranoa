@@ -27,7 +27,7 @@
   <script defer src="identificacao-metricas.js?v=2"></script>
   <script defer src="identificacao-exploracao.js?v=5"></script>
   <script defer src="mapa-satelite.js"></script>
-  <script defer src="identificacao-fitofisionomia.js?v=8"></script>
+  <script defer src="identificacao-fitofisionomia.js?v=20261115-8"></script>
 
 </head>
 <body>
@@ -166,16 +166,16 @@
             </section>
             <section class="fit-step" aria-labelledby="fit-etapa-3"><h6 id="fit-etapa-3">Etapa 3 · Sobreposições e unidades de conservação → raster 03</h6>
               <ol class="fit-steps">
-                <li>Forração vegetal (101) sobre vias OSM passa a impermeável ou solo exposto (102). As vias servem só à limpeza.</li>
+                <li>Forração vegetal (101) sobre vias OSM passa a impermeável ou solo exposto (102). Nesta etapa, as vias auxiliam a limpeza da forração.</li>
                 <li>Campo alagado e área pantanosa (11) da banda original do MapBiomas é sobreposto ao raster.</li>
                 <li>Água (33) do vetor SEDUH/Geoportal é aplicada, preservando formação florestal (3) e formação savânica (4) presentes nesse momento.</li>
                 <li>Edificações (103) do Google Open Buildings são aplicadas depois da água e das áreas úmidas a todos os pixels válidos sob sua máscara, preservando somente a formação florestal (3) presente nesse momento. Edificações prevalecem inclusive sobre água e savânica. As máscaras de vias, água e edificações são independentes.</li>
                 <li>Nas UCs de proteção integral do vetor local de Áreas Verdes Urbanas, forração vegetal (101) passa a formação savânica (4) e impermeável ou solo exposto (102) passa a formação campestre (12).</li>
               </ol>
             </section>
-            <section class="fit-step" aria-labelledby="fit-etapa-4" data-context-results><h6 id="fit-etapa-4">Etapa 4 · Contexto dos remanescentes do ZEE-DF → raster 04 final</h6>
+            <section class="fit-step" aria-labelledby="fit-etapa-4" data-context-results><h6 id="fit-etapa-4">Etapa 4 · Contexto ZEE-DF e vias pavimentadas → raster 04 final</h6>
               <p>Na categoria “Ausência de Cerrado Nativo” do vetor de risco de perda de vegetação nativa, formação florestal (3) e formação savânica (4) passam a vegetação intraurbana (100); formação campestre (12) passa a forração vegetal (101). Campo alagado e área pantanosa (11), água (33) e edificações (103) mantêm suas classes. Essa categoria não identifica espécies nem comprova a condição atual da vegetação.</p>
-              <div class="ident-controls"><label><input type="checkbox" data-context-final> Mostrar classificação final por baixo</label><label>Opacidade do ZEE <input type="range" data-context-opacity min="0" max="100" value="80" step="10"><output data-context-opacity-value>80%</output></label><button type="button" data-context-fit>Enquadrar</button></div>
+              <p>As vias pavimentadas (104) são delimitadas pelos registros <code>pavimentad = SIM</code> de <code>Vias_OSM_Bacia_Paranoa.shp</code>, com buffer de 2,5 m para cada lado das linhas, em EPSG:31983. A fonte reúne eixos e margens; a faixa representa uma hipótese geométrica, não largura medida de cada pista. Após o contexto ZEE-DF, somente pixels 101 e 102 cujos centros estão no buffer recebem 104. As classes 3, 4, 11, 12, 33, 100 e 103 e NoData são preservados. A seleção contém 41.169 registros; a sobreposição resulta em 4.305,0024 ha de vias pavimentadas. A máscara da IV permanece idêntica, com 46.876 fragmentos e suas métricas preservadas.</p><div class="ident-controls"><label><input type="checkbox" data-context-final> Mostrar classificação final por baixo</label><label>Opacidade do ZEE <input type="range" data-context-opacity min="0" max="100" value="80" step="10"><output data-context-opacity-value>80%</output></label><button type="button" data-context-fit>Enquadrar</button></div>
               <div class="ident-map" data-context-map role="region" aria-label="Mapa interativo do risco de perda de vegetação nativa do ZEE-DF"></div>
               <ul class="ident-legend" data-context-legend aria-label="Legenda do risco do ZEE-DF"></ul>
               <p class="ident-map-note">Representação reduzida para aproximadamente 20 m. “Ausência” é uma categoria distinta dos níveis de risco, não uma observação de campo de 2026.</p>
@@ -183,13 +183,13 @@
             </section>
             <h6>Compare os quatro rasters</h6>
             <figure class="fit-gif"><img src="dados-mapas/identificacao/fitofisionomia/refinamento.gif?v=3d5737bbf6f8004e" loading="lazy" alt="Animação das quatro etapas adotadas da classificação na mesma área"><figcaption>A mesma área em quatro momentos. O mapa permite pausar e consultar cada raster.</figcaption></figure>
-            <div class="ident-controls"><label>Etapa do mapa <select data-stage-select><option value="1">Raster 01 · cortes NDVI</option><option value="2">Raster 02 · limite residual 0,3555</option><option value="3">Raster 03 · sobreposições e UCs</option><option value="4" selected>Raster 04 · contexto ZEE-DF</option></select></label><button type="button" data-stage-fit>Enquadrar</button></div>
+            <div class="ident-controls"><label>Etapa do mapa <select data-stage-select><option value="1">Raster 01 · cortes NDVI</option><option value="2">Raster 02 · limite residual 0,3555</option><option value="3">Raster 03 · sobreposições e UCs</option><option value="4" selected>Raster 04 · contexto ZEE-DF e vias pavimentadas</option></select></label><button type="button" data-stage-fit>Enquadrar</button></div>
             <div class="ident-map" data-stage-map role="region" aria-label="Mapa interativo das quatro etapas da classificação"></div>
             <p class="ident-map-note">Visão geral reduzida para aproximadamente 20 m; cada raster de trabalho conserva pixels de 3 m.</p>
             <ul class="ident-legend" data-stage-legend aria-label="Legenda da etapa selecionada"></ul>
             <h6>Fragilidades da proxy</h6>
-            <ul><li>Formação campestre (12) e pastagem (15) se sobrepõem em NDVI; o corte não demonstra origem nativa.</li><li>Duas datas não representam o ciclo fenológico completo. UDM2 não foi aplicada aos mosaicos, de modo que nuvens e sombras podem persistir.</li><li>Pixels de 3 m permitem representar fragmentos pequenos, mas não garantem acurácia temática de 3 m. Campo alagado e área pantanosa (11) veio de fonte de 10 m.</li><li>Vias são linhas sem largura uniforme, e a precisão dos vetores e do ZEE-DF varia. As referências cartográficas não substituem validação de campo.</li></ul>
-            <p>O raster final permanece local em <code>03_fitofisionomia/fitofisionomias_proxy_ndvi_3m_etapa_04.tif</code>. O <a href="scripts/identificacao/classificar_fitofisionomias_3m.py">script consolidado</a> e o <a href="scripts/identificacao/FITOFISIONOMIA_3M.md">guia de reprodução</a> documentam as quatro etapas adotadas.</p>
+            <ul><li>Formação campestre (12) e pastagem (15) se sobrepõem em NDVI; o corte não demonstra origem nativa.</li><li>Duas datas não representam o ciclo fenológico completo. UDM2 não foi aplicada aos mosaicos, de modo que nuvens e sombras podem persistir.</li><li>Pixels de 3 m permitem representar fragmentos pequenos, mas não garantem acurácia temática de 3 m. Campo alagado e área pantanosa (11) veio de fonte de 10 m.</li><li>A largura fixa das vias pavimentadas é uma aproximação; a fonte mistura eixos e margens. A precisão dos vetores e do ZEE-DF varia. As referências cartográficas não substituem validação de campo.</li></ul>
+            <p>O raster final permanece local em <code>04_Vias_pavimentadas_2026-11-15/uso_cobertura_2026_vias_pavimentadas_3m.tif</code>. O <a href="scripts/identificacao/classificar_fitofisionomias_3m.py">script consolidado</a> e o <a href="scripts/identificacao/FITOFISIONOMIA_3M.md">guia de reprodução</a> documentam as quatro etapas adotadas.</p>
             <p class="ident-status" data-fit-status role="status">Abra esta etapa para carregar os mapas.</p>
           </div></details>
         </article>
@@ -207,7 +207,7 @@
         <p class="ident-status" data-final-status role="status">Carregando mapa geral…</p>
       </section>
       <h5>Áreas da classificação final</h5>
-      <p>A tabela resume as nove classes do raster 04 mostrado no mapa acima. A área de cada classe é a contagem de pixels multiplicada por 9 m² e convertida em hectares. Os pixels sem dados ficam fora da soma.</p>
+      <p>A tabela resume as dez classes do raster 04 mostrado no mapa acima. A área de cada classe é a contagem de pixels multiplicada por 9 m² e convertida em hectares. Os pixels sem dados ficam fora da soma.</p>
       <div class="table-scroll" role="region" aria-label="Área por classe do raster 04" tabindex="0">
         <table class="indicator-table summary-table">
           <thead>
@@ -220,9 +220,10 @@
             <tr><th scope="row">Formação campestre</th><td>12</td><td>21.118,6107</td></tr>
             <tr><th scope="row">Água</th><td>33</td><td>4.675,4712</td></tr>
             <tr><th scope="row">Vegetação intraurbana</th><td>100</td><td>6.146,0433</td></tr>
-            <tr><th scope="row">Forração vegetal</th><td>101</td><td>23.993,6130</td></tr>
-            <tr><th scope="row">Impermeável ou solo exposto</th><td>102</td><td>13.294,7370</td></tr>
+            <tr><th scope="row">Forração vegetal</th><td>101</td><td>23.683,6233</td></tr>
+            <tr><th scope="row">Impermeável ou solo exposto</th><td>102</td><td>9.299,7243</td></tr>
             <tr><th scope="row">Edificações</th><td>103</td><td>8.189,2593</td></tr>
+<tr><th scope="row">Vias pavimentadas</th><td>104</td><td>4.305,0024</td></tr>
           </tbody>
         </table>
       </div>
@@ -235,8 +236,8 @@
             </thead>
             <tbody>
               <tr>
-                <th scope="row">Classificação final<br><code>fitofisionomias_proxy_ndvi_3m_etapa_04.tif</code></th>
-                <td>NDVI PlanetScope de 2026, MapBiomas, ZEE-DF e vetores de refinamento descritos nas quatro etapas.</td>
+                <th scope="row">Classificação final<br><code>uso_cobertura_2026_vias_pavimentadas_3m.tif</code></th>
+                <td>NDVI PlanetScope de 2026, MapBiomas, ZEE-DF, vias pavimentadas OSM e vetores de refinamento descritos nas quatro etapas.</td>
                 <td>Contagem de pixels por classe na grade nativa SIRGAS 2000 / UTM 23S (EPSG:31983). Cada pixel de 3 × 3 m equivale a 0,0009 ha.</td>
                 <td>Distribuição das classes da proxy na área com NDVI válido.</td>
               </tr>

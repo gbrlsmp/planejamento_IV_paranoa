@@ -31,7 +31,7 @@ COLORS = {
     11: (62, 89, 114, 255), 12: (208, 165, 95, 255),
     33: (166, 206, 227, 255), 100: (43, 81, 37, 255),
     101: (196, 204, 149, 255), 102: (225, 225, 225, 255),
-    103: (57, 57, 57, 255), 255: (0, 0, 0, 0),
+    103: (57, 57, 57, 255), 104: (139, 113, 134, 255), 255: (0, 0, 0, 0),
 }
 
 
@@ -174,9 +174,11 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     water_path = output.with_name("agua.incompleto.tif")
     risk_path = output.with_name("ausencia_cerrado.incompleto.tif")
     protected_path = output.with_name("protecao_integral.incompleto.tif")
+    paved_path = output.with_name("vias_pavimentadas.incompleto.tif")
+    paved_vector = output.with_name("vias_pavimentadas.incompleto.gpkg")
     projected_path = output.with_name("edificacoes.incompleto.gpkg")
     if any(p.exists() for p in (temp, urban_path, overlay_path, risk_path,
-                                protected_path, projected_path, building_path, water_path)):
+                                protected_path, projected_path, building_path, water_path, paved_path, paved_vector)):
         raise FileExistsError("Arquivo temporário anterior ainda presente")
 
     projected = gdal.VectorTranslate(
@@ -185,6 +187,16 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     if projected is None or projected.GetLayer(0).GetFeatureCount() == 0:
         raise ValueError("Falha ao reprojetar edificações")
     projected = None
+
+    paved_source = gdal.VectorTranslate(str(paved_vector), str(inputs["roads"]), format="GPKG",
+        SQLStatement='SELECT ST_Buffer(geometry, 2.5) AS geom FROM "Vias_OSM_Bacia_Paranoa" WHERE pavimentad = \'SIM\'',
+        SQLDialect="SQLite", layerName="vias_pavimentadas")
+    if paved_source is None or paved_source.GetLayer(0).GetFeatureCount() == 0:
+        raise ValueError("Nenhuma via pavimentada para integrar")
+    paved_source = None
+    paved_mask = create_mask(paved_path, dry)
+    gdal.Rasterize(paved_mask, str(paved_vector), burnValues=[1])
+    paved_mask.FlushCache()
 
     urban = create_mask(urban_path, dry)
     burn(urban, inputs["roads"], 1)
@@ -235,11 +247,12 @@ def run(base: Path, output: Path, stages_dir: Path | None):
         "limite_residual": LIMITE_RESIDUAL,
         "etapa_03": "vias 101->102; campo alagado 11; água 33 preserva 3/4; edificações 103 preservam somente a classe atual 3; UCs 101->4 e 102->12",
         "uc_filter": PROTECTED_FILTER,
-        "etapa_04": "risco=2/ausência de Cerrado nativo: 3/4->100, 12->101",
+        "etapa_04": "risco=2: 3/4->100, 12->101; depois vias pavimentad=SIM, buffer 2.5m, centros de pixels: somente 101/102->104",
+        "paved_roads": "Linhas de eixos e margens; buffer 2,5 m por lado em EPSG:31983; centros dos pixels; preservar IV, água, edificações e NoData",
         "limitations": ["proxy, não validação de campo", "duas datas não descrevem ciclo fenológico",
                         "campestre e pastagem se confundem", "101/102 não comprovam permeabilidade",
                         "área úmida mantém a resolução temática de 10 m do MapBiomas",
-                        "vias lineares sem largura e UDM2 não aplicada aos mosaicos"],
+                        "largura fixa do pavimento é hipótese; fonte mistura eixos e margens; UDM2 não aplicada"],
     }
     final.SetMetadataItem("METHOD_JSON", json.dumps(metadata, ensure_ascii=False,
                                                     separators=(",", ":")))
@@ -249,7 +262,7 @@ def run(base: Path, output: Path, stages_dir: Path | None):
     transitions = {"etapa_01_camp_to_100": 0, "etapa_03_road_101_to_102": 0,
                    "etapa_03_uc_101_to_4": 0, "etapa_03_uc_102_to_12": 0,
                    "etapa_04_forest_to_100": 0, "etapa_04_savanna_to_100": 0,
-                   "etapa_04_camp_to_101": 0}
+                   "etapa_04_camp_to_101": 0, "etapa_04_paved_101_to104": 0, "etapa_04_paved_102_to104": 0}
     for y in range(0, dry.RasterYSize, TILE):
         # Faixas inteiras de 512 linhas reproduzem a transformação aproximada
         # usada na rodada aprovada; ler a VRT em quadrados altera pixels de borda.
@@ -307,6 +320,12 @@ def run(base: Path, output: Path, stages_dir: Path | None):
             transitions["etapa_04_camp_to_101"] += int(grassland.sum())
             fourth[forest | savanna] = 100
             fourth[grassland] = 101
+            paved = paved_mask.GetRasterBand(1).ReadAsArray(x, y, width, height) == 1
+            paved101 = paved & (fourth == 101)
+            paved102 = paved & (fourth == 102)
+            transitions["etapa_04_paved_101_to104"] += int(paved101.sum())
+            transitions["etapa_04_paved_102_to104"] += int(paved102.sum())
+            fourth[paved101 | paved102] = 104
 
             for version, values in enumerate((first, second, third, fourth), 1):
                 counts[version] += np.bincount(values.ravel(), minlength=256)
@@ -347,9 +366,9 @@ def run(base: Path, output: Path, stages_dir: Path | None):
                    for i, values in counts.items()},
         "transitions": transitions,
     }, ensure_ascii=False, indent=2), encoding="utf-8")
-    urban = overlay = risk = protected = map_grid = building_mask = water_mask = None
+    urban = overlay = risk = protected = map_grid = building_mask = water_mask = paved_mask = None
     for path in (urban_path, overlay_path, risk_path, protected_path, projected_path,
-                 building_path, water_path):
+                 building_path, water_path, paved_path, paved_vector):
         path.unlink()
     print(json.dumps({"output": str(output), "counts_final":
                       {str(code): int(counts[4][code])

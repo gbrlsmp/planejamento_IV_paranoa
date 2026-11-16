@@ -46,6 +46,11 @@
         103,
         "Edificações",
         "#393939"
+      ],
+      [
+        104,
+        "Vias pavimentadas",
+        "#8b7186"
       ]
     ],
     "bounds": [
@@ -54,7 +59,8 @@
       -5309832.147243301,
       -1754750.6899615955
     ],
-    "revision": "aad180a80eb46381"
+    "revision": "5cce5bf7f5ca8bfd",
+    "source": "Proxy NDVI 2026, ZEE-DF e vias pavimentadas OSM, buffer 2,5 m; grade de 3 m"
   },
   "tipologias": {
     "title": "Classes de AVU dos fragmentos",
