@@ -3,5 +3,6 @@ dados-mapas/identificacao/metricas/*.csv -text whitespace=blank-at-eol,blank-at-
 
 # Preservar os bytes dos derivados climáticos com hashes registrados.
 dados-modelo/invest-seca-2026/*.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+dados-modelo/tab_biofisica_completa_18classes.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 dados-mapas/clima/diagnostico-2026/*.geojson -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 dados-mapas/clima/superficie-sazonal/*.geojson -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

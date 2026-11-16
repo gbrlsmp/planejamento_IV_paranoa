@@ -43,3 +43,9 @@ A avaliação deve consultar também `cobertura_alturas_validas_janela_500m_perc
 Fontes locais: `RESULTADO_COMBINACAO.json`, `RELATORIO_COMBINACAO_E_TABELA.md` e os produtos de suporte da entrega 10. O tratamento do preenchimento está em [Nota técnica — preenchimento residual](nota-preenchimento-alturas.md).
 
 Esta nota documenta o procedimento mantido. Não altera rasters, coeficientes, fontes ou resultados e não corresponde a uma nova execução do InVEST.
+
+## Extensão às classes 102/104 — 16/11/2026
+
+Na revisão noturna, os mesmos campos D500 e H500 são consultados sobre as superfícies 102 e 104. A fonte e seu suporte permanecem intactos; as vias continuam fora do numerador da implantação edificada. O novo raster `qualidade_intensidade_102_104_3m.tif` registra 1 para suporte completo, 2 para parcial, 9 para ausência de altura preenchida com a mediana regional e 255 fora da máscara. Zero indica área não alvo ou D500 zero confirmado; nesse último caso, a intensidade permanece zero.
+
+As lacunas adicionais abrangem 484.009 pixels (435,6081 ha), tratados na [nota de preenchimento](nota-preenchimento-alturas.md). Não se deve transferir o percentual residual da 103 para essas superfícies. As [contagens e fontes da revisão](../dados-modelo/invest-seca-2026/equivalencia_diurna_102_104.json) permitem conferir o suporte. A nova noite utiliza 18 códigos; os atributos e resultados diurnos foram preservados.

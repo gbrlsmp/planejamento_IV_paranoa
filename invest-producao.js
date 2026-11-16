@@ -137,6 +137,9 @@
       }
       const note = document.createElement("p");note.className = "climate-note";
       note.textContent = representation() === "classes" ? config.class_method : (scale.value === "common" ? "Escala comum aos dois cenários. As cores representam valores contínuos, sem classificação de risco." : "Contraste ampliado com os limites deste cenário. As cores não devem ser comparadas diretamente com outro cenário nessa escala.");node.append(note);
+      if (periods.includes("noite") && indicator.value !== "lst") {
+        const p = document.createElement("p");p.className = "climate-note";p.textContent = "À noite, CC = 1 − intensidade do entorno, aplicada também a vias e à classe 102. Um índice alto em construção ou pavimento não demonstra resfriamento produzido por essa superfície; HM pode incluir benefício recebido da vegetação próxima.";node.append(p);
+      }
       if (isFragments()) { const p = document.createElement("p");p.textContent = "Média de cada fragmento. Fora dos fragmentos e sem dados: transparente. IDs pequenos podem não aparecer em 20 m; consulte todos na tabela.";node.append(p); }
       if (zones?.checked && zoneMetadata) {
         const p = document.createElement("p");p.className = "climate-zone-legend";

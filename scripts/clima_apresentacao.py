@@ -12,7 +12,7 @@ def render_inputs():
     overview=[
         ['Meteorologia','INMET: A001, A045, A046 e A047.','Exploração seca/chuva; A001 fornece referências do ar e evapotranspiração.'],
         ['Temperatura de superfície','Landsat 8/9 Collection 2 Level-2.','Composições seca/chuva, comparação das referências e contraste UHI.'],
-        ['Uso e cobertura do solo','Cobertura da pesquisa e vias pavimentadas.','Grade auxiliar de 3 m com doze classes para o InVEST.'],
+        ['Uso e cobertura do solo','Cobertura da pesquisa e vias pavimentadas.','Grade auxiliar de 3 m com dezoito classes para o InVEST.'],
         ['Morfologia construída','Implantação das edificações e Open Buildings 2023.','Ocupação, altura e intensidade em janelas de 500 × 500 m.'],
         ['Parâmetros biofísicos','Hu et al.; referências do Cerrado e decisões da pesquisa.','Kc, sombra, albedo, área verde e intensidade construída.'],
         ['Base territorial','Bacia do Paranoá e fragmentos atuais de IV.','Recorte da modelagem e unidades do diagnóstico.'],
@@ -21,8 +21,8 @@ def render_inputs():
 
 
 def render_results(results):
-    h='<section id="resultados-invest" class="report-section"><h6>Resultados do InVEST na bacia</h6><p>CC representa a capacidade local de resfriamento; HM considera a influência das áreas verdes; a temperatura do ar é estimada após a mistura espacial. CC e HM são adimensionais. As duas rodadas da seca utilizam a referência A001.</p>'+result_table(results)
-    h+='<p class="climate-note">Estatísticas de todos os pixels válidos dos rasters nativos de 3 m. Resultados por fragmento são apresentados no diagnóstico abaixo.</p>'+explorer('invest-producao')
+    h='<section id="resultados-invest" class="report-section"><h6>Resultados do InVEST na bacia</h6><p>CC é o índice local do modelo: no dia combina sombra, albedo e evapotranspiração; na noite é o complemento da intensidade do entorno. HM considera também a influência das áreas verdes; a temperatura do ar é estimada após a mistura espacial. CC e HM são adimensionais. Os dois cenários da seca utilizam a referência A001.</p>'+result_table(results)
+    h+='<p class="climate-note">Estatísticas de todos os pixels válidos dos rasters nativos de 3 m. A noite usa a intensidade regional também em 102/104; o dia A001 foi preservado após prova integral de equivalência dos atributos diurnos. <a href="dados-modelo/invest-seca-2026/equivalencia_diurna_102_104.json">Consultar a prova e os coeficientes</a>. Resultados por fragmento são apresentados no diagnóstico abaixo.</p>'+explorer('invest-producao')
     h+='<details class="method-details"><summary>Prévias dos seis mapas e dados da execução</summary><div class="method-detail-body"><div class="invest-previews">'
     for key,indicator in results['indicators'].items():
         for period,label in [('dia','Dia'),('noite','Noite')]:
@@ -51,7 +51,7 @@ def render_page(rows,inmet,figures,results):
     groups=[
         ('clima-metodo-inmet','1. Explorar a meteorologia e calcular a ETo',[0,3],['01','03','05'],'Compare seca e chuva nas quatro estações e consulte o cálculo da evapotranspiração de referência da A001.'),
         ('clima-metodo-landsat','2. Preparar a temperatura de superfície e as referências do ar',[1,2],['02','04'],'Compare as composições Landsat de seca e chuva e conheça as referências diurna e noturna do ar da A001.'),
-        ('clima-metodo-morfologia','3. Preparar a cobertura e os parâmetros biofísicos',[4],['06','07','08','09','10','11'],'A cobertura de 3 m e a morfologia construída fornecem os atributos das doze classes do InVEST.'),
+        ('clima-metodo-morfologia','3. Preparar a cobertura e os parâmetros biofísicos',[4],['06','07','08','09','10','11'],'A cobertura de 3 m e a morfologia construída fornecem os atributos das dezoito classes do InVEST.'),
         ('clima-metodo-modelo','4. Aplicar o InVEST e conferir os resultados',[5],['12'],'As rodadas oficiais de dia e noite na seca produzem capacidade de resfriamento, mitigação e temperatura estimada do ar.'),
     ]
     h='''<section id="clima" aria-labelledby="titulo-clima"><h3 id="titulo-clima">Clima</h3>

@@ -26,24 +26,50 @@
     }
   ],
   "source_files_modified": false,
-  "model_translation": {
-    "day": {
-      "cc_hm_hashes_equal_previous_run": {
-        "cc": true,
-        "hm": true
+  "tref_landsat_reused_from": "Seca_2026_A001_Dia_Noite_2026-11-16",
+  "night_correction": {
+    "status": "correcao_noturna_conferida",
+    "day_rasters_identical": {
+      "cc": {
+        "sha256": "ffadf68061577da81c026de97cdfdcdfb8147db917ee7f0d3b8c476597983ba7",
+        "identical": true
       },
-      "reference_shift_C": -0.8904866142261092,
-      "maximum_translation_error_C": 4.1323312000685064e-05,
-      "interpretation": "Trocar apenas Tref desloca a temperatura absoluta; preserva CC/HM e aproximadamente a amplitude espacial. Não aumenta o contraste do modelo."
+      "hm": {
+        "sha256": "5b322ee63a5604837a33a30429f964bb0b4aa9bb7e2dc69f5bdbefc5775e4d94",
+        "identical": true
+      },
+      "T_air": {
+        "sha256": "bc13f4081cdd3fbb22b3d400a68500f9d18fc0fbd0c78a2967413062de2524b2",
+        "identical": true
+      }
     },
-    "night": {
-      "cc_hm_hashes_equal_previous_run": {
-        "cc": true,
-        "hm": true
-      },
-      "reference_shift_C": 1.9042661509048031,
-      "maximum_translation_error_C": 3.6219130585379844e-05,
-      "interpretation": "Trocar apenas Tref desloca a temperatura absoluta; preserva CC/HM e aproximadamente a amplitude espacial. Não aumenta o contraste do modelo."
-    }
+    "day_all_parameters_equal": true,
+    "night_parameters_except_coverage_table_equal": true,
+    "night_cc_changes_restricted_to_102_104": true,
+    "night_hm_changes_restricted_to_102_104_within_2e_6": true,
+    "cc_changed_pixels": 14448709,
+    "zero_intensity_pixels_retained": 667654,
+    "temperature_changed_pixels_above_1e_4": 91957185,
+    "temperature_delta_C": {
+      "min": 0.0,
+      "max": 0.7478749423628415,
+      "mean": 0.08418825384482186
+    },
+    "fragment_count": 46876,
+    "all_fragment_day_fields_unchanged": true,
+    "all_fragment_night_cc_hm_fields_unchanged": true,
+    "source_geometries_preserved": true,
+    "empirical_thermal_validation": false,
+    "independent_input_centers_by_code": {
+      "1020": 94,
+      "1021": 114,
+      "1022": 84,
+      "1023": 32,
+      "1040": 67,
+      "1041": 110,
+      "1042": 82,
+      "1043": 30
+    },
+    "zero_cutoffs_missing_height_tested": true
   }
 }

@@ -84,6 +84,45 @@ def validate(baseline=None,regenerate=False):
     assert not config['do_energy_valuation'] and not config['do_productivity_valuation']
     assert config['reference_station']=='A001' and config['reference_days']==153
     assert config['day']['t_ref']==24.265416609534256 and config['night']['t_ref']==19.714379846732786
+    assert config['auxiliary_class_count']==18 and config['day_reused'] is True
+    model=WEB/'dados-modelo'
+    with (model/'tab_biofisica_completa_18classes.csv').open(encoding='utf-8-sig',newline='') as stream:
+        bio={int(r['lucode']):r for r in csv.DictReader(stream)}
+    with (model/'tab_biofisica_completa_12classes.csv').open(encoding='utf-8-sig',newline='') as stream:
+        oldbio={int(r['lucode']):r for r in csv.DictReader(stream)}
+    assert set(bio)==(set(oldbio)-{102,104})|set(range(1020,1024))|set(range(1040,1044))
+    assert all(bio[k]==row for k,row in oldbio.items() if k not in (102,104))
+    proof=json.loads((model/'invest-seca-2026'/config['day_reuse_proof']).read_text(encoding='utf-8'))
+    assert proof['status']=='atributos_diurnos_identicos_pixel_a_pixel'
+    assert proof['pixels_compared']==225297940 and proof['recoded_pixels']==15116363
+    assert proof['class_count']==18 and proof['only_classes_recoded']==[102,104]
+    assert proof['fields_equal']==['kc','shade','albedo','green_area'] and proof['other_codes_unchanged']
+    assert proof['fallback_pixels']==484009
+    assert sum(r['n'] for r in proof['classes'] if r['level']==0)==667654
+    for row in proof['classes']:
+        k=row['lucode'];base=row['base'];level=row['level'];bi=float(bio[k]['building_intensity'])
+        assert k==base*10+level and row['known_n']+row['fallback_n']==row['n']
+        assert bi==row['building_intensity']==row['sum']/row['known_n']
+        assert (bi==0 if level==0 else (level-1)*.25<bi<=(.25 if level==1 else .5 if level==2 else 1))
+        for field in proof['fields_equal']:assert bio[k][field]==oldbio[base][field]
+    sources=json.loads((model/'invest-seca-2026/fontes_sha256.json').read_text(encoding='utf-8'))
+    assert sources['inputs']['tab_biofisica_102_104_regional.csv']['sha256']==sha(model/'tab_biofisica_completa_18classes.csv')
+    night_audit=json.loads((model/'invest-seca-2026/conferencia_independente.json').read_text(encoding='utf-8'))['night_correction']
+    assert night_audit['status']=='correcao_noturna_conferida' and night_audit['cc_changed_pixels']==14448709
+    assert night_audit['zero_intensity_pixels_retained']==667654 and night_audit['temperature_delta_C']['min']>=-1e-4
+    assert night_audit['temperature_delta_C']['max']>0 and night_audit['zero_cutoffs_missing_height_tested']
+    assert min(night_audit['independent_input_centers_by_code'].values())>=10
+    assert night_audit['all_fragment_day_fields_unchanged'] and night_audit['all_fragment_night_cc_hm_fields_unchanged']
+    assert len(proof['day_web_files_identical'])==6
+    for file,value in proof['day_web_files_identical'].items():assert sha(out/file)==value
+    for key,record in proof['day_rasters_identical'].items():
+        assert record['identical'] and m['indicators'][{'T_air':'t'}.get(key,key)]['scenarios']['dia']['source_sha256']==record['sha256']
+    if baseline:
+        oldmanifest=json.loads(subprocess.run(['git','show',baseline+':dados-mapas/clima/urban-cooling-2026/manifesto.json'],cwd=WEB,check=True,capture_output=True).stdout)
+        for key,ind in m['indicators'].items():
+            assert ind['scenarios']['dia']==oldmanifest['indicators'][key]['scenarios']['dia']
+    ficha=(WEB/'aplicacao-invest.html').read_text(encoding='utf-8')
+    assert 'intensidade-102-104' in ficha and 'tab_biofisica_completa_18classes.csv' in ficha
     tref=json.loads((WEB/'dados-modelo/invest-seca-2026/tref_a001.json').read_text(encoding='utf-8'))
     daily_path=WEB/'dados-modelo/invest-seca-2026'/tref['daily_means_file'];assert sha(daily_path)==tref['daily_means_sha256']
     with daily_path.open(encoding='utf-8-sig',newline='') as f:daily=list(csv.DictReader(f))

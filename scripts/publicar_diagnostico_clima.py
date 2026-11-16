@@ -92,7 +92,9 @@ def polygons(qa):
     save(out/'criterios.json',result)
     return result
 
-def main():
+def main(run=None):
+    global RUN
+    if run is not None:RUN=Path(run).resolve()
     OUT.mkdir(exist_ok=True,parents=True)
     manifest=json.loads((WEB/'dados-mapas/clima/urban-cooling-2026/manifesto.json').read_text(encoding='utf-8'))
     lst=json.loads((WEB/'dados-mapas/clima/superficie-sazonal/manifesto.json').read_text(encoding='utf-8'))
@@ -162,4 +164,7 @@ def main():
     save(WEB/'dados-modelo/invest-seca-2026/conferencia_independente.json',json.loads((RUN/'05_Verificacoes/CONFERENCIA_A001_LANDSAT_INDEPENDENTE.json').read_text(encoding='utf-8')))
     print(json.dumps({'fragments':len(rows),'batches':len(batches),'id_cells':int((a>0).sum()),'classes':meta['classification_counts']}),flush=True)
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    import argparse
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--execucao',type=Path)
+    main(parser.parse_args().execucao)
