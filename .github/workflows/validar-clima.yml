@@ -19,3 +19,7 @@ jobs:
       - run: node --check clima-exploracao.js
       - run: node --check invest-producao.js
       - run: node --check clima-fragmentos.js
+      - run: python scripts/validar_web_fitopolis.py
+      - run: node --test scripts/test_fitopolis.cjs
+      - run: node --check diagnostico-territorial.js
+      - run: node --check fitopolis-territorio.js

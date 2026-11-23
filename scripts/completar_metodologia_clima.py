@@ -15,6 +15,8 @@ def update(web=None):
     untouched={k:doc.fragment(k) for k in ('agua','sociedade')}
     area=doc.by_id('clima')
     content=render_html(rows,(template/'inmet.html').read_text(encoding='utf-8'),json.loads((template/'preparacao.json').read_text(encoding='utf-8')),results)
+    from integrar_mapas_fitopolis import widget
+    content=content.replace('<section id="resultados-invest" class="report-section">','<section id="resultados-invest" class="report-section"><details><summary>Diagnóstico territorial: hexágonos e fragmentos</summary>'+widget('t_dia_mean')+'</details>',1)
     page=page[:area['start']]+content+page[area['end']:]
     for file,version in [('clima-exploracao.css',4),('clima-exploracao.js',2),('subabas.js',3),('invest-raster.js',2),('invest-producao.js',3)]:
         page=re.sub(re.escape(file)+r'\?v=[^"\s]+',file+f'?v={version}',page)

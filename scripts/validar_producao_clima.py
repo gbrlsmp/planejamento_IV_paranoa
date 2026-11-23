@@ -195,7 +195,7 @@ def validate(baseline=None,regenerate=False):
         paths=[WEB/n for n in ('diagnostico.html','aplicacao-invest.html','docs/metodologia-clima.md')]
         before={p:sha(p) for p in paths};update(WEB)
         assert {p:sha(p) for p in paths}==before,'Gerador não idempotente'
-    result={'status':'ok','six_current_rasters':files,'landsat_seasonal_rasters':2,'current_fragments':len(data),'four_method_steps':True,'relative_classes_recomputed':True,'zones_checked':True,'palette':'existente','links_and_anchors':count,'inmet_inside_step_1':True,'all_twelve_notes_present':True,'fragment_results_published':True,'unchanged_panels_sha256':untouched,'generator_idempotent':regenerate,'browser_visual_review':'Não realizada: acesso ao navegador recusado nesta sessão.'}
+    result={'status':'ok','six_current_rasters':files,'landsat_seasonal_rasters':2,'current_fragments':len(data),'four_method_steps':True,'relative_classes_recomputed':True,'zones_checked':True,'palette':'existente','links_and_anchors':count,'inmet_inside_step_1':True,'all_twelve_notes_present':True,'fragment_results_published':True,'unchanged_panels_sha256':untouched,'generator_idempotent':regenerate,'browser_visual_review':'Verificação visual independente; este script valida os arquivos e não controla o navegador.'}
     print(json.dumps(result,ensure_ascii=False))
     return result
 

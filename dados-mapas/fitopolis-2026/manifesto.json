@@ -1,0 +1,2415 @@
+{
+  "schema": 1,
+  "date": "2026-11-23",
+  "title": "Sistema Fitópolis",
+  "method": "interseções exatas raster/polígono, estatísticas ponderadas pela fração coberta; vetores por união/interseção em EPSG:31983",
+  "indicators": {
+    "cc_dia_mean": {
+      "label": "Capacidade de resfriamento · dia",
+      "unit": "",
+      "coverage": "cc_dia_coverage_pct",
+      "details": [
+        "cc_dia_min",
+        "cc_dia_max",
+        "cc_dia_stdev"
+      ],
+      "note": "InVEST Urban Cooling 3.20.2, seca de 2026, referência A001. Média ponderada pela interseção exata com pixels válidos.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        1.0
+      ]
+    },
+    "cc_noite_mean": {
+      "label": "Capacidade de resfriamento · noite",
+      "unit": "",
+      "coverage": "cc_noite_coverage_pct",
+      "details": [
+        "cc_noite_min",
+        "cc_noite_max",
+        "cc_noite_stdev"
+      ],
+      "note": "InVEST Urban Cooling 3.20.2, seca de 2026, referência A001. Média ponderada pela interseção exata com pixels válidos.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        1.0
+      ]
+    },
+    "hm_dia_mean": {
+      "label": "Mitigação térmica · dia",
+      "unit": "",
+      "coverage": "hm_dia_coverage_pct",
+      "details": [
+        "hm_dia_min",
+        "hm_dia_max",
+        "hm_dia_stdev"
+      ],
+      "note": "InVEST Urban Cooling 3.20.2, seca de 2026, referência A001. Média ponderada pela interseção exata com pixels válidos.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        1.0
+      ]
+    },
+    "hm_noite_mean": {
+      "label": "Mitigação térmica · noite",
+      "unit": "",
+      "coverage": "hm_noite_coverage_pct",
+      "details": [
+        "hm_noite_min",
+        "hm_noite_max",
+        "hm_noite_stdev"
+      ],
+      "note": "InVEST Urban Cooling 3.20.2, seca de 2026, referência A001. Média ponderada pela interseção exata com pixels válidos.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        1.0
+      ]
+    },
+    "t_dia_mean": {
+      "label": "Temperatura estimada do ar · dia",
+      "unit": "°C",
+      "coverage": "t_dia_coverage_pct",
+      "details": [
+        "t_dia_min",
+        "t_dia_max",
+        "t_dia_stdev"
+      ],
+      "note": "InVEST Urban Cooling 3.20.2, seca de 2026, referência A001. Média ponderada pela interseção exata com pixels válidos.",
+      "colors": [
+        "#80b0b8",
+        "#acc6cb",
+        "#c4cc95",
+        "#d0a55f",
+        "#b47e4f",
+        "#8d554e"
+      ],
+      "range": [
+        25.21180358294649,
+        26.74511090089985
+      ]
+    },
+    "t_noite_mean": {
+      "label": "Temperatura estimada do ar · noite",
+      "unit": "°C",
+      "coverage": "t_noite_coverage_pct",
+      "details": [
+        "t_noite_min",
+        "t_noite_max",
+        "t_noite_stdev"
+      ],
+      "note": "InVEST Urban Cooling 3.20.2, seca de 2026, referência A001. Média ponderada pela interseção exata com pixels válidos.",
+      "colors": [
+        "#80b0b8",
+        "#acc6cb",
+        "#c4cc95",
+        "#d0a55f",
+        "#b47e4f",
+        "#8d554e"
+      ],
+      "range": [
+        19.7143736566612,
+        20.716692454491444
+      ]
+    },
+    "lst_seca_mean": {
+      "label": "Temperatura de superfície · seca",
+      "unit": "°C",
+      "coverage": "lst_seca_coverage_pct",
+      "details": [
+        "lst_seca_min",
+        "lst_seca_max",
+        "lst_seca_stdev"
+      ],
+      "note": "Composição Landsat diurna: 13 datas secas e 6 chuvosas. Grade de 30 m, térmico efetivo de 100 m. Não é temperatura do ar.",
+      "colors": [
+        "#80b0b8",
+        "#acc6cb",
+        "#c4cc95",
+        "#d0a55f",
+        "#b47e4f",
+        "#8d554e"
+      ],
+      "range": [
+        23.631058954519915,
+        48.575538097510815
+      ]
+    },
+    "lst_chuva_mean": {
+      "label": "Temperatura de superfície · chuva",
+      "unit": "°C",
+      "coverage": "lst_chuva_coverage_pct",
+      "details": [
+        "lst_chuva_min",
+        "lst_chuva_max",
+        "lst_chuva_stdev"
+      ],
+      "note": "Composição Landsat diurna: 13 datas secas e 6 chuvosas. Grade de 30 m, térmico efetivo de 100 m. Não é temperatura do ar.",
+      "colors": [
+        "#80b0b8",
+        "#acc6cb",
+        "#c4cc95",
+        "#d0a55f",
+        "#b47e4f",
+        "#8d554e"
+      ],
+      "range": [
+        21.5233333812892,
+        52.88310962524584
+      ]
+    },
+    "inundada_pct_valida": {
+      "label": "Proporção inundada · TR5",
+      "unit": "%",
+      "coverage": "inundacao_coverage_pct",
+      "details": [
+        "inundacao_valid_m2",
+        "inundada_m2",
+        "profundidade_media_inundada_m",
+        "inundacao_max"
+      ],
+      "note": "Denominador: área válida. Resultados hidrológicos existentes, sem nova simulação. Lacunas são ausência de estimativa, não profundidade zero.",
+      "colors": [
+        "#acc6cb",
+        "#80b0b8",
+        "#496a6e",
+        "#3e5972"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "profundidade_media_inundada_m": {
+      "label": "Profundidade média na parcela inundada · TR5",
+      "unit": "m",
+      "coverage": "inundacao_coverage_pct",
+      "details": [
+        "inundada_m2",
+        "inundada_pct_valida",
+        "inundacao_max"
+      ],
+      "note": "Média somente na parcela de profundidade positiva. Sem parcela inundada: média não aplicável. Sem área válida: ausência de estimativa.",
+      "colors": [
+        "#acc6cb",
+        "#80b0b8",
+        "#496a6e",
+        "#3e5972"
+      ],
+      "range": [
+        1.768527909007389e-05,
+        15.207679916609315
+      ]
+    },
+    "inundacao_max": {
+      "label": "Profundidade máxima válida · TR5",
+      "unit": "m",
+      "coverage": "inundacao_coverage_pct",
+      "details": [
+        "inundada_m2",
+        "inundada_pct_valida",
+        "profundidade_media_inundada_m"
+      ],
+      "note": "O máximo não indica a extensão inundada da unidade. Consulte também a proporção inundada.",
+      "colors": [
+        "#acc6cb",
+        "#80b0b8",
+        "#496a6e",
+        "#3e5972"
+      ],
+      "range": [
+        0.0,
+        20.683818817138672
+      ]
+    },
+    "edif_pct": {
+      "label": "Edificações",
+      "unit": "%",
+      "coverage": null,
+      "details": [
+        "edif_ocupada_m2",
+        "edif_dominio_m2"
+      ],
+      "note": "Fragmentos: interior + buffer de 30 m, limitado à bacia; a projeção das edificações é unida. Hexágonos: ocupação dentro da célula. Domínios diferentes: comparar dentro da mesma unidade de análise.",
+      "colors": [
+        "#e1e1e1",
+        "#d0a55f",
+        "#b47e4f",
+        "#8d554e"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "renda_sm": {
+      "label": "Renda contextual · Censo 2022",
+      "unit": "SM de 2022",
+      "coverage": null,
+      "details": [
+        "setor_pct_unidade",
+        "renda_reais"
+      ],
+      "note": "Rendimento médio dos responsáveis pelo domicílio com renda, no setor de maior sobreposição (V06004). SM de 2022: R$ 1.212. Não é renda per capita.",
+      "colors": [
+        "#f1e9f7",
+        "#d4bfe5",
+        "#ae86c7",
+        "#8151a4",
+        "#502b77"
+      ],
+      "range": [
+        0.74,
+        38.936039603960396
+      ]
+    },
+    "uso_pct_florestal": {
+      "label": "Uso e cobertura · formação florestal",
+      "unit": "%",
+      "coverage": "uso_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "uso_pct_savanica": {
+      "label": "Uso e cobertura · formação savânica",
+      "unit": "%",
+      "coverage": "uso_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "uso_pct_alagado": {
+      "label": "Uso e cobertura · campo alagado / área pantanosa",
+      "unit": "%",
+      "coverage": "uso_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "uso_pct_campestre": {
+      "label": "Uso e cobertura · formação campestre",
+      "unit": "%",
+      "coverage": "uso_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "uso_pct_agua": {
+      "label": "Uso e cobertura · água",
+      "unit": "%",
+      "coverage": "uso_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "uso_pct_vegetacao_intraurbana": {
+      "label": "Uso e cobertura · vegetação intraurbana",
+      "unit": "%",
+      "coverage": "uso_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "uso_pct_forracao": {
+      "label": "Uso e cobertura · forracao",
+      "unit": "%",
+      "coverage": "uso_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "uso_pct_impermeavel_solo_exposto": {
+      "label": "Uso e cobertura · superfície impermeável ou solo exposto",
+      "unit": "%",
+      "coverage": "uso_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "uso_pct_edificacoes": {
+      "label": "Uso e cobertura · edificações",
+      "unit": "%",
+      "coverage": "uso_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "uso_pct_vias": {
+      "label": "Uso e cobertura · vias",
+      "unit": "%",
+      "coverage": "uso_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "momentos_pct_fonte": {
+      "label": "Momentos da Água · fonte",
+      "unit": "%",
+      "coverage": "momentos_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "momentos_pct_conducao": {
+      "label": "Momentos da Água · condução",
+      "unit": "%",
+      "coverage": "momentos_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "momentos_pct_acomodacao": {
+      "label": "Momentos da Água · acomodação",
+      "unit": "%",
+      "coverage": "momentos_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "pre_pct_baixo": {
+      "label": "PRE · baixo",
+      "unit": "%",
+      "coverage": "pre_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "pre_pct_medio": {
+      "label": "PRE · médio",
+      "unit": "%",
+      "coverage": "pre_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "pre_pct_alto": {
+      "label": "PRE · alto",
+      "unit": "%",
+      "coverage": "pre_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "pre_pct_muito_alto": {
+      "label": "PRE · muito alto",
+      "unit": "%",
+      "coverage": "pre_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    },
+    "pre_pct_sobreposicao": {
+      "label": "PRE · sobreposição entre classes",
+      "unit": "%",
+      "coverage": "pre_coverage_pct",
+      "details": [],
+      "note": "Proporção da área integral da unidade; composição preservada. PRE: sobreposições entre classes são separadas, sem dupla contagem. Momentos da Água preserva a modelagem existente.",
+      "colors": [
+        "#c4cc95",
+        "#86a58f",
+        "#4b6a40",
+        "#2b5125"
+      ],
+      "range": [
+        0.0,
+        100.0
+      ]
+    }
+  },
+  "units": {
+    "hexagonos": {
+      "count": 1358654,
+      "id_field": "id_hex",
+      "arrays": {
+        "id_hex": {
+          "file": "id_hex.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 1840181,
+          "sha256": "2633735ae5cb952ed72d7ec4ca554156c2f506962478696c614c821ab5093c59",
+          "raw_sha256": "a51b70e35519729be6b41647b31c3c336b382052f3213fea4807735091ae4328"
+        },
+        "q": {
+          "file": "q.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 20206,
+          "sha256": "e79cde6cf93e6a8972d60a5d20aace1ed9e782c2f56601e8ff2ab1783c6b5861",
+          "raw_sha256": "8cf4d145aaac74c63f89c539c5271cda3c7797d26f1c38ecafa188cbf3487a03"
+        },
+        "r": {
+          "file": "r.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 137810,
+          "sha256": "9cbadbd712ecd0ac04bffd436ef621e9e4044af9a3998b48d740470de098f74d",
+          "raw_sha256": "7cc10580f145de1dd2c5de8cc2fe9f17105843125f1e4f25c8e29b4fad391789"
+        },
+        "area_m2": {
+          "file": "area_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 79730,
+          "sha256": "90b620da7428a4e735778d85281dfdc900086107216a098c9b8a71b3964d6dfa",
+          "raw_sha256": "82a51605ac6d5ea1e53ad879b352f8680e1dfbd48372a6c3db98c186f64c6672"
+        },
+        "parcial": {
+          "file": "parcial.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 16807,
+          "sha256": "946d2683cab0b1b5254e7194df0aff9719ae961cce503759f00df399d2fc8bc7",
+          "raw_sha256": "c7270257bbd5cb7ba600726e5e2e1e3ed493b773f07002ba4218dcc40e28f8f1"
+        },
+        "cc_dia_mean": {
+          "file": "cc_dia_mean.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 6789885,
+          "sha256": "3a7003799c00c4385fb72a5e66a5736fc11f3c17d563df8f6c115c0730c90213",
+          "raw_sha256": "c4398bbd2d7cfbf5167e74fdb2245154aa0718573fbef82954e08fd4afa65213"
+        },
+        "cc_dia_min": {
+          "file": "cc_dia_min.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 348492,
+          "sha256": "7d54f437e4eeae2f48126b3b4a26ab2542751ea5de9dffb3844bb3578eae665c",
+          "raw_sha256": "15abf783babbf65601e3035437a8ffb4065d0cf107d7d52f789bc33029ee5f02"
+        },
+        "cc_dia_max": {
+          "file": "cc_dia_max.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 363074,
+          "sha256": "2e7d585d363d7be563fca58c0dd8e0d5580869e29680ae1db86fda6db034549d",
+          "raw_sha256": "993437f2190167caa5cf3fb9c33c84d64a6723046cc6c5412a083f760a25a5b5"
+        },
+        "cc_dia_stdev": {
+          "file": "cc_dia_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 6766989,
+          "sha256": "f919fd6ab84cb13d2368a1ab2181ef5ba3eb47c3086dcab9e3c2a58f197dc5a8",
+          "raw_sha256": "dc02c9cac2beeb66ab3580ebf4845c282d638d998e19538140705337e50bec90"
+        },
+        "cc_dia_valid_m2": {
+          "file": "cc_dia_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 78054,
+          "sha256": "ef3392c52d12972ae6dd1b7f20764542673d54177fdaea817d089212a34ef6a8",
+          "raw_sha256": "2d1b0cb03abf104eb09bef8e28e6c8297ccfc5ea5aecc2edcde6dc43196e804a"
+        },
+        "cc_dia_coverage_pct": {
+          "file": "cc_dia_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 84513,
+          "sha256": "f01fbcb6dd71600d0015687ccc7d44c1feb95f6df566542afbe7e5a3ae9b19d3",
+          "raw_sha256": "71f474f0ca42e0bfc82d93f78f24169a0710f6e36f97f0ae70586b7fc9f2b1f1"
+        },
+        "hm_dia_mean": {
+          "file": "hm_dia_mean.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 8421718,
+          "sha256": "2614674d67f7cc9563265feca1678a3ea6cd154503d640a40ae634a903f5e3cb",
+          "raw_sha256": "cdd47619071d76e2ebcc6b659ca3712915ef6574f267b2d9756cb92b57cfe0ff"
+        },
+        "hm_dia_min": {
+          "file": "hm_dia_min.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 3919004,
+          "sha256": "53a1fada6c33e8a254f96f454f8cd624034f63975f3f557563a1b10762baed8b",
+          "raw_sha256": "281ad9cc176e08fc82dddc2aea266e9e7c275be2f8ee4b53d821bed7e2f02393"
+        },
+        "hm_dia_max": {
+          "file": "hm_dia_max.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 1788969,
+          "sha256": "40c1608ab9cc2d4d5a00a9bfd0eae8ef3db3d928332e9e7dd398e51bc0032eaa",
+          "raw_sha256": "d0706a5771d88eb0f9e44f2a9975cdc5b0fecf018bb4df0b6ce76ae2173eb448"
+        },
+        "hm_dia_stdev": {
+          "file": "hm_dia_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 8472494,
+          "sha256": "0ad603c083436c23b8b4665d8c97d55715f8e4516cb5b926ee829abccd3e749a",
+          "raw_sha256": "8e490147e12a284e2cded27b7fbf94e40661d3050854c94f2acdd5ec48cca23a"
+        },
+        "hm_dia_valid_m2": {
+          "file": "hm_dia_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 78054,
+          "sha256": "ef3392c52d12972ae6dd1b7f20764542673d54177fdaea817d089212a34ef6a8",
+          "raw_sha256": "2d1b0cb03abf104eb09bef8e28e6c8297ccfc5ea5aecc2edcde6dc43196e804a"
+        },
+        "hm_dia_coverage_pct": {
+          "file": "hm_dia_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 84513,
+          "sha256": "f01fbcb6dd71600d0015687ccc7d44c1feb95f6df566542afbe7e5a3ae9b19d3",
+          "raw_sha256": "71f474f0ca42e0bfc82d93f78f24169a0710f6e36f97f0ae70586b7fc9f2b1f1"
+        },
+        "t_dia_mean": {
+          "file": "t_dia_mean.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 9230799,
+          "sha256": "42e648ad224e54992d1720cb78403f3cb233aabc29dc13caf5a02b1f192571e2",
+          "raw_sha256": "c00c47c7c268935d1214761a7a1c9c39a9acac3f5b1a20b3917657c68ff92e17"
+        },
+        "t_dia_min": {
+          "file": "t_dia_min.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 8462217,
+          "sha256": "0cc9dc4e1afae4bc79982cabd49c31766629121c03116e957902a706ac448df7",
+          "raw_sha256": "09e6b1053f1411519ba743adaaf300b9c61505a2ba090cbbe302a451a16aaf03"
+        },
+        "t_dia_max": {
+          "file": "t_dia_max.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 8446008,
+          "sha256": "7ccebba2031354d39186367a6a33cb521083975b1e738db230150daef44ae457",
+          "raw_sha256": "48af766108c4e811944a094e20f7a7f37fa82068a19f39ac1fc92d59383dbf16"
+        },
+        "t_dia_stdev": {
+          "file": "t_dia_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 10245333,
+          "sha256": "7782b2ca9e03d33589f216d7a43d6b63b35db0ebc37c52ec52ba03710aa793bd",
+          "raw_sha256": "cf4658e4fb633050dc2ea6d8d1c0ca770ed615b3b836b89e8e59db8299820b6a"
+        },
+        "t_dia_valid_m2": {
+          "file": "t_dia_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 78054,
+          "sha256": "ef3392c52d12972ae6dd1b7f20764542673d54177fdaea817d089212a34ef6a8",
+          "raw_sha256": "2d1b0cb03abf104eb09bef8e28e6c8297ccfc5ea5aecc2edcde6dc43196e804a"
+        },
+        "t_dia_coverage_pct": {
+          "file": "t_dia_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 84513,
+          "sha256": "f01fbcb6dd71600d0015687ccc7d44c1feb95f6df566542afbe7e5a3ae9b19d3",
+          "raw_sha256": "71f474f0ca42e0bfc82d93f78f24169a0710f6e36f97f0ae70586b7fc9f2b1f1"
+        },
+        "cc_noite_mean": {
+          "file": "cc_noite_mean.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 3539110,
+          "sha256": "c40f6fc24e76d73d15da52483da7f03a7a452d9c8451d1c004a380ce3ba3b116",
+          "raw_sha256": "e7d791592d3486cd65a7eae504f5256295757ceeade3cd94754ace9b3fb761b2"
+        },
+        "cc_noite_min": {
+          "file": "cc_noite_min.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 281567,
+          "sha256": "43a4fc90865ba690f48275f658b1fec3340a099e2b586c2aaf4f8938f20001fc",
+          "raw_sha256": "b1a54d064629bdbcf01dad6424379d184353966af9808e6b4ec4e5fb7da227dc"
+        },
+        "cc_noite_max": {
+          "file": "cc_noite_max.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 115468,
+          "sha256": "e405b367a435aa3c0ce60749024f41316d330c30a77e1c49eb76e1848264fd28",
+          "raw_sha256": "7fdae804bc3f7885fcf5ffafab4124a7a1a4a677907d407ea4829fdcd1beb115"
+        },
+        "cc_noite_stdev": {
+          "file": "cc_noite_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 3594502,
+          "sha256": "d30d142229a89eb72c9784979bade739a4f4d56b306c08a77f6f5415f84f7937",
+          "raw_sha256": "00b6e8440e3465ae25ff0dc885d31929b9c25dfb6b5b392ed7528afb08b77106"
+        },
+        "cc_noite_valid_m2": {
+          "file": "cc_noite_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 78054,
+          "sha256": "ef3392c52d12972ae6dd1b7f20764542673d54177fdaea817d089212a34ef6a8",
+          "raw_sha256": "2d1b0cb03abf104eb09bef8e28e6c8297ccfc5ea5aecc2edcde6dc43196e804a"
+        },
+        "cc_noite_coverage_pct": {
+          "file": "cc_noite_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 84513,
+          "sha256": "f01fbcb6dd71600d0015687ccc7d44c1feb95f6df566542afbe7e5a3ae9b19d3",
+          "raw_sha256": "71f474f0ca42e0bfc82d93f78f24169a0710f6e36f97f0ae70586b7fc9f2b1f1"
+        },
+        "hm_noite_mean": {
+          "file": "hm_noite_mean.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 3552399,
+          "sha256": "eb19a9f08de476c0558051299967663ec4756ddbd5a3cbe1d3a31a59114e8141",
+          "raw_sha256": "662b64424ed39d781defb0e745f098d53dc80fed30ce0a78260e353554a21b50"
+        },
+        "hm_noite_min": {
+          "file": "hm_noite_min.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 506426,
+          "sha256": "b73ac6e58c15b3cccb2c1ea5f76f45ae506ed2cc336f5fd260cc39a85ddd91ab",
+          "raw_sha256": "3f58074c78039dde7ad1fadf7739b419f6f648ccb518b29c43a37f5760ef4ba0"
+        },
+        "hm_noite_max": {
+          "file": "hm_noite_max.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 126871,
+          "sha256": "8d2d86afdd24a913b8932b587e8a87c56ce4da4be32e4ab9955da2d7cec7aaaa",
+          "raw_sha256": "d2ac5836b430d2c7a8e5fd837b25da6b5e3cbbea55371703a09022fdce9f2496"
+        },
+        "hm_noite_stdev": {
+          "file": "hm_noite_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 3612849,
+          "sha256": "e2d386d6ffeb2b3162c2f7afa73c95e154635ec4ea43dd459b752caa2f2698ca",
+          "raw_sha256": "6976b066c460221535aad8d6af44b482b2c6129cfd576158caa7c9866fa9c79a"
+        },
+        "hm_noite_valid_m2": {
+          "file": "hm_noite_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 78054,
+          "sha256": "ef3392c52d12972ae6dd1b7f20764542673d54177fdaea817d089212a34ef6a8",
+          "raw_sha256": "2d1b0cb03abf104eb09bef8e28e6c8297ccfc5ea5aecc2edcde6dc43196e804a"
+        },
+        "hm_noite_coverage_pct": {
+          "file": "hm_noite_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 84513,
+          "sha256": "f01fbcb6dd71600d0015687ccc7d44c1feb95f6df566542afbe7e5a3ae9b19d3",
+          "raw_sha256": "71f474f0ca42e0bfc82d93f78f24169a0710f6e36f97f0ae70586b7fc9f2b1f1"
+        },
+        "t_noite_mean": {
+          "file": "t_noite_mean.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 8553668,
+          "sha256": "f81c045362f5e587aaea42b5b2334ebc27e888ce1c45f885b7dc9392a85c3cc8",
+          "raw_sha256": "7a3cbd15edec9936c86f90859a18af66cd6a731d021f6f830028b13f8ac80bc7"
+        },
+        "t_noite_min": {
+          "file": "t_noite_min.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 7199345,
+          "sha256": "2bc7bac9eadb63b51d49df9d40ff255df7192bb2bfa94a8606904ce73b839c94",
+          "raw_sha256": "28708eb5f99ebc2d8d5ffec57a1f9d409c920d28cb5d03bd3225283074b2fd05"
+        },
+        "t_noite_max": {
+          "file": "t_noite_max.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 7211672,
+          "sha256": "47183644365f2f2c688f6b95e09e279c01243e41f18df0b502dc2d9b651f695f",
+          "raw_sha256": "7fedf500777d4413d928f323911c599424ee77b6bd5064440c30ab27db07029d"
+        },
+        "t_noite_stdev": {
+          "file": "t_noite_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 10234370,
+          "sha256": "0901a693f0c02db96abc36d58c8115575aa1f74ba66b2167392522fdcbc34edf",
+          "raw_sha256": "b0e612543d517c6fba3a935b3ba6f982076a41a6cbe944e0d4c7d7b8cf925f20"
+        },
+        "t_noite_valid_m2": {
+          "file": "t_noite_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 78054,
+          "sha256": "ef3392c52d12972ae6dd1b7f20764542673d54177fdaea817d089212a34ef6a8",
+          "raw_sha256": "2d1b0cb03abf104eb09bef8e28e6c8297ccfc5ea5aecc2edcde6dc43196e804a"
+        },
+        "t_noite_coverage_pct": {
+          "file": "t_noite_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 84513,
+          "sha256": "f01fbcb6dd71600d0015687ccc7d44c1feb95f6df566542afbe7e5a3ae9b19d3",
+          "raw_sha256": "71f474f0ca42e0bfc82d93f78f24169a0710f6e36f97f0ae70586b7fc9f2b1f1"
+        },
+        "lst_seca_mean": {
+          "file": "lst_seca_mean.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 9971832,
+          "sha256": "0d5d8dd30fe0ecec50ed5ff7acd7f6652a836ab7d9312b05f83f9d04f1fd1ea8",
+          "raw_sha256": "9a0d22ad8c6358437958a22359aaa148f135338c7c9eea2bd577b4252c11b10a"
+        },
+        "lst_seca_min": {
+          "file": "lst_seca_min.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 3807048,
+          "sha256": "ac416c7edad6db93e73d71afb768f2c99e36d968bd580fee663d3be63373e9c1",
+          "raw_sha256": "5d8a835fdb6357082a65a691e18f598626af4a9f6cf653ed9d83c64220494e46"
+        },
+        "lst_seca_max": {
+          "file": "lst_seca_max.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 3798402,
+          "sha256": "0b938a11ac09847625f15d8e22fe49c8ec7a871bdf6b33b48266ecf5e8fbb03b",
+          "raw_sha256": "5625d29eed980834afbd73ec825432d97bdaa939bf35d52ec1589d5ab43974c2"
+        },
+        "lst_seca_stdev": {
+          "file": "lst_seca_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 10273219,
+          "sha256": "f163603c9378e58613e7c6ccb3bbbdc15ea4629cce3edff7bb8328804b505fe1",
+          "raw_sha256": "7f94cec7938284a20af3d9d26ade929e46574515fba56376f01b069dd2a9f237"
+        },
+        "lst_seca_valid_m2": {
+          "file": "lst_seca_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 75732,
+          "sha256": "6ff29bd3b0af538a88d79af7fab0831a6f4f6c9740da747424156547f86e23de",
+          "raw_sha256": "04618fa89293ca7867594745377c514bc26f313aef090fd734f687a4dd0231b6"
+        },
+        "lst_seca_coverage_pct": {
+          "file": "lst_seca_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 67779,
+          "sha256": "f73b29c00434bc923234d26fe2f43a15727d30e6afe67b54998ce82766d0ba53",
+          "raw_sha256": "93533ca8d3b9420c5969d119c04b4577eb7d46ad5a061dfce5e8fd790f64c7c6"
+        },
+        "lst_chuva_mean": {
+          "file": "lst_chuva_mean.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 9977350,
+          "sha256": "7e361d735ffe7b433d653ce917b84b913d548f3496e97a7dcbb636d8f041647a",
+          "raw_sha256": "1526afed463eeabbd08df60321e44cd68ff44e063f327041e5dde3b018d4bd27"
+        },
+        "lst_chuva_min": {
+          "file": "lst_chuva_min.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 3712593,
+          "sha256": "ae68ed8dca761e29e95c2b786624220268f15f79fc95127d53c46a0f9c63f126",
+          "raw_sha256": "13faedd6af253a5e1c3aa19de0cd6aab1fd831f0522414df8f1247e02ab9aaad"
+        },
+        "lst_chuva_max": {
+          "file": "lst_chuva_max.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 3701798,
+          "sha256": "cbe5c2fa6eca394308d51d33239642bdf17c0f30cba91226386baf84b4be786a",
+          "raw_sha256": "7f37b4a28a96ee3a18d3da7342e74e7017d629fab285105c26c252a98aee3c14"
+        },
+        "lst_chuva_stdev": {
+          "file": "lst_chuva_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 10274330,
+          "sha256": "ad37b3495c81a712034747a89f07c544d96f0474178cf7e3358c754fa8d176bd",
+          "raw_sha256": "54a21953f1afaf8577d85c8bb8d513b6b3784723468c63384e4e85594d940c20"
+        },
+        "lst_chuva_valid_m2": {
+          "file": "lst_chuva_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 75732,
+          "sha256": "6ff29bd3b0af538a88d79af7fab0831a6f4f6c9740da747424156547f86e23de",
+          "raw_sha256": "04618fa89293ca7867594745377c514bc26f313aef090fd734f687a4dd0231b6"
+        },
+        "lst_chuva_coverage_pct": {
+          "file": "lst_chuva_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 67779,
+          "sha256": "f73b29c00434bc923234d26fe2f43a15727d30e6afe67b54998ce82766d0ba53",
+          "raw_sha256": "93533ca8d3b9420c5969d119c04b4577eb7d46ad5a061dfce5e8fd790f64c7c6"
+        },
+        "inundacao_mean": {
+          "file": "inundacao_mean.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 758574,
+          "sha256": "ac627a5b91e2827f93509469a2919fdaea6d4f218eb11fa0ebd2b7f990ed9901",
+          "raw_sha256": "638e2890add549e9058edc8da342a5a0a63e3907e53909fe9113af5239ba64c2"
+        },
+        "inundacao_min": {
+          "file": "inundacao_min.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 101243,
+          "sha256": "3882d45a4639843f09ec1583816eeb4a22ba8bc112e0fc913afde042296d8978",
+          "raw_sha256": "4c61615f6630c52930e442387c5670ce6471765108d5e8fae985881b743b04e2"
+        },
+        "inundacao_max": {
+          "file": "inundacao_max.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 208161,
+          "sha256": "38ebb1793ef7ddf6ba8e7ba1137ef9aaeca0145d46afa52a8bf754b3ac63b209",
+          "raw_sha256": "2b853bc44928904608dde44ac37da9f7324bc4689317dc843680070bff236b9f"
+        },
+        "inundacao_stdev": {
+          "file": "inundacao_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 751346,
+          "sha256": "02bdbf7fafe90792428f32910a61f161f9ef373787a9321d2b7066a2dca19d18",
+          "raw_sha256": "d33145288e4f3093e7279c3869789ae1e3b562b824f02abb852e4f188435b2f2"
+        },
+        "inundacao_valid_m2": {
+          "file": "inundacao_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 175824,
+          "sha256": "a8f6554d46e10e6ce960d649466d312b016d07d1595ff4259571884401ab282c",
+          "raw_sha256": "58f45d1228a6bd3151cca519b894a6e88e452d3f0484fe8336d5c53360210cff"
+        },
+        "inundacao_coverage_pct": {
+          "file": "inundacao_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 213196,
+          "sha256": "cff81d61b4928479b8c46c0dab10bdb41e7d34a77d250195b0fdd3ce8cb2b817",
+          "raw_sha256": "121ecc9037fa8016cb6f5c057ee844d51facbb50beec99f1a992d6a91503b2d3"
+        },
+        "inundada_m2": {
+          "file": "inundada_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 341707,
+          "sha256": "043db7a0851e3b890e2ee589b4402bcfca891588d923bf33b0658c2ca3e50c96",
+          "raw_sha256": "e417c82bc692e1a7574a34bbf97fd3caeda169340cee258e4f25077d2d60619f"
+        },
+        "inundada_pct_valida": {
+          "file": "inundada_pct_valida.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 418456,
+          "sha256": "41cf5f5a1ea1ff2858dbf3124a1e5e7c9e43ef36dcaa9d64e0ed47b871569f22",
+          "raw_sha256": "995eccc345bc5be4606dcebb778a42c9222597c0ae443bc706270cab4842909d"
+        },
+        "profundidade_media_inundada_m": {
+          "file": "profundidade_media_inundada_m.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 417422,
+          "sha256": "87fbb157012c0c324b41a5357049e03b58c8adf7cf919601977fb9ba2f5aa424",
+          "raw_sha256": "f35a3e3da58d0136876a9c452a0286422cbfebbd8447149b92faf1d422b317e3"
+        },
+        "uso_valid_m2": {
+          "file": "uso_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 78054,
+          "sha256": "ef3392c52d12972ae6dd1b7f20764542673d54177fdaea817d089212a34ef6a8",
+          "raw_sha256": "2d1b0cb03abf104eb09bef8e28e6c8297ccfc5ea5aecc2edcde6dc43196e804a"
+        },
+        "uso_coverage_pct": {
+          "file": "uso_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 84513,
+          "sha256": "f01fbcb6dd71600d0015687ccc7d44c1feb95f6df566542afbe7e5a3ae9b19d3",
+          "raw_sha256": "71f474f0ca42e0bfc82d93f78f24169a0710f6e36f97f0ae70586b7fc9f2b1f1"
+        },
+        "uso_pct_florestal": {
+          "file": "uso_pct_florestal.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 884074,
+          "sha256": "743fab42618dbaa271f12afe73226eb18abd680a75f14ca5019b4cf85b79ec5d",
+          "raw_sha256": "65d181f1d7d9953151b55173e899957d928998918a4cff47e2386ade12e2678e"
+        },
+        "uso_pct_savanica": {
+          "file": "uso_pct_savanica.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 2730453,
+          "sha256": "8816af4fce89a3a08db98789c58aa0841322ee2655a5e7c21e9ddd8620c0861b",
+          "raw_sha256": "50e76f1a5cedc110a98ce2bd0cf657929990fbf40e52e5c1258f0e2e4521d6f7"
+        },
+        "uso_pct_alagado": {
+          "file": "uso_pct_alagado.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 309813,
+          "sha256": "26cf2a4ced8251b85b52462aa09eb2dbef23e292a3b4e140fa2fd7f6a438ee66",
+          "raw_sha256": "8ae05515a5973b24160084318fac9fb4c8d6e09914b42d4c67e772e6bc6346ae"
+        },
+        "uso_pct_campestre": {
+          "file": "uso_pct_campestre.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 2624339,
+          "sha256": "18c65850cb89415435283da398e6f39eb0d2a4f4f9fe1f83359782cba3be84fc",
+          "raw_sha256": "1b58e5fc7f71de91bc442bc56eac39c23b6f7dbc24be0dca6925801f1d9e4d5b"
+        },
+        "uso_pct_agua": {
+          "file": "uso_pct_agua.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 82757,
+          "sha256": "199498397583aa93eb32f80a50d34af1f4d9b805380ed24dfb13b48443e9b166",
+          "raw_sha256": "ca01632f436f121880cf7939c7f924724098568c0794784766029986b342f828"
+        },
+        "uso_pct_vegetacao_intraurbana": {
+          "file": "uso_pct_vegetacao_intraurbana.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 1473495,
+          "sha256": "1d022c3b30f6d9630ca48c33f8c77ef187055c58ff01dd91e620a33fa4d5a5e7",
+          "raw_sha256": "0b3fb6bfe53abf8646b71b756649fdf9380c2628decdf596e2ae9279d57b68c9"
+        },
+        "uso_pct_forracao": {
+          "file": "uso_pct_forracao.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 3895935,
+          "sha256": "11fb82c4ddcde995e8d2e9d063349883c61b7d3449599479ad2b412ab4cf3327",
+          "raw_sha256": "1af6153d9b61c13674677dceb0948774404e47631ac83ae6ae68a9d64ae8a495"
+        },
+        "uso_pct_impermeavel_solo_exposto": {
+          "file": "uso_pct_impermeavel_solo_exposto.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 2934189,
+          "sha256": "3dc7beb34052bb96eb3053f929e2786214b7309168a93db401373c75b178e632",
+          "raw_sha256": "b7bdf9376473d8b94e102f0961552a81397638344b70bd6d2a580047768c06bb"
+        },
+        "uso_pct_edificacoes": {
+          "file": "uso_pct_edificacoes.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 2147066,
+          "sha256": "2297512359cca09a21b487afdeb270f5040b4a66f6137701392b78ab59efa9c6",
+          "raw_sha256": "1f2eaf0d7679b942fca96fa75e2daf0cf85f34d394830b003c0ba8ba34efa216"
+        },
+        "uso_pct_vias": {
+          "file": "uso_pct_vias.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 1555300,
+          "sha256": "34b93086e0c8c72e783487204f912a9fa7137da41c9830f220153454da7dd5cf",
+          "raw_sha256": "be6ba129aa58ec98b663d4f4205009e99bb133ce66de0871c9e4a750d3282551"
+        },
+        "momentos_valid_m2": {
+          "file": "momentos_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 80779,
+          "sha256": "622dfc7bd3877a5a09dc5c8f857e8ca905eb767571a59026c8b010f08a618352",
+          "raw_sha256": "551836e267d24bcbe9dae63f4fa90ead6cb53658f8aafcf5e0ade8bcb3d3af0f"
+        },
+        "momentos_coverage_pct": {
+          "file": "momentos_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 94425,
+          "sha256": "0e48b37c368ac8ff177824a08d5a663ccfa7d178f84c2c96c157340370f96ca4",
+          "raw_sha256": "7b48c8af8ddf67e89cb716dc63c6f772397bf72af83bb301ef8aefc7c47f83f1"
+        },
+        "momentos_pct_fonte": {
+          "file": "momentos_pct_fonte.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 1285343,
+          "sha256": "63ac173c9527ccb3b872f1fe888d8609cf448bd639f33d2b15627ea64725cfb6",
+          "raw_sha256": "899cdf264fc5a16f550d9fb4b6248c26e5eb375d716bf055e7ebca88bbf6c114"
+        },
+        "momentos_pct_conducao": {
+          "file": "momentos_pct_conducao.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 868376,
+          "sha256": "d1f46c56c7938fdad8ec765ebdea45ef4c3d95607644221aa0e1b5fe8e42b890",
+          "raw_sha256": "63c1ef92dd0977a4360d66acfb0e50f8e85f62e7355ae2f6377704482e987514"
+        },
+        "momentos_pct_acomodacao": {
+          "file": "momentos_pct_acomodacao.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 575228,
+          "sha256": "d4c738d9bacc3fcd651ae12e10331d0156cb91b1995753ca52c0040d26747a6d",
+          "raw_sha256": "755c3894a6b3a1f03524408505b86513f64eee44dcc0cd95a206bab34b22182e"
+        },
+        "edif_ocupada_m2": {
+          "file": "edif_ocupada_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 2142611,
+          "sha256": "63219d8791cdf84e1670557848ff2582ccde293c023968857f882f9c1c5df9d7",
+          "raw_sha256": "8360c9443ab3062850429d6b4c6b936f04704906385753c2a1df6ba827a753e0"
+        },
+        "edif_dominio_m2": {
+          "file": "edif_dominio_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 79730,
+          "sha256": "90b620da7428a4e735778d85281dfdc900086107216a098c9b8a71b3964d6dfa",
+          "raw_sha256": "82a51605ac6d5ea1e53ad879b352f8680e1dfbd48372a6c3db98c186f64c6672"
+        },
+        "edif_pct": {
+          "file": "edif_pct.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 2145420,
+          "sha256": "faa979d4b0662ab2b975c7e1b31d3984780d473b525231e956ba73f35bb93d75",
+          "raw_sha256": "032e5054062ffc436ff5aa4cf17d0697ea66f3eaa3d48ce2b77a5f6ca1eeb8c9"
+        },
+        "renda_reais": {
+          "file": "renda_reais.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 133805,
+          "sha256": "e2092bbb5a09bf343b9bf34897636b1147074da29ed504010c1aaf519bbf3b33",
+          "raw_sha256": "0ddcab2024e305547ae3607ad746a9363b9e69f9ece7e0441d2161291d107c2a"
+        },
+        "renda_sm": {
+          "file": "renda_sm.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 133661,
+          "sha256": "6a3f08979ccc1bfbc196cd2a25579861dd5cc15672b61812fce51e5db9f2e5c7",
+          "raw_sha256": "c3ebeb01a8aacb9cec1c3d1dd4d47e39baee546502551ff6f2174e919b021eb9"
+        },
+        "setor_pct_unidade": {
+          "file": "setor_pct_unidade.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 782841,
+          "sha256": "d846c5f59801e0296256f6254f472291bd3da32d810c5bb7f61c651f371d8463",
+          "raw_sha256": "497c699950d4d2a1b33d966850dfd2b42a41b2b7752c594dd7bdf280efddca53"
+        },
+        "pre_pct_baixo": {
+          "file": "pre_pct_baixo.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 1908457,
+          "sha256": "8209a9981c48b4a42fde7723f82fb38e2a1a07e72291daec5f8c53b47df76a60",
+          "raw_sha256": "d0e3f1006a279e584d167384a42e7b2b24b69f6a6e8749eac6be24cde00c9036"
+        },
+        "pre_pct_medio": {
+          "file": "pre_pct_medio.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 2955180,
+          "sha256": "102065ab266360fb4fc5bff20a4bf42ccb49b630a6f580d26462a51fdab5eeb3",
+          "raw_sha256": "9d4e0e4cafea6990dd7a48e5798f40466136923be1fd529bc18e93736fa42f09"
+        },
+        "pre_pct_alto": {
+          "file": "pre_pct_alto.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 3496204,
+          "sha256": "ccf7b444302daa7346c21ed35913199950fc6190c0960a185fdbf5ead32616cc",
+          "raw_sha256": "0e3f28eb978457f407947a29605a1c8eed63104d70d0a46e21e90dda9e6a94a8"
+        },
+        "pre_pct_muito_alto": {
+          "file": "pre_pct_muito_alto.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 1563384,
+          "sha256": "b06a507b1f79f1c235c0febcfa542747f4f58d021557cd1c573d1da8aafa006f",
+          "raw_sha256": "a050be142d34e8e65ff4fbd816f1548464f73e695e428cc00701374419aee74e"
+        },
+        "pre_pct_sobreposicao": {
+          "file": "pre_pct_sobreposicao.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 373285,
+          "sha256": "5d6525a1178e89bb75493f0250dbea8ac31e5291a6e9ed29e2c0337b91bcabd3",
+          "raw_sha256": "f83f6a36d6de62a60330c0ac43bd4c6535e6ca83dfb9f98866565d14cd4d9dba"
+        },
+        "pre_valid_m2": {
+          "file": "pre_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 4504805,
+          "sha256": "de0ed820e98179554a668f1b014783542505d25cd93458de23d206c43367881d",
+          "raw_sha256": "1ea42f72540e782591346fca38ac20ce2624ad4b6db3d70e89459de98facf35a"
+        },
+        "pre_coverage_pct": {
+          "file": "pre_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 1358654,
+          "bytes": 4569541,
+          "sha256": "d65d17ff670cd2e710f66665a9abf5a140812ca98caa6a64d9f0d1f4051c634d",
+          "raw_sha256": "ddca0c37a0c2c67f9ab59cf51ed7ed80c8db262c0e05b12fd372c2e88b3dad5f"
+        }
+      },
+      "image": {
+        "file": "ids-20m.png",
+        "bounds": [
+          -5355180,
+          -1802860,
+          -5310160,
+          -1755400
+        ],
+        "size": [
+          2251,
+          2373
+        ],
+        "resolution_3857_m": 20,
+        "sha256": "0f80268d1e0e9b771350d546137c91fdd6af116878da12c718aea4d569d893dd",
+        "present_ids": 1356510
+      },
+      "axial": {
+        "file": "axiais.i32.gz",
+        "dtype": "int32",
+        "count": 2717308,
+        "bytes": 2072776,
+        "sha256": "368faf6165e0c1a6030565059b3296341dfef775b9e1d22feadfef6c804ddaf6",
+        "raw_sha256": "1527eeea061751011fe16f1168a7474a47ba7af68e59f5bc1b11bf58004fcb19"
+      },
+      "summaries": "resumos.json.gz",
+      "ras": {
+        "1": {
+          "file": "ra-1.json.gz",
+          "area_m2": 424503330.1914271,
+          "units": 548492
+        },
+        "2": {
+          "file": "ra-2.json.gz",
+          "area_m2": 1667176.7008781359,
+          "units": 2265
+        },
+        "3": {
+          "file": "ra-3.json.gz",
+          "area_m2": 3929793.381866913,
+          "units": 5595
+        },
+        "4": {
+          "file": "ra-4.json.gz",
+          "area_m2": 3440001.375852416,
+          "units": 4664
+        },
+        "5": {
+          "file": "ra-5.json.gz",
+          "area_m2": 553404.369267693,
+          "units": 847
+        },
+        "7": {
+          "file": "ra-7.json.gz",
+          "area_m2": 57873271.98821576,
+          "units": 75050
+        },
+        "8": {
+          "file": "ra-8.json.gz",
+          "area_m2": 5046810.284508949,
+          "units": 6891
+        },
+        "10": {
+          "file": "ra-10.json.gz",
+          "area_m2": 25223349.535166703,
+          "units": 32883
+        },
+        "11": {
+          "file": "ra-11.json.gz",
+          "area_m2": 3191163.558660033,
+          "units": 4270
+        },
+        "12": {
+          "file": "ra-12.json.gz",
+          "area_m2": 3430212.3028229466,
+          "units": 4623
+        },
+        "13": {
+          "file": "ra-13.json.gz",
+          "area_m2": 2227128.115334199,
+          "units": 3081
+        },
+        "15": {
+          "file": "ra-15.json.gz",
+          "area_m2": 580585.9684956328,
+          "units": 854
+        },
+        "16": {
+          "file": "ra-16.json.gz",
+          "area_m2": 76020269.84909362,
+          "units": 99206
+        },
+        "17": {
+          "file": "ra-17.json.gz",
+          "area_m2": 17781115.04800477,
+          "units": 23323
+        },
+        "18": {
+          "file": "ra-18.json.gz",
+          "area_m2": 74921157.56466822,
+          "units": 97960
+        },
+        "19": {
+          "file": "ra-19.json.gz",
+          "area_m2": 6601864.40453225,
+          "units": 8713
+        },
+        "20": {
+          "file": "ra-20.json.gz",
+          "area_m2": 9185914.759359308,
+          "units": 12137
+        },
+        "21": {
+          "file": "ra-21.json.gz",
+          "area_m2": 36356030.480809085,
+          "units": 47281
+        },
+        "22": {
+          "file": "ra-22.json.gz",
+          "area_m2": 6467436.573067557,
+          "units": 8579
+        },
+        "23": {
+          "file": "ra-23.json.gz",
+          "area_m2": 1629436.8395383642,
+          "units": 2265
+        },
+        "24": {
+          "file": "ra-24.json.gz",
+          "area_m2": 116541113.04790689,
+          "units": 151339
+        },
+        "25": {
+          "file": "ra-25.json.gz",
+          "area_m2": 7386586.7702791225,
+          "units": 9791
+        },
+        "26": {
+          "file": "ra-26.json.gz",
+          "area_m2": 14649080.646908479,
+          "units": 19563
+        },
+        "27": {
+          "file": "ra-27.json.gz",
+          "area_m2": 64727741.37387924,
+          "units": 84324
+        },
+        "28": {
+          "file": "ra-28.json.gz",
+          "area_m2": 6993152.799731689,
+          "units": 9339
+        },
+        "29": {
+          "file": "ra-29.json.gz",
+          "area_m2": 29050895.80057458,
+          "units": 37969
+        },
+        "30": {
+          "file": "ra-30.json.gz",
+          "area_m2": 28890301.40602827,
+          "units": 37604
+        },
+        "33": {
+          "file": "ra-33.json.gz",
+          "area_m2": 13351716.333530752,
+          "units": 17484
+        },
+        "36": {
+          "file": "ra-36.json.gz",
+          "area_m2": 13806667.452941893,
+          "units": 18080
+        },
+        "37": {
+          "file": "ra-37.json.gz",
+          "area_m2": 260419.33750246488,
+          "units": 393
+        }
+      }
+    },
+    "fragmentos": {
+      "count": 46876,
+      "id_field": "id_frag",
+      "arrays": {
+        "id_frag": {
+          "file": "id_frag.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 55804,
+          "sha256": "166fa065f20ce63e68e040246bb6f2531872e49c241bd6be3c2ccaefe60dd831",
+          "raw_sha256": "83937da634f41f3550a50f93dd40a9de1af0729b9196b4623bfd8a2d63b94742"
+        },
+        "area_m2": {
+          "file": "area_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 71900,
+          "sha256": "9155f6cbe4af5344fc127748247b737c5d81b179c89ba3548afd76160ccbc151",
+          "raw_sha256": "471b6644fc8224b8074b20f2f894addc0528cc2ef1ca0642cb81f9feb39f1b8c"
+        },
+        "cc_dia_mean": {
+          "file": "cc_dia_mean.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 19347,
+          "sha256": "de9a29bbd473e36187c059c263452159e2efc98f8cd88d73c5e0d3ece2c9d52d",
+          "raw_sha256": "b26ede11753eea16d9daf6b958dd183a2313341bbacdfe6797cbf7aaf9106433"
+        },
+        "cc_dia_min": {
+          "file": "cc_dia_min.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 10275,
+          "sha256": "cbae9f56883a0d764bec0b487bcc2d363200b8ce38847df3ce57b1641b3b585f",
+          "raw_sha256": "42cf94fee6a59c1bf91400efa84bda7f01038dec8631790ec95e6a2fdc9c983c"
+        },
+        "cc_dia_max": {
+          "file": "cc_dia_max.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 11207,
+          "sha256": "95d81e5b9800d425b88a476faeabed13d7310fc7c3016f934f2683b3298b5ad1",
+          "raw_sha256": "2e17b8d04af4127dd693ad89e85f61fed0f59f82bfd17f0856f50914462cca97"
+        },
+        "cc_dia_stdev": {
+          "file": "cc_dia_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 10142,
+          "sha256": "b867ee68b5f2324dfe4dab9e61ea30df8d178b3b30f2a70c1db7f6e37bcfb9e3",
+          "raw_sha256": "1b1cbf8aa7ae9fb46ba09f2a48b38618f125e1a2b39dc0d7a807b8628fb59ff2"
+        },
+        "cc_dia_valid_m2": {
+          "file": "cc_dia_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 71900,
+          "sha256": "9155f6cbe4af5344fc127748247b737c5d81b179c89ba3548afd76160ccbc151",
+          "raw_sha256": "471b6644fc8224b8074b20f2f894addc0528cc2ef1ca0642cb81f9feb39f1b8c"
+        },
+        "cc_dia_coverage_pct": {
+          "file": "cc_dia_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 587,
+          "sha256": "436aca1574b736063d95cebf5b8ed6c628b9990f83d6520d962939837c59fb8b",
+          "raw_sha256": "d739ee0907cc98b7498bee827e08bbf51ea52f5fd4e27515b330c490e93a859f"
+        },
+        "hm_dia_mean": {
+          "file": "hm_dia_mean.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 65933,
+          "sha256": "062e840ed7a163bbce8888b6a705bcca9b330980830fc9947df675adb13e32d5",
+          "raw_sha256": "68dcb87aa1267de6773118f0ba8500a09e7b40d89f7fb52bef391838ecdd8247"
+        },
+        "hm_dia_min": {
+          "file": "hm_dia_min.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 49658,
+          "sha256": "9d56a553890b5bbf7d7f8b0a545df1c62f0c7db1a2c9b735e97a9d8398f2a965",
+          "raw_sha256": "a1c3b5a56d893a9d1a4536eb6beab6ab8f3d8a74313dbb4ddbc1ac0e511fb559"
+        },
+        "hm_dia_max": {
+          "file": "hm_dia_max.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 48961,
+          "sha256": "f4cfeb16bb20fe1d1093ef9c3539f94d82ccc1b4d2209a9ae82009eb7b7c777f",
+          "raw_sha256": "3b04e2687ff1e6d486165a98554bff75d77575461a3d554ee004d892ec943438"
+        },
+        "hm_dia_stdev": {
+          "file": "hm_dia_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 55282,
+          "sha256": "9fd03d661678087bfabd81f1eda55f126248c6cc7dc0e6cf4e7e3fe920f12d72",
+          "raw_sha256": "ba0f0ac825272f580fc528369290ef5d47d327ddd874c5057fcaecc346820e15"
+        },
+        "hm_dia_valid_m2": {
+          "file": "hm_dia_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 71900,
+          "sha256": "9155f6cbe4af5344fc127748247b737c5d81b179c89ba3548afd76160ccbc151",
+          "raw_sha256": "471b6644fc8224b8074b20f2f894addc0528cc2ef1ca0642cb81f9feb39f1b8c"
+        },
+        "hm_dia_coverage_pct": {
+          "file": "hm_dia_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 587,
+          "sha256": "436aca1574b736063d95cebf5b8ed6c628b9990f83d6520d962939837c59fb8b",
+          "raw_sha256": "d739ee0907cc98b7498bee827e08bbf51ea52f5fd4e27515b330c490e93a859f"
+        },
+        "t_dia_mean": {
+          "file": "t_dia_mean.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 321860,
+          "sha256": "570e3766cf64e73df4b2353b58f08041890d7bb2a55d830deb867bd483a23370",
+          "raw_sha256": "ce1d4e606b373500c4dff6f83c1b0563ad8074ab7584b507d10c855fa01aa564"
+        },
+        "t_dia_min": {
+          "file": "t_dia_min.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 294688,
+          "sha256": "88abc6fb0c3310cc6c199031d6130d301d7ad467a7eceb8e79a3011b48bb26ae",
+          "raw_sha256": "09cdbde8a891d705376959f96e157aff41d552a396ccc9ca1f07d5468ce84cee"
+        },
+        "t_dia_max": {
+          "file": "t_dia_max.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 294389,
+          "sha256": "eef439e6cd47035a0f6ee115fa5e5aee0b78e1c70a7f939549d6ecf13fc85857",
+          "raw_sha256": "71e2354686a5ba376597dbc5f9991d1aa19b4cf2b567d8fb3b54b3acaa0879c1"
+        },
+        "t_dia_stdev": {
+          "file": "t_dia_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 290105,
+          "sha256": "2b934d6d988d26cf86ab6079b10cea7f17c2bfb467336ec035b49b4a8c77362e",
+          "raw_sha256": "20c5c484ba633b1f0934e051964635a18f16be6298d12b842fe3fa8e997ef953"
+        },
+        "t_dia_valid_m2": {
+          "file": "t_dia_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 71900,
+          "sha256": "9155f6cbe4af5344fc127748247b737c5d81b179c89ba3548afd76160ccbc151",
+          "raw_sha256": "471b6644fc8224b8074b20f2f894addc0528cc2ef1ca0642cb81f9feb39f1b8c"
+        },
+        "t_dia_coverage_pct": {
+          "file": "t_dia_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 587,
+          "sha256": "436aca1574b736063d95cebf5b8ed6c628b9990f83d6520d962939837c59fb8b",
+          "raw_sha256": "d739ee0907cc98b7498bee827e08bbf51ea52f5fd4e27515b330c490e93a859f"
+        },
+        "cc_noite_mean": {
+          "file": "cc_noite_mean.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 587,
+          "sha256": "2caddf25285a9e15ca5d877fc0151242cd2f3ad9b68410e1b074f47b7fb9f3a4",
+          "raw_sha256": "ae2801bdaa748d337a1d1cede0f5ea0e74391d9121316e71af740d33aee6505a"
+        },
+        "cc_noite_min": {
+          "file": "cc_noite_min.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 587,
+          "sha256": "2caddf25285a9e15ca5d877fc0151242cd2f3ad9b68410e1b074f47b7fb9f3a4",
+          "raw_sha256": "ae2801bdaa748d337a1d1cede0f5ea0e74391d9121316e71af740d33aee6505a"
+        },
+        "cc_noite_max": {
+          "file": "cc_noite_max.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 587,
+          "sha256": "2caddf25285a9e15ca5d877fc0151242cd2f3ad9b68410e1b074f47b7fb9f3a4",
+          "raw_sha256": "ae2801bdaa748d337a1d1cede0f5ea0e74391d9121316e71af740d33aee6505a"
+        },
+        "cc_noite_stdev": {
+          "file": "cc_noite_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 398,
+          "sha256": "a958839c5419e666dd58f73b7d6a72f5b1977ebf2321668c87600978b63f2890",
+          "raw_sha256": "38cfe1e27d32a59ae2fcaec1b400f305fb80472781a0ec032fbede56357533e2"
+        },
+        "cc_noite_valid_m2": {
+          "file": "cc_noite_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 71900,
+          "sha256": "9155f6cbe4af5344fc127748247b737c5d81b179c89ba3548afd76160ccbc151",
+          "raw_sha256": "471b6644fc8224b8074b20f2f894addc0528cc2ef1ca0642cb81f9feb39f1b8c"
+        },
+        "cc_noite_coverage_pct": {
+          "file": "cc_noite_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 587,
+          "sha256": "436aca1574b736063d95cebf5b8ed6c628b9990f83d6520d962939837c59fb8b",
+          "raw_sha256": "d739ee0907cc98b7498bee827e08bbf51ea52f5fd4e27515b330c490e93a859f"
+        },
+        "hm_noite_mean": {
+          "file": "hm_noite_mean.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 587,
+          "sha256": "2caddf25285a9e15ca5d877fc0151242cd2f3ad9b68410e1b074f47b7fb9f3a4",
+          "raw_sha256": "ae2801bdaa748d337a1d1cede0f5ea0e74391d9121316e71af740d33aee6505a"
+        },
+        "hm_noite_min": {
+          "file": "hm_noite_min.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 587,
+          "sha256": "2caddf25285a9e15ca5d877fc0151242cd2f3ad9b68410e1b074f47b7fb9f3a4",
+          "raw_sha256": "ae2801bdaa748d337a1d1cede0f5ea0e74391d9121316e71af740d33aee6505a"
+        },
+        "hm_noite_max": {
+          "file": "hm_noite_max.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 587,
+          "sha256": "2caddf25285a9e15ca5d877fc0151242cd2f3ad9b68410e1b074f47b7fb9f3a4",
+          "raw_sha256": "ae2801bdaa748d337a1d1cede0f5ea0e74391d9121316e71af740d33aee6505a"
+        },
+        "hm_noite_stdev": {
+          "file": "hm_noite_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 398,
+          "sha256": "a958839c5419e666dd58f73b7d6a72f5b1977ebf2321668c87600978b63f2890",
+          "raw_sha256": "38cfe1e27d32a59ae2fcaec1b400f305fb80472781a0ec032fbede56357533e2"
+        },
+        "hm_noite_valid_m2": {
+          "file": "hm_noite_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 71900,
+          "sha256": "9155f6cbe4af5344fc127748247b737c5d81b179c89ba3548afd76160ccbc151",
+          "raw_sha256": "471b6644fc8224b8074b20f2f894addc0528cc2ef1ca0642cb81f9feb39f1b8c"
+        },
+        "hm_noite_coverage_pct": {
+          "file": "hm_noite_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 587,
+          "sha256": "436aca1574b736063d95cebf5b8ed6c628b9990f83d6520d962939837c59fb8b",
+          "raw_sha256": "d739ee0907cc98b7498bee827e08bbf51ea52f5fd4e27515b330c490e93a859f"
+        },
+        "t_noite_mean": {
+          "file": "t_noite_mean.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 316100,
+          "sha256": "baeadfc82cf07b36534c0352f69f19a4e1178d9764e5bf0c54eb734b114912f2",
+          "raw_sha256": "167cfebed91d433f3e513cafb983086042c61889689ea321666c7bf23565cd3a"
+        },
+        "t_noite_min": {
+          "file": "t_noite_min.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 286903,
+          "sha256": "237ff5562c306c428dfe2db76275817a9c48a262cd2441a8a42e60aca2d4cf7a",
+          "raw_sha256": "e33ed2dc9be92756f9fd266380451506de93e52c0a095279e695b2ce916b74da"
+        },
+        "t_noite_max": {
+          "file": "t_noite_max.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 286983,
+          "sha256": "244fc5b2b775b0fabe6185bf19875fe3a651e8214ff2695e478c7c51bd8be65e",
+          "raw_sha256": "9c569b4d512ab815f425bd8739bb2609639b5d5993c5799983bece8c05352792"
+        },
+        "t_noite_stdev": {
+          "file": "t_noite_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 288611,
+          "sha256": "c58baddc98e2ea4729fa6ce44c91a4c8bdcd53694e1be1e8eab5e7e7f8f7bb39",
+          "raw_sha256": "64388156e4458af3086ae088459b4a0e8d16362891f1f0c5400d1c3d260a50c1"
+        },
+        "t_noite_valid_m2": {
+          "file": "t_noite_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 71900,
+          "sha256": "9155f6cbe4af5344fc127748247b737c5d81b179c89ba3548afd76160ccbc151",
+          "raw_sha256": "471b6644fc8224b8074b20f2f894addc0528cc2ef1ca0642cb81f9feb39f1b8c"
+        },
+        "t_noite_coverage_pct": {
+          "file": "t_noite_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 587,
+          "sha256": "436aca1574b736063d95cebf5b8ed6c628b9990f83d6520d962939837c59fb8b",
+          "raw_sha256": "d739ee0907cc98b7498bee827e08bbf51ea52f5fd4e27515b330c490e93a859f"
+        },
+        "lst_seca_mean": {
+          "file": "lst_seca_mean.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 254653,
+          "sha256": "98c73d379539fac34638129aca498d4aac784720bc289fa4421d89ed1bee96b9",
+          "raw_sha256": "9f4165ec66693c9f135e17398166880d6865e7e5d067a27d4f1156dda5a95b5e"
+        },
+        "lst_seca_min": {
+          "file": "lst_seca_min.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 161324,
+          "sha256": "f717099a101757b90cf086bd4314a8a208ecb64d50c000763543afd817ffd60b",
+          "raw_sha256": "9eb4298cecd8df3aafd4bd8f9256c9c781fc1f7e418324c51edca53a1650234a"
+        },
+        "lst_seca_max": {
+          "file": "lst_seca_max.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 160736,
+          "sha256": "60775b54af48a3ecb8ac5e97c46648a23d4aa73de6df00d20c44868c267147da",
+          "raw_sha256": "e42678e2e6b6148fe8348018b05e97fad9fb9914466d238a3f1cf2ef8c77dd18"
+        },
+        "lst_seca_stdev": {
+          "file": "lst_seca_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 192467,
+          "sha256": "9611ace3c7a0b64667493b80eb73711e8a9e96c16a82f3aa82d247def95dd091",
+          "raw_sha256": "9fe3024e2e903788ff707096b5f0938a1bb2d123b777f000a8d70eeaf74fb8d0"
+        },
+        "lst_seca_valid_m2": {
+          "file": "lst_seca_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 111877,
+          "sha256": "45c8199af9a9419947696a7a8af848de982296750fc0ef090bc196bb65450769",
+          "raw_sha256": "630919a558498be0e400b5bbfa8f1712cda48b644d273fd056681b0b0720cc46"
+        },
+        "lst_seca_coverage_pct": {
+          "file": "lst_seca_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 78361,
+          "sha256": "19a98357a99da1f190d761859f9afb8a7a76fed8d7e4fa074a2d6191ca43a2fa",
+          "raw_sha256": "bd9164834c7affff0a9ca886798d4aca7d1bcb4ef0492b0e1d1b551731a81f98"
+        },
+        "lst_chuva_mean": {
+          "file": "lst_chuva_mean.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 253935,
+          "sha256": "391953cf65ad56cb31b31e51e8bd58c33f2026774abfa8e29fc52f470cb1b5ef",
+          "raw_sha256": "138de53027db580cedc789451f8311d419f9ab7ba59b9f79003d1af0d754e7f4"
+        },
+        "lst_chuva_min": {
+          "file": "lst_chuva_min.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 158638,
+          "sha256": "c01eb393f7b18e8fae51043db6c2cf67b320559420f7192e94f9b28db2e1f990",
+          "raw_sha256": "ac31bbc554c7f9e9529960f49f60b5743218aeeeb89bd26bead052ed4d81f521"
+        },
+        "lst_chuva_max": {
+          "file": "lst_chuva_max.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 158434,
+          "sha256": "59b67c2b324c8803b3bbef21f20fd383e3d7c56d0662334552755b6f797cf7de",
+          "raw_sha256": "7004468a3a90fbd5025945eb51ddbe54f96e57702bce27b6562fbfa787249aec"
+        },
+        "lst_chuva_stdev": {
+          "file": "lst_chuva_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 191237,
+          "sha256": "47c36f0740a5f9a4660f184729dfd118ed4580ed763f6a4ecff788e874ca2512",
+          "raw_sha256": "bfd6afd04cfdbf4b58ca63c7dcedea670a1a976c67ff59c5873860f8357d2e5f"
+        },
+        "lst_chuva_valid_m2": {
+          "file": "lst_chuva_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 111877,
+          "sha256": "45c8199af9a9419947696a7a8af848de982296750fc0ef090bc196bb65450769",
+          "raw_sha256": "630919a558498be0e400b5bbfa8f1712cda48b644d273fd056681b0b0720cc46"
+        },
+        "lst_chuva_coverage_pct": {
+          "file": "lst_chuva_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 78361,
+          "sha256": "19a98357a99da1f190d761859f9afb8a7a76fed8d7e4fa074a2d6191ca43a2fa",
+          "raw_sha256": "bd9164834c7affff0a9ca886798d4aca7d1bcb4ef0492b0e1d1b551731a81f98"
+        },
+        "inundacao_mean": {
+          "file": "inundacao_mean.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 24412,
+          "sha256": "fde72f39b7924f98bf37a0ab5a556481371f807f53d9f59d11713f5538cb1f1d",
+          "raw_sha256": "d450d9f9202a80e5d8fd4052eedbff98a1f04074089285d7b8a9b9544d22c1c8"
+        },
+        "inundacao_min": {
+          "file": "inundacao_min.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 9929,
+          "sha256": "4b18e6dbbe21d4ed10eb0c4f2aed221cac009c3f2de6b0ce8c4461fddac9a32b",
+          "raw_sha256": "8ab5b45602e98bccb5cb8d3bec97e5eea0b16a243a37088f297abc6d35abbc7f"
+        },
+        "inundacao_max": {
+          "file": "inundacao_max.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 15335,
+          "sha256": "6f97c6e83bc6902b0b875727cf882449949a1b19acee22ea8a4837048325f7c1",
+          "raw_sha256": "e908621e27154991440233ac740ea1d30ab3a78fd9d5144f5b2316e4cb569807"
+        },
+        "inundacao_stdev": {
+          "file": "inundacao_stdev.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 22281,
+          "sha256": "1eede95e2bb497ffb1377f586a18e1adde18cc57a4daff7c9987ab7c1c647b3f",
+          "raw_sha256": "f8ba494a4e9b854f9a01919c114cd4e960d0cef751df81e483b3a3198838fa0f"
+        },
+        "inundacao_valid_m2": {
+          "file": "inundacao_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 119975,
+          "sha256": "ccb6d674438ccf70e9fbafef1c01fc49ef9b857eeb630499c237f59708157616",
+          "raw_sha256": "6dc588a59655845f7932e62d7aeb49d6a5a96241d2ce27b106307b54c687d1f2"
+        },
+        "inundacao_coverage_pct": {
+          "file": "inundacao_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 98849,
+          "sha256": "04de4a9df1b52513638cc320d0dc594ac0b4e771b5c5fc3d671d7de7986bfcc0",
+          "raw_sha256": "e612de76787d6c09cf42afd16096afeb93346701877e09244235d631acf15804"
+        },
+        "inundada_m2": {
+          "file": "inundada_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 12228,
+          "sha256": "3c10d5228f32a36db35a505648de228b6afc61a90df1b313803db38a264bc9aa",
+          "raw_sha256": "ef84348748edd1728e4f227e1a86e427b155f51bcccb46ab9735fb7f249995bc"
+        },
+        "inundada_pct_valida": {
+          "file": "inundada_pct_valida.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 21825,
+          "sha256": "03c9feb231273b96d92cdef1192471754c7b16f7e1f78ebac9f71c14ac00636c",
+          "raw_sha256": "f1c5b5a3f1a87510e93983b259d98374d8e9af609cc17f481458065de7ce41cd"
+        },
+        "profundidade_media_inundada_m": {
+          "file": "profundidade_media_inundada_m.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 12613,
+          "sha256": "e89e27368ef29439956a9895d93397d2b287e77bc58e6a4f340cf5c0e7ce40d2",
+          "raw_sha256": "c56d1307dcdd7f53bd56eb2ad1e208cce7cd64d4577fc3ae643507afdb8f0a79"
+        },
+        "uso_valid_m2": {
+          "file": "uso_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 71900,
+          "sha256": "9155f6cbe4af5344fc127748247b737c5d81b179c89ba3548afd76160ccbc151",
+          "raw_sha256": "471b6644fc8224b8074b20f2f894addc0528cc2ef1ca0642cb81f9feb39f1b8c"
+        },
+        "uso_coverage_pct": {
+          "file": "uso_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 587,
+          "sha256": "436aca1574b736063d95cebf5b8ed6c628b9990f83d6520d962939837c59fb8b",
+          "raw_sha256": "d739ee0907cc98b7498bee827e08bbf51ea52f5fd4e27515b330c490e93a859f"
+        },
+        "uso_pct_florestal": {
+          "file": "uso_pct_florestal.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 3755,
+          "sha256": "ddfa9856a2281b74272d4e0815b93fbf903a03e7bb0e2652f68c1f6ce4adc7e0",
+          "raw_sha256": "0b85189fe109ecead1b3f8c1fa9aa2703913ac5d1849cf07c31c3cdf76d8a015"
+        },
+        "uso_pct_savanica": {
+          "file": "uso_pct_savanica.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 8810,
+          "sha256": "b7e4b44c42bd658b906bce49168cc95f1964b54673431a538e60d83170db51d3",
+          "raw_sha256": "aacc2771d1f8d54da643bacd95c3bdc18f407e9901e75f231d58ca03070d94be"
+        },
+        "uso_pct_alagado": {
+          "file": "uso_pct_alagado.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 2956,
+          "sha256": "356107aab1fa24749d2ea5dedb0fa6d9dbf85f53e1bfa6187c42fb78a2a7d98a",
+          "raw_sha256": "99359b2032a07c70eee4a8f1f43fbb291e505dbbda66bd87c9760d01e0921e49"
+        },
+        "uso_pct_campestre": {
+          "file": "uso_pct_campestre.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 19234,
+          "sha256": "cfd51394f4ec9b546425d9ee4262c8e65b0707ecf9fb9282adde2de8bad2f81a",
+          "raw_sha256": "2291e6918e832351b525ae4f31f8e279ada1943e8bbf8cf57ba60f05c27ca48d"
+        },
+        "uso_pct_agua": {
+          "file": "uso_pct_agua.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 398,
+          "sha256": "a958839c5419e666dd58f73b7d6a72f5b1977ebf2321668c87600978b63f2890",
+          "raw_sha256": "38cfe1e27d32a59ae2fcaec1b400f305fb80472781a0ec032fbede56357533e2"
+        },
+        "uso_pct_vegetacao_intraurbana": {
+          "file": "uso_pct_vegetacao_intraurbana.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 16693,
+          "sha256": "8f9d29eced7023d59d36402b41a5539b76b3ab90100c092c464d850f586014df",
+          "raw_sha256": "59163c6acfddf3b0fc232c40027c5f9048d4be1b48bf9065f44d97f43b5827bc"
+        },
+        "uso_pct_forracao": {
+          "file": "uso_pct_forracao.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 398,
+          "sha256": "a958839c5419e666dd58f73b7d6a72f5b1977ebf2321668c87600978b63f2890",
+          "raw_sha256": "38cfe1e27d32a59ae2fcaec1b400f305fb80472781a0ec032fbede56357533e2"
+        },
+        "uso_pct_impermeavel_solo_exposto": {
+          "file": "uso_pct_impermeavel_solo_exposto.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 398,
+          "sha256": "a958839c5419e666dd58f73b7d6a72f5b1977ebf2321668c87600978b63f2890",
+          "raw_sha256": "38cfe1e27d32a59ae2fcaec1b400f305fb80472781a0ec032fbede56357533e2"
+        },
+        "uso_pct_edificacoes": {
+          "file": "uso_pct_edificacoes.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 398,
+          "sha256": "a958839c5419e666dd58f73b7d6a72f5b1977ebf2321668c87600978b63f2890",
+          "raw_sha256": "38cfe1e27d32a59ae2fcaec1b400f305fb80472781a0ec032fbede56357533e2"
+        },
+        "uso_pct_vias": {
+          "file": "uso_pct_vias.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 398,
+          "sha256": "a958839c5419e666dd58f73b7d6a72f5b1977ebf2321668c87600978b63f2890",
+          "raw_sha256": "38cfe1e27d32a59ae2fcaec1b400f305fb80472781a0ec032fbede56357533e2"
+        },
+        "momentos_valid_m2": {
+          "file": "momentos_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 123178,
+          "sha256": "50f727f2b8656be04c1f72a8ca66fe1c375472a3d6526a6734245157db4c42ec",
+          "raw_sha256": "b179cf41df2e63c8b28d22bc3e8c48b0baa0ed3a29e8ebe39e4ec20db2beafe2"
+        },
+        "momentos_coverage_pct": {
+          "file": "momentos_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 102363,
+          "sha256": "beaa369b8fbd99bdff856fe26684004ab9cbd42970bfc610747a53455ad0ce99",
+          "raw_sha256": "72da8be3c3466dd6803209a728ee63e0d028f154c748a5fb9ec8c7119471b6ed"
+        },
+        "momentos_pct_fonte": {
+          "file": "momentos_pct_fonte.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 118692,
+          "sha256": "7af59b5d8157b6de3ef82e32cda5506c6ab1580b256b87136e67fce46a7ee2df",
+          "raw_sha256": "07df610fb068622ba5a096ab5907a689a07c367388bbb467c15a4267807c04db"
+        },
+        "momentos_pct_conducao": {
+          "file": "momentos_pct_conducao.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 26232,
+          "sha256": "bb65610914d7fc215a219b8c762266a7d9722b5fd007d8d7b6a23fef6d57afcd",
+          "raw_sha256": "f7440015c72788c82f46dd14b0d11c5a39e059b7d61700cefc12b629509b3573"
+        },
+        "momentos_pct_acomodacao": {
+          "file": "momentos_pct_acomodacao.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 18363,
+          "sha256": "60490aabbb544b00dce7e7a3d0dca916eb8bbf443e19c4249b4c6d962866fffb",
+          "raw_sha256": "61fb336e165a0642bce30d815a18c2137ff8fea9dc19f84b20b7f22bb13d4835"
+        },
+        "edif_ocupada_m2": {
+          "file": "edif_ocupada_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 202448,
+          "sha256": "2bf7bc0cafc30f33378caf57277b10036fe83aa0ba0ca8db332c4a7f1c45aaae",
+          "raw_sha256": "e5d0a974c3550a385ef4b957400f50f96970ffe4a5bb9868dd07250fca408688"
+        },
+        "edif_dominio_m2": {
+          "file": "edif_dominio_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 201109,
+          "sha256": "35ba73847e666e0d4af0a292233e8c998fb623d9e9b98956c8ef2e17a262f5b2",
+          "raw_sha256": "987f9127ec5e094c8e11f844fe679505f5158ba5eb50872737d6085db54aadb0"
+        },
+        "edif_pct": {
+          "file": "edif_pct.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 204093,
+          "sha256": "c1c684de2cdaaed46341db0c9a5c99b25cc83e63a5c0e5219e48df9c338d4a32",
+          "raw_sha256": "cf946ab601ea8d51d48ac117d0a49f035b895b7496ffcd1647ceaee3dd743aec"
+        },
+        "renda_reais": {
+          "file": "renda_reais.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 53717,
+          "sha256": "217eefbdbd8a137226cc2f49e4e9c10da3e182bf30db064b8cb9e2afeaa29d6c",
+          "raw_sha256": "51ae29268cfb8fe61c56ced06de4a2eefeb3f6aac13f95042cb80f5cda19cb5f"
+        },
+        "renda_sm": {
+          "file": "renda_sm.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 54350,
+          "sha256": "c5b696fe398aeaa750929a27bf80dc5b1399e890ff68f9d9c3b9c04f5756b7d1",
+          "raw_sha256": "33f5ffbc48ab55b4ac62c6168cd6551d4d7288f63fa6ab3f7ed46c5f98099b1f"
+        },
+        "setor_pct_unidade": {
+          "file": "setor_pct_unidade.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 24446,
+          "sha256": "37e0cfd56cbd3d028d154d9e4e204e8dae8bfa6f81d92db0e38cfec48c210e08",
+          "raw_sha256": "0d5d7d80d2cc8ab13263c85ef9c9f79c32e490fa79ea464321e29ec727b5aa27"
+        },
+        "pre_pct_baixo": {
+          "file": "pre_pct_baixo.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 35319,
+          "sha256": "6edc828e11d96670267821711b127191a0869785d922f198b97c744b4603eb7d",
+          "raw_sha256": "47085e91e9cf70c80316106ab09abcd7066821cf554ffff649bfae0a09cf9900"
+        },
+        "pre_pct_medio": {
+          "file": "pre_pct_medio.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 127953,
+          "sha256": "7f46d20b64cc746f2ab457c50a5cc4e572d4a8f0c6200b19862fb57b25587f44",
+          "raw_sha256": "fdc24d768d46c32ffb98133341c05dc381a059410fe4e3803143d68cf412e120"
+        },
+        "pre_pct_alto": {
+          "file": "pre_pct_alto.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 117284,
+          "sha256": "d21fe9c6df8f02908122ce35ad7e7fad4902b03eb7d85388bd1639098b0a1e76",
+          "raw_sha256": "c476c526d5f507e4e9631dc0eb73c129face008be39edd48ff56a7a76bcc4d2d"
+        },
+        "pre_pct_muito_alto": {
+          "file": "pre_pct_muito_alto.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 54429,
+          "sha256": "cbfa498d514e3ee84fb720555f56c3ae43dea0ccf10b99af84e7d4c7a6639e8a",
+          "raw_sha256": "77a5a2a4a644ed1dab90cb199887fc65c3047a51d19bfd84d767b12a46cfa705"
+        },
+        "pre_pct_sobreposicao": {
+          "file": "pre_pct_sobreposicao.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 24836,
+          "sha256": "29e47f19453e66a4313f1c9011dfb1ce835f2be1c57f372698e7af838d975e99",
+          "raw_sha256": "4962e3abeef2777794caf091112527109f0a5d4c52ce2c94192d38bda0e412b8"
+        },
+        "pre_valid_m2": {
+          "file": "pre_valid_m2.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 124139,
+          "sha256": "6713b2a4fde6de4ede1c4e73e4e3b247235a184f7abc9eb50b382b9c692bcb11",
+          "raw_sha256": "dcbe4d4554c098d07cc9accc72694dc626f0b6ba6eda60d9d106a13fb768ee74"
+        },
+        "pre_coverage_pct": {
+          "file": "pre_coverage_pct.f64.gz",
+          "dtype": "float64",
+          "count": 46876,
+          "bytes": 124820,
+          "sha256": "1ee45c0f13069f309339d6dac0fb4c575d66b4ef661901648b0108993cde3a66",
+          "raw_sha256": "44b5af75d9630896f413758cb0a645cbbb950c886c71cce9ae8f0ba24dc119a7"
+        }
+      },
+      "image": {
+        "file": "ids-20m.png",
+        "bounds": [
+          -5355180,
+          -1802860,
+          -5310160,
+          -1755400
+        ],
+        "size": [
+          2251,
+          2373
+        ],
+        "resolution_3857_m": 20,
+        "sha256": "64fff355347628b9a6e9cec0d72150e511ace02b8143189821bdcf4c70a2e2bc",
+        "present_ids": 18515
+      },
+      "centers": {
+        "file": "centros.f64.gz",
+        "dtype": "float64",
+        "count": 93752,
+        "bytes": 611820,
+        "sha256": "57263c330266bad596b82a9a1b2a6104bc66b98626286f3798b61694e0ea8e2c",
+        "raw_sha256": "0167c93ed7e87df03495b809712182723343b5a087f65b3e834cb2c8e231442c"
+      },
+      "context": "contexto.json.gz",
+      "summaries": "resumos.json.gz",
+      "ras": {
+        "1": {
+          "file": "ra-1.json.gz",
+          "area_m2": 294146681.6695138,
+          "units": 10080
+        },
+        "2": {
+          "file": "ra-2.json.gz",
+          "area_m2": 1161706.903019873,
+          "units": 85
+        },
+        "3": {
+          "file": "ra-3.json.gz",
+          "area_m2": 56216.917141897604,
+          "units": 117
+        },
+        "4": {
+          "file": "ra-4.json.gz",
+          "area_m2": 746823.9240067701,
+          "units": 330
+        },
+        "5": {
+          "file": "ra-5.json.gz",
+          "area_m2": 36857.33254256204,
+          "units": 52
+        },
+        "7": {
+          "file": "ra-7.json.gz",
+          "area_m2": 30498537.45760885,
+          "units": 2588
+        },
+        "8": {
+          "file": "ra-8.json.gz",
+          "area_m2": 797278.5697740159,
+          "units": 296
+        },
+        "10": {
+          "file": "ra-10.json.gz",
+          "area_m2": 4725595.8509959085,
+          "units": 993
+        },
+        "11": {
+          "file": "ra-11.json.gz",
+          "area_m2": 204807.60891193288,
+          "units": 382
+        },
+        "12": {
+          "file": "ra-12.json.gz",
+          "area_m2": 344939.31987161364,
+          "units": 42
+        },
+        "13": {
+          "file": "ra-13.json.gz",
+          "area_m2": 1162765.300097761,
+          "units": 106
+        },
+        "15": {
+          "file": "ra-15.json.gz",
+          "area_m2": 18.0,
+          "units": 1
+        },
+        "16": {
+          "file": "ra-16.json.gz",
+          "area_m2": 32409194.549796976,
+          "units": 6677
+        },
+        "17": {
+          "file": "ra-17.json.gz",
+          "area_m2": 4545268.088025833,
+          "units": 1533
+        },
+        "18": {
+          "file": "ra-18.json.gz",
+          "area_m2": 24399660.174114287,
+          "units": 7729
+        },
+        "19": {
+          "file": "ra-19.json.gz",
+          "area_m2": 3329425.8881695,
+          "units": 343
+        },
+        "20": {
+          "file": "ra-20.json.gz",
+          "area_m2": 1116023.5236204946,
+          "units": 267
+        },
+        "21": {
+          "file": "ra-21.json.gz",
+          "area_m2": 11087573.970233442,
+          "units": 1809
+        },
+        "22": {
+          "file": "ra-22.json.gz",
+          "area_m2": 917125.1064876172,
+          "units": 705
+        },
+        "23": {
+          "file": "ra-23.json.gz",
+          "area_m2": 594769.4302078839,
+          "units": 81
+        },
+        "24": {
+          "file": "ra-24.json.gz",
+          "area_m2": 60130560.50406483,
+          "units": 7454
+        },
+        "25": {
+          "file": "ra-25.json.gz",
+          "area_m2": 1132979.7968484128,
+          "units": 284
+        },
+        "26": {
+          "file": "ra-26.json.gz",
+          "area_m2": 2662911.3349497113,
+          "units": 1477
+        },
+        "27": {
+          "file": "ra-27.json.gz",
+          "area_m2": 60422416.36363023,
+          "units": 407
+        },
+        "28": {
+          "file": "ra-28.json.gz",
+          "area_m2": 620027.362276335,
+          "units": 271
+        },
+        "29": {
+          "file": "ra-29.json.gz",
+          "area_m2": 10292412.096255632,
+          "units": 1648
+        },
+        "30": {
+          "file": "ra-30.json.gz",
+          "area_m2": 4129948.0671379096,
+          "units": 1065
+        },
+        "33": {
+          "file": "ra-33.json.gz",
+          "area_m2": 1757574.5012996378,
+          "units": 275
+        },
+        "36": {
+          "file": "ra-36.json.gz",
+          "area_m2": 1303580.8119383864,
+          "units": 277
+        },
+        "37": {
+          "file": "ra-37.json.gz",
+          "area_m2": 801.0,
+          "units": 3
+        }
+      }
+    }
+  },
+  "hydrology": "Resultados existentes mantidos; uso do solo histórico; Lago Paranoá sem operação, dinâmica de nível ou remanso.",
+  "display": "IDs de 20 m no panorama podem omitir unidades pequenas. Hexágonos detalhados reconstruídos das coordenadas axiais; bordas recortadas cartograficamente. Fragmentos têm contornos de consulta simplificados em 3 m; GPKGs preservam geometria integral.",
+  "summary_method": "Área inserida no recorte e médias dos indicadores integrais ponderadas pela parcela de área válida proporcional. Não são novas extrações de raster dentro das RAs. RAs verificadas sem sobreposição material."
+}

@@ -1,0 +1,17 @@
+{
+  "hexagonos": 1358654,
+  "fragmentos": 46876,
+  "crs": "EPSG:31983",
+  "entre_faces_m": 30,
+  "lado_m": 17.320508075688775,
+  "area_completa_m2": 779.4228634059948,
+  "origem": [
+    0,
+    0
+  ],
+  "orientacao": "flat-top",
+  "chave_estavel": "q:r",
+  "celulas_parciais": 6856,
+  "area_bacia_m2": 1056287128.2928393,
+  "erro_fechamento_m2": 0.0002917051315307617
+}
