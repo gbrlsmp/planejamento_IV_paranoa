@@ -1,0 +1,1063 @@
+{
+  "grupos": [
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "positivo",
+      "uso": "agua",
+      "grupo_id": 1
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "positivo",
+      "uso": "alagado",
+      "grupo_id": 2
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "positivo",
+      "uso": "campestre",
+      "grupo_id": 3
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "positivo",
+      "uso": "edificacoes",
+      "grupo_id": 4
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "positivo",
+      "uso": "florestal",
+      "grupo_id": 5
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "positivo",
+      "uso": "forracao",
+      "grupo_id": 6
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "positivo",
+      "uso": "impermeavel_solo_exposto",
+      "grupo_id": 7
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "positivo",
+      "uso": "mosaico",
+      "grupo_id": 8
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "positivo",
+      "uso": "savanica",
+      "grupo_id": 9
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "positivo",
+      "uso": "vegetacao_intraurbana",
+      "grupo_id": 10
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "positivo",
+      "uso": "vias",
+      "grupo_id": 11
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "sem estimativa",
+      "uso": "agua",
+      "grupo_id": 12
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "sem estimativa",
+      "uso": "alagado",
+      "grupo_id": 13
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "sem estimativa",
+      "uso": "campestre",
+      "grupo_id": 14
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "sem estimativa",
+      "uso": "edificacoes",
+      "grupo_id": 15
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "sem estimativa",
+      "uso": "florestal",
+      "grupo_id": 16
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "sem estimativa",
+      "uso": "forracao",
+      "grupo_id": 17
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "sem estimativa",
+      "uso": "impermeavel_solo_exposto",
+      "grupo_id": 18
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "sem estimativa",
+      "uso": "indeterminado",
+      "grupo_id": 19
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "sem estimativa",
+      "uso": "mosaico",
+      "grupo_id": 20
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "sem estimativa",
+      "uso": "savanica",
+      "grupo_id": 21
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "sem estimativa",
+      "uso": "vegetacao_intraurbana",
+      "grupo_id": 22
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "sem estimativa",
+      "uso": "vias",
+      "grupo_id": 23
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "zero na área válida",
+      "uso": "agua",
+      "grupo_id": 24
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "zero na área válida",
+      "uso": "alagado",
+      "grupo_id": 25
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "zero na área válida",
+      "uso": "campestre",
+      "grupo_id": 26
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "zero na área válida",
+      "uso": "edificacoes",
+      "grupo_id": 27
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "zero na área válida",
+      "uso": "florestal",
+      "grupo_id": 28
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "zero na área válida",
+      "uso": "forracao",
+      "grupo_id": 29
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "zero na área válida",
+      "uso": "impermeavel_solo_exposto",
+      "grupo_id": 30
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "zero na área válida",
+      "uso": "indeterminado",
+      "grupo_id": 31
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "zero na área válida",
+      "uso": "mosaico",
+      "grupo_id": 32
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "zero na área válida",
+      "uso": "savanica",
+      "grupo_id": 33
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "zero na área válida",
+      "uso": "vegetacao_intraurbana",
+      "grupo_id": 34
+    },
+    {
+      "calor": "abaixo dos cortes",
+      "tr5": "zero na área válida",
+      "uso": "vias",
+      "grupo_id": 35
+    },
+    {
+      "calor": "dia",
+      "tr5": "positivo",
+      "uso": "agua",
+      "grupo_id": 36
+    },
+    {
+      "calor": "dia",
+      "tr5": "positivo",
+      "uso": "alagado",
+      "grupo_id": 37
+    },
+    {
+      "calor": "dia",
+      "tr5": "positivo",
+      "uso": "campestre",
+      "grupo_id": 38
+    },
+    {
+      "calor": "dia",
+      "tr5": "positivo",
+      "uso": "edificacoes",
+      "grupo_id": 39
+    },
+    {
+      "calor": "dia",
+      "tr5": "positivo",
+      "uso": "florestal",
+      "grupo_id": 40
+    },
+    {
+      "calor": "dia",
+      "tr5": "positivo",
+      "uso": "forracao",
+      "grupo_id": 41
+    },
+    {
+      "calor": "dia",
+      "tr5": "positivo",
+      "uso": "impermeavel_solo_exposto",
+      "grupo_id": 42
+    },
+    {
+      "calor": "dia",
+      "tr5": "positivo",
+      "uso": "mosaico",
+      "grupo_id": 43
+    },
+    {
+      "calor": "dia",
+      "tr5": "positivo",
+      "uso": "savanica",
+      "grupo_id": 44
+    },
+    {
+      "calor": "dia",
+      "tr5": "positivo",
+      "uso": "vegetacao_intraurbana",
+      "grupo_id": 45
+    },
+    {
+      "calor": "dia",
+      "tr5": "positivo",
+      "uso": "vias",
+      "grupo_id": 46
+    },
+    {
+      "calor": "dia",
+      "tr5": "sem estimativa",
+      "uso": "agua",
+      "grupo_id": 47
+    },
+    {
+      "calor": "dia",
+      "tr5": "sem estimativa",
+      "uso": "alagado",
+      "grupo_id": 48
+    },
+    {
+      "calor": "dia",
+      "tr5": "sem estimativa",
+      "uso": "campestre",
+      "grupo_id": 49
+    },
+    {
+      "calor": "dia",
+      "tr5": "sem estimativa",
+      "uso": "edificacoes",
+      "grupo_id": 50
+    },
+    {
+      "calor": "dia",
+      "tr5": "sem estimativa",
+      "uso": "forracao",
+      "grupo_id": 51
+    },
+    {
+      "calor": "dia",
+      "tr5": "sem estimativa",
+      "uso": "impermeavel_solo_exposto",
+      "grupo_id": 52
+    },
+    {
+      "calor": "dia",
+      "tr5": "sem estimativa",
+      "uso": "indeterminado",
+      "grupo_id": 53
+    },
+    {
+      "calor": "dia",
+      "tr5": "sem estimativa",
+      "uso": "mosaico",
+      "grupo_id": 54
+    },
+    {
+      "calor": "dia",
+      "tr5": "sem estimativa",
+      "uso": "savanica",
+      "grupo_id": 55
+    },
+    {
+      "calor": "dia",
+      "tr5": "sem estimativa",
+      "uso": "vegetacao_intraurbana",
+      "grupo_id": 56
+    },
+    {
+      "calor": "dia",
+      "tr5": "sem estimativa",
+      "uso": "vias",
+      "grupo_id": 57
+    },
+    {
+      "calor": "dia",
+      "tr5": "zero na área válida",
+      "uso": "agua",
+      "grupo_id": 58
+    },
+    {
+      "calor": "dia",
+      "tr5": "zero na área válida",
+      "uso": "alagado",
+      "grupo_id": 59
+    },
+    {
+      "calor": "dia",
+      "tr5": "zero na área válida",
+      "uso": "campestre",
+      "grupo_id": 60
+    },
+    {
+      "calor": "dia",
+      "tr5": "zero na área válida",
+      "uso": "edificacoes",
+      "grupo_id": 61
+    },
+    {
+      "calor": "dia",
+      "tr5": "zero na área válida",
+      "uso": "florestal",
+      "grupo_id": 62
+    },
+    {
+      "calor": "dia",
+      "tr5": "zero na área válida",
+      "uso": "forracao",
+      "grupo_id": 63
+    },
+    {
+      "calor": "dia",
+      "tr5": "zero na área válida",
+      "uso": "impermeavel_solo_exposto",
+      "grupo_id": 64
+    },
+    {
+      "calor": "dia",
+      "tr5": "zero na área válida",
+      "uso": "indeterminado",
+      "grupo_id": 65
+    },
+    {
+      "calor": "dia",
+      "tr5": "zero na área válida",
+      "uso": "mosaico",
+      "grupo_id": 66
+    },
+    {
+      "calor": "dia",
+      "tr5": "zero na área válida",
+      "uso": "savanica",
+      "grupo_id": 67
+    },
+    {
+      "calor": "dia",
+      "tr5": "zero na área válida",
+      "uso": "vegetacao_intraurbana",
+      "grupo_id": 68
+    },
+    {
+      "calor": "dia",
+      "tr5": "zero na área válida",
+      "uso": "vias",
+      "grupo_id": 69
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "positivo",
+      "uso": "agua",
+      "grupo_id": 70
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "positivo",
+      "uso": "alagado",
+      "grupo_id": 71
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "positivo",
+      "uso": "campestre",
+      "grupo_id": 72
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "positivo",
+      "uso": "edificacoes",
+      "grupo_id": 73
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "positivo",
+      "uso": "florestal",
+      "grupo_id": 74
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "positivo",
+      "uso": "forracao",
+      "grupo_id": 75
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "positivo",
+      "uso": "impermeavel_solo_exposto",
+      "grupo_id": 76
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "positivo",
+      "uso": "mosaico",
+      "grupo_id": 77
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "positivo",
+      "uso": "savanica",
+      "grupo_id": 78
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "positivo",
+      "uso": "vegetacao_intraurbana",
+      "grupo_id": 79
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "positivo",
+      "uso": "vias",
+      "grupo_id": 80
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "sem estimativa",
+      "uso": "campestre",
+      "grupo_id": 81
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "sem estimativa",
+      "uso": "edificacoes",
+      "grupo_id": 82
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "sem estimativa",
+      "uso": "forracao",
+      "grupo_id": 83
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "sem estimativa",
+      "uso": "impermeavel_solo_exposto",
+      "grupo_id": 84
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "sem estimativa",
+      "uso": "indeterminado",
+      "grupo_id": 85
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "sem estimativa",
+      "uso": "mosaico",
+      "grupo_id": 86
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "sem estimativa",
+      "uso": "savanica",
+      "grupo_id": 87
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "sem estimativa",
+      "uso": "vegetacao_intraurbana",
+      "grupo_id": 88
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "sem estimativa",
+      "uso": "vias",
+      "grupo_id": 89
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "zero na área válida",
+      "uso": "agua",
+      "grupo_id": 90
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "zero na área válida",
+      "uso": "alagado",
+      "grupo_id": 91
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "zero na área válida",
+      "uso": "campestre",
+      "grupo_id": 92
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "zero na área válida",
+      "uso": "edificacoes",
+      "grupo_id": 93
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "zero na área válida",
+      "uso": "florestal",
+      "grupo_id": 94
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "zero na área válida",
+      "uso": "forracao",
+      "grupo_id": 95
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "zero na área válida",
+      "uso": "impermeavel_solo_exposto",
+      "grupo_id": 96
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "zero na área válida",
+      "uso": "mosaico",
+      "grupo_id": 97
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "zero na área válida",
+      "uso": "savanica",
+      "grupo_id": 98
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "zero na área válida",
+      "uso": "vegetacao_intraurbana",
+      "grupo_id": 99
+    },
+    {
+      "calor": "dia e noite",
+      "tr5": "zero na área válida",
+      "uso": "vias",
+      "grupo_id": 100
+    },
+    {
+      "calor": "indeterminado",
+      "tr5": "sem estimativa",
+      "uso": "indeterminado",
+      "grupo_id": 101
+    },
+    {
+      "calor": "indeterminado",
+      "tr5": "zero na área válida",
+      "uso": "indeterminado",
+      "grupo_id": 102
+    },
+    {
+      "calor": "noite",
+      "tr5": "positivo",
+      "uso": "alagado",
+      "grupo_id": 103
+    },
+    {
+      "calor": "noite",
+      "tr5": "positivo",
+      "uso": "campestre",
+      "grupo_id": 104
+    },
+    {
+      "calor": "noite",
+      "tr5": "positivo",
+      "uso": "edificacoes",
+      "grupo_id": 105
+    },
+    {
+      "calor": "noite",
+      "tr5": "positivo",
+      "uso": "florestal",
+      "grupo_id": 106
+    },
+    {
+      "calor": "noite",
+      "tr5": "positivo",
+      "uso": "forracao",
+      "grupo_id": 107
+    },
+    {
+      "calor": "noite",
+      "tr5": "positivo",
+      "uso": "impermeavel_solo_exposto",
+      "grupo_id": 108
+    },
+    {
+      "calor": "noite",
+      "tr5": "positivo",
+      "uso": "mosaico",
+      "grupo_id": 109
+    },
+    {
+      "calor": "noite",
+      "tr5": "positivo",
+      "uso": "savanica",
+      "grupo_id": 110
+    },
+    {
+      "calor": "noite",
+      "tr5": "positivo",
+      "uso": "vegetacao_intraurbana",
+      "grupo_id": 111
+    },
+    {
+      "calor": "noite",
+      "tr5": "positivo",
+      "uso": "vias",
+      "grupo_id": 112
+    },
+    {
+      "calor": "noite",
+      "tr5": "sem estimativa",
+      "uso": "edificacoes",
+      "grupo_id": 113
+    },
+    {
+      "calor": "noite",
+      "tr5": "sem estimativa",
+      "uso": "forracao",
+      "grupo_id": 114
+    },
+    {
+      "calor": "noite",
+      "tr5": "sem estimativa",
+      "uso": "impermeavel_solo_exposto",
+      "grupo_id": 115
+    },
+    {
+      "calor": "noite",
+      "tr5": "sem estimativa",
+      "uso": "mosaico",
+      "grupo_id": 116
+    },
+    {
+      "calor": "noite",
+      "tr5": "sem estimativa",
+      "uso": "vegetacao_intraurbana",
+      "grupo_id": 117
+    },
+    {
+      "calor": "noite",
+      "tr5": "sem estimativa",
+      "uso": "vias",
+      "grupo_id": 118
+    },
+    {
+      "calor": "noite",
+      "tr5": "zero na área válida",
+      "uso": "alagado",
+      "grupo_id": 119
+    },
+    {
+      "calor": "noite",
+      "tr5": "zero na área válida",
+      "uso": "campestre",
+      "grupo_id": 120
+    },
+    {
+      "calor": "noite",
+      "tr5": "zero na área válida",
+      "uso": "edificacoes",
+      "grupo_id": 121
+    },
+    {
+      "calor": "noite",
+      "tr5": "zero na área válida",
+      "uso": "florestal",
+      "grupo_id": 122
+    },
+    {
+      "calor": "noite",
+      "tr5": "zero na área válida",
+      "uso": "forracao",
+      "grupo_id": 123
+    },
+    {
+      "calor": "noite",
+      "tr5": "zero na área válida",
+      "uso": "impermeavel_solo_exposto",
+      "grupo_id": 124
+    },
+    {
+      "calor": "noite",
+      "tr5": "zero na área válida",
+      "uso": "mosaico",
+      "grupo_id": 125
+    },
+    {
+      "calor": "noite",
+      "tr5": "zero na área válida",
+      "uso": "savanica",
+      "grupo_id": 126
+    },
+    {
+      "calor": "noite",
+      "tr5": "zero na área válida",
+      "uso": "vegetacao_intraurbana",
+      "grupo_id": 127
+    },
+    {
+      "calor": "noite",
+      "tr5": "zero na área válida",
+      "uso": "vias",
+      "grupo_id": 128
+    }
+  ],
+  "recortes": [
+    {
+      "recorte": 1,
+      "nome_recorte": "Plano Piloto · dentro do Parque Nacional"
+    },
+    {
+      "recorte": 2,
+      "nome_recorte": "Plano Piloto · fora do Parque Nacional"
+    },
+    {
+      "recorte": 3,
+      "nome_recorte": "Vicente Pires"
+    },
+    {
+      "recorte": 4,
+      "nome_recorte": "Plano Piloto · total na bacia"
+    }
+  ],
+  "stats": [
+    {
+      "4": {
+        "m2": 277673132.1087482,
+        "total": 424503330.1914266,
+        "unknown": 3997.7102102754106,
+        "stable": 255371214.73440957,
+        "footprint": 115.68701376640551,
+        "example": 88143
+      },
+      "1": {
+        "m2": 274147182.1811602,
+        "total": 287160462.3092815,
+        "unknown": 2819.335831798241,
+        "stable": 253315718.16777736,
+        "footprint": 0.0,
+        "example": 88143
+      },
+      "2": {
+        "m2": 3525949.927587942,
+        "total": 137342867.88214505,
+        "unknown": 1178.37437847717,
+        "stable": 2055496.5666321998,
+        "footprint": 115.68701376640551,
+        "example": 37956
+      },
+      "3": {
+        "m2": 1751.5008717586759,
+        "total": 28890301.406028267,
+        "unknown": 0.6437625187015035,
+        "stable": 0.0,
+        "footprint": 0.0,
+        "example": 342930
+      }
+    },
+    {
+      "4": {
+        "m2": 29426038.7721366,
+        "total": 424503330.1914266,
+        "unknown": 22.562991742300518,
+        "stable": 11359004.324712142,
+        "footprint": 178018.04262286075,
+        "example": 468878
+      },
+      "1": {
+        "m2": 10253.277901014531,
+        "total": 287160462.3092815,
+        "unknown": 15.143161093530553,
+        "stable": 0.0,
+        "footprint": 0.0,
+        "example": 468878
+      },
+      "2": {
+        "m2": 29415785.494235583,
+        "total": 137342867.88214505,
+        "unknown": 7.419830648769967,
+        "stable": 11359004.324712142,
+        "footprint": 178018.04262286078,
+        "example": 633288
+      },
+      "3": {
+        "m2": 21834683.506067738,
+        "total": 28890301.406028267,
+        "unknown": 2197.557130258561,
+        "stable": 14285784.629308729,
+        "footprint": 80448.09610039026,
+        "example": 297882
+      }
+    },
+    {
+      "4": {
+        "m2": 44319349.956126936,
+        "total": 424503330.1914266,
+        "unknown": 22.562991742300518,
+        "stable": 9012637.84504256,
+        "footprint": 177523.89979921616,
+        "example": 428048
+      },
+      "1": {
+        "m2": 96893.36305027781,
+        "total": 287160462.3092815,
+        "unknown": 15.143161093530553,
+        "stable": 144.36980233914858,
+        "footprint": 0.0,
+        "example": 428048
+      },
+      "2": {
+        "m2": 44222456.59307666,
+        "total": 137342867.88214505,
+        "unknown": 7.419830648769967,
+        "stable": 9012493.47524022,
+        "footprint": 177523.89979921616,
+        "example": 633271
+      },
+      "3": {
+        "m2": 7008138.2854833985,
+        "total": 28890301.406028267,
+        "unknown": 532.7169041665887,
+        "stable": 1987546.3294900712,
+        "footprint": 24481.594797751066,
+        "example": 297828
+      }
+    },
+    {
+      "4": {
+        "m2": 22391219.29319553,
+        "total": 424503330.1914266,
+        "unknown": 26614997.346333377,
+        "stable": 15997323.504274871,
+        "footprint": 20377.873132281653,
+        "example": 88244
+      },
+      "1": {
+        "m2": 17464822.308570217,
+        "total": 287160462.3092815,
+        "unknown": 17385517.91457759,
+        "stable": 14538339.235865295,
+        "footprint": 74.96431300802547,
+        "example": 88244
+      },
+      "2": {
+        "m2": 4926396.984625313,
+        "total": 137342867.88214505,
+        "unknown": 9229479.431755785,
+        "stable": 1458984.2684095744,
+        "footprint": 20302.908819273627,
+        "example": 633253
+      },
+      "3": {
+        "m2": 1344338.2341056187,
+        "total": 28890301.406028267,
+        "unknown": 84899.99603941543,
+        "stable": 697270.5040313157,
+        "footprint": 2974.3143722774403,
+        "example": 297832
+      }
+    },
+    {
+      "4": {
+        "m2": 2452688.4985741572,
+        "total": 424503330.1914266,
+        "unknown": 4162658.1321906154,
+        "stable": 793110.9877721954,
+        "footprint": 406924.95292694145,
+        "example": 1056964
+      },
+      "1": {
+        "m2": 3897.1143170288997,
+        "total": 287160462.3092815,
+        "unknown": 14029.611541304039,
+        "stable": 3117.6914536231197,
+        "footprint": 118.54301348923667,
+        "example": 1010712
+      },
+      "2": {
+        "m2": 2448791.3842571285,
+        "total": 137342867.88214505,
+        "unknown": 4148628.520649311,
+        "stable": 789993.2963185722,
+        "footprint": 406806.4099134522,
+        "example": 1056964
+      },
+      "3": {
+        "m2": 844894.3839318664,
+        "total": 28890301.406028267,
+        "unknown": 66341.22416286041,
+        "stable": 451285.8379119509,
+        "footprint": 104929.69089814133,
+        "example": 338485
+      }
+    }
+  ],
+  "sensitivity": [
+    {
+      "ra": 1,
+      "variacao": "calor 0,75 DP",
+      "area_sensivel_ha": 3487.889015065244,
+      "pct_ra": 8.216399653431228
+    },
+    {
+      "ra": 30,
+      "variacao": "calor 0,75 DP",
+      "area_sensivel_ha": 400.9879914841573,
+      "pct_ra": 13.879674907112143
+    },
+    {
+      "ra": 1,
+      "variacao": "calor 1,25 DP",
+      "area_sensivel_ha": 4932.045649248207,
+      "pct_ra": 11.618390948839275
+    },
+    {
+      "ra": 30,
+      "variacao": "calor 1,25 DP",
+      "area_sensivel_ha": 592.4007525736325,
+      "pct_ra": 20.50517729974329
+    },
+    {
+      "ra": 1,
+      "variacao": "predomínio >55%",
+      "area_sensivel_ha": 2015.6260751737843,
+      "pct_ra": 4.7481984988547685
+    },
+    {
+      "ra": 30,
+      "variacao": "predomínio >55%",
+      "area_sensivel_ha": 281.37129842516487,
+      "pct_ra": 9.739299513381114
+    },
+    {
+      "ra": 1,
+      "variacao": "predomínio >60%",
+      "area_sensivel_ha": 3867.7411484821687,
+      "pct_ra": 9.111215091617856
+    },
+    {
+      "ra": 30,
+      "variacao": "predomínio >60%",
+      "area_sensivel_ha": 534.0157210254125,
+      "pct_ra": 18.484255789521963
+    },
+    {
+      "ra": 1,
+      "variacao": "inundação positiva até 1% da área válida",
+      "area_sensivel_ha": 129.1548953227569,
+      "pct_ra": 0.3042494278302017
+    },
+    {
+      "ra": 30,
+      "variacao": "inundação positiva até 1% da área válida",
+      "area_sensivel_ha": 8.740347648925248,
+      "pct_ra": 0.302535703109746
+    },
+    {
+      "ra": 1,
+      "variacao": "inundação positiva até 5% da área válida",
+      "area_sensivel_ha": 306.39335123468385,
+      "pct_ra": 0.7217690167389681
+    },
+    {
+      "ra": 30,
+      "variacao": "inundação positiva até 5% da área válida",
+      "area_sensivel_ha": 20.02407353342879,
+      "pct_ra": 0.6931071175758157
+    }
+  ],
+  "metrics": [
+    "edif_tr5_positivo_m2",
+    "edif_sem_estimativa_m2",
+    "delta_dia",
+    "delta_noite",
+    "cc_dia_mean",
+    "hm_dia_mean",
+    "cc_noite_mean",
+    "hm_noite_mean",
+    "inundacao_coverage_pct",
+    "inundada_pct_valida",
+    "profundidade_media_inundada_m",
+    "edif_pct",
+    "renda_sm",
+    "lst_seca_mean",
+    "lst_chuva_mean",
+    "momentos_pct_fonte",
+    "momentos_pct_conducao",
+    "momentos_pct_acomodacao",
+    "pre_coverage_pct",
+    "pre_pct_alto",
+    "pre_pct_muito_alto"
+  ],
+  "panos": {
+    "1": "panorama-1.png",
+    "30": "panorama-30.png"
+  }
+}
