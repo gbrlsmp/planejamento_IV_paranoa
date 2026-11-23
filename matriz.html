@@ -1,0 +1,22 @@
+<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light"><title>Sistema Fitópolis · Matriz de situações</title>
+<link rel="stylesheet" href="matriz-situacoes.css">
+<main><nav aria-label="Navegação do sistema"><a href="index.html">Sistema Fitópolis</a> · <a href="diagnostico.html">Diagnóstico</a> · <a href="estrategias.html">Estratégias</a></nav><header><small>Sistema Fitópolis · Piloto para discussão</small><h1>Matriz de situações</h1>
+<p>Infraestrutura verde no Plano Piloto e em Vicente Pires, na Bacia do Paranoá</p></header>
+<section class="matrix"><h2>Comparação territorial</h2>
+<p>Selecione uma célula para localizar a família no mapa. Os percentuais usam a área de cada coluna. Uma área pode atender a várias famílias.</p>
+<div id="comparar" class="wide" aria-label="Famílias e recortes">Carregando as áreas…</div></section>
+<div class="grid"><section><h2>Distribuição territorial</h2>
+<label>Recorte <select id="ra"><option value="4">Plano Piloto · total</option><option value="1">Dentro do Parque Nacional</option><option value="2">Fora do Parque Nacional</option><option value="3">Vicente Pires</option></select></label>
+<label>Mostrar <select id="tema"><option value="familia">Família selecionada</option><option value="calor">Calor relativo do ar</option><option value="tr5">Inundação TR5</option><option value="uso">Cobertura predominante</option></select></label>
+<div id="ficha"></div>
+<canvas id="mapa" aria-label="Mapa para selecionar hexágonos. A busca por ID também está disponível."></canvas>
+<div class="legend" id="legenda"></div><small>Clique no mapa para consultar o hexágono. A busca por ID inclui células pequenas que podem não aparecer nesta escala.</small></section>
+<section><h2>Consulta do lugar</h2><form id="busca"><label>Consultar <select id="modo"><option value="hex">Hexágono</option><option value="frag">Fragmento</option><option value="avu">AVU</option></select></label>
+<label id="entrada">ID <input id="numero" type="number" min="1" value="125249" style="width:105px"></label>
+<select id="nomes" aria-label="AVU" hidden></select> <button>Consultar</button></form>
+<div id="detalhe" aria-live="polite">Carregando a matriz local…</div></section></div>
+<section id="criteria"><details><summary>Ver combinações e critérios</summary><div id="criterios"></div></details></section>
+<p class="foot"><small>Gabriela Miranda Sampaio Freires · PPG FAU UnB · Sistema Fitópolis, 2026. Dados do diagnóstico, cartografia de AVUs e inundação modelada no TR5.</small></p></main>
+<script src="matriz-situacoes.js" defer></script>
+</html>
