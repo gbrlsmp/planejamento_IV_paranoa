@@ -1,0 +1,301 @@
+{
+  "status": "ok",
+  "manual_checks": [
+    {
+      "kind": "hexagonos",
+      "id": 89663,
+      "raster": "t_dia"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 89663,
+      "raster": "t_noite"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 89663,
+      "raster": "lst_seca"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 89663,
+      "raster": "inundacao"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 60013,
+      "raster": "t_dia"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 60013,
+      "raster": "t_noite"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 60013,
+      "raster": "lst_seca"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 60013,
+      "raster": "inundacao"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 1208812,
+      "raster": "t_dia"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 1208812,
+      "raster": "t_noite"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 1208812,
+      "raster": "lst_seca"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 1208812,
+      "raster": "inundacao"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 1249833,
+      "raster": "t_dia"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 1249833,
+      "raster": "t_noite"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 1249833,
+      "raster": "lst_seca"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 1249833,
+      "raster": "inundacao"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 772308,
+      "raster": "t_dia"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 772308,
+      "raster": "t_noite"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 772308,
+      "raster": "lst_seca"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 772308,
+      "raster": "inundacao"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 321735,
+      "raster": "t_dia"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 321735,
+      "raster": "t_noite"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 321735,
+      "raster": "lst_seca"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 321735,
+      "raster": "inundacao"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 1,
+      "raster": "t_dia"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 1,
+      "raster": "t_noite"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 1,
+      "raster": "lst_seca"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 2,
+      "raster": "t_dia"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 2,
+      "raster": "t_noite"
+    },
+    {
+      "kind": "hexagonos",
+      "id": 2,
+      "raster": "lst_seca"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 3166,
+      "raster": "t_dia"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 3166,
+      "raster": "t_noite"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 3166,
+      "raster": "lst_seca"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 3166,
+      "raster": "inundacao"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 2068,
+      "raster": "t_dia"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 2068,
+      "raster": "t_noite"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 2068,
+      "raster": "lst_seca"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 2068,
+      "raster": "inundacao"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 41152,
+      "raster": "t_dia"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 41152,
+      "raster": "t_noite"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 41152,
+      "raster": "lst_seca"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 41152,
+      "raster": "inundacao"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 42892,
+      "raster": "t_dia"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 42892,
+      "raster": "t_noite"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 42892,
+      "raster": "lst_seca"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 42892,
+      "raster": "inundacao"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 26091,
+      "raster": "t_dia"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 26091,
+      "raster": "t_noite"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 26091,
+      "raster": "lst_seca"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 26091,
+      "raster": "inundacao"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 11146,
+      "raster": "t_dia"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 11146,
+      "raster": "t_noite"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 11146,
+      "raster": "lst_seca"
+    },
+    {
+      "kind": "fragmentos",
+      "id": 11146,
+      "raster": "inundacao"
+    }
+  ],
+  "web_arrays": 181,
+  "elapsed_s": 22.282483599999978,
+  "units": {
+    "hexagonos": {
+      "count": 1358654,
+      "area_m2": 1056287128.2925476,
+      "unique_ids": true,
+      "valid_geometries": true,
+      "missing_flood_estimate": 144956,
+      "valid_without_flood": 1115772,
+      "max_ra_area_excess_m2": 2.9444549909385387e-08,
+      "complete_gpkg_attribute_alignment": true,
+      "independent_vector_samples": 4
+    },
+    "fragmentos": {
+      "count": 46876,
+      "area_m2": 554756895.0,
+      "unique_ids": true,
+      "valid_geometries": true,
+      "missing_flood_estimate": 4926,
+      "valid_without_flood": 39929,
+      "max_ra_area_excess_m2": 2.947053872048855e-07,
+      "complete_gpkg_attribute_alignment": true,
+      "independent_vector_samples": 4
+    }
+  }
+}

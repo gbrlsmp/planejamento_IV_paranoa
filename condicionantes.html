@@ -3,14 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Condicionantes | Diagnóstico da Bacia do Paranoá</title>
+  <title>Condicionantes | Sistema Fitópolis</title>
   <link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css"><script defer src="vendor/leaflet/leaflet.js"></script><script defer src="mapa-base.js?v=fitopolis-2026"></script><script defer src="fitopolis-territorio.js?v=1"></script><link rel="stylesheet" href="fitopolis.css?v=1">
+<script defer src="fitopolis-dados.js?v=1"></script><script defer src="mapa-camadas.js"></script><script defer src="diagnostico-territorial.js?v=3"></script>
 </head>
 <body>
   <header class="masthead">
     <div class="container">
-      <p class="eyebrow">Relatório metodológico</p>
-      <h1><a href="index.html#sumario" aria-label="Bacia do Paranoá, sumário do relatório">Bacia do Paranoá</a></h1>
+      <p class="eyebrow">Bacia do Paranoá · Distrito Federal</p>
+      <h1><a href="index.html#sumario" aria-label="Sistema Fitópolis, sumário">Sistema Fitópolis</a></h1>
       <nav class="main-tabs" aria-label="Blocos do relatório">
         <a href="index.html">O Sistema</a>
         <a href="identificacao.html">Identificação da Rede de Infraestrutura Verde</a>
@@ -27,12 +29,12 @@
       <a href="condicionantes.html" aria-current="page">Condicionantes</a>
       <a href="ecologia.html">Ecologia</a>
     </nav>
-    <h3 id="condicionantes">Condicionantes</h3>
+    <h3 id="condicionantes">Condicionantes</h3><details><summary>Explorar hexágonos e fragmentos</summary><section class="climate-explorer" data-fitopolis data-indicator="momentos_pct_fonte"><p>Carregando a leitura territorial…</p></section></details>
     <nav class="risk-tabs" aria-label="Vistas de Condicionantes">
       <a href="condicionantes.html#condicionantes" aria-current="page">Metodologia</a>
       <a href="mapa.html?tema=condicionantes">Mapa dos indicadores</a>
     </nav>
-    <p>A análise reúne Momentos da Água e Potencial de Recuperação Ecológica. O cruzamento registra as proporções e as classes predominantes por fragmento.</p>
+    <p>A análise reúne Momentos da Água e Potencial de Recuperação Ecológica. O cruzamento registra a composição das classes nos hexágonos territoriais e nos fragmentos atuais, com cobertura válida e sobreposições explicitadas. A modelagem de Momentos da Água existente foi mantida, sem nova execução.</p>
     <section id="indicadores" class="report-section method-stage" aria-labelledby="titulo-indicadores">
       <h4 id="titulo-indicadores">Indicadores e critérios</h4>
       <div class="table-scroll" role="region" aria-label="Indicadores de Condicionantes" tabindex="0">

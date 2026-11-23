@@ -187,7 +187,7 @@ def cruzar(fragmentos, campo_id, momentos, indice_pre, classes_pre):
         agua = momentos.areas(fragmento)
         pre, cobertura_pre, sobreposicao = areas_pre(fragmento, indice_pre, classes_pre, tolerancia)
         yield {
-            "patch_id": identificador,
+            campo_id: identificador,
             "area_fragmento_m2": round(area, 6),
             **resumo("mom", agua, area, sum(agua.values()), tolerancia),
             **resumo("pre", pre, area, cobertura_pre, tolerancia),
@@ -200,7 +200,7 @@ def main():
     parser.add_argument("--fragmentos", required=True, help="Camada vetorial de fragmentos.")
     parser.add_argument("--momentos", required=True, help="Raster momento_dominante.tif.")
     parser.add_argument("--pre", required=True, help="Camada vetorial de PRE.")
-    parser.add_argument("--campo-id", default="patch_id")
+    parser.add_argument("--campo-id", default="id_frag")
     parser.add_argument("--campo-pre", default="cat_pdot20")
     args = parser.parse_args()
 
