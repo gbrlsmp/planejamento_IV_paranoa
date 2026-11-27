@@ -18,14 +18,16 @@
     return L.latLngBounds(L.CRS.EPSG3857.unproject(L.point(left, bottom)),
                           L.CRS.EPSG3857.unproject(L.point(right, top)));
   }
-  function makeMap(container, extent) {
+  function makeMap(container, extent, options = {}) {
     const map = L.map(container, { scrollWheelZoom: false, minZoom: 8, maxZoom: 18,
-                                   zoomAnimation: false });
+                                   zoomAnimation: false, ...options });
     L.control.scale({ imperial: false }).addTo(map);
     const view = bounds(extent);
     map.fitBounds(view, { padding: [12, 12], animate: false });
     map.setMaxBounds(view.pad(.5));
-    setTimeout(() => map.invalidateSize(), 100);
+    new ResizeObserver(() => {
+      if (container.clientWidth) map.invalidateSize({ pan: false });
+    }).observe(container);
     return { map, view };
   }
   function image(file, extent, opacity, alt) {
@@ -69,7 +71,28 @@
     const status = root.querySelector("[data-final-status]");
     try {
       const config = await manifest();
-      const final = makeMap(root.querySelector("[data-final-map]"), config.overview_bounds);
+      const final = makeMap(root.querySelector("[data-final-map]"), config.overview_bounds,
+        { minZoom: 7, maxZoom: 19, zoomSnap: .25, zoomDelta: .25, wheelPxPerZoomLevel: 120 });
+      const zoom = root.querySelector("[data-final-zoom]");
+      const zoomValue = root.querySelector("[data-final-zoom-value]");
+      const wheel = root.querySelector("[data-final-wheel]");
+      function syncZoom() {
+        const level = final.map.getZoom();
+        zoom.value = String(level);
+        zoomValue.value = level.toLocaleString("pt-BR", { maximumFractionDigits: 2 });
+        zoom.setAttribute("aria-valuetext", "Nível de zoom " + zoomValue.value);
+      }
+      zoom.min = String(final.map.getMinZoom());
+      zoom.max = String(final.map.getMaxZoom());
+      zoom.disabled = false;
+      zoom.addEventListener("input", () => final.map.setZoom(Number(zoom.value)));
+      final.map.on("zoomend", syncZoom);
+      syncZoom();
+      wheel.disabled = false;
+      wheel.addEventListener("change", () => {
+        if (wheel.checked) final.map.scrollWheelZoom.enable();
+        else final.map.scrollWheelZoom.disable();
+      });
       final.map.attributionControl.addAttribution("PlanetScope 2026 · proxy 3 m · ZEE-DF · MapBiomas");
       addSatellite(final.map);
       const slider = root.querySelector("[data-final-opacity]");
@@ -104,7 +127,9 @@
       final.map.on("moveend zoomend", refresh);
       overview.on("load", refresh);
       slider.addEventListener("input", refresh);
-      root.querySelector("[data-final-fit]").addEventListener("click", () => final.map.fitBounds(final.view));
+      const fit = root.querySelector("[data-final-fit]");
+      fit.disabled = false;
+      fit.addEventListener("click", () => final.map.fitBounds(final.view, { padding: [12, 12] }));
       legend(root.querySelector("[data-fit-legend]"), config.classes);
       refresh();
       status.textContent = "Mapa final carregado. Aproxime para ver os blocos de 3 m.";

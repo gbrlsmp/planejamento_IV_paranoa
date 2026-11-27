@@ -11,5 +11,5 @@
 [data-fit-legend], [data-context-legend] { display: flex; flex-wrap: wrap; gap: .5rem 1rem; }
 [data-fit-legend] li, [data-context-legend] li { display: flex; align-items: center; gap: .4rem; }
 .fit-swatch { display: inline-block; width: 1rem; height: 1rem; border: 1px solid #536052; flex: none; }
-[data-final-opacity], [data-context-opacity] { width: 12rem; }
+[data-final-opacity], [data-final-zoom], [data-context-opacity] { width: 12rem; max-width: 100%; }
 @media (max-width: 700px) { .fit-final-map { height: 430px; } }
