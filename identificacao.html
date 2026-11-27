@@ -14,8 +14,8 @@
     if (removedTopics[location.hash]) location.replace("mapa.html?tema=" + removedTopics[location.hash]);
   </script>
   <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-  <link rel="stylesheet" href="identificacao-exploracao.css?v=6">
-  <link rel="stylesheet" href="identificacao-fitofisionomia.css">
+  <link rel="stylesheet" href="identificacao-exploracao.css?v=7">
+  <link rel="stylesheet" href="identificacao-fitofisionomia.css?v=2">
   <link rel="stylesheet" href="identificacao-mapas.css?v=5">
   <script defer src="subabas.js"></script>
   <script defer src="vendor/leaflet/leaflet.js"></script>
@@ -27,10 +27,11 @@
   <script defer src="identificacao-metricas.js?v=2"></script>
   <script defer src="identificacao-exploracao.js?v=5"></script>
   <script defer src="mapa-satelite.js"></script>
-  <script defer src="identificacao-fitofisionomia.js?v=20261115-8"></script>
+  <script defer src="identificacao-fitofisionomia.js?v=20261127-1"></script>
+  <link rel="stylesheet" href="identificacao-layout.css?v=1">
 
 </head>
-<body>
+<body class="ident-page">
   <header class="masthead">
     <div class="container">
       <p class="eyebrow">Bacia do Paranoá · Distrito Federal</p>
@@ -199,7 +200,14 @@
       <section class="fit-overview" data-final-result aria-label="Mapa geral da classificação final">
         <h5>Mapa interativo geral · raster 04 final</h5>
         <p>Consulte a proxy PlanetScope de 3 m em toda a bacia. Aproxime para ver os fragmentos urbanos; ajuste a transparência ou mostre a imagem de satélite como referência visual.</p>
-        <div class="ident-controls"><label><input type="checkbox" id="mostrar-satelite" disabled> Mostrar imagem de satélite</label><label>Transparência do raster <input type="range" data-final-opacity min="0" max="100" value="15" step="5"><output data-final-opacity-value>15%</output></label><button type="button" data-final-fit>Enquadrar a bacia</button></div>
+        <div class="ident-controls">
+          <label class="ident-toggle"><input type="checkbox" id="mostrar-satelite" disabled> Mostrar imagem de satélite</label>
+          <label>Transparência do raster <input type="range" data-final-opacity min="0" max="100" value="15" step="5"><output data-final-opacity-value>15%</output></label>
+          <label>Zoom do mapa <input type="range" data-final-zoom min="7" max="19" value="10" step="0.25" disabled aria-describedby="final-map-help"><output data-final-zoom-value>—</output></label>
+          <label class="ident-toggle"><input type="checkbox" data-final-wheel disabled> Zoom com a roda do mouse</label>
+          <button type="button" data-final-fit disabled>Enquadrar a bacia</button>
+        </div>
+        <p id="final-map-help" class="ident-map-note">Ajuste o zoom pela barra ou pelos botões + e −. No celular, use dois dedos para aproximar ou afastar. Para usar a roda do mouse, ative a opção acima.</p>
         <p id="satelite-status" class="ident-map-note" role="status"></p>
         <div class="ident-map fit-final-map" data-final-map role="region" aria-label="Mapa interativo geral do raster final, com detalhe de 3 m"></div>
         <p class="ident-map-note">No zoom, blocos de 3 m substituem a visão geral reduzida de aproximadamente 20 m. A imagem de satélite opcional é Sentinel-2 de 2025, com resolução de 10 m; a classificação usa PlanetScope de 2026.</p>

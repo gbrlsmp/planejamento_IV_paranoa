@@ -1,0 +1,43 @@
+/* Margens compartilhadas por todas as abas da identificação. */
+.ident-page .container {
+  width: min(calc(100% - 2 * clamp(1rem, 3vw, 3rem)), 90rem);
+}
+.ident-page main { overflow-wrap: anywhere; }
+.ident-page .intro, .ident-page .report-section > p { max-width: 90ch; }
+.ident-page .table-scroll { max-width: 100%; min-width: 0; }
+.ident-page .ident-controls > label { min-width: 0; }
+.ident-page .ident-controls .ident-toggle { display: flex; align-items: center; gap: .5rem; min-height: 44px; }
+.ident-page .ident-controls input[type="range"] { min-height: 44px; margin: 0; }
+.ident-page input[type="checkbox"] { flex: 0 0 auto; }
+.ident-page .ident-controls button, .ident-page .ident-report-map-controls button,
+.ident-page .ident-controls select, .ident-page .ident-report-map-controls select,
+.ident-page .ident-metric-form input, .ident-page .ident-metric-form button { min-height: 44px; }
+.ident-page :is(button, input, select, summary):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.ident-page .ident-map .leaflet-popup-content { max-width: min(260px, 55vw); overflow-wrap: anywhere; }
+.ident-page .leaflet-control-attribution { max-width: 100%; overflow-wrap: anywhere; }
+.ident-page .ident-report-map-key ul { grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); }
+
+@media (max-width: 760px) {
+  .ident-page .risk-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ident-page .risk-tabs a { display: flex; align-items: center; min-height: 44px; }
+  .ident-page .method-card, .ident-page .ident-makurhini, .ident-page .fit-step { padding: .75rem; }
+  .ident-page .ident-legend { grid-template-columns: minmax(0, 1fr); }
+  .ident-page .ident-controls, .ident-page .ident-report-map-controls, .ident-page .ident-metric-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: .75rem;
+  }
+  .ident-page .ident-controls > label, .ident-page .ident-controls select,
+  .ident-page .ident-controls input[type="range"], .ident-page .ident-report-map-controls label,
+  .ident-page .ident-report-map-controls select, .ident-page .ident-metric-form input { width: 100%; }
+  .ident-page .ident-report-map-controls label { flex-wrap: wrap; }
+  .ident-page .ident-report-map-controls label:has(input[type="checkbox"]) { flex-wrap: nowrap; }
+  .ident-page .ident-metric-form label { min-width: 0; }
+  .ident-page .fit-final-map { height: clamp(360px, 65svh, 540px); }
+  .ident-page .leaflet-control-zoom a { width: 44px; height: 44px; line-height: 44px; }
+  .ident-page .fitopolis-territorio { max-width: min(230px, calc(100vw - 116px)); font-size: .875rem; }
+  .ident-page .fitopolis-territorio summary { min-height: 44px; display: flex; align-items: center; }
+  .ident-page .fitopolis-ra-list { max-height: 180px; }
+  .ident-page .fitopolis-ra-list label { min-height: 44px; }
+  .ident-page .fitopolis-ra-list button { min-height: 44px; font: inherit; }
+}
